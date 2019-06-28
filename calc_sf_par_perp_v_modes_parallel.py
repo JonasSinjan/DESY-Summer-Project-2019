@@ -1,7 +1,20 @@
-import struct
+"""
+TODO:
+  look throuhgh all lines and understand how it works
+  find out how data files work/ do I need some examples to run?
+FIXME:
+"""
+
+"""
+Code File that interprets synthetic data by generating the structure function
+Structure Function is analagous to Energy spectrum, but in real space, not in fourier space
+"""
+
+import struct  # performs conversions between Python values and C structs represented as Python strings
 import numpy as np
 #import matplotlib.pyplot as plt
-from multiprocessing import Pool
+from multiprocessing import Pool  # Pool class represents a pool of worker processes
+# its methods allows tasks to be offloaded to the worker processes in a few ways
 import math
 import scipy.interpolate as spint
 from numpy.random import seed
@@ -19,15 +32,16 @@ Lz=1.0
 t_start = 5
 t_stop = 15
 step = 1
-dir_data = "../512_runs_4/C4/data/decomped_modes/"
-dir_output = "../512_runs_4/C4/data/decomped_modes/"
+dir_data = "../512_runs_4/C4/data/decomped_modes/"  # data files
+dir_output = "../512_runs_4/C4/data/decomped_modes/" # data files 
 seed(1)
 n_avg_bfield_pts = 5
 nrandpts = 50000
 mode='F'
 nprocs=16
 
-magk = np.zeros(lent/2)
+#initliasing 1D arrays
+magk = np.zeros(lent/2) 
 mag_power_spec = np.zeros(lent/2)
 kin_power_spec = np.zeros(lent/2)
 mag_pspec_tavg = np.zeros(lent/2)
@@ -57,8 +71,8 @@ def struc_funk(ff):
     #calculate the average b field direction in a sphere of radius ll around random point (xi,yi,zi)
     #do this by looping over npts_avg_field
     lr = rand(n_avg_bfield_pts)*ll/2.0
-    theta = rand(n_avg_bfield_pts)*np.pi
-    phi   = rand(n_avg_bfield_pts)*2.0*np.pi
+    theta = rand(n_avg_bfield_pts)*np.pi     # not sure if this is random, think you must take random value of cos(theta) to get uniform distribution over a sphere
+    phi   = rand(n_avg_bfield_pts)*2.0*np.pi    # rand(5) - random nummber in certain shape array
     lx = lr*np.sin(theta)*np.cos(phi)
     ly = lr*np.sin(theta)*np.sin(phi)
     lz = lr*np.cos(theta)
