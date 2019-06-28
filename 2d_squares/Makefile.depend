@@ -1,0 +1,3 @@
+main.o: Makefile Makefile.depend main.f08 spectrum.o
+
+spectrum.o: Makefile Makefile.depend spectrum.f08
