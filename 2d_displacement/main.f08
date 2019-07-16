@@ -24,6 +24,7 @@ program main
 #else
   integer, parameter :: sp = kind(1.0)
 #endif
+  !double preicision, real number (with decimal) not integer
   integer, parameter :: dp = kind(1.d0)
 
   real(dp), parameter :: pi = acos(-1.d0)
@@ -327,7 +328,7 @@ program main
 #ifdef DP
     f(:,:) = mgrid(l-1)%bx(1:m,1:m)
     call fftw_execute_dft_r2c(plan1, f, bxk)
-
+    !r2c = real to complex
     f(:,:) = mgrid(l-1)%by(1:m,1:m)
     call fftw_execute_dft_r2c(plan1, f, byk)
 
@@ -372,6 +373,7 @@ program main
     ! transform bxk and byk to real space, apply periodic boundaries, destroy plan2
 #ifdef DP
     call fftw_execute_dft_c2r(plan2, bxk, f)
+    !c2r = complex to real
     mgrid(l)%bx(1:m,1:m) = f(:,:)
     mgrid(l)%bx(m+1,1:m) = f(1,:)
     mgrid(l)%bx(1:m,m+1) = f(:,1)
@@ -424,6 +426,7 @@ program main
     close(lun)
 
     write (file_out, "('BY_GRID', i0, '.BIN')") l
+    !why 702 all of a sudden??
     lun = 702
     file_out = trim(data_dir) // '/' // file_out
     open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
