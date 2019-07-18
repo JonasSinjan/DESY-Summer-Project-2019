@@ -1,10 +1,11 @@
 """
 TODO:
-  look throuhgh all lines and understand how it works
-  find out how data files work/ do I need some examples to run?
+    make alternative method for 2D data
+    check that data from displacement + squares method generates correct spectrum, try 2D, 128 and 256 only
+    create different dir for 128 and 256
 FIXME:
+    maybe set up json to use for setup instead of ugly setup at beginning
 """
-
 """
 Code File that interprets synthetic data by generating the structure function
 Structure Function is analagous to Energy spectrum, but in real space, not in fourier space
@@ -23,18 +24,31 @@ from numpy.random import rand
 
 # from pylab import *
 
-xpt = 512
-ypt = 512
-zpt = 512
-lent = 512
+##############################################################################################
+#####                                      SETUP                                       #######
+##############################################################################################
+
+# NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
+size = 128
+# NUMBER OF DIMENSIONS
+twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
+# DATA INPUT AND OUTPUT PATH
+dir_data = "../512_runs_4/C4/data/decomped_modes/"  # data files
+dir_output = "../512_runs_4/C4/data/decomped_modes/"  # data files
+
+###############################################################################################
+
+xpt = size
+ypt = size
+zpt = size
+lent = size
 Lx = 1.0
 Ly = 1.0
 Lz = 1.0
 t_start = 5
 t_stop = 15
 step = 1
-dir_data = "../512_runs_4/C4/data/decomped_modes/"  # data files
-dir_output = "../512_runs_4/C4/data/decomped_modes/"  # data files
+
 seed(1)
 n_avg_bfield_pts = 5
 nrandpts = 50000
@@ -55,7 +69,7 @@ sf_perp = np.zeros(lent / 2)
 npts = np.zeros(lent / 2)
 
 
-def struc_funk(ff):
+def struc_funk(ff, twoD_bool):
     ll = ff * 1.0
     print(ll)
 
@@ -65,70 +79,123 @@ def struc_funk(ff):
     for kup in range(0, nrandpts):
         # print(kup)
 
-        # choose a random point
-        ri = randint(0, lent, size=3)
+        if twoD_bool == True:
+            # 2D method
+            # choose a random point
+            ri = randint(0, lent, size=2) #1x2 array
 
-        # calculate the average b field direction in a sphere of radius ll around random point (xi,yi,zi)
-        # do this by looping over npts_avg_field
-        lr = rand(n_avg_bfield_pts) * ll / 2.0
-        theta = rand(
-            n_avg_bfield_pts) * np.pi  # not sure if this is random, think you must take
-        # random value of cos(theta) to get uniform distribution over a sphere
-        phi = rand(n_avg_bfield_pts) * 2.0 * np.pi  # rand(5) - random nummber in certain shape array
-        lx = lr * np.sin(theta) * np.cos(phi)
-        ly = lr * np.sin(theta) * np.sin(phi)
-        lz = lr * np.cos(theta)
-        xis = np.int_(np.floor(ri[0] + lx))
-        yis = np.int_(np.floor(ri[1] + ly))
-        zis = np.int_(np.floor(ri[2] + lz))
+            # 2D polars
+            lr = rand(n_avg_bfield_pts) * ll / 2.0
+            theta = rand(n_avg_bfield_pts) * np.pi #want random theta not random costheta
+            lx = lr * np.cos(theta)
+            ly = lr * np.sin(theta)
+            xis = np.int_(np.floor(ri[0] + lx))
+            yis = np.int_(np.floor(ri[1] + ly))
 
-        # renormalize indexes if they are going out of box
-        xis = xis % lent
-        yis = yis % lent
-        zis = zis % lent
+            # renormalize indexes if they are going out of box
+            xis = xis % lent
+            yis = yis % lent
 
-        bhat = np.array([np.mean(bx[xis, yis, zis]), np.mean(by[xis, yis, zis]), np.mean(bz[xis, yis, zis])])
-        bhat = bhat / (np.sqrt(np.sum(bhat * bhat)))
+            bhat = np.array([np.mean(bx[xis, yis]), np.mean(by[xis, yis])])
+            bhat = bhat / (np.sqrt(np.sum(bhat * bhat)))
 
-        # bhat contains the unit vector along the local magnetic field
-        # now take 2 points separated by distance ll along this direction with center at ri
-        r1 = np.int_(ri + (ll / 2.0) * bhat)
-        r2 = np.int_(ri - (ll / 2.0) * bhat)
+            # bhat contains the unit vector along the local magnetic field
+            # now take 2 points separated by distance ll along this direction with center at ri
+            r1 = np.int_(ri + (ll / 2.0) * bhat)
+            r2 = np.int_(ri - (ll / 2.0) * bhat)
 
-        # renormalize indices
-        r1 = r1 % lent
-        r2 = r2 % lent
+            # renormalize indices
+            r1 = r1 % lent
+            r2 = r2 % lent
 
-        b1 = np.array([vx[r1[0], r1[1], r1[2]], vy[r1[0], r1[1], r1[2]], vz[r1[0], r1[1], r1[2]]])
-        b2 = np.array([vx[r2[0], r2[1], r2[2]], vy[r2[0], r2[1], r2[2]], vz[r2[0], r2[1], r2[2]]])
+            b1 = np.array([vx[r1[0], r1[1]], vy[r1[0], r1[1]]])
+            b2 = np.array([vx[r2[0], r2[1]], vy[r2[0], r2[1]]])
 
-        sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
+            sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
 
-        # next calculating the perpendicular structure function
-        # make a unit vector perpendicular to bhat
-        # generate another random vector
-        vrand = rand(3)
-        # taking cross product with bhat to generate perpendicular vector
-        perpb_x = bhat[1] * vrand[2] - bhat[2] * vrand[1]
-        perpb_y = bhat[2] * vrand[0] - bhat[0] * vrand[2]
-        perpb_z = bhat[0] * vrand[1] - bhat[1] * vrand[0]
-        perpb = np.array([perpb_x, perpb_y, perpb_z])
-        perpb = perpb / (np.sqrt(np.sum(perpb * perpb)))
+            # find one of the 2D perpendicular vectors
+            perpb = [bhat[1], -bhat[0]]
 
-        # now take 2 points separated by distance ll along the perpendicular direction with center at ri
-        r1 = np.int_(ri + (ll / 2.0) * perpb)
-        r2 = np.int_(ri - (ll / 2.0) * perpb)
+            # now take 2 points separated by distance ll along the perpendicular direction with center at ri
+            r1 = np.int_(ri + (ll / 2.0) * perpb)
+            r2 = np.int_(ri - (ll / 2.0) * perpb)
 
-        # renormalize indices
-        r1 = r1 % lent
-        r2 = r2 % lent
+            # renormalize indices
+            r1 = r1 % lent
+            r2 = r2 % lent
 
-        b1 = np.array([vx[r1[0], r1[1], r1[2]], vy[r1[0], r1[1], r1[2]], vz[r1[0], r1[1], r1[2]]])
-        b2 = np.array([vx[r2[0], r2[1], r2[2]], vy[r2[0], r2[1], r2[2]], vz[r2[0], r2[1], r2[2]]])
+            b1 = np.array([vx[r1[0], r1[1]], vy[r1[0], r1[1]]])
+            b2 = np.array([vx[r2[0], r2[1]], vy[r2[0], r2[1]]])
 
-        sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
+            sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
 
-        numpt = numpt + 1.0
+            numpt = numpt + 1.0
+        
+        else: 
+            # 3D method
+            # choose a random point
+            ri = randint(0, lent, size=3) #1x3 array
+
+            # calculate the average b field direction in a sphere of radius ll around random point (xi,yi,zi)
+            # do this by looping over npts_avg_field
+            lr = rand(n_avg_bfield_pts) * ll / 2.0
+            theta = rand(n_avg_bfield_pts) * np.pi #want random theta not random costheta
+            phi = rand(n_avg_bfield_pts) * 2.0 * np.pi  # rand(5) - random nummber in certain shape array
+            lx = lr * np.sin(theta) * np.cos(phi)
+            ly = lr * np.sin(theta) * np.sin(phi)
+            lz = lr * np.cos(theta)
+            xis = np.int_(np.floor(ri[0] + lx))
+            yis = np.int_(np.floor(ri[1] + ly))
+            zis = np.int_(np.floor(ri[2] + lz))
+
+            # renormalize indexes if they are going out of box
+            xis = xis % lent
+            yis = yis % lent
+            zis = zis % lent
+
+            bhat = np.array([np.mean(bx[xis, yis, zis]), np.mean(by[xis, yis, zis]), np.mean(bz[xis, yis, zis])])
+            # for global bhat becomes x, y, z = 1, 0, 0 bhat is unit vector pointing in the x direction
+            bhat = bhat / (np.sqrt(np.sum(bhat * bhat)))
+
+            # bhat contains the unit vector along the local magnetic field
+            # now take 2 points separated by distance ll along this direction with center at ri
+            r1 = np.int_(ri + (ll / 2.0) * bhat)
+            r2 = np.int_(ri - (ll / 2.0) * bhat)
+
+            # renormalize indices
+            r1 = r1 % lent
+            r2 = r2 % lent
+
+            b1 = np.array([vx[r1[0], r1[1], r1[2]], vy[r1[0], r1[1], r1[2]], vz[r1[0], r1[1], r1[2]]])
+            b2 = np.array([vx[r2[0], r2[1], r2[2]], vy[r2[0], r2[1], r2[2]], vz[r2[0], r2[1], r2[2]]])
+
+            sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
+
+            # next calculating the perpendicular structure function
+            # make a unit vector perpendicular to bhat
+            # generate another random vector
+            vrand = rand(3)
+            # taking cross product with bhat to generate perpendicular vector
+            perpb_x = bhat[1] * vrand[2] - bhat[2] * vrand[1]
+            perpb_y = bhat[2] * vrand[0] - bhat[0] * vrand[2]
+            perpb_z = bhat[0] * vrand[1] - bhat[1] * vrand[0]
+            perpb = np.array([perpb_x, perpb_y, perpb_z])
+            perpb = perpb / (np.sqrt(np.sum(perpb * perpb)))
+
+            # now take 2 points separated by distance ll along the perpendicular direction with center at ri
+            r1 = np.int_(ri + (ll / 2.0) * perpb)
+            r2 = np.int_(ri - (ll / 2.0) * perpb)
+
+            # renormalize indices
+            r1 = r1 % lent
+            r2 = r2 % lent
+
+            b1 = np.array([vx[r1[0], r1[1], r1[2]], vy[r1[0], r1[1], r1[2]], vz[r1[0], r1[1], r1[2]]])
+            b2 = np.array([vx[r2[0], r2[1], r2[2]], vy[r2[0], r2[1], r2[2]], vz[r2[0], r2[1], r2[2]]])
+            # b1 will be phi at point r1 and b2 will be phi at point r2
+            sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
+
+            numpt = numpt + 1.0
 
     # print(ll,numpt,sf_pare,sf_perpe)
     return [numpt, sf_pare, sf_perpe]
@@ -162,6 +229,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     temp = np.reshape(abz, (lent, lent, lent))
     bz = temp.transpose()
 
+    # dont need v, just need phi
     filename = dir_data + 'V' + mode + str(t) + '.BIN'
     print(filename)
     fd = open(filename, 'rb')
@@ -189,7 +257,9 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
 
     if __name__ == '__main__':
         pool = Pool(processes=nprocs)
-        sf_snapshot = pool.map(struc_funk, range(lent / 4))
+        sf_snapshot = pool.map(struc_funk, range(lent / 4), twoD_bool)
+        # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #3D maybe use pool.starmap if twoD_bool argument not passed through to the function
+
         sff = np.asarray(sf_snapshot)
         pool.terminate()
 
