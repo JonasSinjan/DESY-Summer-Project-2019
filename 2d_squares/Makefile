@@ -5,19 +5,19 @@ FC     = gfortran
 FFLAGS = -cpp -ffree-line-length-none -fbackslash -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1
 LIBS   = 
 
-FFTW3_PATH = ${HOME}/mylibs/fftw-3.3.4
+FFTW3_PATH = /lustre/fs23/group/that/jonas/lib/fftwlib
 #FFTW3_PATH = /usr
 #FFTW3_PATH = /lustre/fs17/group/that/rs/mylibs/fftw-3.3.4
 
-#FFLAGS += -I${FFTW3_PATH}/lib64 -I${FFTW3_PATH}/include
-FFLAGS += -I${FFTW3_PATH}/lib64 -I${FFTW3_PATH}/include
+#FFLAGS += -I${FFTW3_PATH}/lib -I${FFTW3_PATH}/include
+FFLAGS += -I${FFTW3_PATH}/lib -I${FFTW3_PATH}/include
 ifeq ($(DOUBLE), Y)
   FFLAGS += -DDP
-  #LIBS   += -L${FFTW3_PATH}/lib64 -lfftw3
-  LIBS   += -L${FFTW3_PATH}/lib64 -lfftw3
+  #LIBS   += -L${FFTW3_PATH}/lib -lfftw3
+  LIBS   += -L${FFTW3_PATH}/lib -lfftw3
 else
-  #LIBS   += -L${FFTW3_PATH}/lib64 -lfftw3f
-  LIBS   += -L${FFTW3_PATH}/lib64 -lfftw3f
+  #LIBS   += -L${FFTW3_PATH}/lib -lfftw3f
+  LIBS   += -L${FFTW3_PATH}/lib -lfftw3f
 endif
 
 ifeq ($(DEBUG), Y)
