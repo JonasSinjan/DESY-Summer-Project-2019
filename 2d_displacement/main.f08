@@ -52,7 +52,7 @@ program main
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: anis = 1.
-  real(sp) :: lx = twopi
+  real(sp) :: lx = twopi ! this the box space in fourier space?
   real(sp) :: ly = twopi
   real(sp) :: lz = twopi
 
@@ -134,7 +134,7 @@ program main
   ! calculate grid parameters
   ! ------------------------------------------------------------------------
   n = 2**(ngrids) + 1
-  h = twopi/real(n - 1)
+  h = twopi/real(n - 1) !box length?
 
 
   nk = n/2 + 1
@@ -696,32 +696,44 @@ program main
   ! ------------------------------------------------------------------------
   m = n !- 1
 
-  allocate (phi0(n,n))
+  allocate (phi0(n,n)) 
   allocate (phi0k((m/2 + 1), m))
 
-  ! generate chess pattern (eight strips)
-  do j = 1, n
-    jj = (j - 1)/(n/8)
 
-    do i = 1, n
-      ii = (i - 1)/(n/8)
-
-      if (mod(ii,2) == 0) then
-        if (mod(jj,2) == 0) then
-          phi0(i,j) = 1.
-        else
-          phi0(i,j) = 2.
-        endif
-      else
-        if (mod(jj,2) == 0) then
-          phi0(i,j) = 2.
-        else
-          phi0(i,j) = 1.
-        endif
-      endif
-
+  do kx = (-n/2 + 1)*(n-1), (n/2 + 1)*(n-1) ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
+    do ky = (-n/2 + 1)*(n-1), (n/2 + 1)*(n-1)
+      do x = 1, n
+        do y = 1, n
+          amp = sqrt(ky**-(10/3)*exp(-(kx/(ky**2/3)))) !amplitude
+          phi0(x,y) = phi(x,y) + amp*cos(kx*x + ky*y + ran(r))
+        enddo
+      enddo
     enddo
   enddo
+
+  ! generate chess pattern (eight strips)
+  ! do j = 1, n
+  !   jj = (j - 1)/(n/8)
+
+  !   do i = 1, n
+  !     ii = (i - 1)/(n/8)
+
+  !     if (mod(ii,2) == 0) then
+  !       if (mod(jj,2) == 0) then
+  !         phi0(i,j) = 1.
+  !       else
+  !         phi0(i,j) = 2.
+  !       endif
+  !     else
+  !       if (mod(jj,2) == 0) then
+  !         phi0(i,j) = 2.
+  !       else
+  !         phi0(i,j) = 1.
+  !       endif
+  !     endif
+
+  !   enddo
+  ! enddo
 
 
 !     ! create plan
