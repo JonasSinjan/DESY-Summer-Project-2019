@@ -1,10 +1,12 @@
 """
 TODO:
-    make alternative method for 2D data
+    check alternative method for 2D
     check that data from displacement + squares method generates correct spectrum, try 2D, 128 and 256 only
     create different dir for 128 and 256
 FIXME:
     maybe set up json to use for setup instead of ugly setup at beginning
+    setup correct data input and output paths
+    not sure if second argument passed through correctly to the struc function
 """
 """
 Code File that interprets synthetic data by generating the structure function
@@ -108,8 +110,9 @@ def struc_funk(ff, twoD_bool):
             r1 = r1 % lent
             r2 = r2 % lent
 
-            b1 = np.array([vx[r1[0], r1[1]], vy[r1[0], r1[1]]])
-            b2 = np.array([vx[r2[0], r2[1]], vy[r2[0], r2[1]]])
+            # dont need v, only need phi now
+            b1 = np.array([phix[r1[0], r1[1]], phiy[r1[0], r1[1]]])
+            b2 = np.array([phix[r2[0], r2[1]], phiy[r2[0], r2[1]]])
 
             sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
 
@@ -124,8 +127,8 @@ def struc_funk(ff, twoD_bool):
             r1 = r1 % lent
             r2 = r2 % lent
 
-            b1 = np.array([vx[r1[0], r1[1]], vy[r1[0], r1[1]]])
-            b2 = np.array([vx[r2[0], r2[1]], vy[r2[0], r2[1]]])
+            b1 = np.array([phix[r1[0], r1[1]], phiy[r1[0], r1[1]]])
+            b2 = np.array([phix[r2[0], r2[1]], phiy[r2[0], r2[1]]])
 
             sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
 
@@ -166,8 +169,8 @@ def struc_funk(ff, twoD_bool):
             r1 = r1 % lent
             r2 = r2 % lent
 
-            b1 = np.array([vx[r1[0], r1[1], r1[2]], vy[r1[0], r1[1], r1[2]], vz[r1[0], r1[1], r1[2]]])
-            b2 = np.array([vx[r2[0], r2[1], r2[2]], vy[r2[0], r2[1], r2[2]], vz[r2[0], r2[1], r2[2]]])
+            b1 = np.array([phix[r1[0], r1[1], r1[2]], phiy[r1[0], r1[1], r1[2]], phiz[r1[0], r1[1], r1[2]]])
+            b2 = np.array([phix[r2[0], r2[1], r2[2]], phiy[r2[0], r2[1], r2[2]], phiz[r2[0], r2[1], r2[2]]])
 
             sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
 
@@ -190,9 +193,13 @@ def struc_funk(ff, twoD_bool):
             r1 = r1 % lent
             r2 = r2 % lent
 
-            b1 = np.array([vx[r1[0], r1[1], r1[2]], vy[r1[0], r1[1], r1[2]], vz[r1[0], r1[1], r1[2]]])
-            b2 = np.array([vx[r2[0], r2[1], r2[2]], vy[r2[0], r2[1], r2[2]], vz[r2[0], r2[1], r2[2]]])
+            # b1 = np.array([vx[r1[0], r1[1], r1[2]], vy[r1[0], r1[1], r1[2]], vz[r1[0], r1[1], r1[2]]])
+            # b2 = np.array([vx[r2[0], r2[1], r2[2]], vy[r2[0], r2[1], r2[2]], vz[r2[0], r2[1], r2[2]]])
+
             # b1 will be phi at point r1 and b2 will be phi at point r2
+            b1 = np.array([phix[r1[0], r1[1], r1[2]], phiy[r1[0], r1[1], r1[2]], phiz[r1[0], r1[1], r1[2]]])
+            b2 = np.array([phix[r2[0], r2[1], r2[2]], phiy[r2[0], r2[1], r2[2]], phiz[r2[0], r2[1], r2[2]]])
+
             sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
 
             numpt = numpt + 1.0
@@ -203,57 +210,125 @@ def struc_funk(ff, twoD_bool):
 
 for t in range(t_start, t_stop + 1, step):  # the time loop
 
-    filename = dir_data + 'B' + mode + str(t) + '.BIN'
-    print(filename)
-    fd = open(filename, 'rb')
-    fd.read(4)
-    nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    print(nx, ny, nz)
-    fd.read(4)
-    fd.read(4)
-    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    fd.read(4)
-    fd.read(4)
-    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    fd.read(4)
-    fd.read(4)
-    abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    fd.read(4)
+    # attempt to read binary files for 2D, not sure about the correct number/order of fd.read(4)
+    if twoD_bool == True:
+        filename = dir_data + 'B' + mode + str(t) + '.BIN'
+        print(filename)
+        fd = open(filename, 'rb')
+        fd.read(4)
+        nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        print(nx, ny)
+        fd.read(4)
+        fd.read(4)
+        abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+        fd.read(4)
+        fd.read(4)
+        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+        fd.read(4)
 
-    temp = np.reshape(abx, (lent, lent, lent))
-    bx = temp.transpose()
-    temp = np.reshape(aby, (lent, lent, lent))
-    by = temp.transpose()
-    temp = np.reshape(abz, (lent, lent, lent))
-    bz = temp.transpose()
+        temp = np.reshape(abx, (lent, lent, lent))
+        bx = temp.transpose()
+        temp = np.reshape(aby, (lent, lent, lent))
+        by = temp.transpose()
 
-    # dont need v, just need phi
-    filename = dir_data + 'V' + mode + str(t) + '.BIN'
-    print(filename)
-    fd = open(filename, 'rb')
-    fd.read(4)
-    nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    fd.read(4)
-    fd.read(4)
-    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    fd.read(4)
-    fd.read(4)
-    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    fd.read(4)
-    fd.read(4)
-    abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    fd.read(4)
+        filename = dir_data + 'PHI' + mode + str(t) + '.BIN'
+        print(filename)
+        fd = open(filename, 'rb')
+        fd.read(4)
+        nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        fd.read(4)
+        fd.read(4)
+        abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+        fd.read(4)
+        fd.read(4)
+        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+        fd.read(4)
 
-    temp = np.reshape(abx, (lent, lent, lent))
-    vx = temp.transpose()
-    temp = np.reshape(aby, (lent, lent, lent))
-    vy = temp.transpose()
-    temp = np.reshape(abz, (lent, lent, lent))
-    vz = temp.transpose()
+        temp = np.reshape(abx, (lent, lent, lent))
+        phix = temp.transpose()
+        temp = np.reshape(aby, (lent, lent, lent))
+        phiy = temp.transpose()
+
+    else:
+        filename = dir_data + 'B' + mode + str(t) + '.BIN'
+        print(filename)
+        fd = open(filename, 'rb')
+        fd.read(4)
+        nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        print(nx, ny, nz)
+        fd.read(4)
+        fd.read(4)
+        abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        fd.read(4)
+        fd.read(4)
+        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        fd.read(4)
+        fd.read(4)
+        abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        fd.read(4)
+
+        temp = np.reshape(abx, (lent, lent, lent))
+        bx = temp.transpose()
+        temp = np.reshape(aby, (lent, lent, lent))
+        by = temp.transpose()
+        temp = np.reshape(abz, (lent, lent, lent))
+        bz = temp.transpose()
+
+        filename = dir_data + 'PHI' + mode + str(t) + '.BIN'
+        print(filename)
+        fd = open(filename, 'rb')
+        fd.read(4)
+        nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        fd.read(4)
+        fd.read(4)
+        abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        fd.read(4)
+        fd.read(4)
+        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        fd.read(4)
+        fd.read(4)
+        abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        fd.read(4)
+
+        temp = np.reshape(abx, (lent, lent, lent))
+        phix = temp.transpose()
+        temp = np.reshape(aby, (lent, lent, lent))
+        phiy = temp.transpose()
+        temp = np.reshape(abz, (lent, lent, lent))
+        phiz = temp.transpose()
+
+        # dont need v, just need phi
+
+        # filename = dir_data + 'V' + mode + str(t) + '.BIN'
+        # print(filename)
+        # fd = open(filename, 'rb')
+        # fd.read(4)
+        # nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        # ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        # nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+        # fd.read(4)
+        # fd.read(4)
+        # abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        # fd.read(4)
+        # fd.read(4)
+        # aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        # fd.read(4)
+        # fd.read(4)
+        # abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        # fd.read(4)
+
+        # temp = np.reshape(abx, (lent, lent, lent))
+        # vx = temp.transpose()
+        # temp = np.reshape(aby, (lent, lent, lent))
+        # vy = temp.transpose()
+        # temp = np.reshape(abz, (lent, lent, lent))
+        # vz = temp.transpose()
 
     if __name__ == '__main__':
         pool = Pool(processes=nprocs)

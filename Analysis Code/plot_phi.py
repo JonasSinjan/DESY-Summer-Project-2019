@@ -10,9 +10,10 @@ from numpy.random import rand
 from matplotlib import ticker
 from matplotlib import gridspec
 
-nx=129
+
+nx=129 #129 as 128 boxes but data comes with points for each edge
 ny=129
-dir_data = "../data/"
+dir_data = "../2d_displacement/data/" # into parent directory
 
 filename=dir_data+'PHI'+'.BIN'
 print(filename)  
@@ -29,6 +30,7 @@ ax0 = plt.subplot(gs[0],aspect='equal')
 z=temp
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
            interpolation='nearest', origin='lower')
+
 fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
