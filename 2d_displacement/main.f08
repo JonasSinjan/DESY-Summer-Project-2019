@@ -711,11 +711,11 @@ program main
   print *, n
 
   do k = 1, n ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
+    kx = (-n/2 + 1)*(n-1) + k*(n-1)
     do l = 1, n ! up to nyquist frequency
+      ky = (-n/2 + 1)*(n-1) + l*(n-1) 
       do i = 1, n
         do j = 1, n
-          kx = (-n/2 + 1)*(n-1) + k*(n-1)
-          ky = (-n/2 + 1)*(n-1) + k*(n-1) 
           amp = sqrt(ky**(-1*(10/3))*exp(-1*(kx/(ky**(2/3))))) !amplitude
           phi0(i,j) = phi(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
           print *, phi0(i,j)
