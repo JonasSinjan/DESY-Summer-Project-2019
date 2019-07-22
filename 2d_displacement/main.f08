@@ -706,10 +706,10 @@ program main
 
   do kx = (-n/2 + 1)*(n-1), (n/2 + 1)*(n-1) ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     do ky = (-n/2 + 1)*(n-1), (n/2 + 1)*(n-1) ! up to nyquist frequency
-      do x = 1, n
-        do y = 1, n
+      do i = 1, n
+        do j = 1, n
           amp = sqrt(ky**-(10/3)*exp(-(kx/(ky**2/3)))) !amplitude
-          phi0(x,y) = phi(x,y) + amp*cos(kx*x + ky*y + ran(r)*twopi)
+          phi0(i,j) = phi(i,j) + amp*cos(kx*i + ky*j + ran(r)*twopi)
         enddo
       enddo
     enddo
