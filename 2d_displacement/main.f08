@@ -727,11 +727,12 @@ program main
           amp = sqrt(abs(tmp)*tmp2) !amplitude
           !print*, amp
           phi0(i,j) = phi0(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
-          print*, phi0(i,j), i ,j
+          !print*, phi0(i,j), i ,j
         enddo
       enddo
     enddo
   enddo
+  print*, 'The loop has successfully completed'
 
   ! generate chess pattern (eight strips)
   ! do j = 1, n
