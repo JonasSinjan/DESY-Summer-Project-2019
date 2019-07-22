@@ -720,7 +720,7 @@ program main
       do i = 1, n
         do j = 1, n
           print*, phi0(i,j), i, j, ki, kj
-          if (ki .or. kj == 0) then
+          if (ki .OR. kj == 0) then
             continue
           else
             tmp = ky**(-10/3)
