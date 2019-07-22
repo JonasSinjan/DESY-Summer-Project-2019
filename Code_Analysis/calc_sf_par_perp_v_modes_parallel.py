@@ -37,8 +37,8 @@ size = 128
 # NUMBER OF DIMENSIONS
 twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
 # DATA INPUT AND OUTPUT PATH
-dir_data = "../512_runs_4/C4/data/decomped_modes/"  # data files
-dir_output = "../512_runs_4/C4/data/decomped_modes/"  # data files
+dir_data = ".../2d_displacement/data"  # data files
+dir_output = ".../2d_displacement/data"  # data files
 
 ###############################################################################################
 
