@@ -722,7 +722,7 @@ program main
           print*, phi0(i,j), i, j
           tmp = ky**(-10/3)
           print*, tmp, 'tmp'
-          tmp2 = exp((-kx/(ky**(2/3)))
+          tmp2 = exp((-kx/(ky**(2/3))))
           print*, tmp2, 'tmp2'
           amp = sqrt(tmp*tmp2) !amplitude
           print*, amp
