@@ -721,10 +721,7 @@ program main
         do j = 1, n
           print*, phi0(i,j), i, j, ki, kj
           if (ki or kj == 0) then
-            tmp = 1
-            tmp2 = 1
-            amp = 1
-            phi0(i,j) = phi0(i,j) + cos(ran(rand_seed)*twopi)
+            continue
           else
             tmp = ky**(-10/3)
             tmp2 = exp(-kx/(ky**2/3))
