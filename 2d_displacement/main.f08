@@ -719,7 +719,7 @@ program main
       !print*, ky, kj 
       do i = 1, n
         do j = 1, n
-          print*, phi0(i,j), i, j
+          print*, phi0(i,j), i, j, ki, kj
           tmp = ky**(-10/3)
           tmp2 = exp(-kx/(ky**2/3))
           amp = sqrt(abs(tmp)*tmp2) !amplitude
