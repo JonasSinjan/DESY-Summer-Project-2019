@@ -61,6 +61,7 @@ program main
   ! ------------------------------------------------------------------------
   integer :: n
   real(sp) :: h
+  real(sp) :: amp
   real(sp), dimension(:,:), allocatable :: bx, by
   real(sp), dimension(:,:), allocatable :: rx0, ry0
   real(sp), dimension(:,:), allocatable :: drx, dry
