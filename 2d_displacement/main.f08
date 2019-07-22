@@ -720,11 +720,18 @@ program main
       do i = 1, n
         do j = 1, n
           print*, phi0(i,j), i, j, ki, kj
-          tmp = ky**(-10/3)
-          tmp2 = exp(-kx/(ky**2/3))
-          amp = sqrt(abs(tmp)*tmp2) !amplitude
-          phi0(i,j) = phi0(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
-          !print*, phi0(i,j), i ,j ! prints the 129 129 then floating point err?
+          if (ki or kj == 0) then
+            tmp = 1
+            tmp2 = 1
+            amp = 1
+            phi0(i,j) = phi0(i,j) + cos(ran(rand_seed)*twopi)
+          else
+            tmp = ky**(-10/3)
+            tmp2 = exp(-kx/(ky**2/3))
+            amp = sqrt(abs(tmp)*tmp2) !amplitude
+            phi0(i,j) = phi0(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
+            !print*, phi0(i,j), i ,j ! error when kx and kj values equal zero
+          endif
         enddo
       enddo
     enddo
