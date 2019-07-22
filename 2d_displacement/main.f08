@@ -726,7 +726,7 @@ program main
           print*, tmp2, 'tmp2'
           amp = sqrt(abs(tmp)*tmp2) !amplitude
           print*, amp
-          phi0(i,j) = phi(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
+          phi0(i,j) = phi0(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
           print*, phi0(i,j)
         enddo
       enddo
