@@ -716,7 +716,7 @@ program main
         do j = 1, n
           kx = (-n/2 + 1)*(n-1) + k*(n-1)
           ky = (-n/2 + 1)*(n-1) + k*(n-1) 
-          amp = sqrt(ky**-(10/3)*exp(-(kx/(ky**(2/3))))) !amplitude
+          amp = sqrt(ky**(-1*(10/3))*exp(-1*(kx/(ky**(2/3))))) !amplitude
           phi0(i,j) = phi(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
         enddo
       enddo
