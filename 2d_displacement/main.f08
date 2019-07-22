@@ -708,7 +708,7 @@ program main
   rand_seed = 65431 !large odd number to seed random number generator
 
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
-  print *, n
+  ! print *, n
 
   do k = 1, n ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-n/2 + 1)*(n-1) + k*(n-1)
@@ -718,7 +718,7 @@ program main
         do j = 1, n
           amp = sqrt(ky**(-1*(10/3))*exp(-1*(kx/(ky**(2/3))))) !amplitude
           phi0(i,j) = phi(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
-          print *, phi0(i,j)
+          print*, phi0(i,j)
         enddo
       enddo
     enddo
@@ -827,6 +827,8 @@ program main
 ! #endif
 
 !   deallocate (phi0k)
+
+  print*, '* Writing file: phi_0'
 
   file_out = trim(data_dir) // 'PHI0.DAT'
   open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
