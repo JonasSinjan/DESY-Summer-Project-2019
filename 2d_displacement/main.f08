@@ -713,21 +713,21 @@ program main
 
   do ki = 1, n ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-n/2 + 1)*(n-1) + ki*(n-1)
-    print*, kx, ki
+    !print*, kx, ki
     do kj = 1, n ! up to nyquist frequency
       ky = (-n/2 + 1)*(n-1) + kj*(n-1)
-      print*, ky, kj 
+      !print*, ky, kj 
       do i = 1, n
         do j = 1, n
-          print*, phi0(i,j), i, j
+          !print*, phi0(i,j), i, j
           tmp = ky**(-10/3)
-          print*, tmp, 'tmp'
+          !print*, tmp, 'tmp'
           tmp2 = exp(-kx/(ky**2/3)) ! floating point error here
-          print*, tmp2, 'tmp2'
+          !print*, tmp2, 'tmp2'
           amp = sqrt(abs(tmp)*tmp2) !amplitude
-          print*, amp
+          !print*, amp
           phi0(i,j) = phi0(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
-          print*, phi0(i,j)
+          !print*, phi0(i,j)
         enddo
       enddo
     enddo
