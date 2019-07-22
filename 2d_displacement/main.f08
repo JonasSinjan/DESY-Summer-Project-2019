@@ -699,9 +699,10 @@ program main
   allocate (phi0(n,n)) 
   allocate (phi0k((m/2 + 1), m))
 
-  phi0 = 0 ! initialise all entries to zero
+  phi0(:,:) = 0 ! initialise all entries to zero
 
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
+  print *, n
 
   do kx = (-n/2 + 1)*(n-1), (n/2 + 1)*(n-1) ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     do ky = (-n/2 + 1)*(n-1), (n/2 + 1)*(n-1) ! up to nyquist frequency
