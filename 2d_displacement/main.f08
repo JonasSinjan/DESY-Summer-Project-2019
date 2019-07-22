@@ -721,7 +721,7 @@ program main
           print*, phi0(i,j), i, j
           amp = sqrt(ky**(-1*(10/3))*exp(-1*(kx/(ky**(2/3))))) !amplitude
           phi0(i,j) = phi(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
-          print* phi0(i,j)
+          print*, phi0(i,j)
         enddo
       enddo
     enddo
