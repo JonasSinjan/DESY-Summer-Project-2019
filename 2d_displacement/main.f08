@@ -722,9 +722,9 @@ program main
           print*, phi0(i,j), i, j
           tmp = ky**(-10/3)
           print*, tmp, 'tmp'
-          tmp2 = abs(exp(-kx/(ky**2/3))) ! floating point error here
+          tmp2 = exp(-kx/(ky**2/3)) ! floating point error here
           print*, tmp2, 'tmp2'
-          amp = sqrt(tmp*tmp2) !amplitude
+          amp = sqrt(abs(tmp)*tmp2) !amplitude
           print*, amp
           phi0(i,j) = phi(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
           print*, phi0(i,j)
