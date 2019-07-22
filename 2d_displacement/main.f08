@@ -60,6 +60,7 @@ program main
   ! define variables
   ! ------------------------------------------------------------------------
   integer :: n
+  integer :: rand_seed
   real(sp) :: h
   real(sp) :: amp
   real(sp) :: kx
@@ -703,6 +704,8 @@ program main
   allocate (phi0k((m/2 + 1), m))
 
   phi0(:,:) = 0 ! initialise all entries to zero
+  
+  rand_seed = 65431 !large odd number to seed random number generator
 
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
   print *, n
@@ -712,7 +715,7 @@ program main
       do i = 1, n
         do j = 1, n
           amp = sqrt(ky**-(10/3)*exp(-(kx/(ky**2/3)))) !amplitude
-          phi0(i,j) = phi(i,j) + amp*cos(kx*i + ky*j + ran(r)*twopi)
+          phi0(i,j) = phi(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
         enddo
       enddo
     enddo
