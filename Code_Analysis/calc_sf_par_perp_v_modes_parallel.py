@@ -227,12 +227,15 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     fd.read(4)
     fd.read(4)
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    print(abx.np.shape)
     fd.read(4)
     fd.read(4)
     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    print(aby.np.shape)
     fd.read(4)
     fd.read(4)
     abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    print(abz.np.shape)
     fd.read(4)
 
     temp = np.reshape(abx, (lent, lent, 1)) # 1 for nz
