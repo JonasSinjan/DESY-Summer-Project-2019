@@ -34,8 +34,12 @@ from numpy.random import rand
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
 size = 128
+lent = size
+
 # NUMBER OF DIMENSIONS
 twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
+if twoD_bool is True:
+    shape = (lent, lent, 1) # for 2D
 # DATA INPUT AND OUTPUT PATH
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
 dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
@@ -45,7 +49,7 @@ dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128
 xpt = size
 ypt = size
 zpt = size
-lent = size
+
 Lx = 1.0
 Ly = 1.0
 Lz = 1.0
@@ -231,11 +235,11 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
     fd.read(4)
 
-    temp = np.reshape(abx, (lent, lent, lent))
+    temp = np.reshape(abx, (lent, lent, 1)) # 1 for nz
     bx = temp.transpose()
-    temp = np.reshape(aby, (lent, lent, lent))
+    temp = np.reshape(aby, (lent, lent, 1))
     by = temp.transpose()
-    temp = np.reshape(abz, (lent, lent, lent))
+    temp = np.reshape(abz, (lent, lent, 1))
     bz = temp.transpose()
 
     filename = dir_data + 'PHI' + '.BIN'
@@ -256,11 +260,11 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
     fd.read(4)
 
-    temp = np.reshape(abx, (lent, lent, lent), )
+    temp = np.reshape(abx, (lent, lent, 1))
     phix = temp.transpose()
-    temp = np.reshape(aby, (lent, lent, lent))
+    temp = np.reshape(aby, (lent, lent, 1))
     phiy = temp.transpose()
-    temp = np.reshape(abz, (lent, lent, lent))
+    temp = np.reshape(abz, (lent, lent, 1))
     phiz = temp.transpose()
 
         # dont need v, just need phi
