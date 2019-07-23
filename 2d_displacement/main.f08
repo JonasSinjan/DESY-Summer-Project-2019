@@ -740,7 +740,7 @@ program main
   enddo
   print*, 'The loop has successfully completed'
   !print*, phi0(23,67), phi0(13,45), phi0(103,31)
-  print*, phi0(23,:)
+
 
   ! generate chess pattern (eight strips)
   ! do j = 1, n
@@ -920,6 +920,8 @@ program main
 
     enddo
   enddo
+
+  print*, phi(23,:)
 
   file_out = trim(data_dir) // 'PHI.DAT'
   open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')

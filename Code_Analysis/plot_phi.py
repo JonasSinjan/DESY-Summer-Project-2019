@@ -22,8 +22,6 @@ abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
   
 temp1 = np.reshape(abx,(nx,ny))
 
-print(temp1[:,22])
-
 filename=dir_data+'PHI'+'.BIN'
 print(filename)
 fd = open(filename, 'rb')
@@ -32,6 +30,7 @@ abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
 
 temp2 = np.reshape(abx,(nx,ny))
 
+print(temp2[:,22])
 
 fig=plt.figure()
 fig = plt.figure(figsize=(5.0, 5.0))
