@@ -249,49 +249,47 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     temp = np.reshape(abz, shape)
     bz = temp.transpose()
 
-    filename = dir_data + 'PHI' + '.BIN'
+    nx = 129
+    ny = 129
+    filename=dir_data+'PHI'+'.BIN'
     print(filename)
     fd = open(filename, 'rb')
-    fd.read(4)
-    nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    print(nx, ny, nz) # (-1087223137, 198958152, -1089962923) this is the result?
-    fd.read(4)
-    fd.read(4)
-    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    print(abx.shape) # this only has 16638 instead of 16641 which is 129*129 like the BB0.BIN file has
-    fd.read(4)
 
-    temp = np.reshape(abx, shape)
-    phi = temp.transpose()
+    abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
 
-        # dont need v, just need phi
+    temp = np.reshape(abx,(nx,ny))
+    phi = temp.transpose
+    print(phi[22,:])
 
-        # filename = dir_data + 'V' + mode + str(t) + '.BIN'
-        # print(filename)
-        # fd = open(filename, 'rb')
-        # fd.read(4)
-        # nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        # ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        # nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        # fd.read(4)
-        # fd.read(4)
-        # abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-        # fd.read(4)
-        # fd.read(4)
-        # aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-        # fd.read(4)
-        # fd.read(4)
-        # abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-        # fd.read(4)
+    # print(nx, ny, nz) # (-1087223137, 873747750, -1089962923) this is the result?
+    # print(abx.shape) # this only has 16638 instead of 16641 which is 129*129 like the BB0.BIN file has
 
-        # temp = np.reshape(abx, (lent, lent, lent))
-        # vx = temp.transpose()
-        # temp = np.reshape(aby, (lent, lent, lent))
-        # vy = temp.transpose()
-        # temp = np.reshape(abz, (lent, lent, lent))
-        # vz = temp.transpose()
+    # dont need v, just need phi
+
+    # filename = dir_data + 'V' + mode + str(t) + '.BIN'
+    # print(filename)
+    # fd = open(filename, 'rb')
+    # fd.read(4)
+    # nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    # ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    # nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    # fd.read(4)
+    # fd.read(4)
+    # abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    # fd.read(4)
+    # fd.read(4)
+    # aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    # fd.read(4)
+    # fd.read(4)
+    # abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    # fd.read(4)
+
+    # temp = np.reshape(abx, (lent, lent, lent))
+    # vx = temp.transpose()
+    # temp = np.reshape(aby, (lent, lent, lent))
+    # vy = temp.transpose()
+    # temp = np.reshape(abz, (lent, lent, lent))
+    # vz = temp.transpose()
 
     if __name__ == '__main__':
         pool = Pool(processes=nprocs)

@@ -722,7 +722,7 @@ program main
       ky = (-(n-1)/2 + 1) + kj
       !print*, ky, kj 
       call random_number(num)
-      if ((kx == 0) .OR. (ky == 0)) then
+      if ((kx == 0) .OR. (ky == 0)) then !cant root 0
             continue
       else
         tmp = abs(ky)**(-10/3)
@@ -740,7 +740,7 @@ program main
   enddo
   print*, 'The loop has successfully completed'
   !print*, phi0(23,67), phi0(13,45), phi0(103,31)
-  !print*, phi0(23,:)
+  print*, phi0(23,:)
 
   ! generate chess pattern (eight strips)
   ! do j = 1, n
