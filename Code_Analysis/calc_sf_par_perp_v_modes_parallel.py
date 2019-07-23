@@ -39,14 +39,16 @@ lent = size
 # NUMBER OF DIMENSIONS
 twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
 if twoD_bool is True:
-    shape = (lent, lent, 1) # for 2D
+    shape = (lent, lent) # for 2D
+else:
+    shape = (lent,lent,lent)
 # DATA INPUT AND OUTPUT PATH
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
 dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
 
 ###############################################################################################
 
-xpt = size
+xpt = size 
 ypt = size
 zpt = size
 
@@ -238,11 +240,11 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     print(abz.shape)
     fd.read(4)
 
-    temp = np.reshape(abx, (lent, lent, 1)) # 1 for nz
+    temp = np.reshape(abx, shape) #lent for 3D
     bx = temp.transpose()
-    temp = np.reshape(aby, (lent, lent, 1))
+    temp = np.reshape(aby, shape)
     by = temp.transpose()
-    temp = np.reshape(abz, (lent, lent, 1))
+    temp = np.reshape(abz, shape)
     bz = temp.transpose()
 
     filename = dir_data + 'PHI' + '.BIN'
@@ -263,11 +265,11 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
     fd.read(4)
 
-    temp = np.reshape(abx, (lent, lent, 1))
+    temp = np.reshape(abx, shape)
     phix = temp.transpose()
-    temp = np.reshape(aby, (lent, lent, 1))
+    temp = np.reshape(aby, shape)
     phiy = temp.transpose()
-    temp = np.reshape(abz, (lent, lent, 1))
+    temp = np.reshape(abz, shape)
     phiz = temp.transpose()
 
         # dont need v, just need phi
