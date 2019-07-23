@@ -734,8 +734,8 @@ program main
     enddo
   enddo
   print*, 'The loop has successfully completed'
-  print*, phi0(23,67), phi0(13,45), phi0(103,31)
-
+  !print*, phi0(23,67), phi0(13,45), phi0(103,31)
+  print*, phi(23,:)
 
   ! generate chess pattern (eight strips)
   ! do j = 1, n
