@@ -228,7 +228,6 @@ temp = np.reshape(abx,(nx,ny))
 print(temp[:,22])
 phi = temp.transpose
 
-
 for t in range(t_start, t_stop + 1, step):  # the time loop
 
     filename = dir_data + 'BB0' + '.BIN' # 'B' + mode + str(t) + '.BIN' not sure why this was used: "IOError: [Errno 2] No such file or directory: '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/BB0F5.BIN'
