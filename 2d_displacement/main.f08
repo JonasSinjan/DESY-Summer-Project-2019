@@ -712,10 +712,10 @@ program main
   ! print *, n
 
   do ki = 1, n ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
-    kx = ((-n+1)/2 + 1)*(n-1) + ki*(n-1)
+    kx = (-n/2 + 1)*(n-1) + ki*(n-1)
     !print*, kx, ki
     do kj = 1, n ! up to nyquist frequency
-      ky = ((-n+1)/2)*(n-1) + kj*(n-1)
+      ky = (-n/2 + 1)*(n-1) + kj*(n-1)
       !print*, ky, kj 
       do i = 1, n
         do j = 1, n
