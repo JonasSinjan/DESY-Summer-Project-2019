@@ -242,8 +242,10 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
 
     temp = np.reshape(abx, shape) # 1 for nz, lent for 3D
     bx = temp.transpose()
+    print(np.mean(bx))
     temp = np.reshape(aby, shape)
     by = temp.transpose()
+    print(np.mean(by))
     temp = np.reshape(abz, shape)
     bz = temp.transpose()
 
@@ -254,7 +256,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
     ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
     nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    print(nx, ny, nz)
+    print(nx, ny, nz) # (-1087223137, 198958152, -1089962923) this is the result?
     fd.read(4)
     fd.read(4)
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
