@@ -970,7 +970,7 @@ program main
 
   tmp3d(:,:,1) = by(:,:)
   write(lun) tmp3d(:,:,:)
-
+  ! only 2D atm, hence bz = 0
   tmp3d(:,:,1) = 0.
   write(lun) tmp3d(:,:,:)
 

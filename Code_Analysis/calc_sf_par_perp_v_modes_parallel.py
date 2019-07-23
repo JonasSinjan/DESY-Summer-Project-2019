@@ -212,98 +212,56 @@ def struc_funk(ff, twoD_bool):
 
 for t in range(t_start, t_stop + 1, step):  # the time loop
 
-    # attempt to read binary files for 2D, not sure about the correct number/order of fd.read(4)
-    if twoD_bool == True:
-        filename = dir_data + 'BB0' + '.BIN'
-        print(filename)
-        fd = open(filename, 'rb')
-        fd.read(4)
-        nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        print(nx, ny)
-        fd.read(4)
-        fd.read(4)
-        abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
-        fd.read(4)
-        fd.read(4)
-        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
-        fd.read(4)
+    filename = dir_data + 'BB0' + '.BIN'
+    print(filename)
+    fd = open(filename, 'rb')
+    fd.read(4)
+    nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    print(nx, ny, nz)
+    fd.read(4)
+    fd.read(4)
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    fd.read(4)
+    fd.read(4)
+    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    fd.read(4)
+    fd.read(4)
+    abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    fd.read(4)
 
-        temp = np.reshape(abx, (lent, lent, lent))
-        bx = temp.transpose()
-        temp = np.reshape(aby, (lent, lent, lent))
-        by = temp.transpose()
+    temp = np.reshape(abx, (lent, lent, lent))
+    bx = temp.transpose()
+    temp = np.reshape(aby, (lent, lent, lent))
+    by = temp.transpose()
+    temp = np.reshape(abz, (lent, lent, lent))
+    bz = temp.transpose()
 
-        filename = dir_data + 'PHI' + '.BIN'
-        print(filename)
-        fd = open(filename, 'rb')
-        fd.read(4)
-        nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        fd.read(4)
-        fd.read(4)
-        abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
-        fd.read(4)
-        fd.read(4)
-        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
-        fd.read(4)
+    filename = dir_data + 'PHI' + '.BIN'
+    print(filename)
+    fd = open(filename, 'rb')
+    fd.read(4)
+    nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    fd.read(4)
+    fd.read(4)
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    fd.read(4)
+    fd.read(4)
+    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    fd.read(4)
+    fd.read(4)
+    abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    fd.read(4)
 
-        temp = np.reshape(abx, (lent, lent, lent))
-        phix = temp.transpose()
-        temp = np.reshape(aby, (lent, lent, lent))
-        phiy = temp.transpose()
-
-    else:
-        filename = dir_data + 'BB0' + '.BIN'
-        print(filename)
-        fd = open(filename, 'rb')
-        fd.read(4)
-        nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        print(nx, ny, nz)
-        fd.read(4)
-        fd.read(4)
-        abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-        fd.read(4)
-        fd.read(4)
-        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-        fd.read(4)
-        fd.read(4)
-        abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-        fd.read(4)
-
-        temp = np.reshape(abx, (lent, lent, lent))
-        bx = temp.transpose()
-        temp = np.reshape(aby, (lent, lent, lent))
-        by = temp.transpose()
-        temp = np.reshape(abz, (lent, lent, lent))
-        bz = temp.transpose()
-
-        filename = dir_data + 'PHI' + '.BIN'
-        print(filename)
-        fd = open(filename, 'rb')
-        fd.read(4)
-        nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-        fd.read(4)
-        fd.read(4)
-        abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-        fd.read(4)
-        fd.read(4)
-        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-        fd.read(4)
-        fd.read(4)
-        abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-        fd.read(4)
-
-        temp = np.reshape(abx, (lent, lent, lent))
-        phix = temp.transpose()
-        temp = np.reshape(aby, (lent, lent, lent))
-        phiy = temp.transpose()
-        temp = np.reshape(abz, (lent, lent, lent))
-        phiz = temp.transpose()
+    temp = np.reshape(abx, (lent, lent, lent))
+    phix = temp.transpose()
+    temp = np.reshape(aby, (lent, lent, lent))
+    phiy = temp.transpose()
+    temp = np.reshape(abz, (lent, lent, lent))
+    phiz = temp.transpose()
 
         # dont need v, just need phi
 
@@ -363,3 +321,46 @@ for i in range(0, lent / 2):
     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
     f.write(value + "\n")
 f.close()
+
+# # attempt to read binary files for 2D, not sure about the correct number/order of fd.read(4)
+# if twoD_bool == True:
+#     filename = dir_data + 'BB0' + '.BIN'
+#     print(filename)
+#     fd = open(filename, 'rb')
+#     fd.read(4)
+#     nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+#     ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+#     print(nx, ny)
+#     fd.read(4)
+#     fd.read(4)
+#     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+#     fd.read(4)
+#     fd.read(4)
+#     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+#     fd.read(4)
+
+#     temp = np.reshape(abx, (lent, lent, lent))
+#     bx = temp.transpose()
+#     temp = np.reshape(aby, (lent, lent, lent))
+#     by = temp.transpose()
+
+#     filename = dir_data + 'PHI' + '.BIN'
+#     print(filename)
+#     fd = open(filename, 'rb')
+#     fd.read(4)
+#     nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+#     ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+#     fd.read(4)
+#     fd.read(4)
+#     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+#     fd.read(4)
+#     fd.read(4)
+#     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+#     fd.read(4)
+
+#     temp = np.reshape(abx, (lent, lent, lent))
+#     phix = temp.transpose()
+#     temp = np.reshape(aby, (lent, lent, lent))
+#     phiy = temp.transpose()
+
+# else:
