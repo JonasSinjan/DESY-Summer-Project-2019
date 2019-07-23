@@ -61,6 +61,7 @@ program main
   ! ------------------------------------------------------------------------
   integer :: n
   integer :: rand_seed
+  real(sp) :: num
   real(sp) :: h
   real(sp) :: amp
   real(sp) :: kx
@@ -706,7 +707,10 @@ program main
 
   phi0(:,:) = 0 ! initialise all entries to zero
   
-  rand_seed = 65431 !large odd number to seed random number generator
+ 
+  rand_seed = 75421
+  call random_seed(put=rand_seed)
+
 
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
   ! print *, n
@@ -726,7 +730,8 @@ program main
             tmp = abs(ky)**(-10/3)
             tmp2 = exp(-abs(kx)/(abs(ky)**(2/3)))
             amp = sqrt(tmp*tmp2) !amplitude
-            phi0(i,j) = phi0(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
+            call random_number(num)
+            phi0(i,j) = phi0(i,j) + amp*cos(kx*i + ky*j + num*twopi)
             !print*, phi0(i,j), i ,j ! error when kx and kj values equal zero
           endif
         enddo
