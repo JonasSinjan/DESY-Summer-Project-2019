@@ -214,7 +214,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
 
     # attempt to read binary files for 2D, not sure about the correct number/order of fd.read(4)
     if twoD_bool == True:
-        filename = dir_data + 'B' + mode + str(t) + '.BIN'
+        filename = dir_data + 'BB0' + '.BIN'
         print(filename)
         fd = open(filename, 'rb')
         fd.read(4)
@@ -234,7 +234,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
         temp = np.reshape(aby, (lent, lent, lent))
         by = temp.transpose()
 
-        filename = dir_data + 'PHI' + mode + str(t) + '.BIN'
+        filename = dir_data + 'PHI' + '.BIN'
         print(filename)
         fd = open(filename, 'rb')
         fd.read(4)
@@ -254,7 +254,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
         phiy = temp.transpose()
 
     else:
-        filename = dir_data + 'B' + mode + str(t) + '.BIN'
+        filename = dir_data + 'BB0' + '.BIN'
         print(filename)
         fd = open(filename, 'rb')
         fd.read(4)
@@ -280,7 +280,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
         temp = np.reshape(abz, (lent, lent, lent))
         bz = temp.transpose()
 
-        filename = dir_data + 'PHI' + mode + str(t) + '.BIN'
+        filename = dir_data + 'PHI' + '.BIN'
         print(filename)
         fd = open(filename, 'rb')
         fd.read(4)
