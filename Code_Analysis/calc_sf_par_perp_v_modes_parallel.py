@@ -212,7 +212,7 @@ def struc_funk(ff, twoD_bool):
 
 for t in range(t_start, t_stop + 1, step):  # the time loop
 
-    filename = dir_data + 'BB0' + '.BIN'
+    filename = dir_data + 'BB0' + mode + str(t) + '.BIN' # 'B' + mode + str(t) + '.BIN'
     print(filename)
     fd = open(filename, 'rb')
     fd.read(4)
@@ -238,7 +238,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     temp = np.reshape(abz, (lent, lent, lent))
     bz = temp.transpose()
 
-    filename = dir_data + 'PHI'+'.BIN'
+    filename = dir_data + 'PHI' + mode + str(t) + '.BIN'
     print(filename)
     fd = open(filename, 'rb')
     fd.read(4)
@@ -256,7 +256,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
     fd.read(4)
 
-    temp = np.reshape(abx, (lent, lent, lent))
+    temp = np.reshape(abx, (lent, lent, lent), )
     phix = temp.transpose()
     temp = np.reshape(aby, (lent, lent, lent))
     phiy = temp.transpose()
