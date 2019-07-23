@@ -216,6 +216,18 @@ def struc_funk(ff, twoD_bool):
     return [numpt, sf_pare, sf_perpe]
 
 
+nx = 129
+ny = 129
+filename=dir_data+'PHI'+'.BIN'
+print(filename)
+fd = open(filename, 'rb')
+
+abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+
+temp = np.reshape(abx,(nx,ny))
+phi = temp.transpose
+print(phi[22,:])
+
 for t in range(t_start, t_stop + 1, step):  # the time loop
 
     filename = dir_data + 'BB0' + '.BIN' # 'B' + mode + str(t) + '.BIN' not sure why this was used: "IOError: [Errno 2] No such file or directory: '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/BB0F5.BIN'
@@ -248,18 +260,6 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     print(np.mean(by)) # get -2.74903790215e-17 as required
     temp = np.reshape(abz, shape)
     bz = temp.transpose()
-
-    nx = 129
-    ny = 129
-    filename=dir_data+'PHI'+'.BIN'
-    print(filename)
-    fd = open(filename, 'rb')
-
-    abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
-
-    temp = np.reshape(abx,(nx,ny))
-    phi = temp.transpose
-    print(phi[22,:])
 
     # print(nx, ny, nz) # (-1087223137, 873747750, -1089962923) this is the result?
     # print(abx.shape) # this only has 16638 instead of 16641 which is 129*129 like the BB0.BIN file has
