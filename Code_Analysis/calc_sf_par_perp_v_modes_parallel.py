@@ -225,8 +225,8 @@ fd = open(filename, 'rb')
 abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
 
 temp = np.reshape(abx,(nx,ny))
-print(temp[:,22])
-phi = temp.transpose
+phi = temp.transpose() # missed the empty brackets here
+#print(phi[22,:]) - working correctly 
 
 for t in range(t_start, t_stop + 1, step):  # the time loop
 
