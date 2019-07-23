@@ -212,7 +212,7 @@ def struc_funk(ff, twoD_bool):
 
 for t in range(t_start, t_stop + 1, step):  # the time loop
 
-    filename = dir_data + 'BB0' + mode + str(t) + '.BIN' # 'B' + mode + str(t) + '.BIN'
+    filename = dir_data + 'BB0' + '.BIN' # 'B' + mode + str(t) + '.BIN' not sure why this was used: "IOError: [Errno 2] No such file or directory: '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/BB0F5.BIN'
     print(filename)
     fd = open(filename, 'rb')
     fd.read(4)
@@ -238,7 +238,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     temp = np.reshape(abz, (lent, lent, lent))
     bz = temp.transpose()
 
-    filename = dir_data + 'PHI' + mode + str(t) + '.BIN'
+    filename = dir_data + 'PHI' + '.BIN'
     print(filename)
     fd = open(filename, 'rb')
     fd.read(4)
