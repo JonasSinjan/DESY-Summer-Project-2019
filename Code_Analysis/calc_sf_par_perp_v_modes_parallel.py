@@ -135,8 +135,8 @@ def struc_funk(ff, twoD_bool):
             r1 = r1 % lent
             r2 = r2 % lent
 
-            b1 = np.array([phix[r1[0], r1[1]], phiy[r1[0], r1[1]]])
-            b2 = np.array([phix[r2[0], r2[1]], phiy[r2[0], r2[1]]])
+            b1 = np.array([phi[r1[0], r1[1]]])
+            b2 = np.array([phi[r2[0], r2[1]]])
 
             sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
 
@@ -205,8 +205,8 @@ def struc_funk(ff, twoD_bool):
             # b2 = np.array([vx[r2[0], r2[1], r2[2]], vy[r2[0], r2[1], r2[2]], vz[r2[0], r2[1], r2[2]]])
 
             # b1 will be phi at point r1 and b2 will be phi at point r2
-            b1 = np.array([phix[r1[0], r1[1], r1[2]], phiy[r1[0], r1[1], r1[2]], phiz[r1[0], r1[1], r1[2]]])
-            b2 = np.array([phix[r2[0], r2[1], r2[2]], phiy[r2[0], r2[1], r2[2]], phiz[r2[0], r2[1], r2[2]]])
+            b1 = np.array([phi[r1[0], r1[1], r1[2]]])
+            b2 = np.array([phi[r2[0], r2[1], r2[2]]])
 
             sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
 
@@ -254,26 +254,15 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
     ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
     nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    print(nx, ny, nz)
     fd.read(4)
     fd.read(4)
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    print(abx.shape)
-    fd.read(4)
-    fd.read(4)
-    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    print(aby.shape)
-    fd.read(4)
-    fd.read(4)
-    abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    print(abz.shape)
+    print(abx.shape) # this only has 16638 instead of 16641 which is 129*129 like the BB0.BIN file has
     fd.read(4)
 
     temp = np.reshape(abx, shape)
-    phix = temp.transpose()
-    temp = np.reshape(aby, shape)
-    phiy = temp.transpose()
-    temp = np.reshape(abz, shape)
-    phiz = temp.transpose()
+    phi = temp.transpose()
 
         # dont need v, just need phi
 
