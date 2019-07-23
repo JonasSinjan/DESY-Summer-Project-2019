@@ -60,7 +60,7 @@ program main
   ! define variables
   ! ------------------------------------------------------------------------
   integer :: n
-  integer :: rand_seed
+  integer, dimension(1) :: rand_seed
   real(sp) :: num
   real(sp) :: h
   real(sp) :: amp
@@ -708,8 +708,8 @@ program main
   phi0(:,:) = 0 ! initialise all entries to zero
   
  
-  rand_seed = 75421
-  call random_seed(put=rand_seed)
+  !rand_seed =(/75421/)
+  !call random_seed(put=rand_seed)
 
 
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
@@ -721,26 +721,26 @@ program main
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
       !print*, ky, kj 
-      do i = 1, n
-        do j = 1, n
-          ! print*, phi0(i,j), i, j, ki, kj
-          if ((kx == 0) .OR. (ky == 0)) then
+      call random_number(num)
+      if ((kx == 0) .OR. (ky == 0)) then
             continue
-          else
-            tmp = abs(ky)**(-10/3)
-            tmp2 = exp(-abs(kx)/(abs(ky)**(2/3)))
-            amp = sqrt(tmp*tmp2) !amplitude
-            call random_number(num)
-            phi0(i,j) = phi0(i,j) + amp*cos(kx*i + ky*j + num*twopi)
-            !print*, phi0(i,j), i ,j ! error when kx and kj values equal zero
-          endif
+      else
+        tmp = abs(ky)**(-10/3)
+        tmp2 = exp(-abs(kx)/(abs(ky)**(2/3)))
+        amp = sqrt(tmp*tmp2) !amplitude
+        do i = 1, n
+                do j = 1, n
+                ! print*, phi0(i,j), i, j, ki, kj
+                phi0(i,j) = phi0(i,j) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + num*twopi)
+                !print*, phi0(i,j), i ,j ! error when kx and kj values equal zero
+                enddo
         enddo
-      enddo
+      endif
     enddo
   enddo
   print*, 'The loop has successfully completed'
   !print*, phi0(23,67), phi0(13,45), phi0(103,31)
-  print*, phi0(23,:)
+  !print*, phi0(23,:)
 
   ! generate chess pattern (eight strips)
   ! do j = 1, n
