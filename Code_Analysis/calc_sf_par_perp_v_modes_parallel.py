@@ -39,9 +39,9 @@ lent = size
 # NUMBER OF DIMENSIONS
 twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
 if twoD_bool is True:
-    shape = (lent+1, lent+1) # for 2D
+    shape = (lent, lent) # for 2D
 else:
-    shape = (lent+1,lent+1,lent+1)
+    shape = (lent,lent,lent)
 # DATA INPUT AND OUTPUT PATH
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
 dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
@@ -240,7 +240,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     print(abz.shape)
     fd.read(4)
 
-    temp = np.reshape(abx, shape) #lent for 3D
+    temp = np.reshape(abx, shape) # 1 for nz, lent for 3D
     bx = temp.transpose()
     temp = np.reshape(aby, shape)
     by = temp.transpose()
@@ -257,12 +257,15 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     fd.read(4)
     fd.read(4)
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    print(abx.shape)
     fd.read(4)
     fd.read(4)
     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    print(aby.shape)
     fd.read(4)
     fd.read(4)
     abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    print(abz.shape)
     fd.read(4)
 
     temp = np.reshape(abx, shape)
