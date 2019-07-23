@@ -119,8 +119,8 @@ def struc_funk(ff, twoD_bool):
             r2 = r2 % lent
 
             # dont need v, only need phi now
-            b1 = np.array([phix[r1[0], r1[1]], phiy[r1[0], r1[1]]])
-            b2 = np.array([phix[r2[0], r2[1]], phiy[r2[0], r2[1]]])
+            b1 = np.array([phi[r1[0], r1[1]]])
+            b2 = np.array([phi[r2[0], r2[1]]])
 
             sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
 
@@ -177,8 +177,8 @@ def struc_funk(ff, twoD_bool):
             r1 = r1 % lent
             r2 = r2 % lent
 
-            b1 = np.array([phix[r1[0], r1[1], r1[2]], phiy[r1[0], r1[1], r1[2]], phiz[r1[0], r1[1], r1[2]]])
-            b2 = np.array([phix[r2[0], r2[1], r2[2]], phiy[r2[0], r2[1], r2[2]], phiz[r2[0], r2[1], r2[2]]])
+            b1 = np.array([phi[r1[0], r1[1], r1[2]]])
+            b2 = np.array([phi[r2[0], r2[1], r2[2]]])
 
             sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
 
@@ -242,10 +242,10 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
 
     temp = np.reshape(abx, shape) # 1 for nz, lent for 3D
     bx = temp.transpose()
-    print(np.mean(bx))
+    print(np.mean(bx)) # get 1.0
     temp = np.reshape(aby, shape)
     by = temp.transpose()
-    print(np.mean(by))
+    print(np.mean(by)) # get -2.74903790215e-17 as required
     temp = np.reshape(abz, shape)
     bz = temp.transpose()
 
