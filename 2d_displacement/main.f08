@@ -711,11 +711,11 @@ program main
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
   ! print *, n
 
-  do ki = 1, n ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
-    kx = (-n/2 + 1)*(n-1) + ki*(n-1)
+  do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
+    kx = (-(n-1)/2 + 1) + ki
     !print*, kx, ki
-    do kj = 1, n ! up to nyquist frequency
-      ky = (-n/2 + 1)*(n-1) + kj*(n-1)
+    do kj = 0, n-3 ! up to nyquist frequency
+      ky = (-(n-1)/2 + 1) + kj
       !print*, ky, kj 
       do i = 1, n
         do j = 1, n
@@ -723,9 +723,9 @@ program main
           if ((kx == 0) .OR. (ky == 0)) then
             continue
           else
-            tmp = ky**(-10/3)
-            tmp2 = exp(-kx/(ky**2/3))
-            amp = sqrt(abs(tmp)*tmp2) !amplitude
+            tmp = abs(ky)**(-10/3)
+            tmp2 = exp(-abs(kx)/(abs(ky)**(2/3)))
+            amp = sqrt(tmp*tmp2) !amplitude
             phi0(i,j) = phi0(i,j) + amp*cos(kx*i + ky*j + ran(rand_seed)*twopi)
             !print*, phi0(i,j), i ,j ! error when kx and kj values equal zero
           endif
@@ -734,6 +734,8 @@ program main
     enddo
   enddo
   print*, 'The loop has successfully completed'
+  print*, phi0(23,67), phi0(13,45), phi0(103,31)
+
 
   ! generate chess pattern (eight strips)
   ! do j = 1, n
