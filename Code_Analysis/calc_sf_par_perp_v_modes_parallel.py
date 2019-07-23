@@ -238,7 +238,7 @@ for t in range(t_start, t_stop + 1, step):  # the time loop
     temp = np.reshape(abz, (lent, lent, lent))
     bz = temp.transpose()
 
-    filename = dir_data + 'PHI' + '.BIN'
+    filename = dir_data + 'PHI'+'.BIN'
     print(filename)
     fd = open(filename, 'rb')
     fd.read(4)
