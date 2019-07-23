@@ -30,7 +30,7 @@ abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
 
 temp2 = np.reshape(abx,(nx,ny))
 
-print(temp2[:,22])
+#print(temp2[:,22])
 
 fig=plt.figure()
 fig = plt.figure(figsize=(5.0, 5.0))
