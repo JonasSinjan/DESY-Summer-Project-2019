@@ -22,7 +22,7 @@ abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
   
 temp1 = np.reshape(abx,(nx,ny))
 
-print(temp1[:,22])
+#print(temp1[:,22])
 
 filename=dir_data+'PHI'+'.BIN'
 print(filename)
@@ -41,7 +41,7 @@ z=temp1
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
            interpolation='nearest', origin='lower')
 fig = plt.gcf()
-plt.clim(-3,3)   # clamp the color limits
+plt.clim()   # clamp the color limits
 plt.colorbar()
 
 
@@ -50,7 +50,7 @@ z=temp2
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
            interpolation='nearest', origin='lower')
 fig = plt.gcf()
-plt.clim(-3,3)   # clamp the color limits
+plt.clim()   # clamp the color limits
 plt.colorbar()
 
 plt.show()
