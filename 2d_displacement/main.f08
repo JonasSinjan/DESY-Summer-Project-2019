@@ -921,7 +921,7 @@ program main
     enddo
   enddo
 
-  print*, phi(23,:)
+  !print*, phi(23,:)
 
   file_out = trim(data_dir) // 'PHI.DAT'
   open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
