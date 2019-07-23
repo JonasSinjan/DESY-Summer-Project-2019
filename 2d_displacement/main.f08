@@ -719,7 +719,7 @@ program main
       !print*, ky, kj 
       do i = 1, n
         do j = 1, n
-          print*, phi0(i,j), i, j, ki, kj
+          ! print*, phi0(i,j), i, j, ki, kj
           if ((kx == 0) .OR. (ky == 0)) then
             continue
           else
