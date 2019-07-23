@@ -22,7 +22,7 @@ abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
   
 temp1 = np.reshape(abx,(nx,ny))
 
-#print(temp1[:,22])
+print(temp1[:,22])
 
 filename=dir_data+'PHI'+'.BIN'
 print(filename)
