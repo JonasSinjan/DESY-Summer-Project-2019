@@ -12,7 +12,7 @@ from matplotlib import gridspec
 
 nx=129
 ny=129
-dir_data = "/lustre/fs23/group/that/jonas/DESY/2d_displacement/128run2D/"
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"
 
 filename=dir_data+'PHI0'+'.BIN'
 print(filename)  
