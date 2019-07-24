@@ -18,6 +18,7 @@ import numpy as np
 # import matplotlib.pyplot as plt
 from multiprocessing import Pool  # Pool class represents a pool of worker processes
 # its methods allows tasks to be offloaded to the worker processes in a few ways
+from functools import partial
 import math
 import scipy.interpolate as spint
 from numpy.random import seed
@@ -251,7 +252,8 @@ for t in range(t_start, t_stop, step):  # the time loop
 
     if __name__ == '__main__':
         pool = Pool(processes=nprocs)
-        sf_snapshot = pool.starmap(struc_funk, range(lent / 4), twoD_bool)
+        sf_snapshot = pool.starmap(partial(struc_funk, twoD_bool), range(lent / 4))
+        # partial(func, b=second_arg), a_args
         # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #3D maybe use pool.starmap if twoD_bool argument not passed through to the function
 
         sff = np.asarray(sf_snapshot)
