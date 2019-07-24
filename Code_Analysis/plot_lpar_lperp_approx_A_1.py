@@ -17,6 +17,7 @@ def smoothing(xarr) :
 
 def lppcorr(llv,sfpar,sfperp) :
   lls = sfpar.size
+  print(lls)
   lperp_arr = np.zeros(lls)
   lpar_arr = np.zeros(lls)
   count = 0
@@ -55,6 +56,8 @@ sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
 lpar1 = lpyare/lentf
 lperp1 = lperpe/lentf
+
+print(lpar1, lperp1)
 
 # filename = '../1024_runs/S3/data/decomped_modes/sf_par_perp_B_A.txt'
 # lentf = 1024.0
@@ -162,7 +165,7 @@ lperp1 = lperpe/lentf
 
 #reference slopes
 
-# ref_slope_2_3 = lpar4[3]*(np.power(lperp4,(2.0/3.0))/np.power(lperp4[3],(2.0/3.0)))
+ref_slope_2_3 = lpar1[3]*(np.power(lperp1[:23],(2.0/3.0))/np.power(lperp1[3],(2.0/3.0)))
 # ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
  
 fig=plt.figure()
@@ -170,7 +173,7 @@ fig = plt.figure(figsize=(10.0, 6.0))
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0])
-ax0.plot(lperp1, lpar1, lw=3,label="S1b")
+ax0.plot(lperp1[:23], lpar1[:23], lw=3,label="S1b")
 # ax0.plot(lperp2, lpar2, lw=3,label="S3b")
 # ax0.plot(lperp3, lpar3, lw=3,label="S4b")
 # ax0.plot(lperp4, lpar4, lw=3,ls="--",label="C1b")
@@ -178,7 +181,7 @@ ax0.plot(lperp1, lpar1, lw=3,label="S1b")
 # ax0.plot(lperp6, lpar6, lw=3,ls="--",label="CB0a")
 # ax0.plot(lperp7, lpar7, lw=3,ls="--",label="CB1a")
 # ax0.plot(lperp4, ref_slope_1, lw=5,ls=":",label="Isotropic",color="blue")
-# ax0.plot(lperp4, ref_slope_2_3, lw=5,ls=":",label="GS95",color="red")
+ax0.plot(lperp1[:23], ref_slope_2_3, lw=5,ls=":",label="GS95",color="red")
 ax0.set_xscale('log')
 ax0.set_yscale('log')
 ax0.set_xlim(xmin=2.0/max_size)
@@ -213,6 +216,6 @@ ax1.text(3,100,'(b)',fontsize=18)
 ax1.legend(loc='lower right',ncol=2,fontsize=14)
 """
 
-plt.savefig('test.eps', bbox_inches='tight',transparent=False)
+#plt.savefig('test.eps', bbox_inches='tight',transparent=False)
 plt.show()
 
