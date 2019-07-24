@@ -231,26 +231,25 @@ temp = np.reshape(abx,(nx,ny))
 phi = temp.transpose() # missed the empty brackets here
 #print(phi[22,:]) - working correctly 
 
-for t in range(t_start, t_stop, step):  # the time loop
+filename = dir_data + 'BX' + '.BIN' # 'B' + mode + str(t) + '.BIN' not sure why this was used: 
+print(filename)
+fd = open(filename, 'rb')
 
-    filename = dir_data + 'BX' + '.BIN' # 'B' + mode + str(t) + '.BIN' not sure why this was used: 
-    print(filename)
-    fd = open(filename, 'rb')
-    
-    abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
 
-    temp = np.reshape(abx, (nx,ny)) 
-    bx = temp.transpose()
+temp = np.reshape(abx, (nx,ny)) 
+bx = temp.transpose()
 
-    filename = dir_data + 'BY' + '.BIN' 
-    print(filename)
-    fd = open(filename, 'rb')
-    
-    aby = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+filename = dir_data + 'BY' + '.BIN' 
+print(filename)
+fd = open(filename, 'rb')
 
-    temp = np.reshape(abx, (nx,ny)) 
-    by = temp.transpose()
-    
+aby = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+
+temp = np.reshape(abx, (nx,ny)) 
+by = temp.transpose()
+
+for t in range(0, 1, 1):  # the time loop
 
     if __name__ == '__main__':
         pool = Pool(processes=nprocs)
