@@ -258,9 +258,10 @@ for t in range(0, 1, 1):  # the time loop
         phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
 
         #pool = Pool(processes=nprocs)
-        #sf_snapshot = pool.map(struc_funk, range(lent / 4))
-
-        sf_snapshot = struc_funk(range(lent/4))
+        #sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
+        sf_snapshot = []
+        for i in range(lent/4):
+            sf_snapshot += struc_funk(i)
 
         sff = np.asarray(sf_snapshot)
         #pool.terminate()
