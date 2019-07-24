@@ -83,7 +83,7 @@ def read_files(dir_data):
     nx = 129
     ny = 129
     filename=dir_data+'PHI'+'.BIN'
-    print(filename)
+    #print(filename)
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
@@ -93,7 +93,7 @@ def read_files(dir_data):
     #print(phi[22,:]) - working correctly 
 
     filename = dir_data + 'BX' + '.BIN' # 'B' + mode + str(t) + '.BIN' not sure why this was used: 
-    print(filename)
+    #print(filename)
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
@@ -102,7 +102,7 @@ def read_files(dir_data):
     bx = temp.transpose()
 
     filename = dir_data + 'BY' + '.BIN' 
-    print(filename)
+    #print(filename)
     fd = open(filename, 'rb')
 
     aby = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
@@ -121,9 +121,6 @@ def struc_funk(ff):
     numpt = 0.0
     sf_pare = 0.0
     sf_perpe = 0.0
-
-    dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
-    phi, bx, by = read_files(dir_data)
 
     for kup in range(0, nrandpts):
         # print(kup)
@@ -257,10 +254,11 @@ def struc_funk(ff):
 for t in range(0, 1, 1):  # the time loop
 
     if __name__ == '__main__':
+        dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
+        phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
+
         pool = Pool(processes=nprocs)
         sf_snapshot = pool.map(struc_funk, range(lent / 4))
-        # partial(func, b=second_arg), a_args
-        # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #3D maybe use pool.starmap if twoD_bool argument not passed through to the function
 
         sff = np.asarray(sf_snapshot)
         pool.terminate()
