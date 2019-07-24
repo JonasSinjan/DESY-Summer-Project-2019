@@ -251,6 +251,7 @@ program main
 
   !   enddo ! ki
   ! enddo ! kj
+  print*, by(:,1)  
 
   file_out = trim(data_dir) // 'MAGNETIC.DAT' 
   open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
