@@ -80,9 +80,11 @@ sf_perp = np.zeros(lent / 2)
 npts = np.zeros(lent / 2)
 
 
-def struc_funk(ff, twoD_bool):
+def struc_funk(ff):
     ll = ff * 1.0
     print(ll)
+
+    twoD_bool = True
 
     numpt = 0.0
     sf_pare = 0.0
@@ -252,7 +254,7 @@ for t in range(t_start, t_stop, step):  # the time loop
 
     if __name__ == '__main__':
         pool = Pool(processes=nprocs)
-        sf_snapshot = pool.starmap(partial(struc_funk, twoD_bool), range(lent / 4))
+        sf_snapshot = pool.map(struc_funk, range(lent / 4))
         # partial(func, b=second_arg), a_args
         # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #3D maybe use pool.starmap if twoD_bool argument not passed through to the function
 
