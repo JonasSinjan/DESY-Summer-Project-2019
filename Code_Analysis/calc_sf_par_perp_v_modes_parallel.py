@@ -263,6 +263,8 @@ for t in range(0, 1, 1):  # the time loop
         sff = np.asarray(sf_snapshot)
         pool.terminate()
 
+        print("The Process has Completed")
+
         # pool = Pool(processes=nprocs)              # start 4 worker processes
 
     # sf_snapshot = pool.map(struc_funk, range(lent/4))
