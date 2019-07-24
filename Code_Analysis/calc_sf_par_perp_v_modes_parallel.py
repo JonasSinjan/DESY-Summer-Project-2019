@@ -112,7 +112,7 @@ def read_files(dir_data):
 
     return phi, bx, by
 
-def struc_funk(ff):
+def struc_funk(ff, phi, bx, by):
     ll = ff * 1.0
     print(ll)
 
@@ -261,7 +261,7 @@ for t in range(0, 1, 1):  # the time loop
         #sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
         sf_snapshot = []
         for i in range(lent/4):
-            sf_snapshot += struc_funk(i)
+            sf_snapshot += struc_funk(i, phi, bx, by)
 
         sff = np.asarray(sf_snapshot)
         #pool.terminate()
