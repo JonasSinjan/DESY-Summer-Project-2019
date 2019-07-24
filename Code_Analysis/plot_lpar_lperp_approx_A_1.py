@@ -17,7 +17,6 @@ def smoothing(xarr) :
 
 def lppcorr(llv,sfpar,sfperp) :
   lls = sfpar.size
-  print(lls)
   lperp_arr = np.zeros(lls)
   lpar_arr = np.zeros(lls)
   count = 0
@@ -56,8 +55,6 @@ sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
 lpar1 = lpyare/lentf
 lperp1 = lperpe/lentf
-
-print(lpar1, lperp1)
 
 # filename = '../1024_runs/S3/data/decomped_modes/sf_par_perp_B_A.txt'
 # lentf = 1024.0
