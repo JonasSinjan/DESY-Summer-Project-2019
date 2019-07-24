@@ -249,7 +249,7 @@ def struc_funk(ff, phi, bx, by):
 
             numpt = numpt + 1.0
 
-    print(ll,numpt,len(numpt), sf_pare, len(sf_pare),sf_perpe, len(sf_perpe))
+    print(ll,numpt, sf_pare,sf_perpe,)
     return [numpt, sf_pare, sf_perpe]
 
 for t in range(0, 1, 1):  # the time loop
@@ -261,10 +261,13 @@ for t in range(0, 1, 1):  # the time loop
         #pool = Pool(processes=nprocs)
         #sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
         sf_snapshot = []
+        sff = np.zeros((3, lent/4))
         for i in range(lent/4):
-            sf_snapshot += struc_funk(i, phi, bx, by)
+            numpt_tmp, par_tmp, perp_tmp = struc_funk(i, phi, bx, by)
+            sff[0,i] = numpt_tmp
+            sff[1,i] = par_tmp
+            sff[2,i] = perp_tmp
 
-        sff = np.asarray(sf_snapshot)
         #pool.terminate()
         print(np.shape(sff))
         print("The Process has Completed")
@@ -275,9 +278,9 @@ for t in range(0, 1, 1):  # the time loop
 
     # sff = np.asarray(sf_snapshot)
 
-    npts[0:lent / 4] = npts[0:lent / 4] + sff[:, 0]
-    sf_par[0:lent / 4] = sf_par[0:lent / 4] + sff[:, 1]
-    sf_perp[0:lent / 4] = sf_perp[0:lent / 4] + sff[:, 2]
+    npts[0:lent / 4] = npts[0:lent / 4] + sff[0,:]
+    sf_par[0:lent / 4] = sf_par[0:lent / 4] + sff[1, :]
+    sf_perp[0:lent / 4] = sf_perp[0:lent / 4] + sff[2, :]
 
     # print(np.shape(sf_snapshot))
     # for q in range (0,lent/4) :
