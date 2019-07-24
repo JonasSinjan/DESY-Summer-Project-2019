@@ -107,9 +107,10 @@ def read_files(dir_data):
 
     aby = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
 
-    temp = np.reshape(abx, (nx,ny)) 
+    temp = np.reshape(aby, (nx,ny)) 
     by = temp.transpose()
-
+    print(bx[:,0],by[:,0])
+    print(np.mean(bx), np.mean(by))
     return phi, bx, by
 
 def struc_funk(ff, phi, bx, by):
