@@ -161,8 +161,9 @@ def struc_funk(ff, phi, bx, by):
             sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
 
             # find one of the 2D perpendicular vectors
-            perpb = [bhat[1], -bhat[0]]
+            perpb = np.array([bhat[1], -bhat[0]])
 
+            print(ri, type(ri), ll, type(ll), perpb, type(perpb))
             # now take 2 points separated by distance ll along the perpendicular direction with center at ri
             r1 = np.int_(ri + (ll / 2.0) * perpb)
             r2 = np.int_(ri - (ll / 2.0) * perpb)
