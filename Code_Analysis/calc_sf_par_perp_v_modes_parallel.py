@@ -257,11 +257,13 @@ for t in range(0, 1, 1):  # the time loop
         dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
         phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
 
-        pool = Pool(processes=nprocs)
-        sf_snapshot = pool.map(struc_funk, range(lent / 4))
+        #pool = Pool(processes=nprocs)
+        #sf_snapshot = pool.map(struc_funk, range(lent / 4))
+
+        sf_snapshot = struc_funk(range(lent/4))
 
         sff = np.asarray(sf_snapshot)
-        pool.terminate()
+        #pool.terminate()
 
         print("The Process has Completed")
 
