@@ -249,7 +249,7 @@ def struc_funk(ff, phi, bx, by):
 
             numpt = numpt + 1.0
 
-    # print(ll,numpt,sf_pare,sf_perpe)
+    print(ll,numpt,len(numpt), sf_pare, len(sf_pare),sf_perpe, len(sf_perpe))
     return [numpt, sf_pare, sf_perpe]
 
 for t in range(0, 1, 1):  # the time loop
