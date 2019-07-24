@@ -39,7 +39,7 @@ def lppcorr(llv,sfpar,sfperp) :
 max_size = 128.0
 ####################################################################################
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/sf_par_perp_B_A.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/sf_par_perp_v_F.txt'
 lentf = 128.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
