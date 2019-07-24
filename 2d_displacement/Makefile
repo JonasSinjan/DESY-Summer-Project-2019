@@ -1,4 +1,4 @@
-DEBUG = N
+DEBUG = Y
 DOUBLE = Y
 
 FC     = gfortran
