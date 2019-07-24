@@ -266,7 +266,7 @@ for t in range(0, 1, 1):  # the time loop
 
         sff = np.asarray(sf_snapshot)
         #pool.terminate()
-
+        print(np.shape(sff))
         print("The Process has Completed")
 
         # pool = Pool(processes=nprocs)              # start 4 worker processes
