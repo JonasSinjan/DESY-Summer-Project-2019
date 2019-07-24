@@ -56,7 +56,7 @@ Lx = 1.0
 Ly = 1.0
 Lz = 1.0
 t_start = 5
-t_stop = 15
+t_stop = 6 #only want one loop
 step = 1
 
 seed(1)
@@ -228,72 +228,30 @@ temp = np.reshape(abx,(nx,ny))
 phi = temp.transpose() # missed the empty brackets here
 #print(phi[22,:]) - working correctly 
 
-for t in range(t_start, t_stop + 1, step):  # the time loop
+for t in range(t_start, t_stop, step):  # the time loop
 
-    filename = dir_data + 'BB0' + '.BIN' # 'B' + mode + str(t) + '.BIN' not sure why this was used: "IOError: [Errno 2] No such file or directory: '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/BB0F5.BIN'
+    filename = dir_data + 'BX' + '.BIN' # 'B' + mode + str(t) + '.BIN' not sure why this was used: 
     print(filename)
     fd = open(filename, 'rb')
-    fd.read(4)
-    nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    print(nx, ny, nz)
-    fd.read(4)
-    fd.read(4)
-    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    print(abx.shape)
-    fd.read(4)
-    fd.read(4)
-    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    print(aby.shape)
-    fd.read(4)
-    fd.read(4)
-    abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    print(abz.shape)
-    fd.read(4)
+    
+    abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
 
-    temp = np.reshape(abx, shape) # 1 for nz, lent for 3D
+    temp = np.reshape(abx, (nx,ny)) 
     bx = temp.transpose()
-    print(np.mean(bx)) # get 1.0
-    temp = np.reshape(aby, shape)
+
+    filename = dir_data + 'BY' + '.BIN' 
+    print(filename)
+    fd = open(filename, 'rb')
+    
+    aby = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+
+    temp = np.reshape(abx, (nx,ny)) 
     by = temp.transpose()
-    print(np.mean(by)) # get -2.74903790215e-17 as required
-    temp = np.reshape(abz, shape)
-    bz = temp.transpose()
-
-    # print(nx, ny, nz) # (-1087223137, 873747750, -1089962923) this is the result?
-    # print(abx.shape) # this only has 16638 instead of 16641 which is 129*129 like the BB0.BIN file has
-
-    # dont need v, just need phi
-
-    # filename = dir_data + 'V' + mode + str(t) + '.BIN'
-    # print(filename)
-    # fd = open(filename, 'rb')
-    # fd.read(4)
-    # nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    # ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    # nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
-    # fd.read(4)
-    # fd.read(4)
-    # abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    # fd.read(4)
-    # fd.read(4)
-    # aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    # fd.read(4)
-    # fd.read(4)
-    # abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-    # fd.read(4)
-
-    # temp = np.reshape(abx, (lent, lent, lent))
-    # vx = temp.transpose()
-    # temp = np.reshape(aby, (lent, lent, lent))
-    # vy = temp.transpose()
-    # temp = np.reshape(abz, (lent, lent, lent))
-    # vz = temp.transpose()
+    
 
     if __name__ == '__main__':
         pool = Pool(processes=nprocs)
-        sf_snapshot = pool.map(struc_funk, range(lent / 4), twoD_bool)
+        sf_snapshot = pool.starmap(struc_funk, range(lent / 4), twoD_bool)
         # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #3D maybe use pool.starmap if twoD_bool argument not passed through to the function
 
         sff = np.asarray(sf_snapshot)
@@ -365,3 +323,33 @@ f.close()
 #     phiy = temp.transpose()
 
 # else:
+
+    # print(nx, ny, nz) # (-1087223137, 873747750, -1089962923) this is the result?
+    # print(abx.shape) # this only has 16638 instead of 16641 which is 129*129 like the BB0.BIN file has
+
+    # dont need v, just need phi
+
+    # filename = dir_data + 'V' + mode + str(t) + '.BIN'
+    # print(filename)
+    # fd = open(filename, 'rb')
+    # fd.read(4)
+    # nx = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    # ny = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    # nz = np.fromfile(file=fd, dtype=np.int32, count=1)[0]
+    # fd.read(4)
+    # fd.read(4)
+    # abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    # fd.read(4)
+    # fd.read(4)
+    # aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    # fd.read(4)
+    # fd.read(4)
+    # abz = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    # fd.read(4)
+
+    # temp = np.reshape(abx, (lent, lent, lent))
+    # vx = temp.transpose()
+    # temp = np.reshape(aby, (lent, lent, lent))
+    # vy = temp.transpose()
+    # temp = np.reshape(abz, (lent, lent, lent))
+    # vz = temp.transpose()
