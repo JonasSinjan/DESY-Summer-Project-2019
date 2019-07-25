@@ -142,22 +142,22 @@ lpar6 = lpyare/lentf
 lperp6 = lperpe/lentf
 
 
-# filename = '../512_runs_4/CB1/data/decomped_modes/sf_par_perp_B_A.txt'
-# lentf=512.0
-# data = np.loadtxt(filename,skiprows=1)
-# ll = data[:,0]
-# sf_par = data[:,1]
-# sf_perp= data[:,2]
-# valid = ~np.isnan(sf_perp)
-# sf_perp = sf_perp[valid]
-# ll = ll[valid]
-# sf_par = sf_par[valid]
-# lent = np.size(ll)
-# sf_par_smoothed = smoothing(sf_par)
-# sf_perp_smoothed= smoothing(sf_perp)
-# [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-# lpar7 = lpyare/lentf
-# lperp7 = lperpe/lentf
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73/sf_par_perp_v_F.txt'
+lentf=512.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar7 = lpyare/lentf
+lperp7 = lperpe/lentf
 
 # in lper and lpar arrays they stop and become 0 - unsure why - this is a filter to slice the array for plotting due to log scale errors with zero otherwise
 for count, i in enumerate(lperp5):
@@ -168,6 +168,11 @@ for count, i in enumerate(lperp5):
 for count_256, i in enumerate(lperp6):
   if  i <= 0.0001:
     print(count_256)
+    break
+
+for count_512, i in enumerate(lperp7):
+  if  i <= 0.0001:
+    print(count_512)
     break
 
 
@@ -187,7 +192,7 @@ ax0.plot(lperp3[:108], lpar3[:108], lw=3,label="512")
 #ax0.plot(lperp4[:count], lpar4[:count], lw=3,ls="--",label="1024")
 ax0.plot(lperp5[:count], lpar5[:count], lw=3,ls="--",label="128_73")
 ax0.plot(lperp6[:count_256], lpar6[:count_256], lw=3,ls="--",label="256_73")
-# ax0.plot(lperp7, lpar7, lw=3,ls="--",label="CB1a")
+ax0.plot(lperp7[:count_512], lpar7[:count_512], lw=3,ls="--",label="512_73")
 # ax0.plot(lperp4, ref_slope_1, lw=5,ls=":",label="Isotropic",color="blue")
 ax0.plot(lperp3[:108], ref_slope_2_3, lw=5,ls=":",label="GS95",color="red")
 ax0.set_xscale('log')
