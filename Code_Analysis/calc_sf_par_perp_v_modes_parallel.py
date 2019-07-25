@@ -34,7 +34,7 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 512
+size = 1024
 lent = size
 
 # NUMBER OF DIMENSIONS
@@ -44,8 +44,8 @@ if twoD_bool is True:
 else:
     shape = (lent+1,lent+1,lent+1)
 # DATA INPUT AND OUTPUT PATH
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D/"  # data files
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D/"  # data files
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/1024run2D/"  # data files
+dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/1024run2D/"  # data files
 
 ###############################################################################################
 
