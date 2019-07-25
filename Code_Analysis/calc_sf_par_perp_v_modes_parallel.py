@@ -34,7 +34,7 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 128
+size = 256
 lent = size
 
 # NUMBER OF DIMENSIONS
@@ -44,8 +44,8 @@ if twoD_bool is True:
 else:
     shape = (lent+1,lent+1,lent+1)
 # DATA INPUT AND OUTPUT PATH
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D/"  # data files
+dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D/"  # data files
 
 ###############################################################################################
 
@@ -80,8 +80,8 @@ sf_perp = np.zeros(lent / 2)
 npts = np.zeros(lent / 2)
 
 def read_files(dir_data):
-    nx = 129
-    ny = 129
+    nx = size + 1
+    ny = size + 1
     filename=dir_data+'PHI'+'.BIN'
     #print(filename)
     fd = open(filename, 'rb')
@@ -109,13 +109,13 @@ def read_files(dir_data):
 
     temp = np.reshape(aby, (nx,ny)) 
     by = temp.transpose()
-    print(bx[:,0],by[:,0])
+    #print(bx[:,0],by[:,0])
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
 
 def struc_funk(ff, phi, bx, by):
     ll = ff * 1.0
-    print(ll)
+    #print(ll)
 
     twoD_bool = True
 
@@ -256,7 +256,6 @@ def struc_funk(ff, phi, bx, by):
 for t in range(0, 1, 1):  # the time loop
 
     if __name__ == '__main__':
-        dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"  # data files
         phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
 
         #pool = Pool(processes=nprocs)

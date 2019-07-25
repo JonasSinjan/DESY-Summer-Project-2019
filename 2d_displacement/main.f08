@@ -251,7 +251,8 @@ program main
 
   !   enddo ! ki
   ! enddo ! kj
-  print*, by(:,1)  
+
+  !print*, by(:,1)  ! printing by in x direction - should see variation
 
   file_out = trim(data_dir) // 'MAGNETIC.DAT' 
   open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')

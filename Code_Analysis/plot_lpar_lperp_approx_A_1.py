@@ -36,7 +36,7 @@ def lppcorr(llv,sfpar,sfperp) :
   return [lperp_arr,lpar_arr]
 
 ####################################################################################
-max_size = 128.0
+max_size = 256.0
 ####################################################################################
 
 filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/sf_par_perp_v_F.txt'
@@ -56,22 +56,22 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar1 = lpyare/lentf
 lperp1 = lperpe/lentf
 
-# filename = '../1024_runs/S3/data/decomped_modes/sf_par_perp_B_A.txt'
-# lentf = 1024.0
-# data = np.loadtxt(filename,skiprows=1)
-# ll = data[:,0]
-# sf_par = data[:,1]
-# sf_perp= data[:,2]
-# valid = ~np.isnan(sf_perp)
-# sf_perp = sf_perp[valid]
-# ll = ll[valid]
-# sf_par = sf_par[valid]
-# lent = np.size(ll)
-# sf_par_smoothed = smoothing(sf_par)
-# sf_perp_smoothed= smoothing(sf_perp)
-# [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-# lpar2 = lpyare/lentf
-# lperp2 = lperpe/lentf
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D/sf_par_perp_v_F.txt'
+lentf = 256.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar2 = lpyare/lentf
+lperp2 = lperpe/lentf
 
 # filename = '../1024_runs/S4/data/decomped_modes/sf_par_perp_B_A.txt'
 # lentf=1024.0
@@ -171,6 +171,7 @@ gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0])
 ax0.plot(lperp1[:23], lpar1[:23], lw=3,label="S1b")
+print(lperp2, lpar2)
 # ax0.plot(lperp2, lpar2, lw=3,label="S3b")
 # ax0.plot(lperp3, lpar3, lw=3,label="S4b")
 # ax0.plot(lperp4, lpar4, lw=3,ls="--",label="C1b")
