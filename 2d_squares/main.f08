@@ -186,11 +186,11 @@ real(sp) :: anis = 1.
   bz_f(:,:) = bz0
 
   ! build an monochromatic field
-  ! do j = 1, n
-  !  do i = 1, n
-  !    by_f(i,j) = by_f(i,j) + 0.5*sin(2.0*x(i))
-  !  enddo
-  ! enddo
+  do j = 1, n
+   do i = 1, n
+     by_f(i,j) = by_f(i,j) + 0.5*sin(2.0*x(i))
+   enddo
+  enddo
 
   ! ! build a random magnetic field
   ! do kj = 0, 2
@@ -463,8 +463,8 @@ real(sp) :: anis = 1.
 
             ! GS95
             if (k_perp > 0.) then
-             E_coeff = k_perp**(-7./3.)*exp(-k_para/k_perp**(2./3.))  ! 2D
-             !E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
+              E_coeff = k_perp**(-7./3.)*exp(-k_para/k_perp**(2./3.))  ! 2D
+              !E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
             else
              E_coeff = 0.
             endif
