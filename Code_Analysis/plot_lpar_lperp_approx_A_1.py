@@ -159,10 +159,14 @@ lperp3 = lperpe/lentf
 # lpar7 = lpyare/lentf
 # lperp7 = lperpe/lentf
 
+for count, i in enumerate(lperp3):
+  if  i <= 0.0001:
+    print(count)
+    break
 
 #reference slopes
 
-ref_slope_2_3 = lpar1[5]*(np.power(lperp1[:23],(2.0/3.0))/np.power(lperp1[3],(2.0/3.0)))
+ref_slope_2_3 = lpar3[5]*(np.power(lperp3[:count],(2.0/3.0))/np.power(lperp3[3],(2.0/3.0)))
 # ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
  
 fig=plt.figure()
@@ -175,19 +179,13 @@ ax0.plot(lperp2[:42], lpar2[:42], lw=3,label="256")
 #print(lperp3, lpar3)
 #print(len(lperp3))
 
-for count, i in enumerate(lperp3):
-  if  i <= 0.001:
-    print(count)
-    break
-  
-
 ax0.plot(lperp3[:count], lpar3[:count], lw=3,label="512")
 # ax0.plot(lperp4, lpar4, lw=3,ls="--",label="C1b")
 # ax0.plot(lperp5, lpar5, lw=3,ls="--",label="C4b")
 # ax0.plot(lperp6, lpar6, lw=3,ls="--",label="CB0a")
 # ax0.plot(lperp7, lpar7, lw=3,ls="--",label="CB1a")
 # ax0.plot(lperp4, ref_slope_1, lw=5,ls=":",label="Isotropic",color="blue")
-ax0.plot(lperp1[:23], ref_slope_2_3, lw=5,ls=":",label="GS95",color="red")
+ax0.plot(lperp3[:count], ref_slope_2_3, lw=5,ls=":",label="GS95",color="red")
 ax0.set_xscale('log')
 ax0.set_yscale('log')
 #ax0.set_xlim(xmin=2.0/max_size)
