@@ -73,7 +73,7 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar2 = lpyare/lentf
 lperp2 = lperpe/lentf
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D/sf_par_perp_v_F.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D/sf_par_perp_v_F.txt'
 lentf=512.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -172,16 +172,16 @@ gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 ax0 = plt.subplot(gs[0])
 ax0.plot(lperp1[:23], lpar1[:23], lw=3,label="128")
 ax0.plot(lperp2[:42], lpar2[:42], lw=3,label="256")
-print(lperp3, lpar3)
-print(len(lperp3))
+#print(lperp3, lpar3)
+#print(len(lperp3))
 
-for i in range(len(lperp3)):
-  if lperp3[i] == 0:
-    print(i)
+for count, i in enumerate(lperp3):
+  if  i <= 0.001:
+    print(count)
     break
-  break
+  
 
-# ax0.plot(lperp3, lpar3, lw=3,label="512")
+ax0.plot(lperp3[:count], lpar3[:count], lw=3,label="512")
 # ax0.plot(lperp4, lpar4, lw=3,ls="--",label="C1b")
 # ax0.plot(lperp5, lpar5, lw=3,ls="--",label="C4b")
 # ax0.plot(lperp6, lpar6, lw=3,ls="--",label="CB0a")
