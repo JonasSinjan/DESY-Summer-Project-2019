@@ -727,7 +727,7 @@ program main
       if ((kx == 0) .OR. (ky == 0)) then !cant root 0
             continue
       else
-        tmp = abs(ky)**(-7/3)
+        tmp = abs(ky)**(-7/3) !noticed 7/3 used later in comments and squares file
         tmp2 = exp(-abs(kx)/(abs(ky)**(2/3)))
         amp = sqrt(tmp*tmp2) !amplitude
         do i = 1, n
