@@ -545,6 +545,24 @@ real(sp) :: anis = 1.
     enddo
     close(lun)
 
+    file_out = 'PHI0.BIN'
+    lun = 701
+    file_out = trim(data_dir) // '/' // file_out
+    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+      write(lun) phi(:,:)
+    close(lun)
+
+    lun = 701
+    file_out = trim(data_dir) // '/' // 'BX.BIN'
+    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+      write(lun) bx_f(:,:)
+    close(lun)
+  
+    lun = 701
+    file_out = trim(data_dir) // '/' // 'BY.BIN'
+    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+      write(lun) by_f(:,:)
+    close(lun)
 
     !----------------------------------------------------------------
     ! apply spectral filtering on phi
