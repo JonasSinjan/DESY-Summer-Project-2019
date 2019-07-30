@@ -545,9 +545,8 @@ real(sp) :: anis = 1.
     enddo
     close(lun)
 
-    file_out = 'PHI0.BIN'
     lun = 701
-    file_out = trim(data_dir) // '/' // file_out
+    file_out = trim(data_dir) // '/' // 'PHI0.BIN'
     open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
       write(lun) phi(:,:)
     close(lun)
