@@ -34,8 +34,12 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 512
+size = 128
 lent = size
+
+# DATA INPUT AND OUTPUT PATH
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"  # data files
+dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"  # data files
 
 # NUMBER OF DIMENSIONS
 twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
@@ -43,9 +47,6 @@ if twoD_bool is True:
     shape = (lent+1, lent+1) # for 2D
 else:
     shape = (lent+1,lent+1,lent+1)
-# DATA INPUT AND OUTPUT PATH
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"  # data files
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"  # data files
 
 ###############################################################################################
 
