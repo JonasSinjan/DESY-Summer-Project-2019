@@ -556,6 +556,8 @@ real(sp) :: anis = 1.
     open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
       write(lun) bx_f(:,:)
     close(lun)
+
+    print*, bx_f(:,1) !print in y direction, ie a column
   
     lun = 701
     file_out = trim(data_dir) // '/' // 'BY.BIN'
