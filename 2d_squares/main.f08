@@ -108,7 +108,7 @@ real(sp) :: anis = 1.
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run'
+  data_dir = './128run_sq'
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
