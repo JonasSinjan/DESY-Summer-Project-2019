@@ -90,7 +90,7 @@ real(sp) :: anis = 1.
 
   character(len=400) :: file_name
   character(len=400) :: data_dir
-
+  character(len=1024) :: file_out
 
   ! ------------------------------------------------------------------------
   ! define dummy variables
