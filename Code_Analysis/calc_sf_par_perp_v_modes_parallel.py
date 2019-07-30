@@ -37,6 +37,16 @@ from numpy.random import rand
 size = 128
 lent = size
 
+sq_bool = True
+
+if sq_bool:
+    nx = size
+    ny = size
+
+else:
+    nx = size + 1
+    ny = size + 1
+
 # DATA INPUT AND OUTPUT PATH
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"  # data files
 dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"  # data files
@@ -81,8 +91,7 @@ sf_perp = np.zeros(lent / 2)
 npts = np.zeros(lent / 2)
 
 def read_files(dir_data):
-    nx = size + 1
-    ny = size + 1
+    
     filename=dir_data+'PHI'+'.BIN'
     #print(filename)
     fd = open(filename, 'rb')
