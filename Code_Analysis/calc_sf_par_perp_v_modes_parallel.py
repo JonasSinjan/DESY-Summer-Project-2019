@@ -44,8 +44,8 @@ if twoD_bool is True:
 else:
     shape = (lent+1,lent+1,lent+1)
 # DATA INPUT AND OUTPUT PATH
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73/"  # data files
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73/"  # data files
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"  # data files
+dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"  # data files
 
 ###############################################################################################
 
