@@ -15,6 +15,7 @@ program main
   ! ------------------------------------------------------------------------
   include 'fftw3.f03'
 
+  real :: start_time, stop_time !timing fortran program
 
   ! ------------------------------------------------------------------------
   ! define fixed parameters
@@ -48,7 +49,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 9
+  integer :: ngrids = 7
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: anis = 1.
@@ -126,7 +127,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './512run2D_73/'
+  data_dir = './128run2D_73_time/'
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
@@ -717,6 +718,8 @@ program main
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
   ! print *, n
 
+  call system_clock(start_time)
+  
   !$OMP PARALLEL DO
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
@@ -742,8 +745,12 @@ program main
     enddo
   enddo
   !$OMP END PARALLEL DO
-  
+
   print*, 'The loop has successfully completed'
+
+  call system_clock(stop_time)
+  print *, "Setup time:", &
+     stop_time - start_time, "seconds"
   !print*, phi0(23,67), phi0(13,45), phi0(103,31)
 
 
