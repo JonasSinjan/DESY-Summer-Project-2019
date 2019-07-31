@@ -717,6 +717,7 @@ program main
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
   ! print *, n
 
+  !$OMP PARALLEL DO
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
     !print*, kx, ki
@@ -740,6 +741,8 @@ program main
       endif
     enddo
   enddo
+  !$OMP END PARALLEL DO
+  
   print*, 'The loop has successfully completed'
   !print*, phi0(23,67), phi0(13,45), phi0(103,31)
 
