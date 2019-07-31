@@ -23,11 +23,11 @@ def lppcorr(llv,sfpar,sfperp) :
   for i in range (1,lls) :
     lpar = i*1.0
     stfc = sfpar[i]
-    if (stfc > np.amax(sfperp) or stfc < np.amin(sfperp)) :
+    if (stfc > np.amax(sfperp) or stfc < np.amin(sfperp)) : 
       continue
     #trying to find the ll for which sf_par matches the value of stfc
     for j in range (0,lls-1) :
-      if ((sfperp[j] < stfc) and (sfperp[j+1] >= stfc)) :
+      if ((sfperp[j] < stfc) and (sfperp[j+1] >= stfc)) : # this is where the 2d_squares struc funk fails because the sfperp[j+1] >= sfpar[i] for all (all decrease)
         xll = llv[j]+((llv[j+1]-llv[j])/(sfperp[j+1]-sfperp[j]))*(stfc-sfperp[j])
         break
     lperp_arr[count] = xll
