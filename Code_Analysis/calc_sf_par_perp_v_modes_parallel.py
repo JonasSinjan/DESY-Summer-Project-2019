@@ -73,7 +73,7 @@ step = 1
 
 seed(1)
 n_avg_bfield_pts = 5
-nrandpts = 50000
+nrandpts = 10000
 mode = 'F'
 nprocs = 16
 
