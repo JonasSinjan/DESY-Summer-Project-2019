@@ -10,11 +10,11 @@ from numpy.random import rand
 from matplotlib import ticker
 from matplotlib import gridspec
 
-nx=129
-ny=129
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/"
+nx=128
+ny=128
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"
 
-filename=dir_data+'PHI0'+'.BIN'
+filename=dir_data+'RHO'+'.BIN'
 print(filename)  
 fd = open(filename, 'rb')
 
