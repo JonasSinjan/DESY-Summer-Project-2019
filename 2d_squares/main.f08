@@ -192,6 +192,7 @@ real(sp) :: anis = 1.
    enddo
   enddo
 
+  !print *, by_f(:,1)
   ! ! build a random magnetic field
   ! do kj = 0, 2
   !   do ki = 0, 2
@@ -459,7 +460,7 @@ real(sp) :: anis = 1.
             k_perp = sqrt(max((kmod**2 - k_para**2), 0.))
 
 
-            ! print*, ki, kj, nblocks, kmod, k_para, k_perp
+            !print*, ki, kj, nblocks, kmod, k_para, k_perp
 
             ! GS95
             if (k_perp > 0.) then
@@ -493,7 +494,7 @@ real(sp) :: anis = 1.
 
           enddo ! ki
         enddo ! kj
-
+        print*, abs(phik(1,:))
         ! execute inverse DFT
         ib = (block_i - 1)*m + 1
         jb = (block_j - 1)*m + 1
@@ -557,7 +558,7 @@ real(sp) :: anis = 1.
       write(lun) bx_f(:,:)
     close(lun)
 
-    print*, by_f(:,2)
+    !print*, by_f(:,1)
   
     lun = 701
     file_out = trim(data_dir) // '/' // 'BY.BIN'
@@ -649,6 +650,12 @@ real(sp) :: anis = 1.
   write(lun) tmp3d(:,:,:)
 
   write(lun) time, x, y, z, dx, dy, dz
+  close(lun)
+
+  lun = 701
+  file_out = trim(data_dir) // '/' // 'RHO.BIN'
+  open(unit=lun, file=trim(file_out), form='unformatted', status='replace',action='write', access='stream')
+  write(lun) rho_f(:,:)
   close(lun)
 
 
