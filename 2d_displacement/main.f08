@@ -17,7 +17,6 @@ program main
 
   integer :: start_time, stop_time !timing fortran program
   integer :: count_rate, count_max
-  real(dp) :: time_init, time_final, elapsed_time
 
   ! ------------------------------------------------------------------------
   ! define fixed parameters
@@ -33,7 +32,7 @@ program main
   real(dp), parameter :: pi = acos(-1.d0)
   real(dp), parameter :: twopi = 2.d0*pi
 
-
+  real(dp), allocatable :: time_init, time_final, elapsed_time
   ! ------------------------------------------------------------------------
   ! define types
   ! ------------------------------------------------------------------------
