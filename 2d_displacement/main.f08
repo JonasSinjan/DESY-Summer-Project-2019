@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 7
+  integer :: ngrids = 8
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: anis = 1.
