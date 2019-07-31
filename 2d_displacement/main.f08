@@ -15,7 +15,9 @@ program main
   ! ------------------------------------------------------------------------
   include 'fftw3.f03'
 
-  real :: start_time, stop_time !timing fortran program
+  integer :: start_time, stop_time !timing fortran program
+  integer :: count_rate, count_max
+  real(dp) :: time_init, time_final, elapsed_time
 
   ! ------------------------------------------------------------------------
   ! define fixed parameters
@@ -718,8 +720,9 @@ program main
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
   ! print *, n
 
-  call system_clock(start_time)
-  
+  call system_clock(start_time, count_rate, count_max)
+  time_init = start_time*1.0/count_rate
+
   !$OMP PARALLEL DO
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
@@ -748,9 +751,11 @@ program main
 
   print*, 'The loop has successfully completed'
 
-  call system_clock(stop_time)
-  print *, "Setup time:", &
-     stop_time - start_time, "seconds"
+  call system_clock(stop_time, count_rate, count_max)
+  time_final = stop_time*1.0/count_rate
+  elapsed_time = time_final - time_init
+
+  print *, elapsed_time
   !print*, phi0(23,67), phi0(13,45), phi0(103,31)
 
 
