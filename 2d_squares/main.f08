@@ -29,7 +29,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-integer :: ngrids = 7
+integer :: ngrids = 8
 integer :: nblocks_min = 1       
 integer :: nblocks_max = 1!1024
 integer :: nwaves_block = 4
@@ -108,7 +108,7 @@ real(sp) :: anis = 1.
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run_sq'
+  data_dir = './256run_sq'
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
@@ -265,7 +265,7 @@ real(sp) :: anis = 1.
   i_waveset = 0
   nblocks = nblocks_min
 
-  print*, 'Start wavenumber  --  ', 'End wavenumber  --  ', 'Num blocks  '
+  !print*, 'Start wavenumber  --  ', 'End wavenumber  --  ', 'Num blocks  '
 
 
   ! ------------------------------------------------------------------------
@@ -366,7 +366,7 @@ real(sp) :: anis = 1.
     close(400)
 
 
-    print*, kmod_start_block, kmod_end_block, nblocks, i_waveset
+    !print*, kmod_start_block, kmod_end_block, nblocks, i_waveset
 
 
     ! ------------------------------------------------------------------------
@@ -494,7 +494,7 @@ real(sp) :: anis = 1.
 
           enddo ! ki
         enddo ! kj
-        print*, abs(phik(1,:))
+       !print*, abs(phik(1,:))
         ! execute inverse DFT
         ib = (block_i - 1)*m + 1
         jb = (block_j - 1)*m + 1
