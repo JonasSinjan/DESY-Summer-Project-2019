@@ -124,6 +124,23 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar8 = lpyare/lentf
 lperp8 = lperpe/lentf
 
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/512run_sq/sf_par_perp_v_F.txt'
+lentf= 512.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar9 = lpyare/lentf
+lperp9 = lperpe/lentf
+
 filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73/sf_par_perp_v_F.txt'
 lentf=128.0
 data = np.loadtxt(filename,skiprows=1)
@@ -202,6 +219,11 @@ for count_256sq, i in enumerate(lperp8):
      print(count_256sq)
      break
 
+for count_512sq, i in enumerate(lperp9):
+   if  i <= 0.0001:
+     print(count_512sq)
+     break
+
 #reference slopes
 
 ref_slope_2_3 = lpar7[20]*(np.power(lperp7[:count_512],(2.0/3.0))/np.power(lperp7[25],(2.0/3.0)))
@@ -217,6 +239,7 @@ ax0 = plt.subplot(gs[0])
 #ax0.plot(lperp3[:108], lpar3[:108], lw=3,label="512")
 ax0.plot(lperp4[:count_128sq], lpar4[:count_128sq], lw=3,label="128_SQ")
 ax0.plot(lperp8[:count_256sq], lpar8[:count_256sq], lw=3,label="256_SQ")
+ax0.plot(lperp9[:count_512sq], lpar9[:count_512sq], lw=3,label="512_SQ")
 ax0.plot(lperp5[:count], lpar5[:count], lw=3,label="128_73")
 ax0.plot(lperp6[:count_256], lpar6[:count_256], lw=3, label="256_73")
 ax0.plot(lperp7[:count_512], lpar7[:count_512], lw=3, label="512_73")
