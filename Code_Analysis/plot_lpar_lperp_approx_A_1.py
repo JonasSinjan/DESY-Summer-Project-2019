@@ -183,7 +183,7 @@ for count_128sq, i in enumerate(lperp4):
 
 #reference slopes
 
-ref_slope_2_3 = lpar3[5]*(np.power(lperp3[:108],(2.0/3.0))/np.power(lperp3[3],(2.0/3.0)))
+ref_slope_2_3 = lpar7[5]*(np.power(lperp7[:count_512],(2.0/3.0))/np.power(lperp7[3],(2.0/3.0)))
 # ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
  
 fig=plt.figure()
