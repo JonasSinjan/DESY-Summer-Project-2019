@@ -8,6 +8,7 @@ program main
 
   use spectrum, only: power_kk, dft_filter
   use, intrinsic :: iso_c_binding
+  use omp_lib
   implicit none
 
   ! ------------------------------------------------------------------------
@@ -719,10 +720,18 @@ program main
   ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
   ! print *, n
 
-  call system_clock(start_time, count_rate, count_max)
-  time_init = start_time*1.0/count_rate
+  !---ALTERNATIVE TIMING---
 
-  !$OMP PARALLEL DO
+  !call system_clock(start_time, count_rate, count_max)
+  !time_init = start_time*1.0/count_rate
+
+  wtime = omp_get_wtime()
+  
+  !$omp parallel &
+  !$omp   shared ( kx, ky ) &
+  !$omp   private ( i, j, ki, kj)
+
+  !$omp do
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
     !print*, kx, ki
@@ -746,15 +755,22 @@ program main
       endif
     enddo
   enddo
-  !$OMP END PARALLEL DO
+  !$omp end do
 
   print*, 'The loop has successfully completed'
 
-  call system_clock(stop_time, count_rate, count_max)
-  time_final = stop_time*1.0/count_rate
-  elapsed_time = time_final - time_init
+  wtime = omp_get_wtime() - wtime
 
-  print *, elapsed_time
+  print *, wtime 
+
+  !---ALTERNATIVE TIMING---
+
+  !call system_clock(stop_time, count_rate, count_max)
+  !time_final = stop_time*1.0/count_rate
+  !elapsed_time = time_final - time_init
+  !print *, elapsed_time
+
+
   !print*, phi0(23,67), phi0(13,45), phi0(103,31)
 
 
