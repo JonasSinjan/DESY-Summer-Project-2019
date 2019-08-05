@@ -728,7 +728,7 @@ program main
   wtime = omp_get_wtime()
   
   !$omp parallel &
-  !$omp   shared ( kx, ky ) &
+  !$omp   shared ( kx, ky, tmp, tmp2, amp, phi0 ) &
   !$omp   private ( i, j, ki, kj)
 
   !$omp do
