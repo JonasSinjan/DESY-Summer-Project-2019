@@ -727,9 +727,9 @@ program main
   !time_init = start_time*1.0/count_rate
 
   print*, omp_get_max_threads()
-
+  !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
-  !$OMP DO SHARED(tmp, tmp2, amp, phi0, i, j, kj)
+  !$OMP DO 
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 2) then
