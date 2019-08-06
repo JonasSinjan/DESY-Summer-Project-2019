@@ -734,10 +734,14 @@ program main
   !$omp do
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
+    if (ki == 5) then
+      threadno = omp_get_num_threads()
+      print*, threadno
+    endif
     !print*, kx, ki
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
-      !print*, ky, kj 
+      !print*, ky, kj
       call random_number(num)
       if ((kx == 0) .OR. (ky == 0)) then !cant root 0
             continue
