@@ -730,6 +730,7 @@ program main
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
 
+  !$OMP PARALLEL
   !$OMP DO PRIVATE(ki) NUM_THREADS(40)
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
@@ -755,6 +756,7 @@ program main
     enddo
   enddo
   !$OMP END DO
+  !$OMP END PARALLEL
 
   print*, 'The loop has successfully completed'
 
