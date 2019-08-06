@@ -729,7 +729,8 @@ program main
   print*, omp_get_max_threads()
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
-  !$OMP DO 
+
+  !$OMP DO PRIVATE(ki)
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 2) then
