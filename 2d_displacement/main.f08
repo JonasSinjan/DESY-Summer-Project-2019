@@ -727,16 +727,11 @@ program main
   !time_init = start_time*1.0/count_rate
 
   wtime = omp_get_wtime()
-  
-  !$omp parallel &
-  !$omp   shared ( kx, ky, tmp, tmp2, amp, phi0 ) &
-  !$omp   private ( i, j, ki, kj)
-
-  !$omp do
+  !$omp do collapse(3) private(ki,kj,i,j)
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 5) then
-      threadno = omp_get_num_threads()
+      threadno = omp_get_num_threads() !check to see if openmp working
       print*, threadno
     endif
     !print*, kx, ki
