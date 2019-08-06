@@ -34,6 +34,7 @@ program main
   real(dp), parameter :: twopi = 2.d0*pi
   real(dp), allocatable :: wtime
   real(dp), allocatable :: time_init, time_final, elapsed_time
+  integer, allocatable :: threadno
   ! ------------------------------------------------------------------------
   ! define types
   ! ------------------------------------------------------------------------
