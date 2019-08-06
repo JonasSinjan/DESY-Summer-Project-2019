@@ -727,7 +727,7 @@ program main
   !time_init = start_time*1.0/count_rate
 
   wtime = omp_get_wtime()
-  !$omp do collapse(3) private(ki,kj,i,j)
+  !$omp parallel do collapse(3) private(ki,kj,i,j)
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 2) then
@@ -755,7 +755,7 @@ program main
       endif
     enddo
   enddo
-  !$omp end do
+  !$omp end parallel do
 
   print*, 'The loop has successfully completed'
 
