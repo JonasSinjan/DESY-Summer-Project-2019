@@ -51,7 +51,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 8
+  integer :: ngrids = 7
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: anis = 1.
@@ -129,7 +129,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run2D_73_time/'
+  data_dir = './128run2D_73_test/'
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
