@@ -35,7 +35,7 @@ run.x: $(OBJECTS)
 .SUFFIXES:
 .SUFFIXES: .f08 .o
 .f08.o:
-	$(FC) -c $(FFLAGS) $<
+	$(FC) -c $(FFLAGS) $(LIBS) $<
 
 clean:
 	rm -f *.x *.o *.mod *.log *.DAT *~
