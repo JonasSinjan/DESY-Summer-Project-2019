@@ -730,7 +730,7 @@ program main
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
   !$OMP DO 
-  do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
+  do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 2) then
       threadno = omp_get_num_threads() !check to see if openmp working
@@ -742,7 +742,7 @@ program main
       if ((kx == 0) .OR. (ky == 0)) then !cant root 0
             continue
       else
-        tmp = abs(ky)**(-7/3) !noticed 7/3 used later in comments and squares file
+        tmp = abs(ky)**(-7/3) !2D
         tmp2 = exp(-abs(kx)/(abs(ky)**(2/3)))
         amp = sqrt(tmp*tmp2) !amplitude
         do i = 1, n
