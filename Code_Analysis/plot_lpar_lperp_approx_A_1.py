@@ -39,40 +39,6 @@ def lppcorr(llv,sfpar,sfperp) :
 max_size = 512.0
 ####################################################################################
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D/sf_par_perp_v_F.txt'
-lentf = 128.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar1 = lpyare/lentf
-lperp1 = lperpe/lentf
-
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D/sf_par_perp_v_F.txt'
-lentf = 256.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar2 = lpyare/lentf
-lperp2 = lperpe/lentf
-
 filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D/sf_par_perp_v_F.txt'
 lentf=512.0
 data = np.loadtxt(filename,skiprows=1)
