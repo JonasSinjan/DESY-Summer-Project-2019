@@ -729,7 +729,7 @@ program main
   print*, omp_get_max_threads()
 
   wtime = omp_get_wtime()
-  !$omp do private(kj,i,j) shared(tmp, tmp2, amp, phi0)
+  !$omp do shared(tmp, tmp2, amp, phi0, i, j, kj)
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 2) then
