@@ -19,7 +19,7 @@ endif
 
 ifeq ($(DEBUG), Y)
   #FFLAGS += -O0 -g -fcheck=bounds -fbacktrace -ffpe-trap=invalid,zero,overflow
-  FFLAGS += -O0 -g -fbounds-check -fopenmp -fbacktrace -ffpe-trap=invalid,zero,overflow
+  FFLAGS += -O0 -g -fbounds-check -fbacktrace -ffpe-trap=invalid,zero,overflow
 else
   FFLAGS += -O2 -march=native -mtune=native -funroll-loops
 endif
@@ -30,7 +30,7 @@ OBJECTS = $(subst .f08,.o,$(SOURCES))
 .PHONY: clean test
 
 run.x: $(OBJECTS)
-	$(FC) $(OBJECTS) $(LIBS) -o run.x
+	$(FC) $(OBJECTS) $(LIBS) -o -fopenmp run.x
 
 .SUFFIXES:
 .SUFFIXES: .f08 .o
