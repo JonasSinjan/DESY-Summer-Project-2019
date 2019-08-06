@@ -730,7 +730,7 @@ program main
   !$omp do collapse(3) private(ki,kj,i,j)
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
     kx = (-(n-1)/2 + 1) + ki
-    if (ki == 5) then
+    if (ki == 2) then
       threadno = omp_get_num_threads() !check to see if openmp working
       print*, threadno
     endif
