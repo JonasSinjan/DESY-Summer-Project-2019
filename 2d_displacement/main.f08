@@ -726,6 +726,8 @@ program main
   !call system_clock(start_time, count_rate, count_max)
   !time_init = start_time*1.0/count_rate
 
+  print*, omp_get_max_threads()
+
   wtime = omp_get_wtime()
   !$omp parallel do collapse(3) private(ki,kj,i,j)
   do ki = 0, n-3 ! is h the box length? h = 2pi/(n-1)?, each start and end should be multiplied by twopi/box_length
@@ -734,10 +736,8 @@ program main
       threadno = omp_get_num_threads() !check to see if openmp working
       print*, threadno
     endif
-    !print*, kx, ki
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
-      !print*, ky, kj
       call random_number(num)
       if ((kx == 0) .OR. (ky == 0)) then !cant root 0
             continue
@@ -747,9 +747,7 @@ program main
         amp = sqrt(tmp*tmp2) !amplitude
         do i = 1, n
                 do j = 1, n
-                ! print*, phi0(i,j), i, j, ki, kj
                 phi0(i,j) = phi0(i,j) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + num*twopi)
-                !print*, phi0(i,j), i ,j ! error when kx and kj values equal zero
                 enddo
         enddo
       endif
