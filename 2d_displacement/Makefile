@@ -2,7 +2,7 @@ DEBUG = Y
 DOUBLE = Y
 
 FC     = gfortran
-FFLAGS = -cpp -ffree-line-length-none -fbackslash -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -fopenmp
+FFLAGS = -cpp -ffree-line-length-none -fbackslash -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1
 LIBS   = 
 
 FFTW3_PATH = /lustre/fs23/group/that/jonas/lib/fftwlib
@@ -19,7 +19,7 @@ endif
 
 ifeq ($(DEBUG), Y)
   #FFLAGS += -O0 -g -fcheck=bounds -fbacktrace -ffpe-trap=invalid,zero,overflow
-  FFLAGS += -O0 -g -fbounds-check -fbacktrace -ffpe-trap=invalid,zero,overflow
+  FFLAGS += -O0 -g -fbounds-check -fopenmp -fbacktrace -ffpe-trap=invalid,zero,overflow
 else
   FFLAGS += -O2 -march=native -mtune=native -funroll-loops
 endif
