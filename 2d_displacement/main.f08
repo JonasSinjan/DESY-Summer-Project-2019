@@ -35,6 +35,7 @@ program main
   real(dp), allocatable :: wtime
   real(dp), allocatable :: time_init, time_final, elapsed_time
   integer, allocatable :: threadno
+  integer :: thread_id
   ! ------------------------------------------------------------------------
   ! define types
   ! ------------------------------------------------------------------------
@@ -733,12 +734,16 @@ program main
   call omp_set_num_threads(40)
 
   !$OMP PARALLEL
-  !$OMP DO PRIVATE(ki) 
+  !$OMP DO 
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 2) then
       threadno = omp_get_num_threads() !check to see if openmp working
       print*, threadno
+    endif
+    thread_id = omp_get_thread_num()
+    if (thread_id == 3) then
+      print*, ki
     endif
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
