@@ -730,7 +730,7 @@ program main
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
 
-  call omp_get_num_threads(40)
+  call omp_set_num_threads(40)
 
   !$OMP PARALLEL
   !$OMP DO PRIVATE(ki) 
