@@ -16,7 +16,8 @@ filename = dir_data + 'PS_KB_PHI.DAT'
 ps_kpar = np.loadtxt(filename)
 log_ps_kpar = [np.log(i) for i in ps_kpar if i != 0]
 
-print(f"len of ps_perp = {len(log_ps_kperp)}", f"len of ps_perp = {len(log_ps_kperp)}")
+print(f"len of ps_perp = {len(log_ps_kperp)}")
+print(f"len of ps_perp = {len(log_ps_kperp)}")
 
 start = -((n-1)/2 + 1)
 logk = [0]*len(range(n-2))
