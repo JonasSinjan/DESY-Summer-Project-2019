@@ -131,7 +131,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run2D_73_test/'
+  data_dir = './128run2D_73_paratest/'
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
@@ -731,7 +731,7 @@ program main
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
 
-  call omp_set_num_threads(1)
+  call omp_set_num_threads(4)
 
   !$OMP PARALLEL
   !$OMP DO 
