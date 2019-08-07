@@ -871,7 +871,7 @@ program main
 ! #ifdef DP
 !     call fftw_execute_dft_c2r(plan_phi0, phi0k, phi0)
 ! #else
-!     call fftwf_execute_dft_c2r(plan_phi0, phi0k, phi0)
+!     call fftwf_execute_dft_c2r(plan_phi0, phi0k, phi0)n/2 + 1
 ! #endif
 
 !     ! normalise FFT
