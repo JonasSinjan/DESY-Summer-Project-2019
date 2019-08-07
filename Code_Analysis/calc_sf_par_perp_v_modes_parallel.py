@@ -48,8 +48,10 @@ else:
     ny = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/512run_sq/"  # data files
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/512run_sq/"  # data files
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_paratest/"  # data files
+dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_paratest/"  # data files
+
+# IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN -  CHECK!!!
 
 # NUMBER OF DIMENSIONS
 twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
@@ -92,7 +94,7 @@ npts = np.zeros(lent / 2)
 
 def read_files(dir_data):
     
-    filename=dir_data+'RHO'+'.BIN'
+    filename=dir_data+'PHI'+'.BIN'
     #print(filename)
     fd = open(filename, 'rb')
 
