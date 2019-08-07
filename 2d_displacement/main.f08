@@ -739,11 +739,11 @@ program main
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 2) then
       threadno = omp_get_num_threads() !check to see if openmp working
-      print*, threadno
+      print*, "Total running threads", threadno
     endif
     thread_id = omp_get_thread_num()
     if (thread_id == 3) then
-      print*, ki
+      print*, "ki value", ki
     endif
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
