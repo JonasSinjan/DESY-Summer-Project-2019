@@ -730,8 +730,10 @@ program main
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
 
+  call omp_get_num_threads(40)
+
   !$OMP PARALLEL
-  !$OMP DO PRIVATE(ki) NUM_THREADS(40)
+  !$OMP DO PRIVATE(ki) 
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 2) then
