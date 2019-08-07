@@ -34,7 +34,7 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 256
+size = 512
 lent = size
 
 sq_bool = True
@@ -48,8 +48,8 @@ else:
     ny = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/256run_sq/"  # data files
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/256run_sq/"  # data files
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/512run2D_73_paratest/"  # data files
+dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/512run2D_73_paratest/"  # data files
 
 # NUMBER OF DIMENSIONS
 twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
