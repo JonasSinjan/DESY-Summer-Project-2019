@@ -50,11 +50,8 @@ else:
 # DATA INPUT AND OUTPUT PATH
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_paratest/"  # data files
 dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_paratest/"  # data files
-<<<<<<< HEAD
 
 # IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN -  CHECK!!!
-=======
->>>>>>> 9dee999b9455d948446fec4c1f9e1a97f12f9d09
 
 # NUMBER OF DIMENSIONS
 twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D

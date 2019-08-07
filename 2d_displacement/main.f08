@@ -731,7 +731,7 @@ program main
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
 
-  call omp_set_num_threads(4)
+  call omp_set_num_threads(8)
 
   !$OMP PARALLEL
   !$OMP DO 
@@ -871,7 +871,7 @@ program main
 ! #ifdef DP
 !     call fftw_execute_dft_c2r(plan_phi0, phi0k, phi0)
 ! #else
-!     call fftwf_execute_dft_c2r(plan_phi0, phi0k, phi0)
+!     call fftwf_execute_dft_c2r(plan_phi0, phi0k, phi0)n/2 + 1
 ! #endif
 
 !     ! normalise FFT
