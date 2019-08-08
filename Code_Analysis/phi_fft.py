@@ -16,8 +16,7 @@ from matplotlib import ticker
 from matplotlib import gridspec
 
 # data files
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/"  
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/"
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73_test/"  
 
 #2D
 n = 128
@@ -41,6 +40,8 @@ fd = open(filename, 'rb')
 abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
   
 phi = np.reshape(abx,(nx,ny))
+
+print(phi[0,:])
 
 #FFT
 phi0k_noshift = fft.fft2(phi0)
