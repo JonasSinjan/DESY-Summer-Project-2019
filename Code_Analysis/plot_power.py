@@ -20,12 +20,12 @@ log_ps_kpar = [np.log(i) for i in ps_kpar[:,1] if i.any() != 0]
 #print(len(log_ps_kperp))S
 #print(len(log_ps_kpar))
 
-#print(log_ps_kpar)
-#print(log_ps_kperp)
+print(log_ps_kpar[1:])
+print(log_ps_kperp[1:])
 
 logk = np.log(range(n/2))
 
-#print(len(logk))
+print(len(logk))
 
 slope, intercept, rval, p, err = linregress(logk, log_ps_kperp[1:])
 slope_par, intercept_par, rval_pa, p_para, err_para = linregress(logk, log_ps_kpar[1:])
