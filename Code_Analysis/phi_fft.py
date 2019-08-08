@@ -49,7 +49,7 @@ gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
 
 ax0 = plt.subplot(gs[0],aspect='equal')
 
-plt.imshow(abs(phi0k), cmap='seismic',
+plt.imshow(np.log(abs(phi0k)**2), cmap='seismic',
            interpolation='nearest', origin='lower')
 fig = plt.gcf()
 plt.clim()   # clamp the color limits
@@ -57,7 +57,7 @@ plt.colorbar()
 
 ax1 = plt.subplot(gs[1],aspect='equal')
 
-plt.imshow(abs(phik), cmap='seismic',
+plt.imshow(np.log(abs(phik)**2), cmap='seismic',
            interpolation='nearest', origin='lower')
 fig = plt.gcf()
 plt.clim()   # clamp the color limits
