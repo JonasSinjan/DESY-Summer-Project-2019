@@ -9,12 +9,12 @@ dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128
 # perpendicular
 filename = dir_data + 'PS_KT_PHI.DAT'
 ps_kperp = np.loadtxt(filename)
-log_ps_kperp = [np.log(i) for i in ps_kperp if i != 0]
+log_ps_kperp = [np.log(i) for i in ps_kperp if i.any() != 0]
 
 # parallel
 filename = dir_data + 'PS_KB_PHI.DAT'
 ps_kpar = np.loadtxt(filename)
-log_ps_kpar = [np.log(i) for i in ps_kpar if i != 0]
+log_ps_kpar = [np.log(i) for i in ps_kpar if i.any() != 0]
 
 print(len(log_ps_kperp))
 print(len(log_ps_kpar))
