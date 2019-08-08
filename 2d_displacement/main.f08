@@ -755,9 +755,9 @@ program main
         tmp2 = exp(-abs(kx)/(abs(ky)**(2/3)))
         amp = sqrt(tmp*tmp2) !amplitude
         do i = 1, n
-                do j = 1, n
-                phi0(i,j) = phi0(i,j) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + num*twopi)
-                enddo
+          do j = 1, n
+            phi0(i,j) = phi0(i,j) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + num*twopi)
+          enddo
         enddo
       endif
     enddo
