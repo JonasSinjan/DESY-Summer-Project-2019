@@ -731,10 +731,12 @@ program main
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
 
-  call omp_set_num_threads(8)
+  call omp_set_num_threads(1)
+  
+  !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
 
-  !$OMP PARALLEL
-  !$OMP DO 
+  !!$OMP PARALLEL
+  !!$OMP DO 
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
     if (ki == 2) then
@@ -762,8 +764,8 @@ program main
       endif
     enddo
   enddo
-  !$OMP END DO
-  !$OMP END PARALLEL
+  !!$OMP END DO
+  !!$OMP END PARALLEL
 
   print*, 'The loop has successfully completed'
 
