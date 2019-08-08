@@ -26,6 +26,11 @@ logk = np.log(range(n/2))
 
 #print(len(logk))
 
+p0_perp = np.polyfit(logk, log_ps_kperp[1:], 1)
+p0_para = np.polyfit(logk, log_ps_kpar[1:], 1)
+
+print(p0_para, p0_perp)
+
 plt.figure()
 plt.plot(logk, log_ps_kperp[1:], label='Kperp')
 plt.plot(logk, log_ps_kpar[1:], label = 'Kpara')
