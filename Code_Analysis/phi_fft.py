@@ -1,3 +1,14 @@
+"""
+TODO:
+    1.  check which dimension is kperp and kpara
+    2.  integrate up kperp and kpara - get spectrum in each (just by adding up each for constant other value)
+    3.  plot them against each other
+    4.  do this for multiple dimensions/methods
+    5.  save the plots in new folder
+FIXME:
+    
+"""
+
 import numpy as np
 import numpy.fft as fft
 import matplotlib.pyplot as plt
