@@ -30,7 +30,8 @@ fd = open(filename, 'rb')
 
 abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
   
-phi0 = np.reshape(abx,(nx,ny))
+tmp = np.reshape(abx,(nx,ny))
+phi0 = tmp.transpose()
 
 #Reading in PHI0 binary file
 filename=dir_data+'PHI'+'.BIN'
@@ -39,7 +40,8 @@ fd = open(filename, 'rb')
 
 abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
   
-phi = np.reshape(abx,(nx,ny))
+tmp2 = np.reshape(abx,(nx,ny))
+phi = tmp2.transpose()
 
 print(phi0[0,:], len(phi0[0,:]))
 
