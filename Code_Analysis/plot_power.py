@@ -19,14 +19,7 @@ log_ps_kpar = [np.log(i) for i in ps_kpar if i.any() != 0]
 print(len(log_ps_kperp))
 print(len(log_ps_kpar))
 
-start = -((n-1)/2 + 1)
-logk = [0]*len(range(n-2))
-
-for i in range(n-2):
-    tmp = -start + i
-    if tmp == 0:
-        continue
-    logk[i] = np.log(tmp)
+logk = np.log(range(n/2))
 
 print(len(logk))
 
