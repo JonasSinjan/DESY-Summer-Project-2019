@@ -24,6 +24,6 @@ logk = np.log(range(n/2))
 print(len(logk))
 
 plt.figure()
-plt.plot(logk[1:], log_ps_kperp[1:])
-plt.plot(logk[1:], log_ps_kpar[1:])
+plt.plot(logk, log_ps_kperp[1:])
+plt.plot(logk, log_ps_kpar[1:])
 plt.show()
