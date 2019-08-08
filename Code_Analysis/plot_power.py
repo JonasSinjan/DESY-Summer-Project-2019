@@ -23,17 +23,17 @@ log_ps_kpar = [np.log(i) for i in ps_kpar[:,1] if i.any() != 0]
 print(log_ps_kpar[1:])
 print(log_ps_kperp[1:])
 
-logk = np.log(range(n/2))
+logk = np.log(range(n/2 + 1))
 
 print(logk)
 
-slope, intercept, rval, p, err = linregress(logk, log_ps_kperp[1:])
-slope_par, intercept_par, rval_pa, p_para, err_para = linregress(logk, log_ps_kpar[1:])
+slope, intercept, rval, p, err = linregress(logk[1:], log_ps_kperp[1:])
+slope_par, intercept_par, rval_pa, p_para, err_para = linregress(logk[1:], log_ps_kpar[1:])
 
 print(slope, slope_par)
 
 plt.figure()
-plt.plot(logk, log_ps_kperp[1:], label='Kperp')
-plt.plot(logk, log_ps_kpar[1:], label ='Kpara')
+plt.plot(logk[1:], log_ps_kperp[1:], label='Kperp')
+plt.plot(logk[1:], log_ps_kpar[1:], label ='Kpara')
 plt.legend()
 plt.show()
