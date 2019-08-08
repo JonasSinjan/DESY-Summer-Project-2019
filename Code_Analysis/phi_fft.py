@@ -41,7 +41,7 @@ abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
   
 phi = np.reshape(abx,(nx,ny))
 
-print(phi[:,0])
+print(phi0[0,:], len(phi0[0,:]))
 
 #FFT
 phi0k_noshift = fft.fft2(phi0)
