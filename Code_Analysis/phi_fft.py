@@ -70,6 +70,8 @@ plt.imshow(np.log(abs(phi0k)**2), cmap='seismic',
 fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
+plt.xlabel('K_parallel')
+plt.ylabel('K_perp')
 
 ax1 = plt.subplot(gs[1],aspect='equal')
 
