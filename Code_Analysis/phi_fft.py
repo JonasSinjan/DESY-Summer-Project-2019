@@ -20,8 +20,8 @@ dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128ru
 
 #2D
 n = 128
-nx = n
-ny = n
+nx = n + 1
+ny = n + 1
 
 #Reading in PHI0 binary file
 filename=dir_data+'PHI0'+'.BIN' # PHI for displacement, RHO for squares
