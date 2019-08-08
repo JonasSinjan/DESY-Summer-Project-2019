@@ -6,7 +6,9 @@ TODO:
     4.  do this for multiple dimensions/methods
     5.  save the plots in new folder
 FIXME:
-    
+    1. for some reason 129 points in phi0 file
+    2. have to transpose - now get same numbers
+    3. but plots look quite odd right now
 """
 
 import numpy as np
@@ -76,6 +78,8 @@ plt.imshow(np.log(abs(phik)**2), cmap='seismic',
 fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
+plt.xlabel('K_parallel')
+plt.ylabel('K_perp')
 
 plt.show()
 #fig.savefig('test.eps',dpi=300,bbox_inches='tight')
