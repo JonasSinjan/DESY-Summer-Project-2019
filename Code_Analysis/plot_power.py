@@ -27,8 +27,8 @@ logk = np.log(range(n/2))
 
 #print(len(logk))
 
-slope, intercept, rval = linregress(logk, log_ps_kperp[1:])
-slope_par, intercept_par, rval_pa = linregress(logk, log_ps_kpar[1:])
+slope, intercept, rval, p, err = linregress(logk, log_ps_kperp[1:])
+slope_par, intercept_par, rval_pa, p_para, err_para = linregress(logk, log_ps_kpar[1:])
 
 print(slope, slope_par)
 
