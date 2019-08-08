@@ -30,10 +30,19 @@ print(logk)
 slope, intercept, rval, p, err = linregress(logk[1:], log_ps_kperp[1:])
 slope_par, intercept_par, rval_pa, p_para, err_para = linregress(logk[1:], log_ps_kpar[1:])
 
+lin_perb = [slope*i + intercept for i in logk[1:]]
+lin_par = [slope_par*i + intercept_par for i in logk[1:]]
+
 print(slope, slope_par)
 
 plt.figure()
 plt.plot(logk[1:], log_ps_kperp[1:], label='Kperp')
 plt.plot(logk[1:], log_ps_kpar[1:], label ='Kpara')
+plt.plot(logk[1:], lin_perb, label=f'Slope K_perp: {slope}')
+plt.plot(logk[1:], lin_par, label =f'Slope K_para: {slope_par}')
+
+plt.xlabel('Log K')
+plt.ylabel('Log E(k)')
+
 plt.legend()
 plt.show()
