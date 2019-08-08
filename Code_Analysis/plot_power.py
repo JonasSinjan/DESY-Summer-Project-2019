@@ -36,8 +36,8 @@ lin_par = [slope_par*i + intercept_par for i in logk[1:]]
 print(slope, slope_par)
 
 plt.figure()
-plt.plot(logk[1:], log_ps_kperp[1:], label='Kperp')
-plt.plot(logk[1:], log_ps_kpar[1:], label ='Kpara')
+plt.scatter(logk[1:], log_ps_kperp[1:],label='Kperp')
+plt.scatter(logk[1:], log_ps_kpar[1:], label ='Kpara')
 plt.plot(logk[1:], lin_perb, label='Slope K_perp: %f' % round(slope,3))
 plt.plot(logk[1:], lin_par, label ='Slope K_para: %f' % round(slope_par,3))
 
