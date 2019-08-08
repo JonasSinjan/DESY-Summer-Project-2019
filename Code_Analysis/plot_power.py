@@ -16,7 +16,7 @@ filename = dir_data + 'PS_KB_PHI.DAT'
 ps_kpar = np.loadtxt(filename)
 log_ps_kpar = [np.log(i) for i in ps_kpar if i.any() != 0]
 
-print(len(log_ps_kperp))S
+print(len(log_ps_kperp))
 print(len(log_ps_kpar))
 
 logk = np.log(range(n/2))
