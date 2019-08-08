@@ -1,2 +1,0 @@
-main.o: Makefile Makefile.depend main.f08
-
