@@ -39,9 +39,9 @@ phik_noshift = fft.fft2(phi)
 phi0k = fft.fftshift(phi0k_noshift)
 phik = fft.fftshift(phik_noshift)
 
-print(phi0k)
-print('~')
-print(phik)
+#print(phi0k)
+#print('~')
+#print(phik)
 
 fig=plt.figure()
 fig = plt.figure(figsize=(5.0, 5.0))
