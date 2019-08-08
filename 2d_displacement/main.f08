@@ -773,7 +773,7 @@ program main
 
   print *, wtime 
 
-  print *, phi0(1,:)
+  print *, phi0(1,:), size(phi0(1,:))
 
   !---ALTERNATIVE TIMING---
 
