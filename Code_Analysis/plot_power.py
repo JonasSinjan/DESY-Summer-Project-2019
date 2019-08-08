@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.stats import linregress
 
 n = 128
 
@@ -26,13 +27,13 @@ logk = np.log(range(n/2))
 
 #print(len(logk))
 
-m_perp, bpe = np.polyfit(logk, log_ps_kperp[1:], 1)
-m_para, bpa = np.polyfit(logk, log_ps_kpar[1:], 1)
+slope, intercept, rval = linregress(logk, log_ps_kperp[1:])
+slope_par, intercept_par, rval_pa = linregress(logk, log_ps_kpar[1:])
 
-print(m_perp, m_para)
+print(slope, slope_par)
 
 plt.figure()
 plt.plot(logk, log_ps_kperp[1:], label='Kperp')
-plt.plot(logk, log_ps_kpar[1:], label = 'Kpara')
+plt.plot(logk, log_ps_kpar[1:], label ='Kpara')
 plt.legend()
 plt.show()
