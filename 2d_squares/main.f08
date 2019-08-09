@@ -290,7 +290,7 @@ real(sp) :: anis = 1.
     endif
 
 
-    ! number of waves insithe the set: logarithm spacing is a good option here
+    ! number of waves inside the set: logarithm spacing is a good option here
     kmod_end_block = min((kmod_start_block + kmod_start_block), real(nk - 1))
 
 
