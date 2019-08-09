@@ -131,7 +131,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run2D_73_paratest/'
+  data_dir = './128run2D_73_test/'
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
@@ -718,6 +718,8 @@ program main
   wtime = omp_get_wtime() - wtime
 
   print *, wtime 
+
+  !print *, phi0(1,:), size(phi0(1,:))
 
   !---ALTERNATIVE TIMING---
 
