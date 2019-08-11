@@ -18,7 +18,7 @@ from matplotlib import ticker
 from matplotlib import gridspec
 
 # data files
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73_test/"  
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73_test/"
 
 #2D
 n = 128
@@ -84,6 +84,3 @@ plt.xlabel('K_parallel')
 plt.ylabel('K_perp')
 
 plt.show()
-#fig.savefig('test.eps',dpi=300,bbox_inches='tight')
-
-
