@@ -750,7 +750,7 @@ program main
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
       call random_number(num)
-      if ((kx == 0) .OR. (ky == 0)) then !cant root 0
+      if (ky == 0) then !cant root 0
             continue
       else
         tmp = abs(ky)**(-7/3) !2D
