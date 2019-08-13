@@ -34,7 +34,7 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 512
+size = 128
 lent = size
 
 sq_bool = False
@@ -48,21 +48,23 @@ else:
     ny = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_paratest/"  # data files
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_paratest/"  # data files
+#dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_frac/"  # data files
+#dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_frac/"  # data files
+dir_data = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/"  # data files
+dir_output = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/"  # data files
 
 # IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN -  CHECK!!!
 
 # NUMBER OF DIMENSIONS
 twoD_bool = True  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
 if twoD_bool is True:
-    shape = (lent+1, lent+1) # for 2D
+    shape = (lent + 1, lent + 1)  # for 2D
 else:
-    shape = (lent+1,lent+1,lent+1)
+    shape = (lent + 1, lent + 1, lent + 1)
 
 ###############################################################################################
 
-xpt = size 
+xpt = size
 ypt = size
 zpt = size
 
@@ -70,7 +72,7 @@ Lx = 1.0
 Ly = 1.0
 Lz = 1.0
 t_start = 5
-t_stop = 6 #only want one loop
+t_stop = 6  # only want one loop
 step = 1
 
 seed(1)
@@ -80,54 +82,55 @@ mode = 'F'
 nprocs = 16
 
 # initliasing 1D arrays
-magk = np.zeros(lent / 2)
-mag_power_spec = np.zeros(lent / 2)
-kin_power_spec = np.zeros(lent / 2)
-mag_pspec_tavg = np.zeros(lent / 2)
-kin_pspec_tavg = np.zeros(lent / 2)
+magk = np.zeros(int(lent / 2))
+mag_power_spec = np.zeros(int(lent / 2))
+kin_power_spec = np.zeros(int(lent / 2))
+mag_pspec_tavg = np.zeros(int(lent / 2))
+kin_pspec_tavg = np.zeros(int(lent / 2))
 # sf_snapshot = np.zeros((lent/4,3))
 
 ntstp = 0
-sf_par = np.zeros(lent / 2)
-sf_perp = np.zeros(lent / 2)
-npts = np.zeros(lent / 2)
+sf_par = np.zeros(int(lent / 2))
+sf_perp = np.zeros(int(lent / 2))
+npts = np.zeros(int(lent / 2))
+
 
 def read_files(dir_data):
-    
-    filename=dir_data+'PHI'+'.BIN'
-    #print(filename)
+    filename = dir_data + 'PHI' + '.BIN'
+    # print(filename)
     fd = open(filename, 'rb')
 
-    abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
 
-    temp = np.reshape(abx,(nx,ny))
-    phi = temp.transpose() # missed the empty brackets here
-    #print(phi[22,:]) - working correctly 
+    temp = np.reshape(abx, (nx, ny))
+    phi = temp.transpose()  # missed the empty brackets here
+    # print(phi[22,:]) - working correctly
 
-    filename = dir_data + 'BX' + '.BIN' # 'B' + mode + str(t) + '.BIN' not sure why this was used: 
-    #print(filename)
+    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used:
+    # print(filename)
     fd = open(filename, 'rb')
 
-    abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
 
-    temp = np.reshape(abx, (nx,ny)) 
+    temp = np.reshape(abx, (nx, ny))
     bx = temp.transpose()
 
-    filename = dir_data + 'BY' + '.BIN' 
-    #print(filename)
+    filename = dir_data + 'BY' + '.BIN'
+    # print(filename)
     fd = open(filename, 'rb')
 
-    aby = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
 
-    temp = np.reshape(aby, (nx,ny)) 
+    temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
-    print(by[:,1])
+    print(by[:, 1])
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
 
+
 def struc_funk(ff, phi, bx, by):
     ll = ff * 1.0
-    #print(ll)
+    # print(ll)
 
     twoD_bool = True
 
@@ -141,11 +144,11 @@ def struc_funk(ff, phi, bx, by):
         if twoD_bool == True:
             # 2D method
             # choose a random point
-            ri = randint(0, lent, size=2) #1x2 array
+            ri = randint(0, lent, size=2)  # 1x2 array
 
             # 2D polars
             lr = rand(n_avg_bfield_pts) * ll / 2.0
-            theta = rand(n_avg_bfield_pts) * np.pi #want random theta not random costheta
+            theta = rand(n_avg_bfield_pts) * np.pi  # want random theta not random costheta
             lx = lr * np.cos(theta)
             ly = lr * np.sin(theta)
             xis = np.int_(np.floor(ri[0] + lx))
@@ -191,16 +194,16 @@ def struc_funk(ff, phi, bx, by):
             sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
 
             numpt = numpt + 1.0
-        
-        else: 
+
+        else:
             # 3D method
             # choose a random point
-            ri = randint(0, lent, size=3) #1x3 array
+            ri = randint(0, lent, size=3)  # 1x3 array
 
             # calculate the average b field direction in a sphere of radius ll around random point (xi,yi,zi)
             # do this by looping over npts_avg_field
             lr = rand(n_avg_bfield_pts) * ll / 2.0
-            theta = rand(n_avg_bfield_pts) * np.pi #want random theta not random costheta
+            theta = rand(n_avg_bfield_pts) * np.pi  # want random theta not random costheta
             phi = rand(n_avg_bfield_pts) * 2.0 * np.pi  # rand(5) - random nummber in certain shape array
             lx = lr * np.sin(theta) * np.cos(phi)
             ly = lr * np.sin(theta) * np.sin(phi)
@@ -262,25 +265,26 @@ def struc_funk(ff, phi, bx, by):
 
             numpt = numpt + 1.0
 
-    print(ll,numpt, sf_pare,sf_perpe,)
+    print(ll, numpt, sf_pare, sf_perpe, )
     return [numpt, sf_pare, sf_perpe]
+
 
 for t in range(0, 1, 1):  # the time loop
 
     if __name__ == '__main__':
         phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
 
-        #pool = Pool(processes=nprocs)
-        #sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
+        # pool = Pool(processes=nprocs)
+        # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
         sf_snapshot = []
-        sff = np.zeros((3, lent/4))
-        for i in range(lent/4):
+        sff = np.zeros((3, int(lent / 4)))
+        for i in range(int(lent / 4)):
             numpt_tmp, par_tmp, perp_tmp = struc_funk(i, phi, bx, by)
-            sff[0,i] = numpt_tmp
-            sff[1,i] = par_tmp
-            sff[2,i] = perp_tmp
+            sff[0, i] = numpt_tmp
+            sff[1, i] = par_tmp
+            sff[2, i] = perp_tmp
 
-        #pool.terminate()
+        # pool.terminate()
         print(np.shape(sff))
         print("The Process has Completed")
 
@@ -290,9 +294,9 @@ for t in range(0, 1, 1):  # the time loop
 
     # sff = np.asarray(sf_snapshot)
 
-    npts[0:lent / 4] = npts[0:lent / 4] + sff[0,:]
-    sf_par[0:lent / 4] = sf_par[0:lent / 4] + sff[1, :]
-    sf_perp[0:lent / 4] = sf_perp[0:lent / 4] + sff[2, :]
+    npts[0:int(lent / 4)] = npts[0:int(lent / 4)] + sff[0, :]
+    sf_par[0:int(lent / 4)] = sf_par[0:int(lent / 4)] + sff[1, :]
+    sf_perp[0:int(lent / 4)] = sf_perp[0:int(lent / 4)] + sff[2, :]
 
     # print(np.shape(sf_snapshot))
     # for q in range (0,lent/4) :
@@ -303,9 +307,7 @@ sf_perp = sf_perp / npts
 
 # writing the spectra to a file
 f = open(dir_output + 'sf_par_perp_v_' + mode + '.txt', 'w')
-for i in range(0, lent / 2):
+for i in range(0, int(lent / 2)):
     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
     f.write(value + "\n")
 f.close()
-
-

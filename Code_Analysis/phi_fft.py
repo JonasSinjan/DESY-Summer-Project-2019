@@ -119,7 +119,7 @@ def plot_power(dir1, dir2, n):
     para_total = (para_second + para_flipped) / 2.0
 
     start = 5
-    end = 40
+    end = 25
 
     slope, intercept, rval, p, err = linregress(np.log(range(start, end)), np.log(perp_total[start:end]))
     slope_par, intercept_par, rval_pa, p_para, err_para = linregress(np.log(range(start, end)),
@@ -182,8 +182,8 @@ if __name__ == "__main__":
     # dir_data2 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_test/power_spectra/"
     # plot_power(dir_data1, dir_data2, n)
 
-    dir_data3 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_twopi_test/"
-    dir_data4 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_twopi_test/power_spectra/"
+    dir_data3 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/"
+    dir_data4 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/power_spectra/"
     plot_power(dir_data3, dir_data4, n)
 
 # #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/power_spectra/"
