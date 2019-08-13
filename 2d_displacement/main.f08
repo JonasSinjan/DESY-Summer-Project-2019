@@ -199,7 +199,7 @@ program main
   by(:,:) = by0
 
   do j = 1, n
-    do i = 1, n
+    do i = 1, n ! what direction is this variation in, parallel or perp?
       by(i,j) = by(i,j) + 0.5*sin(2.0*x(i))
       by(i,j) = by(i,j) + 0.5*sin(4.0*x(i)+1.6)
     enddo
