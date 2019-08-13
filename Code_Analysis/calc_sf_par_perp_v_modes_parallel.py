@@ -34,7 +34,7 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 128
+size = 256
 lent = size
 
 sq_bool = False
@@ -50,8 +50,8 @@ else:
 # DATA INPUT AND OUTPUT PATH
 #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_frac/"  # data files
 #dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_frac/"  # data files
-dir_data = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/"  # data files
-dir_output = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/"  # data files
+dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
+dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
 # IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN -  CHECK!!!
 
@@ -96,7 +96,7 @@ npts = np.zeros(int(lent / 2))
 
 
 def read_files(dir_data):
-    filename = dir_data + 'PHI' + '.BIN'
+    filename = dir_data + 'PHI0' + '.BIN'
     # print(filename)
     fd = open(filename, 'rb')
 
@@ -115,6 +115,8 @@ def read_files(dir_data):
     temp = np.reshape(abx, (nx, ny))
     bx = temp.transpose()
 
+    bx.fill(1)
+
     filename = dir_data + 'BY' + '.BIN'
     # print(filename)
     fd = open(filename, 'rb')
@@ -123,6 +125,8 @@ def read_files(dir_data):
 
     temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
+
+    by = np.zeros((nx,ny))
     print(by[:, 1])
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
@@ -306,7 +310,7 @@ sf_par = sf_par / npts
 sf_perp = sf_perp / npts
 
 # writing the spectra to a file
-f = open(dir_output + 'sf_par_perp_v_' + mode + '.txt', 'w')
+f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
 for i in range(0, int(lent / 2)):
     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
     f.write(value + "\n")
