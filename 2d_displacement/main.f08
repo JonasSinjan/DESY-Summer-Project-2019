@@ -131,7 +131,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run2D_73_test/'
+  data_dir = './128run2D_73_frac/'
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
@@ -699,8 +699,8 @@ program main
       if (ky == 0) then !cant root 0
             continue
       else
-        tmp = abs(ky)**(-7/3) !2D
-        tmp2 = exp(-(twopi)**(1/3)*abs(kx)/(abs(ky)**(2/3)))
+        tmp = abs(ky)**(-7.0d0/3.0d0) !2D
+        tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
         amp = sqrt(tmp*tmp2) !amplitude
         do i = 1, n
           do j = 1, n
