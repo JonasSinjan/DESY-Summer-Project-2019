@@ -199,65 +199,11 @@ program main
   by(:,:) = by0
 
   do j = 1, n
-    do i = 1, n
+    do i = 1, n ! what direction is this variation in, parallel or perp?
       by(i,j) = by(i,j) + 0.5*sin(2.0*x(i))
       by(i,j) = by(i,j) + 0.5*sin(4.0*x(i)+1.6)
     enddo
   enddo
-
-  ! ! build a random magnetic field
-  ! do kj = 0, 2
-  !   do ki = 0, 2
-
-  !     kmod = sqrt(real(ki)**2 + real(kj)**2)
-
-  !     ! only continue if kmod is inside interval [1,2]
-  !     if ((kmod < 1) .or. (kmod > 2)) cycle
-
-  !     ! sort a random direction perpendicular to k
-  !     call random_number(b(:))
-  !     b(1) = b(1) - (b(1)*real(ki) + b(2)*real(kj))*real(ki)/(real(ki)**2 + real(kj)**2)
-  !     b(2) = b(2) - (b(1)*real(ki) + b(2)*real(kj))*real(kj)/(real(ki)**2 + real(kj)**2)
-  !     b(:) = b(:) / sqrt( sum(b(:)**2) )
-
-  !     call random_number(b1(:))
-  !     b1(1) = b1(1) - (b1(1)*real(ki) + b1(2)*real(kj))*real(ki)/(real(ki)**2 + real(kj)**2)
-  !     b1(2) = b1(2) - (b1(1)*real(ki) + b1(2)*real(kj))*real(kj)/(real(ki)**2 + real(kj)**2)
-  !     b1(:) = b1(:) / sqrt( sum(b1(:)**2) )
-
-  !     ! sort random phases
-  !     call random_number(ph1)
-  !     ph1 = ph1*twopi
-
-  !     call random_number(ph2)
-  !     ph2 = ph2*twopi
-
-  !     do j = 1, n
-  !       do i = 1, n
-
-  !         aux1 = b(1)*cos(real(ki)*x(i) + real(kj)*y(j) + ph1)
-  !         aux2 = b(2)*cos(real(ki)*x(i) + real(kj)*y(j) + ph1)
-
-  !         if ((ki > 0) .and. (kj > 0)) then
-  !           aux1 = aux1 + b1(1)*cos(real(ki)*x(i) - real(kj)*y(j) + ph2)
-  !           aux2 = aux2 + b1(2)*cos(real(ki)*x(i) - real(kj)*y(j) + ph2)
-  !         endif
-
-  !         if (kmod > 0.) then
-  !           aux1 = 2.*aux1
-  !           aux2 = 2.*aux2
-  !         endif
-
-  !         bx(i,j) = bx(i,j) + aux1
-  !         by(i,j) = by(i,j) + aux2
-
-  !       enddo
-  !     enddo
-
-  !   enddo ! ki
-  ! enddo ! kj
-
-  !print*, by(:,1)  ! printing by in x direction - should see variation
 
   file_out = trim(data_dir) // 'MAGNETIC.DAT' 
   open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
@@ -330,7 +276,7 @@ program main
 
     ! prepare plans for the dft (plan1) and dft inverse (plan2)
 #ifdef DP
-    plan1 = fftw_plan_dft_r2c_2d(m, m, f, bxk, FFTW_ESTIMATE)
+    plan1 = fftw_plan_dft_r2c_2d(m, m, f, bxk, FFTW_ESTIMATE) !2D
     plan2 = fftw_plan_dft_c2r_2d(m, m, bxk, f, FFTW_ESTIMATE)
 #else
     plan1 = fftwf_plan_dft_r2c_2d(m, m, f, bxk, FFTW_ESTIMATE)
@@ -809,86 +755,6 @@ program main
 
   !   enddo
   ! enddo
-
-
-!     ! create plan
-! #ifdef DP
-!     plan_phi0 = fftw_plan_dft_c2r_2d (m, m, phi0k, phi0, FFTW_ESTIMATE)
-! #else
-!     plan_phi0 = fftwf_plan_dft_c2r_2d (m, m, phi0k, phi0, FFTW_ESTIMATE)
-! #endif
-
-!     ! ------------------------------------------------------------------------
-!     ! loop over wavenumbers to build scalar field phi0k
-!     ! ------------------------------------------------------------------------
-!     phi0k(:,:) = 0.
-
-!     kmax = real(m)/2.
-
-!     ! SKIP NYQUIST FREQUENCY
-!     do kj = min((-m/2 + 1), 0), m/2-1
-!       if (kj >= 0) then
-!         j = kj + 1
-!       else
-!         j = m + kj + 1
-!       endif
-
-!       ! SKIP NYQUIST FREQUENCY
-!       do ki = 0, m/2-1
-!         i = ki + 1
-
-!         if ((ki == 0) .and. (kj == 0)) cycle
-
-!         k_para = real(ki)
-!         k_perp = real(kj)
-!         kmod = sqrt(k_para**2 + k_perp**2)
-
-!         ! GS95
-!         if (k_perp > 0.) then
-!          E_coeff = k_perp**(-7./3.)*exp(-k_para/k_perp**(2./3.))  ! 2D
-!          !E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
-!         else
-!          E_coeff = 0.
-!         endif
-
-!         ! Kolmogorov
-!         !E_coeff = kmod**(-8./3.) ! 2D
-!         !E_coeff = kmod**(-11./3.) ! 3D
-
-!         ! Kolmogorov + anisotropy
-!         ! E_coeff = (k_para**2 + (k_perp/(1.d0 + anis))**2)**(-8./6.) ! 2D
-!         !E_coeff = (k_para**2 + (k_perp/(1.d0 + anis))**2)**(-11./6.) ! 3D
-
-!         if (kmod > kmax) then
-!           phi0k(i,j) = (0.d0, 0.d0)
-!         else
-!         ! sort random phase
-!           call random_number(ph)
-!           ph = ph*twopi
-!           phi0k(i,j) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-!         endif
-
-!       enddo ! ki
-!     enddo ! kj
-
-!     ! execute inverse DFT
-! #ifdef DP
-!     call fftw_execute_dft_c2r(plan_phi0, phi0k, phi0)
-! #else
-!     call fftwf_execute_dft_c2r(plan_phi0, phi0k, phi0)n/2 + 1
-! #endif
-
-!     ! normalise FFT
-!     ! phi0(:,:) = phi0(:,:)/real(m*m)
-
-!     ! destroy plan
-! #ifdef DP
-!     call fftw_destroy_plan(plan_phi0)
-! #else
-!     call fftwf_destroy_plan(plan_phi0)
-! #endif
-
-!   deallocate (phi0k)
 
   print*, '* Writing file: phi_0'
 

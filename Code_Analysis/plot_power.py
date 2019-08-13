@@ -5,7 +5,6 @@ from scipy.stats import linregress
 n = 128
 
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/power_spectra/"  # data files
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/power_spectra/"
 
 # perpendicular
 filename = dir_data + 'PS_KT_PHI.DAT'

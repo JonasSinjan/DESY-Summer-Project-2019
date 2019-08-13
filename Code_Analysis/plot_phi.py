@@ -43,7 +43,6 @@ fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
 
-
 ax1 = plt.subplot(gs[1],aspect='equal')
 z=temp2
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
@@ -53,4 +52,3 @@ plt.clim()   # clamp the color limits
 plt.colorbar()
 
 plt.show()
-fig.savefig('test.eps',dpi=300,bbox_inches='tight')
