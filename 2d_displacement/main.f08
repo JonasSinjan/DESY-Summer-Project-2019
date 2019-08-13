@@ -700,7 +700,7 @@ program main
             continue
       else
         tmp = abs(ky)**(-7/3) !2D
-        tmp2 = exp(-abs(kx)/(abs(ky)**(2/3)))
+        tmp2 = exp(-(twopi)**(1/3)*abs(kx)/(abs(ky)**(2/3)))
         amp = sqrt(tmp*tmp2) !amplitude
         do i = 1, n
           do j = 1, n
