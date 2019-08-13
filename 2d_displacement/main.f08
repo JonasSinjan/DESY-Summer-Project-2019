@@ -131,7 +131,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run2D_73_test/'
+  data_dir = './128run2D_73_twopi_test/'
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
