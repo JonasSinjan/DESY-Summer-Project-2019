@@ -18,7 +18,8 @@ from matplotlib import ticker
 from matplotlib import gridspec
 
 # data files
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73_test/"
+#dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73_test/" 
+dir_data = "c:/Users/jonas/DESY/2d_displacement/Runs/128run2D_73/"
 
 #2D
 n = 128
@@ -82,5 +83,5 @@ plt.clim()   # clamp the color limits
 plt.colorbar()
 plt.xlabel('K_parallel')
 plt.ylabel('K_perp')
-
-plt.show()
+#plt.savefig('test')
+#plt.show()
