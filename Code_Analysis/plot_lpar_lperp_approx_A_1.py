@@ -36,7 +36,7 @@ def lppcorr(llv,sfpar,sfperp) :
   return [lperp_arr,lpar_arr]
 
 ####################################################################################
-max_size = 256.0
+max_size = 512.0
 ####################################################################################
 
 # filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/sf_par_perp_v_F.txt'
@@ -159,7 +159,7 @@ max_size = 256.0
 # lpar7 = lpyare/lentf
 # lperp7 = lperpe/lentf
 
-filename = 'c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/sf_par_perp_v_F.txt'
+filename = 'c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
 lentf=128.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -193,7 +193,7 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar9 = lpyare/lentf
 lperp9 = lperpe/lentf
 
-filename = 'c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_phi0F.txt'
+filename = 'c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
 lentf=256.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -209,6 +209,23 @@ sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
 lpar10 = lpyare/lentf
 lperp10 = lperpe/lentf
+
+filename = 'c:/Users/jonas/DESY/2d_displacement/512run2D_73_frac/sf_par_perp_v_phi0F.txt'
+lentf=512.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar11 = lpyare/lentf
+lperp11 = lperpe/lentf
 #
 # # in lper and lpar arrays they stop and become 0 - unsure why - this is a filter to slice the array for plotting due to log scale errors with zero otherwise
 # for count, i in enumerate(lperp4):
@@ -261,6 +278,12 @@ for count_256frac_phi0, i in enumerate(lperp10):
      print(count_256frac_phi0)
      break
 
+for count_512frac_phi0, i in enumerate(lperp11):
+   if  i <= 0.0001:
+     print(count_512frac_phi0)
+     break
+
+
 #reference slopes
 
 ref_slope_2_3 = lpar9[10]*(np.power(lperp9[:count_256frac],(2.0/3.0))/np.power(lperp9[12],(2.0/3.0)))
@@ -272,9 +295,11 @@ gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0])
 
-ax0.plot(lperp8[:count_128frac], lpar8[:count_128frac], lw=3, ls = "-", label="128_displacement_frac")
-ax0.plot(lperp9[:count_256frac], lpar9[:count_256frac], lw=3, ls = "-", label="256_displacement_frac")
+ax0.plot(lperp8[:count_128frac], lpar8[:count_128frac], lw=3, ls = "-", label="128_displacement_frac_PHI0")
+#ax0.plot(lperp9[:count_256frac], lpar9[:count_256frac], lw=3, ls = "-", label="256_displacement_frac")
 ax0.plot(lperp10[:count_256frac_phi0], lpar10[:count_256frac_phi0], lw=3, ls = "-", label="256_displacement_PHI0")
+ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "-", label="512_displacement_PHI0")
+
 # ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
 # ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
 # ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
