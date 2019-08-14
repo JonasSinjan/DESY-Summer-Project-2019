@@ -264,6 +264,23 @@ sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
 lpar13 = lpyare/lentf
 lperp13 = lperpe/lentf
+
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_mod4/sf_par_perp_v_phi0F.txt'
+lentf=512.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar14 = lpyare/lentf
+lperp14 = lperpe/lentf
 #
 # # in lper and lpar arrays they stop and become 0 - unsure why - this is a filter to slice the array for plotting due to log scale errors with zero otherwise
 # for count, i in enumerate(lperp4):
@@ -329,7 +346,12 @@ for count_128mod4_phi0, i in enumerate(lperp12):
 for count_256mod4_phi0, i in enumerate(lperp13):
   if  i <= 0.0001:
     print(count_256mod4_phi0)
-    break     
+    break   
+
+for count_512mod4_phi0, i in enumerate(lperp14):
+  if  i <= 0.0001:
+    print(count_512mod4_phi0)
+    break   
 
 #reference slopes
 
@@ -348,6 +370,7 @@ ax0.plot(lperp10[:count_256frac_phi0], lpar10[:count_256frac_phi0], lw=3, ls = "
 ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "-", label="512_displacement_PHI0")
 ax0.plot(lperp12[:count_128mod4_phi0], lpar12[:count_128mod4_phi0], lw=3, ls = "-", label="128_mod4_PHI0")
 ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=3, ls = "-", label="256_mod4_PHI0")
+ax0.plot(lperp14[:count_512mod4_phi0], lpar14[:count_512mod4_phi0], lw=3, ls = "-", label="512_mod4_PHI0")
 # ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
 # ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
 # ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
