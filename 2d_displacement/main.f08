@@ -698,6 +698,7 @@ program main
       ky = (-(n-1)/2 + 1) + kj
       if ((ky .GE. -4) .AND. (ky .LE. 4)) then
             continue
+      endif
       call random_number(num)
       if (ky == 0) then !cant root 0
             continue
