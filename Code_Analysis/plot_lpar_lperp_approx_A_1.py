@@ -159,7 +159,8 @@ max_size = 512.0
 # lpar7 = lpyare/lentf
 # lperp7 = lperpe/lentf
 
-filename = 'c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
+#filename = 'c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
 lentf=128.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -176,24 +177,26 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar8 = lpyare/lentf
 lperp8 = lperpe/lentf
 
-filename = 'c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_F.txt'
-lentf=256.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar9 = lpyare/lentf
-lperp9 = lperpe/lentf
+# #filename = 'c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_F.txt'
+# filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_F.txt'
+# lentf=256.0
+# data = np.loadtxt(filename,skiprows=1)
+# ll = data[:,0]
+# sf_par = data[:,1]
+# sf_perp= data[:,2]
+# valid = ~np.isnan(sf_perp)
+# sf_perp = sf_perp[valid]
+# ll = ll[valid]
+# sf_par = sf_par[valid]
+# lent = np.size(ll)
+# sf_par_smoothed = smoothing(sf_par)
+# sf_perp_smoothed= smoothing(sf_perp)
+# [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+# lpar9 = lpyare/lentf
+# lperp9 = lperpe/lentf
 
-filename = 'c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
+#filename = 'c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
 lentf=256.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -210,7 +213,8 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar10 = lpyare/lentf
 lperp10 = lperpe/lentf
 
-filename = 'c:/Users/jonas/DESY/2d_displacement/512run2D_73_frac/sf_par_perp_v_phi0F.txt'
+#filename = 'c:/Users/jonas/DESY/2d_displacement/512run2D_73_frac/sf_par_perp_v_phi0F.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_frac/sf_par_perp_v_phi0F.txt'
 lentf=512.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -226,6 +230,40 @@ sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
 lpar11 = lpyare/lentf
 lperp11 = lperpe/lentf
+
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73_mod4/sf_par_perp_v_phi0F.txt'
+lentf=128.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar12 = lpyare/lentf
+lperp12 = lperpe/lentf
+
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D_73_mod4/sf_par_perp_v_phi0F.txt'
+lentf=256.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar13 = lpyare/lentf
+lperp13 = lperpe/lentf
 #
 # # in lper and lpar arrays they stop and become 0 - unsure why - this is a filter to slice the array for plotting due to log scale errors with zero otherwise
 # for count, i in enumerate(lperp4):
@@ -268,10 +306,10 @@ for count_128frac, i in enumerate(lperp8):
      print(count_128frac)
      break
 
-for count_256frac, i in enumerate(lperp9):
-   if  i <= 0.0001:
-     print(count_256frac)
-     break
+# for count_256frac, i in enumerate(lperp9):
+#    if  i <= 0.0001:
+#      print(count_256frac)
+#      break
 
 for count_256frac_phi0, i in enumerate(lperp10):
    if  i <= 0.0001:
@@ -283,10 +321,19 @@ for count_512frac_phi0, i in enumerate(lperp11):
      print(count_512frac_phi0)
      break
 
+for count_128mod4_phi0, i in enumerate(lperp12):
+  if  i <= 0.0001:
+    print(count_128mod4_phi0)
+    break
+
+for count_256mod4_phi0, i in enumerate(lperp13):
+  if  i <= 0.0001:
+    print(count_256mod4_phi0)
+    break     
 
 #reference slopes
 
-ref_slope_2_3 = lpar9[10]*(np.power(lperp9[:count_256frac],(2.0/3.0))/np.power(lperp9[12],(2.0/3.0)))
+ref_slope_2_3 = lpar10[10]*(np.power(lperp10[:count_256frac_phi0],(2.0/3.0))/np.power(lperp10[12],(2.0/3.0)))
 # ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
  
 fig=plt.figure()
@@ -299,7 +346,8 @@ ax0.plot(lperp8[:count_128frac], lpar8[:count_128frac], lw=3, ls = "-", label="1
 #ax0.plot(lperp9[:count_256frac], lpar9[:count_256frac], lw=3, ls = "-", label="256_displacement_frac")
 ax0.plot(lperp10[:count_256frac_phi0], lpar10[:count_256frac_phi0], lw=3, ls = "-", label="256_displacement_PHI0")
 ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "-", label="512_displacement_PHI0")
-
+ax0.plot(lperp12[:count_128mod4_phi0], lpar12[:count_128mod4_phi0], lw=3, ls = "-", label="128_mod4_PHI0")
+ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=3, ls = "-", label="256_mod4_PHI0")
 # ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
 # ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
 # ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
@@ -308,7 +356,7 @@ ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "
 # ax0.plot(lperp6[:count_512], lpar6[:count_512], lw=4, ls = "--", label="512_73")
 # ax0.plot(lperp7[:count_512_para], lpar7[:count_512_para], lw=4, ls = "--", label="512_73_PARA")
 # ax0.plot(lperp4, ref_slope_1, lw=5,ls=":",label="Isotropic",color="blue")
-ax0.plot(lperp9[:count_256frac], ref_slope_2_3, lw=4, label="GS95", ls = "-", color="black")
+ax0.plot(lperp10[:count_256frac_phi0], ref_slope_2_3, lw=4, label="GS95", ls = "-", color="black")
 ax0.set_xscale('log')
 ax0.set_yscale('log')
 #ax0.set_xlim(xmin=0.002)
