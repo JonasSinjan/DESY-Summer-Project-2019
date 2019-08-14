@@ -53,7 +53,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 7
+  integer :: ngrids = 9
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: anis = 1.
@@ -131,7 +131,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run2D_73_mod4/'
+  data_dir = './512run2D_73_mod4/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -696,21 +696,23 @@ program main
     endif
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
-      if ((ky .GE. -4) .AND. (ky .LE. 4)) then
+      if (abs(ky) <  5) then
             continue
-      endif
-      call random_number(num)
-      if (ky == 0) then !cant root 0
+      else 
+        call random_number(num)
+        if (ky == 0) then !cant root 0
             continue
-      else
-        tmp = abs(ky)**(-7.0d0/3.0d0) !2D
-        tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
-        amp = sqrt(tmp*tmp2) !amplitude
-        do i = 1, n
-          do j = 1, n
-            phi0(i,j) = phi0(i,j) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + num*twopi)
-          enddo
-        enddo
+        else
+           !print*, ky
+           tmp = abs(ky)**(-7.0d0/3.0d0) !2D
+           tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
+           amp = sqrt(tmp*tmp2) !amplitude
+           do i = 1, n
+             do j = 1, n
+             phi0(i,j) = phi0(i,j) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + num*twopi)
+             enddo
+           enddo
+        endif  
       endif
     enddo
   enddo
