@@ -98,7 +98,7 @@ def plot_power(dir1, dir2, n):
     plt.ylabel('K_parallel')
     plt.xlabel('K_perp')
     plt.title('FFT of Phi')
-    plt.savefig('test')
+    #plt.savefig('test')
     plt.show()
 
     perp_spectrum = np.zeros(nx)
