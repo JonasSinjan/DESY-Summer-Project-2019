@@ -127,7 +127,7 @@ def read_files(dir_data):
     by = temp.transpose()
 
     by = np.zeros((nx,ny))
-    print(by[:, 1])
+    print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
 
