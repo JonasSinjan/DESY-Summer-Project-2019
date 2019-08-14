@@ -131,7 +131,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run2D_73_frac/'
+  data_dir = './128run2D_73_mod4/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -696,6 +696,9 @@ program main
     endif
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
+      if ((ky .GE. -4) .AND. (ky .LE. 4)) then
+            continue
+      endif
       call random_number(num)
       if (ky == 0) then !cant root 0
             continue
