@@ -48,10 +48,10 @@ else:
     ny = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-#dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_frac/"  # data files
-#dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_frac/"  # data files
-dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
-dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D_73_mod4/"  # data files
+dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D_73_mod4/"  # data files
+#dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
+#dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
 # IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN -  CHECK!!!
 
