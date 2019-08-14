@@ -355,7 +355,7 @@ for count_512mod4_phi0, i in enumerate(lperp14):
 
 #reference slopes
 
-ref_slope_2_3 = lpar10[10]*(np.power(lperp10[:count_256frac_phi0],(2.0/3.0))/np.power(lperp10[12],(2.0/3.0)))
+ref_slope_2_3 = lpar11[10]*(np.power(lperp11[:count_512frac_phi0],(2.0/3.0))/np.power(lperp11[12],(2.0/3.0)))
 # ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
  
 fig=plt.figure()
@@ -368,9 +368,9 @@ ax0.plot(lperp8[:count_128frac], lpar8[:count_128frac], lw=3, ls = "-", label="1
 #ax0.plot(lperp9[:count_256frac], lpar9[:count_256frac], lw=3, ls = "-", label="256_displacement_frac")
 ax0.plot(lperp10[:count_256frac_phi0], lpar10[:count_256frac_phi0], lw=3, ls = "-", label="256_displacement_PHI0")
 ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "-", label="512_displacement_PHI0")
-ax0.plot(lperp12[:count_128mod4_phi0], lpar12[:count_128mod4_phi0], lw=3, ls = "-", label="128_mod4_PHI0")
-ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=3, ls = "-", label="256_mod4_PHI0")
-ax0.plot(lperp14[:count_512mod4_phi0], lpar14[:count_512mod4_phi0], lw=3, ls = "-", label="512_mod4_PHI0")
+ax0.plot(lperp12[:count_128mod4_phi0], lpar12[:count_128mod4_phi0], lw=7, ls = ":", label="128_mod4_PHI0")
+ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=7, ls = ":", label="256_mod4_PHI0")
+ax0.plot(lperp14[:count_512mod4_phi0], lpar14[:count_512mod4_phi0], lw=7, ls = ":", label="512_mod4_PHI0")
 # ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
 # ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
 # ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
@@ -379,12 +379,12 @@ ax0.plot(lperp14[:count_512mod4_phi0], lpar14[:count_512mod4_phi0], lw=3, ls = "
 # ax0.plot(lperp6[:count_512], lpar6[:count_512], lw=4, ls = "--", label="512_73")
 # ax0.plot(lperp7[:count_512_para], lpar7[:count_512_para], lw=4, ls = "--", label="512_73_PARA")
 # ax0.plot(lperp4, ref_slope_1, lw=5,ls=":",label="Isotropic",color="blue")
-ax0.plot(lperp10[:count_256frac_phi0], ref_slope_2_3, lw=4, label="GS95", ls = "-", color="black")
+ax0.plot(lperp11[:count_512frac_phi0], ref_slope_2_3, lw=7, label="GS95", ls = "-", color="black")
 ax0.set_xscale('log')
 ax0.set_yscale('log')
 #ax0.set_xlim(xmin=0.002)
-#ax0.set_xlim(xmax=0.3)
-#ax0.set_ylim(ymax=0.3)
+ax0.set_xlim(xmax=0.4)
+ax0.set_ylim(ymax=0.4)
 #ax0.set_ylim(ymin=0.002)
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
