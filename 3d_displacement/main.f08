@@ -102,7 +102,7 @@ program main
   real(sp) :: b(3), b2 !3d
   real(sp) :: b1(3), ph1, ph2, ph3, aux1, aux2, aux3 !3d
   real(sp) :: rxp, ryp, drxp, dryp, rzp, drzp !3d
-  real(sp) :: wx0, wx1, wy0, wy1
+  real(sp) :: wx0, wx1, wy0, wy1, wz0, wz1
   real(sp) :: kmax, kmod
 
   real(sp) :: k_para, k_perp, E_coeff, ph
@@ -114,8 +114,8 @@ program main
   integer :: l
   integer :: m
   integer :: i, j, k
-  integer :: ii, jj
-  integer :: iip1, jjp1
+  integer :: ii, jj, k_k
+  integer :: iip1, jjp1, kkp1
   integer :: ki, kj, kk !3d
   integer :: lun
   real(sp) :: tmp, tmp2
@@ -786,72 +786,78 @@ program main
 
 
   ! ------------------------------------------------------------------------
-  ! calculate origin points rx0 and ry0
+  ! calculate origin points rx0, ry0 and rz0
   ! ------------------------------------------------------------------------
-  allocate (rx0(n,n))
-  allocate (ry0(n,n))
+  allocate (rx0(n,n,n))
+  allocate (ry0(n,n,n))
+  allocate (rz0(n,n,n))
 
-  do j = 1, n
-    do i = 1, n
+  do k = 1, n
+    do j = 1, n
+      do i = 1, n
 
-      ! start point for regression
-      rxp = real(i - 1)*h
-      ryp = real(j - 1)*h
+        rxp = real(i - 1)*h
+        ryp = real(j - 1)*h
+        rzp = real(k - 1)*h
+  
+        rx0(i,j,k) = rxp
+        ry0(i,j,k) = ryp
+        ry0(i,j,k) = rzp
 
-      rx0(i,j) = rxp
-      ry0(i,j) = ryp
+        do l = 1, ngrids
 
-      ! add displacement contribution from each grid level
-      do l = 1, ngrids
+          ! gives account of the periodicity
+          rxp = mod(rxp, twopi)
+          ryp = mod(ryp, twopi)
+          rzp = mod(rzp, twopi)
 
-        ! interpolate drx and drz at position (rxp, ryp)
+          if (rxp < 0.) rxp = rxp + twopi
+          if (ryp < 0.) ryp = ryp + twopi
+          if (rzp < 0.) rzp = rzp + twopi
 
-        ! gives account of the periodicity
-        rxp = mod(rxp, twopi)
-        ryp = mod(ryp, twopi)
-        if (rxp < 0.) rxp = rxp + twopi
-        if (ryp < 0.) ryp = ryp + twopi
+          ! calculate the left lower corner grid point indices
+          ii = floor(rxp/h) + 1
+          jj = floor(ryp/h) + 1
+          k_k = floor(rzp/h) + 1
 
-        ! calculate the left lower corner grid point indices
-        ii = floor(rxp/h) + 1
-        jj = floor(ryp/h) + 1
+          ! calculate the right upper corner grid point indices
+          iip1 = ii + 1
+          jjp1 = jj + 1
+          kkp1 = k_k + 1
 
-        ! calculate the right upper corner grid point indices
-        iip1 = ii + 1
-        jjp1 = jj + 1
+          if (iip1 > n) iip1 = 2
+          if (jjp1 > n) jjp1 = 2
+          if (kkp1 > n) kkp1 = 2
 
-        if (iip1 > n) iip1 = 2
-        if (jjp1 > n) jjp1 = 2
+          ! calculate linear weigths for the interpolation
+          wx1 = mod(rxp, h)/h
+          wy1 = mod(ryp, h)/h
+          wz1 = mod(rzp, h)/h
 
-        ! calculate linear weigths for the interpolation
-        wx1 = mod(rxp, h)/h
-        wy1 = mod(ryp, h)/h
+          wx0 = 1.d0 - wx1
+          wy0 = 1.d0 - wy1
+          wz0 = 1.d0 - wz1
 
-        wx0 = 1.d0 - wx1
-        wy0 = 1.d0 - wy1
+          ! perform triple trilinear interpolation
+          
 
-        ! perform bilinear interpolation
-        drxp =   wx0*wy0*mgrid(l)%drx(ii  , jj  ) &
-               + wx1*wy0*mgrid(l)%drx(iip1, jj  ) &
-               + wx0*wy1*mgrid(l)%drx(ii  , jjp1) &
-               + wx1*wy1*mgrid(l)%drx(iip1, jjp1)
+          
 
-        dryp =   wx0*wy0*mgrid(l)%dry(ii  , jj  ) &
-               + wx1*wy0*mgrid(l)%dry(iip1, jj  ) &
-               + wx0*wy1*mgrid(l)%dry(ii  , jjp1) &
-               + wx1*wy1*mgrid(l)%dry(iip1, jjp1)
+          ! new normalised positions (periodic)
+          rxp = rxp + drxp
+          ryp = ryp + dryp
+          rzp = rzp + drzp
 
-        rxp = rxp + drxp
-        ryp = ryp + dryp
+          !new positions
+          rx0(i,j,k) = rx0(i,j,k) + drxp
+          ry0(i,j,k) = ry0(i,j,k) + dryp
+          rz0(i,j,k) = rz0(i,j,k) + drzp
 
-        rx0(i,j) = rx0(i,j) + drxp
-        ry0(i,j) = ry0(i,j) + dryp
-
+        enddo
+        
       enddo
-
     enddo
   enddo
-
 
   ! ------------------------------------------------------------------------
   ! calculate total displacement fields drx and dry and write to file - UNSURE FOR 3D
@@ -969,42 +975,46 @@ program main
   ! ------------------------------------------------------------------------
   allocate (phi(n,n,n))
 
-  do j = 1, n
-    do i = 1, n
+  do k = 1, n
+    do j = 1, n
+      do i = 1, n
 
-      rxp = rx0(i,j)
-      ryp = ry0(i,j)
 
-      ! gives account of the periodicity
-      rxp = mod(rxp, twopi)
-      ryp = mod(ryp, twopi)
-      if (rxp < 0.) rxp = rxp + twopi
-      if (ryp < 0.) ryp = ryp + twopi
 
-      ! calculate the left lower corner grid point indices
-      ii = floor(rxp/h) + 1
-      jj = floor(ryp/h) + 1
+        ! rxp = rx0(i,j)
+        ! ryp = ry0(i,j)
 
-      ! calculate the right upper corner grid point indices
-      iip1 = ii + 1
-      jjp1 = jj + 1
+        ! ! gives account of the periodicity
+        ! rxp = mod(rxp, twopi) !computes remainder of the division (modulo)
+        ! ryp = mod(ryp, twopi)
+        ! if (rxp < 0.) rxp = rxp + twopi
+        ! if (ryp < 0.) ryp = ryp + twopi
 
-      if (iip1 > n) iip1 = 2
-      if (jjp1 > n) jjp1 = 2
+        ! ! calculate the left lower corner grid point indices
+        ! ii = floor(rxp/h) + 1 !returns greatest integer less than argument
+        ! jj = floor(ryp/h) + 1
 
-      ! calculate linear weigths for the interpolation
-      wx1 = mod(rxp, h)/h
-      wy1 = mod(ryp, h)/h
+        ! ! calculate the right upper corner grid point indices
+        ! iip1 = ii + 1
+        ! jjp1 = jj + 1
 
-      wx0 = 1.d0 - wx1
-      wy0 = 1.d0 - wy1
+        ! if (iip1 > n) iip1 = 2
+        ! if (jjp1 > n) jjp1 = 2
 
-      ! perform bilinear interpolation
-      phi(i,j) =   wx0*wy0*phi0(ii  , jj  ) &
-                 + wx1*wy0*phi0(iip1, jj  ) &
-                 + wx0*wy1*phi0(ii  , jjp1) &
-                 + wx1*wy1*phi0(iip1, jjp1)
+        ! ! calculate linear weigths for the interpolation
+        ! wx1 = mod(rxp, h)/h
+        ! wy1 = mod(ryp, h)/h
 
+        ! wx0 = 1.d0 - wx1
+        ! wy0 = 1.d0 - wy1
+
+        ! ! perform bilinear interpolation
+        ! phi(i,j) =   wx0*wy0*phi0(ii  , jj  ) &
+        !            + wx1*wy0*phi0(iip1, jj  ) &
+        !            + wx0*wy1*phi0(ii  , jjp1) &
+        !            + wx1*wy1*phi0(iip1, jjp1)
+
+      enddo
     enddo
   enddo
 
