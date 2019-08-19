@@ -364,9 +364,9 @@ program main
           kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
 
           if (kmod > kmax) then
-            bxk(i,j,k) = (0.d0, 0.d0,0.d0)
-            byk(i,j,k) = (0.d0, 0.d0,0.d0)
-            bxk(i,j,k) = (0.d0, 0.d0,0.d0)
+            bxk(i,j,k) = (0.d0, 0.d0, 0.d0)
+            byk(i,j,k) = (0.d0, 0.d0, 0.d0)
+            bxk(i,j,k) = (0.d0, 0.d0, 0.d0)
           endif
 
         enddo
