@@ -511,26 +511,26 @@ program main
     m = n - 1
 
     ! allocate auxiliary matrices
-    allocate (f(m, m))
-    allocate (dbxk((m/2 + 1), m))
-    allocate (dbyk((m/2 + 1), m))
-    allocate (etzk((m/2 + 1), m))
+    allocate (f(m, m, m)) !3d
+    allocate (dbxk((m/2 + 1), m, m))
+    allocate (dbyk((m/2 + 1), m, m))
+    allocate (etzk((m/2 + 1), m, m))
 
     ! prepare plans for the dft (plan1) and dft inverse (plan2)
 #ifdef DP
-    plan1 = fftw_plan_dft_r2c_2d(m, m, f, dbxk, FFTW_ESTIMATE)
-    plan2 = fftw_plan_dft_c2r_2d(m, m, etzk, f, FFTW_ESTIMATE)
+    plan1 = fftw_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE) !3d
+    plan2 = fftw_plan_dft_c2r_3d(m, m, m, etzk, f, FFTW_ESTIMATE)
 #else
-    plan1 = fftwf_plan_dft_r2c_2d(m, m, f, dbxk, FFTW_ESTIMATE)
-    plan2 = fftwf_plan_dft_c2r_2d(m, m, etzk, f, FFTW_ESTIMATE)
+    plan1 = fftwf_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE)
+    plan2 = fftwf_plan_dft_c2r_3d(m, m, m, etzk, f, FFTW_ESTIMATE)
 #endif
 
     ! transform dbx and dby to fourier space, destroy plan1
 #ifdef DP
-    f(:,:) = mgrid(l)%dbx(1:m,1:m)
+    f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
     call fftw_execute_dft_r2c(plan1, f, dbxk)
 
-    f(:,:) = mgrid(l)%dby(1:m,1:m)
+    f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
     call fftw_execute_dft_r2c(plan1, f, dbyk)
 
     call fftw_destroy_plan(plan1)
