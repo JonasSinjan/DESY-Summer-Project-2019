@@ -366,7 +366,7 @@ program main
           if (kmod > kmax) then
             bxk(i,j,k) = (0.d0, 0.d0, 0.d0)
             byk(i,j,k) = (0.d0, 0.d0, 0.d0)
-            bxk(i,j,k) = (0.d0, 0.d0, 0.d0)
+            bzk(i,j,k) = (0.d0, 0.d0, 0.d0)
           endif
 
         enddo
