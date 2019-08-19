@@ -76,7 +76,7 @@ program main
   real(sp), dimension(:), allocatable :: x, y, z
   real(sp) :: time, dx, dy, dz
 
-  real(sp), dimension(:,:.:), allocatable :: phi0
+  real(sp), dimension(:,:,:), allocatable :: phi0
   real(sp), dimension(:,:,:), allocatable :: phi
   complex(sp), dimension(:,:,:), allocatable :: phi0k
 
@@ -1054,7 +1054,7 @@ program main
         wz0 = 1.d0 - wz1
 
         !trilinear interpolation for phi
-        
+
         !linear interp in first index
         c_00 = wx0*phi0(ii,jj,k_k) + wx1*phi0(iip1,jj,k_k)
         c_01 = wx0*phi0(ii,jj,kkp1) + wx1*phi0(iip1,jj,kkp1)
