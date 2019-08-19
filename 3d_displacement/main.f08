@@ -273,7 +273,9 @@ program main
     allocate (mgrid(l)%dbx(n,n,n))
     allocate (mgrid(l)%dby(n,n,n))
     allocate (mgrid(l)%dbz(n,n,n)) !3d
-    allocate (mgrid(l)%etz(n,n,n))
+    allocate (mgrid(l)%etz_x(n,n,n))
+    allocate (mgrid(l)%etz_y(n,n,n))
+    allocate (mgrid(l)%etz_z(n,n,n))
     allocate (mgrid(l)%drx(n,n,n))
     allocate (mgrid(l)%dry(n,n,n))
     allocate (mgrid(l)%drz(n,n,n)) !3d
@@ -552,8 +554,8 @@ program main
     """
     TODO:
     FIXME: 
-            1. not sur about whether to require plan for all etz components
-            2. in 2D only made plan for  dbxk and yet did dft for both x and y
+            1. not sure about whether to require plan for all etz components - SOLVED - DID EACH SEPARATELY LIKE BX,BY,BZ
+            2. in 2D only made plan for  dbxk and yet did dft for both x and y? - check to see if works now
     """
     ! prepare plans for the dft (plan1) and dft inverse (plan2)
 #ifdef DP
@@ -735,6 +737,7 @@ program main
   ! calculate displacement field dr from equation 
   ! et = dr x b in each grid level
   ! (need to assume dr . b = 0)
+  ! 3d SO cross product
   ! ------------------------------------------------------------------------
   do l = 1, ngrids
 
@@ -886,22 +889,8 @@ program main
   ! allocate (phi0k((m/2 + 1), m))
 
   phi0(:,:,:) = 0 ! initialise all entries to zero
-  
- 
-  !rand_seed =(/75421/)
-  !call random_seed(put=rand_seed)
-
-
-  ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
-  ! print *, n
-
-  !---ALTERNATIVE TIMING---
-
-  !call system_clock(start_time, count_rate, count_max)
-  !time_init = start_time*1.0/count_rate
 
   print*, omp_get_max_threads()
-  !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
   
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
