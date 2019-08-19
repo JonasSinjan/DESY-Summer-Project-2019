@@ -759,22 +759,27 @@ program main
 
 
   ! ------------------------------------------------------------------------
-  ! write drx and dry in each grid to file
+  ! write drx and dry in each grid to file - UNSURE FOR 3D
   ! ------------------------------------------------------------------------
-  do l = 1, ngrids
+  
+  !NOT SURE ABOUT THIS WRITING IN 3D - COMMENTED OUT FOR NOW -MAINLY THE BIT AFTER 400 IN WRITE IN NESTED LOOP
 
-    write (file_out, "('DISPLACEMENT_GRID', i0, '.DAT')") l
-    file_out = trim(data_dir) // trim(file_out)
-    open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
-    do i = 1, n
-      do j = 1, n
-        write(400,'(4(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, mgrid(l)%drx(i,j), mgrid(l)%dry(i,j)
-      enddo
-      write(400,*)
-    enddo
-    close(400)
-
-  enddo
+  ! do l = 1, ngrids
+  !
+  !   write (file_out, "('DISPLACEMENT_GRID', i0, '.DAT')") l
+  !   file_out = trim(data_dir) // trim(file_out)
+  !   open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
+  !   do k = 1, n  
+  !     do i = 1, n
+  !       do j = 1, n
+  !         write(400,'(4(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h,real(j - 1)*h, mgrid(l)%drx(i,j,k), mgrid(l)%dry(i,j,k), mgrid(l)%drz(i,j,k)
+  !       enddo
+  !       write(400,*)
+  !     enddo
+  !     write(400,*)
+  !   enddo
+  !   close(400)
+  ! enddo
 
 
   ! ------------------------------------------------------------------------
@@ -846,27 +851,30 @@ program main
 
 
   ! ------------------------------------------------------------------------
-  ! calculate total displacement fields drx and dry and write to file
+  ! calculate total displacement fields drx and dry and write to file - UNSURE FOR 3D
   ! ------------------------------------------------------------------------
-  allocate (drx(n,n))
-  allocate (dry(n,n))
+  allocate (drx(n,n,n))
+  allocate (dry(n,n,n))
+  allocate (drz(n,n,n))
 
-  do j = 1, n
-    do i = 1, n
-      drx(i,j) = rx0(i,j) - real(i - 1)*h
-      dry(i,j) = ry0(i,j) - real(j - 1)*h
-    enddo
-  enddo
-
-  file_out = trim(data_dir) // 'DISPLACEMENT.DAT'
-  open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
-  do i = 1, n
+  do k = 1, n
     do j = 1, n
-      write(400,'(4(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, drx(i,j), dry(i,j)
+      do i = 1, n
+        drx(i,j,k) = rx0(i,j,k) - real(i - 1)*h
+        dry(i,j,k) = ry0(i,j,k) - real(j - 1)*h
+        drz(i,j,k) = ry0(i,j,k) - real(k - 1)*h
+      enddo
     enddo
-    write(400,*)
-  enddo
-  close(400)
+
+  ! file_out = trim(data_dir) // 'DISPLACEMENT.DAT'
+  ! open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
+  ! do i = 1, n
+  !   do j = 1, n
+  !     write(400,'(4(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, drx(i,j), dry(i,j)
+  !   enddo
+  !   write(400,*)
+  ! enddo
+  ! close(400)
 
 
   ! ------------------------------------------------------------------------
@@ -874,10 +882,10 @@ program main
   ! ------------------------------------------------------------------------
   m = n !- 1
 
-  allocate (phi0(n,n)) 
+  allocate (phi0(n,n,n)) 
   ! allocate (phi0k((m/2 + 1), m))
 
-  phi0(:,:) = 0 ! initialise all entries to zero
+  phi0(:,:,:) = 0 ! initialise all entries to zero
   
  
   !rand_seed =(/75421/)
@@ -895,47 +903,41 @@ program main
   print*, omp_get_max_threads()
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
   wtime = omp_get_wtime()
-
-  call omp_set_num_threads(1)
   
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
 
-  !!$OMP PARALLEL
-  !!$OMP DO 
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
-    if (ki == 2) then
-      threadno = omp_get_num_threads() !check to see if openmp working
-      print*, "Total running threads", threadno
-    endif
-    thread_id = omp_get_thread_num()
-    if (thread_id == 3) then
-      print*, "ki value", ki
-    endif
+
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
-      if (abs(ky) <  5) then
+
+      do kk = 0, n-3 !3d
+        kz = (-(n-1)/2 + 1) + kk
+
+        if ((ky == 0) .and. (kz == 0)) then !cant root 0 - now for 3d
             continue
-      else 
-        call random_number(num)
-        if (ky == 0) then !cant root 0
-            continue
+
         else
-           !print*, ky
-           tmp = abs(ky)**(-7.0d0/3.0d0) !2D
-           tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
-           amp = sqrt(tmp*tmp2) !amplitude
-           do i = 1, n
-             do j = 1, n
-             phi0(i,j) = phi0(i,j) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + num*twopi)
-             enddo
-           enddo
-        endif  
-      endif
+          !print*, ky
+          call random_number(num)
+          tmp = abs(ky+kz)**(-10.0d0/3.0d0) !3D
+          tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky+kz)**(2.0d0/3.0d0)))
+          amp = sqrt(tmp*tmp2) !amplitude
+
+          do i = 1, n
+            do j = 1, n
+              do k = 1, n
+              phi0(i,j,k) = phi0(i,j,k) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + kz*j*twopi/n + num*twopi) !3d
+              enddo
+            enddo
+          enddo
+
+        endif
+      
+      enddo  
     enddo
   enddo
-  !!$OMP END DO
-  !!$OMP END PARALLEL
 
   print*, 'The loop has successfully completed'
 
@@ -943,61 +945,23 @@ program main
 
   print *, wtime 
 
-  !print *, phi0(1,:), size(phi0(1,:))
-
-  !---ALTERNATIVE TIMING---
-
-  !call system_clock(stop_time, count_rate, count_max)
-  !time_final = stop_time*1.0/count_rate
-  !elapsed_time = time_final - time_init
-  !print *, elapsed_time
-
-
-  !print*, phi0(23,67), phi0(13,45), phi0(103,31)
-
-
-  ! generate chess pattern (eight strips)
-  ! do j = 1, n
-  !   jj = (j - 1)/(n/8)
-
-  !   do i = 1, n
-  !     ii = (i - 1)/(n/8)
-
-  !     if (mod(ii,2) == 0) then
-  !       if (mod(jj,2) == 0) then
-  !         phi0(i,j) = 1.
-  !       else
-  !         phi0(i,j) = 2.
-  !       endif
-  !     else
-  !       if (mod(jj,2) == 0) then
-  !         phi0(i,j) = 2.
-  !       else
-  !         phi0(i,j) = 1.
-  !       endif
-  !     endif
-
-  !   enddo
-  ! enddo
-
   print*, '* Writing file: phi_0'
 
-  file_out = trim(data_dir) // 'PHI0.DAT'
-  open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
-  do i = 1, n
-    do j = 1, n
-      write(400,'(3(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, phi0(i,j)
-    enddo
-    write(400,*)
-  enddo
-  close(400)
-
+  ! file_out = trim(data_dir) // 'PHI0.DAT'
+  ! open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
+  ! do i = 1, n
+  !   do j = 1, n
+  !     write(400,'(3(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, phi0(i,j)
+  !   enddo
+  !   write(400,*)
+  ! enddo
+  ! close(400)
 
   file_out = 'PHI0.BIN'
   lun = 701
   file_out = trim(data_dir) // '/' // file_out
   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) phi0(:,:)
+    write(lun) phi0(:,:,:)
   close(lun)
 
 
@@ -1008,13 +972,13 @@ program main
 
   tmp3d(:,:,1) = phi0(:,:)
   call power_kk(tmp3d, ps_k, ps_kb, ps_kt, ps_kk, lsum_power, lx, ly, lz)
-  call write_power_spectra('PHI0.DAT', 400)
+  !call write_power_spectra('PHI0.DAT', 400) - no DAT file created yet
 
 
   ! ------------------------------------------------------------------------
   ! remap scalar field phi0 into phi and write to file
   ! ------------------------------------------------------------------------
-  allocate (phi(n,n))
+  allocate (phi(n,n,n))
 
   do j = 1, n
     do i = 1, n
@@ -1057,21 +1021,21 @@ program main
 
   !print*, phi(23,:)
 
-  file_out = trim(data_dir) // 'PHI.DAT'
-  open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
-  do i = 1, n
-    do j = 1, n
-      write(400,'(3(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, phi(i,j)
-    enddo
-    write(400,*)
-  enddo
-  close(400)
+  ! file_out = trim(data_dir) // 'PHI.DAT'
+  ! open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
+  ! do i = 1, n
+  !   do j = 1, n
+  !     write(400,'(3(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, phi(i,j)
+  !   enddo
+  !   write(400,*)
+  ! enddo
+  ! close(400)
 
   file_out = 'PHI.BIN'
   lun = 701
   file_out = trim(data_dir) // '/' // file_out
   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) phi(:,:)
+    write(lun) phi(:,:,:)
   close(lun)
 
   !----------------------------------------------------------------
@@ -1079,9 +1043,9 @@ program main
   !----------------------------------------------------------------
   lsum_power = .false.
 
-  tmp3d(:,:,1) = phi(:,:)
+  tmp3d(:,:,:) = phi(:,:,:)
   call power_kk(tmp3d, ps_k, ps_kb, ps_kt, ps_kk, lsum_power, lx, ly, lz)
-  call write_power_spectra('PHI.DAT', 400)
+  !call write_power_spectra('PHI.DAT', 400) - no DAT files yet
 
 
   ! ------------------------------------------------------------------------
@@ -1091,12 +1055,13 @@ program main
   ! ATTENTION: SAVE FIELD IN DN (TEST-PURPOSE ONLY!)
   ! ------------------------------------------------------------------------
 
+  !3d
   lun = 700
   file_out = trim(data_dir) // 'DN0.BIN'
   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
-  write(lun) n, n, 1
+  write(lun) n, n, n
 
-  tmp3d(:,:,1) = phi(:,:)
+  tmp3d(:,:,:) = phi(:,:,:)
 
   write(lun) tmp3d(:,:,:)
   write(lun) time, x, y, z, dx, dy, dz
@@ -1106,15 +1071,15 @@ program main
   lun = 701
   file_out = trim(data_dir) // 'BB0.BIN'
   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
-  write(lun) n, n, 1
+  write(lun) n, n, n
 
-  tmp3d(:,:,1) = bx(:,:)
+  tmp3d(:,:,:) = bx(:,:,:)
   write(lun) tmp3d(:,:,:)
 
-  tmp3d(:,:,1) = by(:,:)
+  tmp3d(:,:,:) = by(:,:,:)
   write(lun) tmp3d(:,:,:)
   ! only 2D atm, hence bz = 0
-  tmp3d(:,:,1) = 0.
+  tmp3d(:,:,:) = bz(:,:,:)
   write(lun) tmp3d(:,:,:)
 
   write(lun) time, x, y, z, dx, dy, dz
@@ -1124,7 +1089,7 @@ program main
   lun = 702
   file_out = trim(data_dir) // 'VV0.BIN'
   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
-  write(lun) n, n, 1
+  write(lun) n, n, n
   write(lun) tmp3d(:,:,:)
   write(lun) tmp3d(:,:,:)
   write(lun) tmp3d(:,:,:)
@@ -1138,20 +1103,28 @@ program main
   do l = 1, ngrids
     deallocate (mgrid(l)%bx)
     deallocate (mgrid(l)%by)
+    deallocate (mgrid(l)%bz)
     deallocate (mgrid(l)%dbx)
     deallocate (mgrid(l)%dby)
-    deallocate (mgrid(l)%etz)
+    deallocate (mgrid(l)%dbz)
+    deallocate (mgrid(l)%etz_x)
+    deallocate (mgrid(l)%etz_y)
+    deallocate (mgrid(l)%etz_z)
     deallocate (mgrid(l)%drx)
     deallocate (mgrid(l)%dry)
+    deallocate (mgrid(l)%drz)
   enddo
   deallocate (mgrid)
 
   deallocate (bx)
   deallocate (by)
+  deallocate (bz)
   deallocate (rx0)
   deallocate (ry0)
+  deallocate (rz0)
   deallocate (drx)
   deallocate (dry)
+  deallocate (drz)
 
   deallocate(x)
   deallocate(y)
