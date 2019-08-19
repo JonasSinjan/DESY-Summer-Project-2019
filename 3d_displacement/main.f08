@@ -215,6 +215,18 @@ program main
     enddo
   enddo
 
+  file_out = trim(data_dir) // 'MAGNETIC.DAT' 
+  open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
+  do i = 1, n
+    do j = 1, n
+      do k = 1, n !3d
+        write(400,'(4(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, bx(i,j,k), by(i,j,k)
+      enddo
+    enddo
+    write(400,*)
+  enddo
+  close(400)
+
   lun = 701
   file_out = trim(data_dir) // '/' // 'X.BIN'
   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
@@ -229,13 +241,6 @@ program main
 
   lun = 701 !3D
   file_out = trim(data_dir) // '/' // 'Z.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) z(:)
-  close(lun)
-
-  !3d
-  lun = 701
-  file_out = trim(data_dir) // '/' // 'Y.BIN'
   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
     write(lun) z(:)
   close(lun)
@@ -376,30 +381,51 @@ program main
 #ifdef DP
     call fftw_execute_dft_c2r(plan2, bxk, f)
     !c2r = complex to real
-    mgrid(l)%bx(1:m,1:m,1:m) = f(:,:,:)
-    mgrid(l)%bx(m+1,1:m,1:m) = f(1,:,:)
-    mgrid(l)%bx(1:m,m+1) = f(:,1,:)
-    mgrid(l)%bx(m+1,m+1) = f(1,1)
+    !need to add the slices for periodic boundaries
+    mgrid(l)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l)%bx(m+1,1:m,1:m) = f(1,:,:) 
+    mgrid(l)%bx(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%bx(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l)%bx(m+1,m+1) = f(1,1,1)
 
     call fftw_execute_dft_c2r(plan2, byk, f)
-    mgrid(l)%by(1:m,1:m) = f(:,:)
-    mgrid(l)%by(m+1,1:m) = f(1,:)
-    mgrid(l)%by(1:m,m+1) = f(:,1)
-    mgrid(l)%by(m+1,m+1) = f(1,1)
+    mgrid(l)%by(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l)%by(m+1,1:m,1:m) = f(1,:,:) 
+    mgrid(l)%by(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%by(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l)%by(m+1,m+1) = f(1,1,1)
+
+    call fftw_execute_dft_c2r(plan2, bzk, f) !3d
+    mgrid(l)%bz(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l)%bz(m+1,1:m,1:m) = f(1,:,:) 
+    mgrid(l)%bz(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%bz(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l)%bz(m+1,m+1) = f(1,1,1)
 
     call fftw_destroy_plan(plan2)
 #else
-    call fftwf_execute_dft_c2r(plan2, bxk, f)
-    mgrid(l)%bx(1:m,1:m) = f(:,:)
-    mgrid(l)%bx(m+1,1:m) = f(1,:)
-    mgrid(l)%bx(1:m,m+1) = f(:,1)
-    mgrid(l)%bx(m+1,m+1) = f(1,1)
+    call fftw_execute_dft_c2r(plan2, bxk, f)
+    !c2r = complex to real
+    !need to add the slices for periodic boundaries
+    mgrid(l)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l)%bx(m+1,1:m,1:m) = f(1,:,:) 
+    mgrid(l)%bx(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%bx(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l)%bx(m+1,m+1) = f(1,1,1)
 
-    call fftwf_execute_dft_c2r(plan2, byk, f)
-    mgrid(l)%by(1:m,1:m) = f(:,:)
-    mgrid(l)%by(m+1,1:m) = f(1,:)
-    mgrid(l)%by(1:m,m+1) = f(:,1)
-    mgrid(l)%by(m+1,m+1) = f(1,1)
+    call fftw_execute_dft_c2r(plan2, byk, f)
+    mgrid(l)%by(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l)%by(m+1,1:m,1:m) = f(1,:,:) 
+    mgrid(l)%by(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%by(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l)%by(m+1,m+1) = f(1,1,1)
+
+    call fftw_execute_dft_c2r(plan2, bzk, f) !3d
+    mgrid(l)%bz(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l)%bz(m+1,1:m,1:m) = f(1,:,:) 
+    mgrid(l)%bz(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%bz(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l)%bz(m+1,m+1) = f(1,1,1)
 
     call fftwf_destroy_plan(plan2)
 #endif
@@ -408,6 +434,7 @@ program main
     deallocate (f)
     deallocate (bxk)
     deallocate (byk)
+    deallocate (bzk)
 
     ! mgrid(l)%bx(:,:) = bx0
     ! mgrid(l)%by(:,:) = by0
@@ -424,7 +451,7 @@ program main
     lun = 701
     file_out = trim(data_dir) // '/' // file_out
     open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-      write(lun) mgrid(l)%bx(:,:)
+      write(lun) mgrid(l)%bx(:,:,:)
     close(lun)
 
     write (file_out, "('BY_GRID', i0, '.BIN')") l
@@ -432,7 +459,15 @@ program main
     lun = 702
     file_out = trim(data_dir) // '/' // file_out
     open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-      write(lun) mgrid(l)%by(:,:)
+      write(lun) mgrid(l)%by(:,:,:)
+    close(lun)
+
+    write (file_out, "('BZ_GRID', i0, '.BIN')") l
+    !why 702 all of a sudden??
+    lun = 702
+    file_out = trim(data_dir) // '/' // file_out
+    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+      write(lun) mgrid(l)%bz(:,:,:) !3d
     close(lun)
 
   enddo
@@ -442,24 +477,27 @@ program main
   ! calculate vector field db in each grid level
   ! ------------------------------------------------------------------------
   do l = 1, ngrids
+    do k = 1, n !3d
+      do j = 1, n
+        do i = 1, n
 
-    do j = 1, n
-      do i = 1, n
+          if (l < ngrids) then
+            b(1) = mgrid(l+1)%bx(i,j,k)
+            b(2) = mgrid(l+1)%by(i,j,k)
+            b(3) = mgrid(l=1)%bz(i,j,k)
+          else
+            ! use average uniform field
+            b(1) = bx0
+            b(2) = by0
+            b(3) = bz0
+          endif
 
-        if (l < ngrids) then
-          b(1) = mgrid(l+1)%bx(i,j)
-          b(2) = mgrid(l+1)%by(i,j)
-        else
-          ! use average uniform field
-          b(1) = bx0
-          b(2) = by0
-        endif
+          mgrid(l)%dbx(i,j,k) = b(1) - mgrid(l)%bx(i,j,k)
+          mgrid(l)%dby(i,j,k) = b(2) - mgrid(l)%by(i,j,k)
+          mgrid(l)%dbz(i,j,k) = b(3) - mgrid(l)%bz(i,j,k) !3d
 
-        mgrid(l)%dbx(i,j) = b(1) - mgrid(l)%bx(i,j)
-        mgrid(l)%dby(i,j) = b(2) - mgrid(l)%by(i,j)
-
+        enddo
       enddo
-    enddo
 
   enddo
 
