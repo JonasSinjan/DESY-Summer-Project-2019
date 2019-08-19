@@ -119,6 +119,7 @@ program main
   integer :: ki, kj, kk !3d
   integer :: lun
   real(sp) :: tmp, tmp2
+  real(sp) :: c_00,c_01,c_10,c_11,c_0,c_1,c !for the trilinear interpolations
 
   character(len=400) :: data_dir
   character(len=1024) :: file_out
@@ -830,18 +831,51 @@ program main
           if (kkp1 > n) kkp1 = 2
 
           ! calculate linear weigths for the interpolation
-          wx1 = mod(rxp, h)/h
-          wy1 = mod(ryp, h)/h
-          wz1 = mod(rzp, h)/h
+          wx1 = mod(rxp, h)/h !x_d
+          wy1 = mod(ryp, h)/h !y_d
+          wz1 = mod(rzp, h)/h !z_d
 
           wx0 = 1.d0 - wx1
           wy0 = 1.d0 - wy1
           wz0 = 1.d0 - wz1
 
-          ! perform triple trilinear interpolation
-          
+          ! perform three sets of trilinear interpolation
 
-          
+          !rx - linear in first index (following steps in trilinear wikipedia page)
+          c_00 = wx0*mgrid(l)%drx(ii,jj,k_k) + wx1*mgrid(l)%drx(iip1,jj,k_k)
+          c_01 = wx0*mgrid(l)%drx(ii,jj,kkp1) + wx1*mgrid(l)%drx(iip1,jj,kkp1)
+          c_10 = wx0*mgrid(l)%drx(ii,jjp1,k_k) + wx1*mgrid(l)%drx(iip1,jjp1,k_k)
+          c_11 = wx0*mgrid(l)%drx(ii,jjp1,kkp1) + wx1*mgrid(l)%drx(iip1,jjp1,kkp1)
+          !linear in second index
+          c_0 = c_00*wy0 + c_10*wy1
+          c_1 = c_01*wy0 + c_11*wy1
+          !final linear in last indez
+          c = c_0*wz0 + c_1*wz1
+          drxp = c
+
+          !ry - linear interp in first index
+          c_00 = wx0*mgrid(l)%dry(ii,jj,k_k) + wx1*mgrid(l)%dry(iip1,jj,k_k)
+          c_01 = wx0*mgrid(l)%dry(ii,jj,kkp1) + wx1*mgrid(l)%dry(iip1,jj,kkp1)
+          c_10 = wx0*mgrid(l)%dry(ii,jjp1,k_k) + wx1*mgrid(l)%dry(iip1,jjp1,k_k)
+          c_11 = wx0*mgrid(l)%dry(ii,jjp1,kkp1) + wx1*mgrid(l)%dry(iip1,jjp1,kkp1)
+          !linear in second index
+          c_0 = c_00*wy0 + c_10*wy1
+          c_1 = c_01*wy0 + c_11*wy1
+          !final linear in last index
+          c = c_0*wz0 + c_1*wz1
+          dryp = c
+
+          !rz - linear interp in first index
+          c_00 = wx0*mgrid(l)%drz(ii,jj,k_k) + wx1*mgrid(l)%drz(iip1,jj,k_k)
+          c_01 = wx0*mgrid(l)%drz(ii,jj,kkp1) + wx1*mgrid(l)%drz(iip1,jj,kkp1)
+          c_10 = wx0*mgrid(l)%drz(ii,jjp1,k_k) + wx1*mgrid(l)%drz(iip1,jjp1,k_k)
+          c_11 = wx0*mgrid(l)%drz(ii,jjp1,kkp1) + wx1*mgrid(l)%drz(iip1,jjp1,kkp1)
+          !linear in second index
+          c_0 = c_00*wy0 + c_10*wy1
+          c_1 = c_01*wy0 + c_11*wy1
+          !final linear in last index
+          c = c_0*wz0 + c_1*wz1
+          drzp = c
 
           ! new normalised positions (periodic)
           rxp = rxp + drxp
@@ -979,41 +1013,61 @@ program main
     do j = 1, n
       do i = 1, n
 
+        rxp = real(i - 1)*h
+        ryp = real(j - 1)*h
+        rzp = real(k - 1)*h
+  
+        rx0(i,j,k) = rxp
+        ry0(i,j,k) = ryp
+        ry0(i,j,k) = rzp
 
+        ! gives account of the periodicity
+        rxp = mod(rxp, twopi)
+        ryp = mod(ryp, twopi)
+        rzp = mod(rzp, twopi)
 
-        ! rxp = rx0(i,j)
-        ! ryp = ry0(i,j)
+        if (rxp < 0.) rxp = rxp + twopi
+        if (ryp < 0.) ryp = ryp + twopi
+        if (rzp < 0.) rzp = rzp + twopi
 
-        ! ! gives account of the periodicity
-        ! rxp = mod(rxp, twopi) !computes remainder of the division (modulo)
-        ! ryp = mod(ryp, twopi)
-        ! if (rxp < 0.) rxp = rxp + twopi
-        ! if (ryp < 0.) ryp = ryp + twopi
+        ! calculate the left lower corner grid point indices
+        ii = floor(rxp/h) + 1
+        jj = floor(ryp/h) + 1
+        k_k = floor(rzp/h) + 1
 
-        ! ! calculate the left lower corner grid point indices
-        ! ii = floor(rxp/h) + 1 !returns greatest integer less than argument
-        ! jj = floor(ryp/h) + 1
+        ! calculate the right upper corner grid point indices
+        iip1 = ii + 1
+        jjp1 = jj + 1
+        kkp1 = k_k + 1
 
-        ! ! calculate the right upper corner grid point indices
-        ! iip1 = ii + 1
-        ! jjp1 = jj + 1
+        if (iip1 > n) iip1 = 2
+        if (jjp1 > n) jjp1 = 2
+        if (kkp1 > n) kkp1 = 2
 
-        ! if (iip1 > n) iip1 = 2
-        ! if (jjp1 > n) jjp1 = 2
+        ! calculate linear weigths for the interpolation
+        wx1 = mod(rxp, h)/h !x_d
+        wy1 = mod(ryp, h)/h !y_d
+        wz1 = mod(rzp, h)/h !z_d
 
-        ! ! calculate linear weigths for the interpolation
-        ! wx1 = mod(rxp, h)/h
-        ! wy1 = mod(ryp, h)/h
+        wx0 = 1.d0 - wx1
+        wy0 = 1.d0 - wy1
+        wz0 = 1.d0 - wz1
 
-        ! wx0 = 1.d0 - wx1
-        ! wy0 = 1.d0 - wy1
-
-        ! ! perform bilinear interpolation
-        ! phi(i,j) =   wx0*wy0*phi0(ii  , jj  ) &
-        !            + wx1*wy0*phi0(iip1, jj  ) &
-        !            + wx0*wy1*phi0(ii  , jjp1) &
-        !            + wx1*wy1*phi0(iip1, jjp1)
-
+        !trilinear interpolation for phi
+        
+        !linear interp in first index
+        c_00 = wx0*phi0(ii,jj,k_k) + wx1*phi0(iip1,jj,k_k)
+        c_01 = wx0*phi0(ii,jj,kkp1) + wx1*phi0(iip1,jj,kkp1)
+        c_10 = wx0*phi0(ii,jjp1,k_k) + wx1*phi0(iip1,jjp1,k_k)
+        c_11 = wx0*phi0(ii,jjp1,kkp1) + wx1*phi0(iip1,jjp1,kkp1)
+        !linear in second index
+        c_0 = c_00*wy0 + c_10*wy1
+        c_1 = c_01*wy0 + c_11*wy1
+        !final linear in last index
+        c = c_0*wz0 + c_1*wz1
+        
+        phi(i,j,k) = c
+        
       enddo
     enddo
   enddo
