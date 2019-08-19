@@ -42,7 +42,7 @@ program main
   type :: sgrid
     real(sp), dimension(:,:,:), allocatable :: bx, by, bz !3d IS BY JUST THE PERPENDICULAR OR DO WE NEED BX
     real(sp), dimension(:,:,:), allocatable :: dbx, dby, dbz
-    real(sp), dimension(:,:,:), allocatable :: etz_x,etz_y, etz_k !3d
+    real(sp), dimension(:,:,:), allocatable :: etz_x,etz_y, etz_z !3d
     real(sp), dimension(:,:,:), allocatable :: drx, dry, drz
   end type sgrid
 
