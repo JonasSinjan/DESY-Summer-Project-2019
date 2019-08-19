@@ -40,23 +40,23 @@ program main
   ! define types
   ! ------------------------------------------------------------------------
   type :: sgrid
-    real(sp), dimension(:,:), allocatable :: bx
-    real(sp), dimension(:,:), allocatable :: by
-    real(sp), dimension(:,:), allocatable :: bz !3d IS BY JUST THE PERPENDICULAR OR DO WE NEED BX
-    real(sp), dimension(:,:), allocatable :: dbx
-    real(sp), dimension(:,:), allocatable :: dby
-    real(sp), dimension(:,:), allocatable :: dby !3d
-    real(sp), dimension(:,:), allocatable :: etz
-    real(sp), dimension(:,:), allocatable :: drx
-    real(sp), dimension(:,:), allocatable :: dry
-    real(sp), dimension(:,:), allocatable :: drz !3d
+    real(sp), dimension(:,:,:), allocatable :: bx
+    real(sp), dimension(:,:,:), allocatable :: by
+    real(sp), dimension(:,:,:), allocatable :: bz !3d IS BY JUST THE PERPENDICULAR OR DO WE NEED BX
+    real(sp), dimension(:,:,:), allocatable :: dbx
+    real(sp), dimension(:,:,:), allocatable :: dby
+    real(sp), dimension(:,:,:), allocatable :: dby !3d
+    real(sp), dimension(:,:,:), allocatable :: etz
+    real(sp), dimension(:,:,:), allocatable :: drx
+    real(sp), dimension(:,:,:), allocatable :: dry
+    real(sp), dimension(:,:,:), allocatable :: drz !3d
   end type sgrid
 
 
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 9
+  integer :: ngrids = 7
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -75,23 +75,23 @@ program main
   real(sp) :: amp
   real(sp) :: kx
   real(sp) :: ky
-  real(sp), dimension(:,:), allocatable :: bx, by, bz !3d
-  real(sp), dimension(:,:), allocatable :: rx0, ry0, rz0 !3d
-  real(sp), dimension(:,:), allocatable :: drx, dry, drz !3d
+  real(sp), dimension(:,:,:), allocatable :: bx, by, bz !3d
+  real(sp), dimension(:,:,:), allocatable :: rx0, ry0, rz0 !3d
+  real(sp), dimension(:,:,:), allocatable :: drx, dry, drz !3d
   type(sgrid), dimension(:), allocatable :: mgrid
 
   real(sp), dimension(:), allocatable :: x, y, z
   real(sp) :: time, dx, dy, dz
 
-  real(sp), dimension(:,:), allocatable :: phi0
-  real(sp), dimension(:,:), allocatable :: phi
-  complex(sp), dimension(:,:), allocatable :: phi0k
+  real(sp), dimension(:,:.:), allocatable :: phi0
+  real(sp), dimension(:,:,:), allocatable :: phi
+  complex(sp), dimension(:,:,:), allocatable :: phi0k
 
   integer :: nk, nkb, nkt
-  real(dp), dimension(:), allocatable :: ps_k
-  real(dp), dimension(:), allocatable :: ps_kb
-  real(dp), dimension(:), allocatable :: ps_kt
-  real(dp), dimension(:,:), allocatable :: ps_kk
+  real(dp), dimension(:), allocatable :: ps_k !not sure which one this is used for
+  real(dp), dimension(:), allocatable :: ps_kb !parallel, only 1D along x
+  real(dp), dimension(:,:), allocatable :: ps_kt !perpendicular
+  real(dp), dimension(:,:,:), allocatable :: ps_kk !all components
   real(dp), dimension(:,:,:), allocatable :: tmp3d
 
   logical :: lsum_power
@@ -101,10 +101,10 @@ program main
   ! ------------------------------------------------------------------------
   type(C_PTR) :: plan_phi0
   type(C_PTR) :: plan1, plan2
-  real(sp), dimension(:,:), allocatable :: f
-  complex(sp), dimension(:,:), allocatable :: bxk, byk, bzk !3d
-  complex(sp), dimension(:,:), allocatable :: dbxk, dbyk, dbzk !3d
-  complex(sp), dimension(:,:), allocatable :: etzk
+  real(sp), dimension(:,:,:), allocatable :: f
+  complex(sp), dimension(:,:,:), allocatable :: bxk, byk, bzk !3d
+  complex(sp), dimension(:,:,:), allocatable :: dbxk, dbyk, dbzk !3d
+  complex(sp), dimension(:,:,:), allocatable :: etzk
 
   real(sp) :: b(3), b2 !3d
   real(sp) :: b1(3), ph1, ph2, ph3, aux1, aux2, aux3 !3d
@@ -383,24 +383,42 @@ program main
     !c2r = complex to real
     !need to add the slices for periodic boundaries
     mgrid(l)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
-    mgrid(l)%bx(m+1,1:m,1:m) = f(1,:,:) 
+
+    mgrid(l)%bx(m+1,1:m,1:m) = f(1,:,:) !outer faces
     mgrid(l)%bx(1:m,m+1,1:m) = f(:,1,:)
     mgrid(l)%bx(1:m,1:m,m+1) = f(:,:,1)
-    mgrid(l)%bx(m+1,m+1) = f(1,1,1)
+    
+    mgrid(l)%bx(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%bx(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%bx(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%bx(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_execute_dft_c2r(plan2, byk, f)
     mgrid(l)%by(1:m,1:m,1:m) = f(:,:,:) !inner cube
-    mgrid(l)%by(m+1,1:m,1:m) = f(1,:,:) 
+
+    mgrid(l)%by(m+1,1:m,1:m) = f(1,:,:) !outer faces
     mgrid(l)%by(1:m,m+1,1:m) = f(:,1,:)
     mgrid(l)%by(1:m,1:m,m+1) = f(:,:,1)
-    mgrid(l)%by(m+1,m+1) = f(1,1,1)
+    
+    mgrid(l)%by(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%by(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%by(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%by(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_execute_dft_c2r(plan2, bzk, f) !3d
     mgrid(l)%bz(1:m,1:m,1:m) = f(:,:,:) !inner cube
-    mgrid(l)%bz(m+1,1:m,1:m) = f(1,:,:) 
+
+    mgrid(l)%bz(m+1,1:m,1:m) = f(1,:,:) !outer faces
     mgrid(l)%bz(1:m,m+1,1:m) = f(:,1,:)
     mgrid(l)%bz(1:m,1:m,m+1) = f(:,:,1)
-    mgrid(l)%bz(m+1,m+1) = f(1,1,1)
+    
+    mgrid(l)%bz(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%bz(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%bz(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%bz(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_destroy_plan(plan2)
 #else
@@ -408,26 +426,45 @@ program main
     !c2r = complex to real
     !need to add the slices for periodic boundaries
     mgrid(l)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
-    mgrid(l)%bx(m+1,1:m,1:m) = f(1,:,:) 
+
+    mgrid(l)%bx(m+1,1:m,1:m) = f(1,:,:) !outer faces
     mgrid(l)%bx(1:m,m+1,1:m) = f(:,1,:)
     mgrid(l)%bx(1:m,1:m,m+1) = f(:,:,1)
-    mgrid(l)%bx(m+1,m+1) = f(1,1,1)
+    
+    mgrid(l)%bx(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%bx(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%bx(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%bx(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_execute_dft_c2r(plan2, byk, f)
     mgrid(l)%by(1:m,1:m,1:m) = f(:,:,:) !inner cube
-    mgrid(l)%by(m+1,1:m,1:m) = f(1,:,:) 
+
+    mgrid(l)%by(m+1,1:m,1:m) = f(1,:,:) !outer faces
     mgrid(l)%by(1:m,m+1,1:m) = f(:,1,:)
     mgrid(l)%by(1:m,1:m,m+1) = f(:,:,1)
-    mgrid(l)%by(m+1,m+1) = f(1,1,1)
+    
+    mgrid(l)%by(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%by(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%by(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%by(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_execute_dft_c2r(plan2, bzk, f) !3d
     mgrid(l)%bz(1:m,1:m,1:m) = f(:,:,:) !inner cube
-    mgrid(l)%bz(m+1,1:m,1:m) = f(1,:,:) 
+
+    mgrid(l)%bz(m+1,1:m,1:m) = f(1,:,:) !outer faces
     mgrid(l)%bz(1:m,m+1,1:m) = f(:,1,:)
     mgrid(l)%bz(1:m,1:m,m+1) = f(:,:,1)
-    mgrid(l)%bz(m+1,m+1) = f(1,1,1)
+    
+    mgrid(l)%bz(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%bz(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%bz(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%bz(m+1,m+1,m+1) = f(1,1,1) !last point
+    
+    call fftw_destroy_plan(plan2)
 
-    call fftwf_destroy_plan(plan2)
 #endif
 
     ! deallocate auxiliary matrices
@@ -533,20 +570,27 @@ program main
     f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
     call fftw_execute_dft_r2c(plan1, f, dbyk)
 
+    f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
+    call fftw_execute_dft_r2c(plan1, f, dbzk)
+
     call fftw_destroy_plan(plan1)
 #else
-    f(:,:) = mgrid(l)%dbx(1:m,1:m)
+    f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
     call fftwf_execute_dft_r2c(plan1, f, dbxk)
 
-    f(:,:) = mgrid(l)%dby(1:m,1:m)
+    f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
     call fftwf_execute_dft_r2c(plan1, f, dbyk)
+
+    f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
+    call fftw_execute_dft_r2c(plan1, f, dbzk)
 
     call fftwf_destroy_plan(plan1)
 #endif
 
     ! normalize dbxk and dbyk
-    dbxk(:,:) = dbxk(:,:) / real(m*m)
-    dbyk(:,:) = dbyk(:,:) / real(m*m)
+    dbxk(:,:,:) = dbxk(:,:,:) / real(m*m*m)
+    dbyk(:,:,:) = dbyk(:,:,:) / real(m*m*m)
+    dbzk(:,:,:) = dbzk(:,:,:) / real(m*m*m)
 
     ! loop over all the modes
     ! (i, j) are the indices of the matrices generated by the dft
