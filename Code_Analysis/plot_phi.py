@@ -44,7 +44,7 @@ for i in range(5):
     gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
     ax0 = plt.subplot(gs[0],aspect='equal',projection='3d')
 
-    z_arr=temp1[slice_index,:,:] #one slice
+    z=temp1[slice_index,:,:] #one slice
 
     plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
                 interpolation='nearest', origin='lower')
