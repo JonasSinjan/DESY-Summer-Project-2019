@@ -313,14 +313,17 @@ def plot_power3d(dir1, n):
 
 
 if __name__ == "__main__":
-    n = 128
+    
+    n = 64
     # dir_data1 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_test/"  # this one allows kx == 0
     # dir_data2 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_test/power_spectra/"
     # plot_power(dir_data1, dir_data2, n)
 
-    dir_data3 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/"
-    dir_data4 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/power_spectra/"
-    plot_power2d(dir_data3, dir_data4, n)
+    # dir_data3 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/"
+    # dir_data4 = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/power_spectra/"
+    # plot_power2d(dir_data3, dir_data4, n)
+    dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D"
+    plot_power3d(dir_data,n)
 
 # #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/power_spectra/"
 # dir_data = "c:/Users/jonas/DESY/2d_displacement/128run2D_73_test/power_spectra/"
