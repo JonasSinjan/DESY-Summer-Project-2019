@@ -672,12 +672,6 @@ program main
     y_arr(:,j,:) = j*twopi/n
   enddo
  
-  !rand_seed =(/75421/)
-  !call random_seed(put=rand_seed)
-
-
-  ! generate GS95 Spectrum for Strong Alvenic Turbulence (Goldreich-Sridhar 1995)
-  ! print *, n
 
   !---ALTERNATIVE TIMING---
 

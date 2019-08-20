@@ -20,7 +20,7 @@ filename=dir_data+'PHI'+'.BIN'
 print(filename)  
 fd = open(filename, 'rb')
 
-abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny*nz)
   
 temp1 = np.reshape(abx,(nx,ny,nz))
 
@@ -28,7 +28,7 @@ filename=dir_data+'PHI0'+'.BIN'
 print(filename)
 fd = open(filename, 'rb')
 
-abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
+abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny*nz)
 
 temp2 = np.reshape(abx,(nx,ny,nz))
 
