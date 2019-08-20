@@ -16,9 +16,9 @@ nx=res
 ny=res
 nz=res
 
-x = np.arange(0,nx)
-y = np.arange(0,ny)
-z = np.arange(0,nz)
+x = np.arange(0,nx+1)
+y = np.arange(0,ny+1)
+z = np.arange(0,nz+1)
 
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/"
 
@@ -45,11 +45,11 @@ fig = plt.figure(figsize=(5.0, 5.0))
 gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
 ax0 = plt.subplot(gs[0],aspect='equal',projection='3d')
 
-z=temp1#[2,:,:] #one slice
+z_arr=temp1#[2,:,:] #one slice
 
 # plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
 #            interpolation='nearest', origin='lower')
-ax0.scatter(x,y,z,c=z.ravel())
+ax0.scatter(x,y,z,c=z_arr.ravel())
 fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
