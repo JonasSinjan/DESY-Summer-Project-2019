@@ -35,6 +35,7 @@ from numpy.random import rand
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
 size = 64
+lent = size
 
 sq_bool = False
 
