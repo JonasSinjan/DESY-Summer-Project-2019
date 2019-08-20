@@ -948,7 +948,7 @@ program main
 
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
-
+    print*, kx
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
 
@@ -959,7 +959,7 @@ program main
             continue
 
         else
-          print*, kx,ky,kz
+
           call random_number(num)
           tmp = abs(ky**2+kz**2)**(-10.0d0/6.0d0) !3D
           tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky**2+kz**2)**(2.0d0/6.0d0)))
