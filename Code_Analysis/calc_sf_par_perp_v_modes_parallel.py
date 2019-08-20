@@ -134,17 +134,14 @@ def read_files(dir_data):
 
 def read_files3D(dir_data):
     filename = dir_data + 'PHI0' + '.BIN'
-    # print(filename)
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
 
     temp = np.reshape(abx, (nx, ny, nz))
     phi = temp.transpose()  # missed the empty brackets here
-    # print(phi[22,:]) - working correctly
 
-    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used:
-    # print(filename)
+    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -155,7 +152,6 @@ def read_files3D(dir_data):
     bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
-    # print(filename)
     fd = open(filename, 'rb')
 
     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -164,7 +160,6 @@ def read_files3D(dir_data):
     by = temp.transpose()
 
     filename = dir_data + 'BZ' + '.BIN'
-    # print(filename)
     fd = open(filename, 'rb')
 
     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -192,9 +187,9 @@ def struc_funk3D(ff, phi, bx, by, bz):
         # do this by looping over npts_avg_field
         lr = rand(n_avg_bfield_pts) * ll / 2.0
         theta = rand(n_avg_bfield_pts) * np.pi  # want random theta not random costheta
-        phi = rand(n_avg_bfield_pts) * 2.0 * np.pi  # rand(5) - random nummber in certain shape array
-        lx = lr * np.sin(theta) * np.cos(phi)
-        ly = lr * np.sin(theta) * np.sin(phi)
+        phi_ang = rand(n_avg_bfield_pts) * 2.0 * np.pi  # rand(5) - random nummber in certain shape array
+        lx = lr * np.sin(theta) * np.cos(phi_ang)
+        ly = lr * np.sin(theta) * np.sin(phi_ang)
         lz = lr * np.cos(theta)
         xis = np.int_(np.floor(ri[0] + lx))
         yis = np.int_(np.floor(ri[1] + ly))
