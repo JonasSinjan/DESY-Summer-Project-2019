@@ -51,7 +51,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 7
+  integer :: ngrids = 6
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -130,7 +130,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run3D/'
+  data_dir = './64run3D/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -964,8 +964,19 @@ program main
           tmp = abs(ky**2+kz**2)**(-10.0d0/6.0d0) !3D
           tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky**2+kz**2)**(2.0d0/6.0d0)))
           amp = sqrt(tmp*tmp2) !amplitude
+<<<<<<< HEAD
 
           arg = kx*x_arr + ky*y_arr + kz*z_arr + num*twopi
+=======
+          print*, kx, ky, kz
+          do i = 1, n
+            do j = 1, n
+              do k = 1, n
+              phi0(i,j,k) = phi0(i,j,k) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + kz*j*twopi/n + num*twopi) !3d
+              enddo
+            enddo
+          enddo
+>>>>>>> ddf37f502352ab18eab2f9883a8dd3e52885144a
 
           phi0(:,:,:) = phi0(:,:,:) + amp*cos(arg) !3d
           
