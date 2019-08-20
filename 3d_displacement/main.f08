@@ -364,9 +364,9 @@ program main
           kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
 
           if (kmod > kmax) then
-            bxk(i,j,k) = (0., 0., 0.)
-            byk(i,j,k) = (0., 0., 0.)
-            bzk(i,j,k) = (0., 0., 0.)
+            bxk(i,j,k) = (0., 0.)
+            byk(i,j,k) = (0., 0.)
+            bzk(i,j,k) = (0., 0.)
           endif
 
         enddo
@@ -614,9 +614,9 @@ program main
           i = ki + 1
 
           if ((ki==0) .and. (kj==0) .and. (kk==0)) then
-            etzk_x(i,j,k) = (0., 0., 0.)
-            etzk_y(i,j,k) = (0., 0., 0.)
-            etzk_z(i,j,k) = (0., 0., 0.)
+            etzk_x(i,j,k) = (0., 0.)
+            etzk_y(i,j,k) = (0., 0.)
+            etzk_z(i,j,k) = (0., 0.)
             cycle
           endif
 
@@ -946,8 +946,8 @@ program main
         else
           !print*, ky
           call random_number(num)
-          tmp = abs(ky+kz)**(-10.0d0/3.0d0) !3D
-          tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky+kz)**(2.0d0/3.0d0)))
+          tmp = abs(ky**2+kz**2)**(-10.0d0/6.0d0) !3D
+          tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky**2+kz**2)**(2.0d0/6.0d0)))
           amp = sqrt(tmp*tmp2) !amplitude
 
           do i = 1, n
