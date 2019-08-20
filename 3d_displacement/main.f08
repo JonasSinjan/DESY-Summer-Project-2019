@@ -364,9 +364,9 @@ program main
           kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
 
           if (kmod > kmax) then
-            bxk(i,j,k) = (0.d0, 0.d0, 0.d0)
-            byk(i,j,k) = (0.d0, 0.d0, 0.d0)
-            bzk(i,j,k) = (0.d0, 0.d0, 0.d0)
+            bxk(i,j,k) = (0., 0., 0.)
+            byk(i,j,k) = (0., 0., 0.)
+            bzk(i,j,k) = (0., 0., 0.)
           endif
 
         enddo
@@ -552,12 +552,6 @@ program main
     allocate (etzk_y((m/2 + 1), m, m))
     allocate (etzk_z((m/2 + 1), m, m))
 
-    """
-    TODO:
-    FIXME: 
-            1. not sure about whether to require plan for all etz components - SOLVED - DID EACH SEPARATELY LIKE BX,BY,BZ
-            2. in 2D only made plan for  dbxk and yet did dft for both x and y? - check to see if works now
-    """
     ! prepare plans for the dft (plan1) and dft inverse (plan2)
 #ifdef DP
     plan1 = fftw_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE) !3d
@@ -620,7 +614,9 @@ program main
           i = ki + 1
 
           if ((ki==0) .and. (kj==0) .and. (kk==0)) then
-            etzk(i,j) = (0., 0., 0.)
+            etzk_x(i,j,k) = (0., 0., 0.)
+            etzk_y(i,j,k) = (0., 0., 0.)
+            etzk_z(i,j,k) = (0., 0., 0.)
             cycle
           endif
 
