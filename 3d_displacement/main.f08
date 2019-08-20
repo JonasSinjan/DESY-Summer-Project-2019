@@ -940,7 +940,7 @@ program main
       do kk = 0, n-3 !3d
         kz = (-(n-1)/2 + 1) + kk
 
-        if ((ky == 0) .and. (kz == 0)) then !cant root 0 - now for 3d
+        if ((abs (ky) < 1.0D-5 .and. abs(kz) < 1.0D-5)) then !cant root 0 - now for 3d
             continue
 
         else
