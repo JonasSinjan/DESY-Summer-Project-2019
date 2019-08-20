@@ -10,25 +10,27 @@ from numpy.random import rand
 from matplotlib import ticker
 from matplotlib import gridspec
 
-nx=128
-ny=128
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/"
+res = 64
+nx=res
+ny=res
+nz=res
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/"
 
-filename=dir_data+'RHO'+'.BIN'
+filename=dir_data+'PHI'+'.BIN'
 print(filename)  
 fd = open(filename, 'rb')
 
 abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
   
-temp1 = np.reshape(abx,(nx,ny))
+temp1 = np.reshape(abx,(nx,ny,nz))
 
-filename=dir_data+'BY'+'.BIN'
+filename=dir_data+'PHI0'+'.BIN'
 print(filename)
 fd = open(filename, 'rb')
 
 abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
 
-temp2 = np.reshape(abx,(nx,ny))
+temp2 = np.reshape(abx,(nx,ny,nz))
 
 #print(temp2[:,22])
 
@@ -36,7 +38,9 @@ fig=plt.figure()
 fig = plt.figure(figsize=(5.0, 5.0))
 gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
 ax0 = plt.subplot(gs[0],aspect='equal')
-z=temp1
+
+z=temp1[2,:,:] #one slice
+
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
            interpolation='nearest', origin='lower')
 fig = plt.gcf()
@@ -44,7 +48,9 @@ plt.clim()   # clamp the color limits
 plt.colorbar()
 
 ax1 = plt.subplot(gs[1],aspect='equal')
-z=temp2
+
+z=temp2[2,:,:] #one slice
+
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
            interpolation='nearest', origin='lower')
 fig = plt.gcf()
