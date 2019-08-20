@@ -1202,7 +1202,7 @@ program main
   deallocate (x_arr)
   deallocate (y_arr)
   deallocate (z_arr)
-  deallocate (arg)
+  deallocate (input_1)
 
   stop
 
