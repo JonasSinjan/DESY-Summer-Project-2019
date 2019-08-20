@@ -904,7 +904,7 @@ program main
         drz(i,j,k) = ry0(i,j,k) - real(k - 1)*h
       enddo
     enddo
-
+  enddo
   ! file_out = trim(data_dir) // 'DISPLACEMENT.DAT'
   ! open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
   ! do i = 1, n
