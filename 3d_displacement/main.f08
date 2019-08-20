@@ -44,6 +44,7 @@ program main
     real(sp), dimension(:,:,:), allocatable :: dbx, dby, dbz
     real(sp), dimension(:,:,:), allocatable :: etz_x,etz_y, etz_z !3d
     real(sp), dimension(:,:,:), allocatable :: drx, dry, drz
+    real(sp), dimension(:,:,:), allocatable :: x_arr, y_arr, z_arr, arg
   end type sgrid
 
 
@@ -921,8 +922,22 @@ program main
   ! ------------------------------------------------------------------------
   m = n !- 1
 
-  allocate (phi0(n,n,n)) 
+  allocate (phi0(n,n,n))
+  allocate (x_arr(n,n,n)) 
+  allocate (y_arr(n,n,n)) 
+  allocate (z_arr(n,n,n))
+  allocate (arg(n,n,n))   
   ! allocate (phi0k((m/2 + 1), m))
+
+  do i = 1, n
+    x_arr(i,:,:) = i*twopi/n
+  enddo
+  do j = 1, n
+    y_arr(:,j,:) = j*twopi/n
+  enddo
+  do k = 1, n
+    z_arr(:,:,k) = k*twopi/n
+  enddo
 
   phi0(:,:,:) = 0 ! initialise all entries to zero
 
@@ -950,14 +965,10 @@ program main
           tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky**2+kz**2)**(2.0d0/6.0d0)))
           amp = sqrt(tmp*tmp2) !amplitude
 
-          do i = 1, n
-            do j = 1, n
-              do k = 1, n
-              phi0(i,j,k) = phi0(i,j,k) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + kz*j*twopi/n + num*twopi) !3d
-              enddo
-            enddo
-          enddo
+          arg = kx*x_arr + ky*y_arr + kz*z_arr + num*twopi
 
+          phi0(:,:,:) = phi0(:,:,:) + amp*cos(arg) !3d
+          
         endif
       
       enddo  
@@ -1188,6 +1199,10 @@ program main
 
   deallocate (phi0)
   deallocate (phi)
+  deallocate (x_arr)
+  deallocate (y_arr)
+  deallocate (z_arr)
+  deallocate (arg)
 
   stop
 
