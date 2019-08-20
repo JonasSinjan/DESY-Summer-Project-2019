@@ -517,7 +517,7 @@ program main
           if (l < ngrids) then
             b(1) = mgrid(l+1)%bx(i,j,k)
             b(2) = mgrid(l+1)%by(i,j,k)
-            b(3) = mgrid(l=1)%bz(i,j,k)
+            b(3) = mgrid(l+1)%bz(i,j,k)
           else
             ! use average uniform field
             b(1) = bx0
@@ -531,7 +531,7 @@ program main
 
         enddo
       enddo
-
+    enddo
   enddo
 
 
