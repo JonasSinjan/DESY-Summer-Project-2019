@@ -103,7 +103,7 @@ program main
   real(sp) :: b1(3), ph1, ph2, ph3, aux1, aux2, aux3 !3d
   real(sp) :: rxp, ryp, drxp, dryp, rzp, drzp !3d
   real(sp) :: wx0, wx1, wy0, wy1, wz0, wz1
-  real(sp) :: kmax, kmod
+  real(sp) :: kmax, kmod, mag
 
   real(sp) :: k_para, k_perp, E_coeff, ph
 
@@ -159,8 +159,8 @@ program main
 
   allocate (ps_k(nk))
   allocate (ps_kb(nkb))
-  allocate (ps_kt(nkt))
-  allocate (ps_kk(nkb,nkt))
+  allocate (ps_kt(nkt,nkt))
+  allocate (ps_kk(nkb,nkt,nkt))
 
   allocate(x(n))
   allocate(y(n))
@@ -995,8 +995,8 @@ program main
   !----------------------------------------------------------------
   lsum_power = .false.
 
-  tmp3d(:,:,1) = phi0(:,:)
-  call power_kk(tmp3d, ps_k, ps_kb, ps_kt, ps_kk, lsum_power, lx, ly, lz)
+  tmp3d(:,:,:) = phi0(:,:,:)
+  !call power_kk(tmp3d, ps_k, ps_kb, ps_kt, ps_kk, lsum_power, lx, ly, lz)
   !call write_power_spectra('PHI0.DAT', 400) - no DAT file created yet
 
 
@@ -1093,7 +1093,7 @@ program main
   lsum_power = .false.
 
   tmp3d(:,:,:) = phi(:,:,:)
-  call power_kk(tmp3d, ps_k, ps_kb, ps_kt, ps_kk, lsum_power, lx, ly, lz)
+  !call power_kk(tmp3d, ps_k, ps_kb, ps_kt, ps_kk, lsum_power, lx, ly, lz)
   !call write_power_spectra('PHI.DAT', 400) - no DAT files yet
 
 
@@ -1189,69 +1189,69 @@ program main
   deallocate (phi0)
   deallocate (phi)
 
-  ! stop
+  stop
 
-  contains
+  ! contains
 
-    !----------------------------------------------------------------
-    ! calculate power spectrum of phi and write to file
-    !----------------------------------------------------------------
-    subroutine write_power_spectra(partial_file_name, lun)
+  !   !----------------------------------------------------------------
+  !   ! calculate power spectrum of phi and write to file
+  !   !----------------------------------------------------------------
+  !   subroutine write_power_spectra(partial_file_name, lun)
 
-      implicit none
+  !     implicit none
 
-      character(len=*) :: partial_file_name
-      integer :: lun
+  !     character(len=*) :: partial_file_name
+  !     integer :: lun
 
-      ! local dummy variables
-      integer :: k, kb, kt
-      character(len=400) :: file_name
+  !     ! local dummy variables
+  !     integer :: k, kb, kt
+  !     character(len=400) :: file_name
 
 
-      file_name = trim(data_dir) // 'power_spectra/PS_K_' // trim(partial_file_name)
-      open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
-      write(lun, "(a1, a4, 1x, 1(a24, 1x))") '#', 'k', &
-        '|phi(k)|^2'
-      do k = 1, nk
-        write(lun, '(i5, 1x, 1(es24.16, 1x))') k-1, &
-          ps_k(k)
-      enddo
-      close(lun)
+  !     file_name = trim(data_dir) // 'power_spectra/PS_K_' // trim(partial_file_name)
+  !     open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
+  !     write(lun, "(a1, a4, 1x, 1(a24, 1x))") '#', 'k', &
+  !       '|phi(k)|^2'
+  !     do k = 1, nk
+  !       write(lun, '(i5, 1x, 1(es24.16, 1x))') k-1, &
+  !         ps_k(k)
+  !     enddo
+  !     close(lun)
 
-      file_name = trim(data_dir) // 'power_spectra/PS_KB_' // trim(partial_file_name)
-      open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
-      write(lun, "(a1, a4, 1x, 1(a24, 1x))") '#', 'kx', &
-        '|phi(kx)|^2'
-      do k = 1, nkb
-        write(lun, '(i5, 1x, 1(es24.16, 1x))') k-1, &
-          ps_kb(k)
-      enddo
-      close(lun)
+  !     file_name = trim(data_dir) // 'power_spectra/PS_KB_' // trim(partial_file_name)
+  !     open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
+  !     write(lun, "(a1, a4, 1x, 1(a24, 1x))") '#', 'kx', &
+  !       '|phi(kx)|^2'
+  !     do k = 1, nkb
+  !       write(lun, '(i5, 1x, 1(es24.16, 1x))') k-1, &
+  !         ps_kb(k)
+  !     enddo
+  !     close(lun)
 
-      file_name = trim(data_dir) // 'power_spectra/PS_KT_' // trim(partial_file_name)
-      open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
-      write(lun, "(a1, a4, 1x, 1(a24, 1x))") '#', 'kyz', &
-        '|phi(kyz)|^2'
-      do k = 1, nkt
-        write(lun, '(i5, 1x, 1(es24.16, 1x))') k-1, &
-          ps_kt(k)
-      enddo
-      close(lun)
+  !     file_name = trim(data_dir) // 'power_spectra/PS_KT_' // trim(partial_file_name)
+  !     open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
+  !     write(lun, "(a1, a4, 1x, 1(a24, 1x))") '#', 'kyz', &
+  !       '|phi(kyz)|^2'
+  !     do k = 1, nkt
+  !       write(lun, '(i5, 1x, 1(es24.16, 1x))') k-1, &
+  !         ps_kt(k)
+  !     enddo
+  !     close(lun)
 
-      file_name = trim(data_dir) // 'power_spectra/PS_KK_' // trim(partial_file_name)
-      open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
-      write(lun, "(a1, a4, 1x, a5, 1x, 1(a24, 1x))") '#', 'kx', 'kyz', &
-        '|phi(kx, kyz)|^2'
-      do kt = 1, nkt
-        do kb = 1, nkb
-          write(lun, '(2(i5, 1x), 1(es24.16, 1x))') kb-1, kt-1, &
-            ps_kk(kb,kt)
-        enddo
-        write(lun,*)
-      enddo
-      close(lun)
+  !     file_name = trim(data_dir) // 'power_spectra/PS_KK_' // trim(partial_file_name)
+  !     open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
+  !     write(lun, "(a1, a4, 1x, a5, 1x, 1(a24, 1x))") '#', 'kx', 'kyz', &
+  !       '|phi(kx, kyz)|^2'
+  !     do kt = 1, nkt
+  !       do kb = 1, nkb
+  !         write(lun, '(2(i5, 1x), 1(es24.16, 1x))') kb-1, kt-1, &
+  !           ps_kk(kb,kt)
+  !       enddo
+  !       write(lun,*)
+  !     enddo
+  !     close(lun)
 
-      return
-    end subroutine write_power_spectra
+  !     return
+  !   end subroutine write_power_spectra
 
 end program main
