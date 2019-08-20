@@ -2,8 +2,8 @@ DEBUG = Y
 DOUBLE = Y
 
 FC     = gfortran
-FFLAGS = -cpp -ffree-line-length-none -fbackslash -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1
-LIBS   = -fopenmp
+FFLAGS = -cpp -ffree-line-length-none -fbackslash -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=5
+LIBS   = 
 
 FFTW3_PATH = /lustre/fs23/group/that/jonas/lib/fftwlib
 #FFTW3_PATH = /usr
