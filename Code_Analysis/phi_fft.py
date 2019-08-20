@@ -218,7 +218,7 @@ def plot_power3d(dir1, n):
     #plt.plot(np.log(var[:, 10]), label='10')
     #plt.plot(np.log(var[:, 40]), label='40')
     plt.plot(np.log(var[:, 2, 2]), label='2**2')
-    plt.plot(np.log(var[:, 80, 80]), label='80**80')
+    plt.plot(np.log(var[:, 40, 40]), label='80**80')
     plt.legend()
     plt.show()
 
