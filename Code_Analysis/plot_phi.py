@@ -42,7 +42,7 @@ for i in range(5):
     fig=plt.figure(i)
     fig = plt.figure(figsize=(5.0, 5.0))
     gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
-    ax0 = plt.subplot(gs[0],aspect='equal',projection='3d')
+    ax0 = plt.subplot(gs[0],aspect='equal')
 
     z=temp1[slice_index,:,:] #one slice
 
