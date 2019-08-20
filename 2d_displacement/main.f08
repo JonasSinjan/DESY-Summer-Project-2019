@@ -74,6 +74,7 @@ program main
   real(sp), dimension(:,:), allocatable :: bx, by
   real(sp), dimension(:,:), allocatable :: rx0, ry0
   real(sp), dimension(:,:), allocatable :: drx, dry
+  real(sp), dimension(:,:), allocatable :: x_arr, y_arr, input_1
   type(sgrid), dimension(:), allocatable :: mgrid
 
   real(sp), dimension(:), allocatable :: x, y, z
@@ -656,11 +657,20 @@ program main
   ! ------------------------------------------------------------------------
   m = n !- 1
 
-  allocate (phi0(n,n)) 
+  allocate (phi0(n,n))
+  allocate (x_arr(n,n)) 
+  allocate (y_arr(n,n)) 
+  allocate (input_1(n,n)) 
   ! allocate (phi0k((m/2 + 1), m))
 
   phi0(:,:) = 0 ! initialise all entries to zero
   
+  do i = 1, n
+    x_arr(i,:,:) = i*twopi/n
+  enddo
+  do j = 1, n
+    y_arr(:,j,:) = j*twopi/n
+  enddo
  
   !rand_seed =(/75421/)
   !call random_seed(put=rand_seed)
@@ -696,28 +706,29 @@ program main
     endif
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
-      if (abs(ky) <  5) then
-            continue
-      else 
+      if (ky == 0) then !cant root 0
+          continue
+      else
+        !print*, ky
         call random_number(num)
-        if (ky == 0) then !cant root 0
-            continue
-        else
-           !print*, ky
-           tmp = abs(ky)**(-7.0d0/3.0d0) !2D
-           tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
-           amp = sqrt(tmp*tmp2) !amplitude
-           do i = 1, n
-             do j = 1, n
-             phi0(i,j) = phi0(i,j) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + num*twopi)
-             enddo
-           enddo
-        endif  
-      endif
+        tmp = abs(ky)**(-7.0d0/3.0d0) !2D
+        tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
+        amp = sqrt(tmp*tmp2) !amplitude
+        
+        input_1 = kx*x_arr + ky*y_arr + num*twopi
+
+        phi0(:,:) = phi0(:,:) + amp*cos(input_1)
+      endif  
     enddo
   enddo
   !!$OMP END DO
   !!$OMP END PARALLEL
+
+  !  do i = 1, n
+  !    do j = 1, n
+  !    phi0(i,j) = phi0(i,j) + amp*cos(kx*i*twopi/n + ky*j*twopi/n + num*twopi)
+  !    enddo
+  !  enddo
 
   print*, 'The loop has successfully completed'
 
@@ -948,7 +959,9 @@ program main
 
   deallocate (phi0)
   deallocate (phi)
-
+  deallocate (x_arr)
+  deallocate (y_arr)
+  deallocate (input_1)
   ! stop
 
   contains
