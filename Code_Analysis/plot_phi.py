@@ -16,9 +16,9 @@ nx=res
 ny=res
 nz=res
 
-x = np.arange(0,nx)
-y = np.arange(0,ny)
-z = np.arange(0,nz)
+x = np.arange(0,nx+1)
+y = np.arange(0,ny+1)
+z = np.arange(0,nz+1)
 
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/"
 
