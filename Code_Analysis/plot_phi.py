@@ -15,6 +15,11 @@ res = 64
 nx=res
 ny=res
 nz=res
+
+x = np.arange(0,nx)
+y = np.arange(0,ny)
+z = np.arange(0,nz)
+
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/"
 
 filename=dir_data+'PHI'+'.BIN'
@@ -42,18 +47,9 @@ ax0 = plt.subplot(gs[0],aspect='equal',projection='3d')
 
 z=temp1#[2,:,:] #one slice
 
-#plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-#           interpolation='nearest', origin='lower')
-x = np.arange(z.shape[0])[:, None, None]
-y = np.arange(z.shape[1])[None, :, None]
-z = np.arange(z.shape[2])[None, None, :]
-x, y, z = np.broadcast_arrays(x, y, z)
-c = np.tile(z.ravel()[:, None], [1, 3])
-
-ax0.scatter(x.ravel(),
-           y.ravel(),
-           z.ravel(),c=c)
-
+# plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
+#            interpolation='nearest', origin='lower')
+ax0.scatter(x,y,z,c=z.ravel())
 fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
