@@ -156,7 +156,7 @@ program main
   ! ------------------------------------------------------------------------
   ! allocate arrays
   ! ------------------------------------------------------------------------
-  allocate (tmp3d(n,n,1))
+  allocate (tmp3d(n,n,n))
 
   allocate (ps_k(nk))
   allocate (ps_kb(nkb))
