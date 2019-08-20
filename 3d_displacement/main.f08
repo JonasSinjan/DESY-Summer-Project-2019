@@ -44,7 +44,6 @@ program main
     real(sp), dimension(:,:,:), allocatable :: dbx, dby, dbz
     real(sp), dimension(:,:,:), allocatable :: etz_x,etz_y, etz_z !3d
     real(sp), dimension(:,:,:), allocatable :: drx, dry, drz
-    real(sp), dimension(:,:,:), allocatable :: x_arr, y_arr, z_arr, input_1
   end type sgrid
 
 
@@ -72,6 +71,7 @@ program main
   real(sp), dimension(:,:,:), allocatable :: bx, by, bz !3d
   real(sp), dimension(:,:,:), allocatable :: rx0, ry0, rz0 !3d
   real(sp), dimension(:,:,:), allocatable :: drx, dry, drz !3d
+  real(sp), dimension(:,:,:), allocatable :: x_arr, y_arr, z_arr, input_1
   type(sgrid), dimension(:), allocatable :: mgrid
 
   real(sp), dimension(:), allocatable :: x, y, z
