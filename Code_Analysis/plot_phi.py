@@ -16,10 +16,6 @@ nx=res
 ny=res
 nz=res
 
-x = np.arange(0,nx+1)
-y = np.arange(0,ny+1)
-z = np.arange(0,nz+1)
-
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/"
 
 filename=dir_data+'PHI'+'.BIN'
@@ -40,29 +36,32 @@ temp2 = np.reshape(abx,(nx,ny,nz))
 
 #print(temp2[:,22])
 
-fig=plt.figure()
-fig = plt.figure(figsize=(5.0, 5.0))
-gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
-ax0 = plt.subplot(gs[0],aspect='equal',projection='3d')
+for i in range(5):
+    slice_index = rand(res)
 
-z_arr=temp1#[2,:,:] #one slice
+    fig=plt.figure(i)
+    fig = plt.figure(figsize=(5.0, 5.0))
+    gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
+    ax0 = plt.subplot(gs[0],aspect='equal',projection='3d')
 
-# plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-#            interpolation='nearest', origin='lower')
-ax0.scatter(x,y,z,c=z_arr.ravel())
-fig = plt.gcf()
-plt.clim()   # clamp the color limits
-plt.colorbar()
+    z_arr=temp1[slice_index,:,:] #one slice
 
-ax1 = plt.subplot(gs[1],aspect='equal')
+    plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
+                interpolation='nearest', origin='lower')
+    fig = plt.gcf()
+    plt.clim()   # clamp the color limits
+    plt.colorbar()
 
-z=temp2[2,:,:] #one slice
+    ax1 = plt.subplot(gs[1],aspect='equal')
 
-plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-           interpolation='nearest', origin='lower')
+    z=temp2[slice_index,:,:] #one slice
 
-fig = plt.gcf()
-plt.clim()   # clamp the color limits
-plt.colorbar()
+    plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
+            interpolation='nearest', origin='lower')
+
+    fig = plt.gcf()
+    plt.clim()   # clamp the color limits
+    plt.colorbar()
+    plt.title('%f'% slice_index)
 
 plt.show()
