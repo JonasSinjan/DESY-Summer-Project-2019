@@ -37,7 +37,7 @@ temp2 = np.reshape(abx,(nx,ny,nz))
 #print(temp2[:,22])
 
 for i in range(5):
-    slice_index = rand(res)
+    slice_index = randint(0,res)
 
     fig=plt.figure(i)
     fig = plt.figure(figsize=(5.0, 5.0))
