@@ -186,7 +186,7 @@ def plot_power3d(dir1, n):
     # print(filename)
     fd = open(filename, 'rb')
 
-    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
 
     tmp = np.reshape(abx, (nx, ny, nz))
     phi0 = tmp.transpose()
@@ -196,7 +196,7 @@ def plot_power3d(dir1, n):
     # print(filename)
     fd = open(filename, 'rb')
 
-    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
 
     tmp2 = np.reshape(abx, (nx, ny, nz))
     phi = tmp2.transpose()
@@ -258,24 +258,41 @@ def plot_power3d(dir1, n):
     #plt.savefig('test')
     plt.show()
 
-    perp_spectrum = np.zeros(ny, nz)
+    # list_kperp = []
+    
+    # phi0_flat = phi0k.flatten()
+
+    # for j in range(ny):
+    #     for k in range(nz):
+    #         list_kperp.append(np.sqrt(j**2+k**2))
+    
+    # for i in range(nx):
+    #     list_kperp.append(list_kperp)
+
+    #to find the i position, divide the index in the list_kperp by nx and floor it
+
     para_spectrum = np.zeros(nx)
+    perp_spectrum = np.zeros(nx)
+
+
     for i in range(nx):
-        perp_spectrum[i,:] = np.sum(abs(phi0k[:,i,:]) ** 2)  #first index of perp is second of phik
-        perp_spectrum[:,i] = np.sum(abs(phi0k[:,:,i]) ** 2)
-        para_spectrum[i] = np.sum(abs(phi0k[i,:,:]) ** 2)
+        para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
+        
+    for j in range(ny):
+        for k in range(nz):
+            perp_spectrum[j] = np.sum(abs(phi0k[:, j, k]) ** 2)
 
     para_first = para_spectrum[:int(n / 2)]
     para_second = para_spectrum[int(n / 2 + 1):]
     para_flipped = np.flip(para_first)
 
-    perp_first = perp_spectrum[:int(n / 2),]  # skip nyquist
+    perp_first = perp_spectrum[:int(n / 2)]  # skip nyquist
     perp_second = perp_spectrum[int(n / 2 + 1):]
     perp_flipped = np.flip(perp_first)
 
     perp_total = (perp_second + perp_flipped) / 2.0
     para_total = (para_second + para_flipped) / 2.0
-
+  
     start = 5
     end = 25
 
