@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import linregress
 from matplotlib import ticker
 from matplotlib import gridspec
-from k_perp_3d_spectrum import k_perp_calculator,kspec_funk,slice_fft
+from k_perp_3d_spectrum import k_perp_calculator
 import scipy.interpolate as spint
 
 def plot_power2d(dir1, dir2, n):
