@@ -160,7 +160,7 @@ lperp3 = lperpe/lentf
 # lperp7 = lperpe/lentf
 
 #filename = 'c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
 lentf=128.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -196,7 +196,7 @@ lperp8 = lperpe/lentf
 # lperp9 = lperpe/lentf
 
 #filename = 'c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/256run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
 lentf=256.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -214,7 +214,7 @@ lpar10 = lpyare/lentf
 lperp10 = lperpe/lentf
 
 #filename = 'c:/Users/jonas/DESY/2d_displacement/512run2D_73_frac/sf_par_perp_v_phi0F.txt'
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_frac/sf_par_perp_v_phi0F.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/512run2D_73_frac/sf_par_perp_v_phi0F.txt'
 lentf=512.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -231,7 +231,7 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar11 = lpyare/lentf
 lperp11 = lperpe/lentf
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/128run2D_73_mod4/sf_par_perp_v_phi0F.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_mod4/sf_par_perp_v_phi0F.txt'
 lentf=128.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -248,7 +248,7 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar12 = lpyare/lentf
 lperp12 = lperpe/lentf
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D_73_mod4/sf_par_perp_v_phi0F.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/256run2D_73_mod4/sf_par_perp_v_phi0F.txt'
 lentf=256.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -265,7 +265,7 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar13 = lpyare/lentf
 lperp13 = lperpe/lentf
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_mod4/sf_par_perp_v_phi0F.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/512run2D_73_mod4/sf_par_perp_v_phi0F.txt'
 lentf=512.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]

@@ -946,7 +946,7 @@ program main
   
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
 
-  call omp_set_num_threads(30)
+  !call omp_set_num_threads(30)
         
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
