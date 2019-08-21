@@ -99,7 +99,7 @@ def plot_power2d(dir1, dir2, n):
     plt.ylabel('K_parallel')
     plt.xlabel('K_perp')
     plt.title('FFT of Phi')
-    #plt.savefig('test')
+    
     plt.show()
 
     perp_spectrum = np.zeros(nx)
@@ -215,11 +215,10 @@ def plot_power3d(dir1, n):
     # plotting phik at particular k_perp to see exponential drop off at centre
     var = abs(phi0k) ** 2
     plt.figure(3)
-    plt.plot(np.log(var[:, 2, 2]), label='2**2')
-    plt.plot(np.log(var[:, 40, 40]), label='80**80')
+    plt.plot(np.log(var[:, 2, 2]), label=':2,2')
+    plt.plot(np.log(var[:, 40, 40]), label=':40,40')
     plt.legend()
-    plt.show()
-
+    #plt.show()
 
     fig = plt.figure(1)
     fig = plt.figure(figsize=(5.0, 5.0))
@@ -269,6 +268,7 @@ def plot_power3d(dir1, n):
     slope, intercept, rval, p, err = linregress(np.log(range(start, end)), np.log(perp_total[start:end]))
     slope_par, intercept_par, rval_pa, p_para, err_para = linregress(np.log(range(start, end)),
                                                                      np.log(para_total[start:end]))
+    print(slope, slope_par)
 
     lin_perb = [slope * i + intercept for i in np.log(range(1, int(n / 2)))]
     lin_par = [slope_par * i + intercept_par for i in np.log(range(1, int(n / 2)))]
@@ -278,8 +278,6 @@ def plot_power3d(dir1, n):
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
     plt.legend()
     plt.show()
-
-    print(slope, slope_par)
 
 
 if __name__ == "__main__":
