@@ -85,7 +85,7 @@ def k_perp_calculator(n,phi,phi0, dir_data):
 
     def kspec_funk(ff):
 
-        print(ff)
+        #print(ff)
         n = 64
         #looping over theta and phi angles in k space
         theta_array = np.linspace(0.0,np.pi/2.0,n_theta_pts)
@@ -164,13 +164,11 @@ def k_perp_calculator(n,phi,phi0, dir_data):
 
     #looping over the higher wavenumbers? - this is the radius
     kperp_rad = range(1,n/2)
-
-    pool = Pool(processes=nprocs) 
-    kspecs = pool.map(kspec_funk, np.arange(1,n/2))
-    sff = np.asarray(kspecs)
-    pool.terminate()
-
-    f_power_spec[1:] = sff[:,0]
+    kspecs = [0]*(n/2)
+    for i in np.arange(1,n/2):
+        kspecs[i] = kspec_funk(i)
+    
+    f_power_spec[1:] = kspecs[:]
 
     #writing the spectra to a file
     f=open(dir_data+mode+'_kperp_spec.txt','w')
