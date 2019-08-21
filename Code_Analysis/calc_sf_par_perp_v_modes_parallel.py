@@ -34,7 +34,7 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 64
+size = 128
 lent = size
 
 sq_bool = False
@@ -50,8 +50,8 @@ else:
     nz = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/"  # data files
-dir_output = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/"  # data files
+dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_mod4/'  # data files
+dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_mod4/'  # data files
 #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
@@ -320,15 +320,15 @@ def struc_funk3D(ff, phi, bx, by, bz):
 for t in range(0, 1, 1):  # the time loop
 
     if __name__ == '__main__':
-        #phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
-        phi0, bx,by,bz = read_files3D(dir_data)
+        phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
+        #phi0, bx,by,bz = read_files3D(dir_data)
 
         # pool = Pool(processes=nprocs)
         # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
         sf_snapshot = []
         sff = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
-            numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
+            numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi, bx, by)
             sff[0, i] = numpt_tmp
             sff[1, i] = par_tmp
             sff[2, i] = perp_tmp
