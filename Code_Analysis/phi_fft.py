@@ -250,15 +250,17 @@ def plot_power3d(dir1, n):
     plt.show()
 
     para_spectrum = np.zeros(nx)
-
+    para_total = np.zeros(n/2 + 1)
     for i in range(nx):
         para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
-    
-    para_first = para_spectrum[:int(n / 2)]
-    para_second = para_spectrum[int(n / 2 + 1):]
-    para_flipped = np.flip(para_first)
+    for w in range(n/2+1): 
+        para_total[w] = 0.5*(para_spectrum[nx/2-1+w]+para_spectrum[nx/2-1-w])
+    # para_first = para_spectrum[:int(n / 2)]
+    # para_second = para_spectrum[int(n / 2 + 1):]
+    # para_flipped = np.flip(para_first)
 
-    para_total = (para_second + para_flipped) / 2.0
+    # para_total = (para_second + para_flipped) / 2.0
+   
   
     start = 5
     end = 25
