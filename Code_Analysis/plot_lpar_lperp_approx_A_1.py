@@ -298,6 +298,23 @@ sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
 lpar15 = lpyare/lentf
 lperp15 = lperpe/lentf
+
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/sf_par_perp_v_F.txt'
+lentf=64.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar16 = lpyare/lentf
+lperp16 = lperpe/lentf
 #
 # # in lper and lpar arrays they stop and become 0 - unsure why - this is a filter to slice the array for plotting due to log scale errors with zero otherwise
 # for count, i in enumerate(lperp4):
@@ -375,6 +392,11 @@ for count_64_3D_phi0, i in enumerate(lperp15):
     print(count_64_3D_phi0)
     break   
 
+for count_64_3D_phi, i in enumerate(lperp16):
+  if  i <= 0.0001:
+    print(count_64_3D_phi)
+    break   
+
 #reference slopes
 
 ref_slope_2_3 = lpar11[10]*(np.power(lperp11[:count_512frac_phi0],(2.0/3.0))/np.power(lperp11[12],(2.0/3.0)))
@@ -394,11 +416,11 @@ ax0.plot(lperp12[:count_128mod4_phi0], lpar12[:count_128mod4_phi0], lw=7, ls = "
 ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=7, ls = ":", label="256_mod4_PHI0")
 ax0.plot(lperp14[:count_512mod4_phi0], lpar14[:count_512mod4_phi0], lw=7, ls = ":", label="512_mod4_PHI0")
 ax0.plot(lperp15[:count_64_3D_phi0], lpar15[:count_64_3D_phi0], lw=9, ls = ":", label="64_3D_PHI0")
-# ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
+ax0.plot(lperp16[:count_64_3D_phi], lpar16[:count_64_3D_phi], lw=9, ls = "-", label="64_3D_PHI")
 # ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
-ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
-ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
-ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
+#ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
+#ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
+#ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
 # ax0.plot(lperp4[:count], lpar4[:count], ls = "--", lw=4,label="128_73")
 # ax0.plot(lperp5[:count_256], lpar5[:count_256], ls = "--", lw=4, label="256_73")
 # ax0.plot(lperp6[:count_512], lpar6[:count_512], lw=4, ls = "--", label="512_73")
