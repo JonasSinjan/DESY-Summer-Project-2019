@@ -133,6 +133,7 @@ def plot_power2d(dir1, dir2, n):
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
     plt.legend()
+    plt.title('Phi0 Power Spectrum')
     # plt.show()
 
     print(slope, slope_par)
@@ -172,7 +173,7 @@ def plot_power2d(dir1, dir2, n):
 
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
-
+    plt.title('Phi0 Spectrum')
     plt.legend()
     plt.show()
 
@@ -250,10 +251,10 @@ def plot_power3d(dir1, n):
     plt.show()
 
     para_spectrum = np.zeros(nx)
-    para_total = np.zeros(n/2 + 1)
+    para_total = np.zeros(n/2)
     for i in range(nx):
         para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
-    for w in range(n/2+1): 
+    for w in range(1,n/2): 
         para_total[w] = 0.5*(para_spectrum[nx/2-1+w]+para_spectrum[nx/2-1-w])
     # para_first = para_spectrum[:int(n / 2)]
     # para_second = para_spectrum[int(n / 2 + 1):]
@@ -278,6 +279,7 @@ def plot_power3d(dir1, n):
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
     plt.legend()
+    plt.title('Phi0 Spectrum')
     plt.show()
 
 
@@ -288,7 +290,7 @@ if __name__ == "__main__":
     # dir_data2 = "c:/Users/jonas/DESY/2d_displacement/Runs/128run2D_73_test/power_spectra/"
     # plot_power(dir_data1, dir_data2, n)
 
-    #dir_data3 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/"
+    #dir_data3 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/
     #dir_data4 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/power_spectra/"
     #plot_power2d(dir_data3, dir_data4, n)
 
