@@ -948,7 +948,6 @@ program main
 
   call omp_set_num_threads(30)
   !$OMP PARALLEL
-  !$OMP DO
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
     print*, kx
@@ -986,7 +985,6 @@ program main
       enddo  
     enddo
   enddo
-  !$OMP END DO
   !$OMP END PARALLEL
   print*, 'The loop has successfully completed'
 
