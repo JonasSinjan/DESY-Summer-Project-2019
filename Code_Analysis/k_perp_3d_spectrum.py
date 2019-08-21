@@ -34,7 +34,7 @@ def kspec_funk(ff):
     return [f_pow]
 
 def slice_fft(sn,phi):
-    fx2d = phi[:,:,sn]
+    fx2d = phi[sn,:,:]
     # WHY ARE THEY SLICING? AND WHY IN LAST INDEX- WHICH INDEX SHOULD IT BE?
 
     #calculating the FFT
@@ -83,15 +83,17 @@ def k_perp_calculator(n,phi,phi0, dir_data):
     logpfolded = np.zeros((xpt/2,ypt/2))
 
     for i in np.arange(0,n,n/nzslices):
-        oter = slice_fft(i, phi0)
+        if i == 0:
+            tmp = slice_fft(i, phi0)
+            oter = tmp*0.0
+        oter = oter + slice_fft(i, phi0)
     
-    fftslices = np.asarray(oter)
-    pk_slice = np.mean(fftslices,axis=0)
+    pk_slice = oter/len(np.arange(0,n,n/nzslices))
 
     #folding along the y axis
-    pfolded[0,:] = pk_slice[xpt/2-1,:]
-    for w in range (1,xpt/2):
-        pfolded[w,:] = 0.5*(pk_slice[xpt/2-1+w,:]+pk_slice[xpt/2-1-w,:]) 
+    pfolded[0,:] = pk_slice[ypt/2-1,:]
+    for w in range (1,ypt/2):
+        pfolded[w,:] = 0.5*(pk_slice[ypt/2-1+w,:]+pk_slice[ypt/2-1-w,:]) 
 
     #taking the log for easier interpolation
     logpfolded = np.log(pfolded)
