@@ -58,7 +58,7 @@ dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Run
 # IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN -  CHECK!!!
 
 # NUMBER OF DIMENSIONS
-twoD_bool = False  # if set to true, will assume data in 2D, otherwise when false defaults to 3D
+twoD_bool = True # if set to true, will assume data in 2D, otherwise when false defaults to 3D
 
 if twoD_bool is True:
     shape = (lent + 1, lent + 1)  # for 2D
@@ -252,66 +252,66 @@ def struc_funk3D(ff, phi, bx, by, bz):
     return [numpt, sf_pare, sf_perpe]
 
 
-    def struc_funk2D(ff, phi, bx, by):
-        ll = ff * 1.0
+def struc_funk2D(ff, phi, bx, by):
+    ll = ff * 1.0
 
-        numpt = 0.0
-        sf_pare = 0.0
-        sf_perpe = 0.0
+    numpt = 0.0
+    sf_pare = 0.0
+    sf_perpe = 0.0
 
-        for kup in range(0, nrandpts):
-            # 2D method
-            # choose a random point
-            ri = randint(0, lent, size=2)  # 1x2 array
+    for kup in range(0, nrandpts):
+        # 2D method
+        # choose a random point
+        ri = randint(0, lent, size=2)  # 1x2 array
 
-            # 2D polars
-            lr = rand(n_avg_bfield_pts) * ll / 2.0
-            theta = rand(n_avg_bfield_pts) * np.pi  # want random theta not random costheta
-            lx = lr * np.cos(theta)
-            ly = lr * np.sin(theta)
-            xis = np.int_(np.floor(ri[0] + lx))
-            yis = np.int_(np.floor(ri[1] + ly))
+        # 2D polars
+        lr = rand(n_avg_bfield_pts) * ll / 2.0
+        theta = rand(n_avg_bfield_pts) * np.pi  # want random theta not random costheta
+        lx = lr * np.cos(theta)
+        ly = lr * np.sin(theta)
+        xis = np.int_(np.floor(ri[0] + lx))
+        yis = np.int_(np.floor(ri[1] + ly))
 
-            # renormalize indexes if they are going out of box
-            xis = xis % lent
-            yis = yis % lent
+        # renormalize indexes if they are going out of box
+        xis = xis % lent
+        yis = yis % lent
 
-            bhat = np.array([np.mean(bx[xis, yis]), np.mean(by[xis, yis])])
-            bhat = bhat / (np.sqrt(np.sum(bhat * bhat)))
+        bhat = np.array([np.mean(bx[xis, yis]), np.mean(by[xis, yis])])
+        bhat = bhat / (np.sqrt(np.sum(bhat * bhat)))
 
-            # bhat contains the unit vector along the local magnetic field
-            # now take 2 points separated by distance ll along this direction with center at ri
-            r1 = np.int_(ri + (ll / 2.0) * bhat)
-            r2 = np.int_(ri - (ll / 2.0) * bhat)
+        # bhat contains the unit vector along the local magnetic field
+        # now take 2 points separated by distance ll along this direction with center at ri
+        r1 = np.int_(ri + (ll / 2.0) * bhat)
+        r2 = np.int_(ri - (ll / 2.0) * bhat)
 
-            # renormalize indices
-            r1 = r1 % lent
-            r2 = r2 % lent
+        # renormalize indices
+        r1 = r1 % lent
+        r2 = r2 % lent
 
-            # dont need v, only need phi now
-            b1 = np.array([phi[r1[0], r1[1]]])
-            b2 = np.array([phi[r2[0], r2[1]]])
+        # dont need v, only need phi now
+        b1 = np.array([phi[r1[0], r1[1]]])
+        b2 = np.array([phi[r2[0], r2[1]]])
 
-            sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
+        sf_pare = sf_pare + np.sum((b1 - b2) * (b1 - b2))
 
-            # find one of the 2D perpendicular vectors
-            perpb = np.array([bhat[1], -bhat[0]])
+        # find one of the 2D perpendicular vectors
+        perpb = np.array([bhat[1], -bhat[0]])
 
-            # print(ri, type(ri), ll, type(ll), perpb, type(perpb))
-            # now take 2 points separated by distance ll along the perpendicular direction with center at ri
-            r1 = np.int_(ri + (ll / 2.0) * perpb)
-            r2 = np.int_(ri - (ll / 2.0) * perpb)
+        # print(ri, type(ri), ll, type(ll), perpb, type(perpb))
+        # now take 2 points separated by distance ll along the perpendicular direction with center at ri
+        r1 = np.int_(ri + (ll / 2.0) * perpb)
+        r2 = np.int_(ri - (ll / 2.0) * perpb)
 
-            # renormalize indices
-            r1 = r1 % lent
-            r2 = r2 % lent
+        # renormalize indices
+        r1 = r1 % lent
+        r2 = r2 % lent
 
-            b1 = np.array([phi[r1[0], r1[1]]])
-            b2 = np.array([phi[r2[0], r2[1]]])
+        b1 = np.array([phi[r1[0], r1[1]]])
+        b2 = np.array([phi[r2[0], r2[1]]])
 
-            sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
+        sf_perpe = sf_perpe + np.sum((b1 - b2) * (b1 - b2))
 
-            numpt = numpt + 1.0
+        numpt = numpt + 1.0
 
     print(ll, numpt, sf_pare, sf_perpe, )
     return [numpt, sf_pare, sf_perpe]
