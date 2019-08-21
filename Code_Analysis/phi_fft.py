@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import linregress
 from matplotlib import ticker
 from matplotlib import gridspec
+from k_perp_3d_spectrum import *
 
 
 def plot_power2d(dir1, dir2, n):
@@ -214,20 +215,11 @@ def plot_power3d(dir1, n):
     # plotting phik at particular k_perp to see exponential drop off at centre
     var = abs(phi0k) ** 2
     plt.figure(3)
-    #plt.plot(np.log(var[:, 20]), label='20')
-    #plt.plot(np.log(var[:, 10]), label='10')
-    #plt.plot(np.log(var[:, 40]), label='40')
     plt.plot(np.log(var[:, 2, 2]), label='2**2')
     plt.plot(np.log(var[:, 40, 40]), label='80**80')
     plt.legend()
     plt.show()
 
-    # test array for index
-    # tmp_arr = np.zeros((20, 20))
-    # for i in range(20):
-    #     tmp_arr[i, :] = i
-
-    # print(tmp_arr)
 
     fig = plt.figure(1)
     fig = plt.figure(figsize=(5.0, 5.0))
@@ -237,7 +229,7 @@ def plot_power3d(dir1, n):
 
     plt.imshow(np.log(abs(phi0k) ** 2)[2,:,:], cmap='seismic',
                interpolation='nearest', origin='lower')
-    # plt.imshow(tmp_arr)
+
     fig = plt.gcf()  # get the current figure
     plt.clim()  # clamp the color limits
     plt.colorbar()
@@ -249,52 +241,30 @@ def plot_power3d(dir1, n):
 
     plt.imshow(np.log(abs(phik) ** 2)[2,:,:], cmap='seismic',
                interpolation='nearest', origin='lower')
+
     fig = plt.gcf()  # get current figure
     plt.clim()  # clamp the color limits
     plt.colorbar()
     plt.ylabel('K_parallel')
     plt.xlabel('K_perp')
     plt.title('FFT of Phi')
-    #plt.savefig('test')
     plt.show()
 
-    # list_kperp = []
-    
-    # phi0_flat = phi0k.flatten()
-
-    # for j in range(ny):
-    #     for k in range(nz):
-    #         list_kperp.append(np.sqrt(j**2+k**2))
-    
-    # for i in range(nx):
-    #     list_kperp.append(list_kperp)
-
-    #to find the i position, divide the index in the list_kperp by nx and floor it
-
     para_spectrum = np.zeros(nx)
-    perp_spectrum = np.zeros(nx)
-
 
     for i in range(nx):
         para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
-        
-    for j in range(ny):
-        for k in range(nz):
-            perp_spectrum[j] = np.sum(abs(phi0k[:, j, k]) ** 2)
-
+    
     para_first = para_spectrum[:int(n / 2)]
     para_second = para_spectrum[int(n / 2 + 1):]
     para_flipped = np.flip(para_first)
 
-    perp_first = perp_spectrum[:int(n / 2)]  # skip nyquist
-    perp_second = perp_spectrum[int(n / 2 + 1):]
-    perp_flipped = np.flip(perp_first)
-
-    perp_total = (perp_second + perp_flipped) / 2.0
     para_total = (para_second + para_flipped) / 2.0
   
     start = 5
     end = 25
+
+    perp_total = k_perp_calculator(n,phi,phi0, dir1)
 
     slope, intercept, rval, p, err = linregress(np.log(range(start, end)), np.log(perp_total[start:end]))
     slope_par, intercept_par, rval_pa, p_para, err_para = linregress(np.log(range(start, end)),
@@ -307,7 +277,7 @@ def plot_power3d(dir1, n):
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
     plt.legend()
-    # plt.show()
+    plt.show()
 
     print(slope, slope_par)
 
