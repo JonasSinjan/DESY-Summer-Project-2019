@@ -174,6 +174,6 @@ def k_perp_calculator(n,phi,phi0, dir_data):
     for i in range(0,n/2):
         value=str(kperp_rad[i]) +" "+str(f_power_spec[i])
         f.write(value+"\n")
-        f.close()
+    f.close()
 
     return f_power_spec
