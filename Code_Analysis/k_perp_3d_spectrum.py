@@ -107,7 +107,7 @@ def k_perp_calculator(n,phi,phi0, dir_data):
         # THIS ISNT SHELL AREA? 
         f_pow = pwr_f*2.0*np.pi*kperp_rad[ff]
 
-        return [f_pow]
+        return f_pow
 
     def slice_fft(sn,phi):
         fx2d = phi[sn,:,:]
