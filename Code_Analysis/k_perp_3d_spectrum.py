@@ -170,7 +170,7 @@ def k_perp_calculator(n,phi,phi0, dir_data):
     for i in np.arange(1,n/2):
         kspecs[i] = kspec_funk(i)
     
-    f_power_spec[1:] = kspecs[:]
+    f_power_spec[1:] = kspecs[1:]
 
     #writing the spectra to a file
     f=open(dir_data+mode+'_kperp_spec.txt','w')
