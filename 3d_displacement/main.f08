@@ -947,7 +947,7 @@ program main
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
 
   call omp_set_num_threads(30)
-  
+  !$OMP PARALLEL
   !$OMP DO
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
@@ -987,7 +987,7 @@ program main
     enddo
   enddo
   !$OMP END DO
-
+  !$OMP END PARALLEL
   print*, 'The loop has successfully completed'
 
   wtime = omp_get_wtime() - wtime
