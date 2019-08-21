@@ -264,7 +264,7 @@ def plot_power3d(dir1, n):
     start = 5
     end = 25
 
-    perp_total = k_perp_calculator(n,phi,phi0, dir1)
+    perp_total = k_perp_calculator(n,phi,phi0,dir1)
 
     slope, intercept, rval, p, err = linregress(np.log(range(start, end)), np.log(perp_total[start:end]))
     slope_par, intercept_par, rval_pa, p_para, err_para = linregress(np.log(range(start, end)),

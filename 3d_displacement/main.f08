@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 7
+  integer :: ngrids = 6
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -130,7 +130,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run3D_positivewave/'
+  data_dir = './64run3D_OpenMP/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -946,14 +946,25 @@ program main
   
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
 
-  do ki = 0, 63 !0, n-3 
-    kx = ki!(-(n-1)/2 + 1) + ki
+  
+  !$OMP DO
+  do ki = 0, n-3 
+    kx = (-(n-1)/2 + 1) + ki
     print*, kx
-    do kj = 0, 63 !n-3 ! up to nyquist frequency
-      ky = kj !(-(n-1)/2 + 1) + kj
+    if (ki == 2) then
+      threadno = omp_get_num_threads() !check to see if openmp working
+      print*, "Total running threads", threadno
+    endif
+    thread_id = omp_get_thread_num()
+    if (thread_id == 2) then
+      print*, "ki value", ki
+    endif
+    
+    do kj = 0, n-3 ! up to nyquist frequency
+      ky = (-(n-1)/2 + 1) + kj
 
-      do kk = 0, 63 !n-3 !3d
-        kz = kk !(-(n-1)/2 + 1) + kk
+      do kk = 0, n-3 !3d
+        kz = (-(n-1)/2 + 1) + kk
 
         if ((abs (ky) < 1.0D-5 .and. abs(kz) < 1.0D-5)) then !cant root 0 - now for 3d
             continue
@@ -974,6 +985,7 @@ program main
       enddo  
     enddo
   enddo
+  !$OMP END DO
 
   print*, 'The loop has successfully completed'
 
