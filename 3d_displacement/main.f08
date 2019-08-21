@@ -946,14 +946,14 @@ program main
   
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
 
-  do ki = 0, n-3 
-    kx = (-(n-1)/2 + 1) + ki
+  do ki = 0, 63 !0, n-3 
+    kx = ki!(-(n-1)/2 + 1) + ki
     print*, kx
-    do kj = 0, n-3 ! up to nyquist frequency
-      ky = (-(n-1)/2 + 1) + kj
+    do kj = 0, 63 !n-3 ! up to nyquist frequency
+      ky = kj !(-(n-1)/2 + 1) + kj
 
-      do kk = 0, n-3 !3d
-        kz = (-(n-1)/2 + 1) + kk
+      do kk = 0, 63 !n-3 !3d
+        kz = kk !(-(n-1)/2 + 1) + kk
 
         if ((abs (ky) < 1.0D-5 .and. abs(kz) < 1.0D-5)) then !cant root 0 - now for 3d
             continue
