@@ -1138,7 +1138,7 @@ program main
 
   tmp3d(:,:,:) = by(:,:,:)
   write(lun) tmp3d(:,:,:)
-  ! only 2D atm, hence bz = 0
+  
   tmp3d(:,:,:) = bz(:,:,:)
   write(lun) tmp3d(:,:,:)
 
