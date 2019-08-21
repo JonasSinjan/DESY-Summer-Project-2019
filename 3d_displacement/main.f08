@@ -947,18 +947,10 @@ program main
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
 
   call omp_set_num_threads(30)
-  !$OMP DO
+        
   do ki = 0, n-3 
     kx = (-(n-1)/2 + 1) + ki
     print*, kx
-    if (ki == 2) then
-      threadno = omp_get_num_threads() !check to see if openmp working
-      print*, "Total running threads", threadno
-    endif
-    thread_id = omp_get_thread_num()
-    if (thread_id == 2) then
-      print*, "ki value", ki
-    endif
     
     do kj = 0, n-3 ! up to nyquist frequency
       ky = (-(n-1)/2 + 1) + kj
@@ -985,7 +977,7 @@ program main
       enddo  
     enddo
   enddo
-  !$OMP END DO
+
   print*, 'The loop has successfully completed'
 
   wtime = omp_get_wtime() - wtime
