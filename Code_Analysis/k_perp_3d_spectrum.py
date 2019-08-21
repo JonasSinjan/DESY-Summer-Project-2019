@@ -52,7 +52,7 @@ def slice_fft(sn,phi):
                 pfxk[ii,jj] = tinynum
 
     pfxyzk = pfxk      
-
+    xpt, ypt = 64, 64
     #removing the Nyquist component
     pfxyzk_wn = pfxyzk[1:xpt,0:ypt/2] 
 
