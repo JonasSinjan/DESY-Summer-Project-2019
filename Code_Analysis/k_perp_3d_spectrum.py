@@ -166,11 +166,8 @@ def k_perp_calculator(n,phi,phi0, dir_data):
     #looping over the higher wavenumbers? - this is the radius
     kperp_rad[1:] = range(1,n/2)
 
-    kspecs = [0]*(n/2)
     for i in np.arange(1,n/2):
-        kspecs[i] = kspec_funk(i)
-    
-    f_power_spec[1:] = kspecs[1:]
+        f_power_spec[i] = kspec_funk(i)
 
     #writing the spectra to a file
     f=open(dir_data+mode+'_kperp_spec.txt','w')
