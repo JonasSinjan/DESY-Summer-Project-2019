@@ -133,7 +133,7 @@ def read_files(dir_data):
     return phi, bx, by
 
 def read_files3D(dir_data):
-    filename = dir_data + 'PHI0' + '.BIN'
+    filename = dir_data + 'PHI' + '.BIN'
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -355,7 +355,7 @@ sf_par = sf_par / npts
 sf_perp = sf_perp / npts
 
 # writing the spectra to a file
-f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
+f = open(dir_output + 'sf_par_perp_v_' + mode + '.txt', 'w')
 for i in range(0, int(lent / 2)):
     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
     f.write(value + "\n")
