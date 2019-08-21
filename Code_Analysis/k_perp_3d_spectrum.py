@@ -56,8 +56,6 @@ def slice_fft(sn,phi):
 
     return(pfxyzk_wn)
 
-RGI = spint.RegularGridInterpolator
-
 
 def k_perp_calculator(n,phi,phi0, dir_data):
     
@@ -73,7 +71,9 @@ def k_perp_calculator(n,phi,phi0, dir_data):
     mode='F'
     nprocs = 24
     nprocsfft = 24
-    
+
+    RGI = spint.RegularGridInterpolator
+
     phikperp = np.zeros(n/2)
     phipower_spec = np.zeros(n/2)
     f_power_spec = np.zeros(n/2)
