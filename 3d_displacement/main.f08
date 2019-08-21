@@ -130,7 +130,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run3D/'
+  data_dir = './128run3D_positivewave/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
