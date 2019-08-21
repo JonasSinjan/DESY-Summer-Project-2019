@@ -288,9 +288,9 @@ if __name__ == "__main__":
     # dir_data2 = "c:/Users/jonas/DESY/2d_displacement/Runs/128run2D_73_test/power_spectra/"
     # plot_power(dir_data1, dir_data2, n)
 
-    dir_data3 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/"
-    dir_data4 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/power_spectra/"
-    plot_power2d(dir_data3, dir_data4, n)
+    #dir_data3 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/"
+    #dir_data4 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/power_spectra/"
+    #plot_power2d(dir_data3, dir_data4, n)
 
     n = 64
     dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/"
