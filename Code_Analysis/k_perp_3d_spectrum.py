@@ -60,6 +60,7 @@ from multiprocessing import Pool
 
 def k_perp_calculator(n,phi,phi0, dir_data):
     
+    n=64
     xpt=n
     ypt=n
     zpt=n
@@ -164,6 +165,7 @@ def k_perp_calculator(n,phi,phi0, dir_data):
 
     #looping over the higher wavenumbers? - this is the radius
     kperp_rad = range(1,n/2)
+
     kspecs = [0]*(n/2)
     for i in np.arange(1,n/2):
         kspecs[i] = kspec_funk(i)
