@@ -5,58 +5,57 @@ import scipy.interpolate as spint
 from multiprocessing import Pool
 
 
-tinynum = 1.0E-12
-n_theta_pts = 50
 
-def kspec_funk(ff):
 
-    print(ff)
+# def kspec_funk(ff):
 
-    #looping over theta and phi angles in k space
-    theta_array = np.linspace(0.0,np.pi/2.0,n_theta_pts)
-    count = 0
-    pwr_f = 0.0
+#     print(ff)
+#     n = 64
+#     #looping over theta and phi angles in k space
+#     theta_array = np.linspace(0.0,np.pi/2.0,n_theta_pts)
+#     count = 0
+#     pwr_f = 0.0
     
-    for theta in theta_array :
-        kxx = kperp_rad[ff]*np.cos(theta) #kxx in that plane - actually ky and kz(perp)
-        kyy = kperp_rad[ff]*np.sin(theta) 
-        pont=(kxx,kyy)
-        pwr_f = pwr_f + np.exp(logp_interp(pont))
-        count=count+1
+#     for theta in theta_array :
+#         kxx = kperp_rad[ff]*np.cos(theta) #kxx in that plane - actually ky and kz(perp)
+#         kyy = kperp_rad[ff]*np.sin(theta) 
+#         pont=(kxx,kyy)
+#         pwr_f = pwr_f + np.exp(logp_interp(pont))
+#         count=count+1
     
-    #taking shell average
-    pwr_f = pwr_f/count
+#     #taking shell average
+#     pwr_f = pwr_f/count
     
-    #multiplying by shell area to get 1D power
-    # THIS ISNT SHELL AREA? 
-    f_pow = pwr_f*2.0*np.pi*kperp_rad[ff]
+#     #multiplying by shell area to get 1D power
+#     # THIS ISNT SHELL AREA? 
+#     f_pow = pwr_f*2.0*np.pi*kperp_rad[ff]
 
-    return [f_pow]
+#     return [f_pow]
 
-def slice_fft(sn,phi):
-    fx2d = phi[sn,:,:]
-    # WHY ARE THEY SLICING? AND WHY IN LAST INDEX- WHICH INDEX SHOULD IT BE?
+# def slice_fft(sn,phi):
+#     fx2d = phi[sn,:,:]
+#     # WHY ARE THEY SLICING? AND WHY IN LAST INDEX- WHICH INDEX SHOULD IT BE?
 
-    #calculating the FFT
-    fxk = np.fft.rfftn(fx2d)
+#     #calculating the FFT
+#     fxk = np.fft.rfftn(fx2d)
    
-    #shifting the zero frequency to center
-    fxk_shifted = np.fft.fftshift(fxk,axes=0) 
+#     #shifting the zero frequency to center
+#     fxk_shifted = np.fft.fftshift(fxk,axes=0) 
     
-    #computing the power
-    pfxk = np.real(fxk_shifted*np.conjugate(fxk_shifted))
+#     #computing the power
+#     pfxk = np.real(fxk_shifted*np.conjugate(fxk_shifted))
  
-    for ii in range (0,np.size(pfxk,0)) :
-        for jj in range (0,np.size(pfxk,1)) :
-            if (math.isinf(pfxk[ii,jj]) or math.isnan(pfxk[ii,jj]) or pfxk[ii,jj]<tinynum):
-                pfxk[ii,jj] = tinynum
+#     for ii in range (0,np.size(pfxk,0)) :
+#         for jj in range (0,np.size(pfxk,1)) :
+#             if (math.isinf(pfxk[ii,jj]) or math.isnan(pfxk[ii,jj]) or pfxk[ii,jj]<tinynum):
+#                 pfxk[ii,jj] = tinynum
 
-    pfxyzk = pfxk      
-    xpt, ypt = 64, 64
-    #removing the Nyquist component
-    pfxyzk_wn = pfxyzk[1:xpt,0:ypt/2] 
+#     pfxyzk = pfxk      
+#     xpt, ypt = 64, 64
+#     #removing the Nyquist component
+#     pfxyzk_wn = pfxyzk[1:xpt,0:ypt/2] 
 
-    return(pfxyzk_wn)
+#     return(pfxyzk_wn)
 
 
 def k_perp_calculator(n,phi,phi0, dir_data):
@@ -67,6 +66,8 @@ def k_perp_calculator(n,phi,phi0, dir_data):
     Lx=1.0
     Ly=1.0
     Lz=1.0
+    tinynum = 1.0E-12
+    n_theta_pts = 50
    
     nzslices = 20
    
@@ -81,6 +82,56 @@ def k_perp_calculator(n,phi,phi0, dir_data):
     f_power_spec = np.zeros(n/2)
     pfolded = np.zeros((xpt/2,ypt/2))
     logpfolded = np.zeros((xpt/2,ypt/2))
+
+    def kspec_funk(ff):
+
+        print(ff)
+        n = 64
+        #looping over theta and phi angles in k space
+        theta_array = np.linspace(0.0,np.pi/2.0,n_theta_pts)
+        count = 0
+        pwr_f = 0.0
+        
+        for theta in theta_array :
+            kxx = kperp_rad[ff]*np.cos(theta) #kxx in that plane - actually ky and kz(perp)
+            kyy = kperp_rad[ff]*np.sin(theta) 
+            pont=(kxx,kyy)
+            pwr_f = pwr_f + np.exp(logp_interp(pont))
+            count=count+1
+        
+        #taking shell average
+        pwr_f = pwr_f/count
+        
+        #multiplying by shell area to get 1D power
+        # THIS ISNT SHELL AREA? 
+        f_pow = pwr_f*2.0*np.pi*kperp_rad[ff]
+
+        return [f_pow]
+
+    def slice_fft(sn,phi):
+        fx2d = phi[sn,:,:]
+        # WHY ARE THEY SLICING? AND WHY IN LAST INDEX- WHICH INDEX SHOULD IT BE?
+
+        #calculating the FFT
+        fxk = np.fft.rfftn(fx2d)
+    
+        #shifting the zero frequency to center
+        fxk_shifted = np.fft.fftshift(fxk,axes=0) 
+        
+        #computing the power
+        pfxk = np.real(fxk_shifted*np.conjugate(fxk_shifted))
+    
+        for ii in range (0,np.size(pfxk,0)) :
+            for jj in range (0,np.size(pfxk,1)) :
+                if (math.isinf(pfxk[ii,jj]) or math.isnan(pfxk[ii,jj]) or pfxk[ii,jj]<tinynum):
+                    pfxk[ii,jj] = tinynum
+
+        pfxyzk = pfxk      
+        xpt, ypt = 64, 64
+        #removing the Nyquist component
+        pfxyzk_wn = pfxyzk[1:xpt,0:ypt/2] 
+
+        return(pfxyzk_wn)
 
     for i in np.arange(0,n,n/nzslices):
         if i == 0:
