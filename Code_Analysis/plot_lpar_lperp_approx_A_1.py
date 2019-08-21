@@ -393,7 +393,7 @@ ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "
 ax0.plot(lperp12[:count_128mod4_phi0], lpar12[:count_128mod4_phi0], lw=7, ls = ":", label="128_mod4_PHI0")
 ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=7, ls = ":", label="256_mod4_PHI0")
 ax0.plot(lperp14[:count_512mod4_phi0], lpar14[:count_512mod4_phi0], lw=7, ls = ":", label="512_mod4_PHI0")
-ax0.plot(lperp15[:count_64_3D_phi0], lpar15[:count_64_3D_phi0], lw=3, ls = ":", label="64_3D_PHI0")
+ax0.plot(lperp15[:count_64_3D_phi0], lpar15[:count_64_3D_phi0], lw=9, ls = ":", label="64_3D_PHI0")
 # ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
 # ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
 ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
