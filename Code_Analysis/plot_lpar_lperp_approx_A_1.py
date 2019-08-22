@@ -332,6 +332,23 @@ sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
 lpar18 = lpyare/lentf
 lperp18 = lperpe/lentf
+
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D_FFT/sf_par_perp_v_phi0F.txt'
+lentf=64.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar19 = lpyare/lentf
+lperp19 = lperpe/lentf
 #
 # # in lper and lpar arrays they stop and become 0 - unsure why - this is a filter to slice the array for plotting due to log scale errors with zero otherwise
 # for count, i in enumerate(lperp4):
@@ -419,6 +436,11 @@ for count_128_3D_phi0_positivewave, i in enumerate(lperp18):
     print(count_128_3D_phi0_positivewave)
     break   
 
+for count_64_3D_phi0_FFT, i in enumerate(lperp19):
+  if  i <= 0.0001:
+    print(count_64_3D_phi0_FFT)
+    break   
+
 #reference slopes
 
 ref_slope_2_3 = lpar11[10]*(np.power(lperp11[:count_512frac_phi0],(2.0/3.0))/np.power(lperp11[12],(2.0/3.0)))
@@ -437,9 +459,10 @@ ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "
 #ax0.plot(lperp12[:count_128mod4_phi0], lpar12[:count_128mod4_phi0], lw=7, ls = ":", label="128_mod4_PHI0")
 #ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=7, ls = ":", label="256_mod4_PHI0")
 ax0.plot(lperp15[:count_64_3D_phi0], lpar15[:count_64_3D_phi0], lw=3, ls = "-", label="64_3D_PHI0")
-ax0.plot(lperp16[:count_64_3D_phi], lpar16[:count_64_3D_phi], lw=3, ls = "-", label="64_3D_PHI")
-ax0.plot(lperp17[:count_128_3D_phi0], lpar17[:count_128_3D_phi0], lw=3, ls = "-", label="128_3D_PHI0")
-ax0.plot(lperp18[:count_128_3D_phi0_positivewave], lpar18[:count_128_3D_phi0_positivewave], lw=3, ls = "-",color='red', label="128_3D_PHI0_POSITIVEWAVE")
+#ax0.plot(lperp16[:count_64_3D_phi], lpar16[:count_64_3D_phi], lw=3, ls = "-", label="64_3D_PHI")
+#ax0.plot(lperp17[:count_128_3D_phi0], lpar17[:count_128_3D_phi0], lw=3, ls = "-", label="128_3D_PHI0")
+#ax0.plot(lperp18[:count_128_3D_phi0_positivewave], lpar18[:count_128_3D_phi0_positivewave], lw=3, ls = "-",color='red', label="128_3D_PHI0_POSITIVEWAVE")
+ax0.plot(lperp19[:count_64_3D_phi0_FFT], lpar19[:count_64_3D_phi0_FFT], lw=3, ls = "-",color='red', label="64_3D_PHI0_FFT")
 # ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
 #ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
 #ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
