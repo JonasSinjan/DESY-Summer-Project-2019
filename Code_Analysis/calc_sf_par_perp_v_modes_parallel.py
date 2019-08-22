@@ -34,7 +34,7 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 256
+size = 128
 lent = size
 
 sq_bool = False
@@ -50,8 +50,8 @@ else:
     nz = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/256run3D_FFT/'  # data files
-dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/256run3D_FFT/'  # data files
+dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128run3D_DFFT/'  # data files
+dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128run3D_DFFT/'  # data files
 #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
