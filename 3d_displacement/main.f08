@@ -997,7 +997,7 @@ program main
         call random_number(ph)
         ph = ph*twopi
 
-        phik(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+        phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
 
       enddo ! ki
     enddo ! kj
@@ -1005,7 +1005,7 @@ program main
   
   ! execute inverse DFT
   ! attention with the normalization of the DFT
-  fk(:,:,:) = phik(:,:,:)
+  fk(:,:,:) = phi0k(:,:,:)
 
 #ifdef DP
   call fftw_execute_dft_c2r(plan, fk, f)
@@ -1013,7 +1013,7 @@ program main
   call fftwf_execute_dft_c2r(plan, fk, f)
 #endif
 
-  phi(:,:,:) = f(:,:,:)
+  phi0(:,:,:) = f(:,:,:)
   !periodic boundary conditions?
     
   ! destroy plan
@@ -1023,7 +1023,7 @@ program main
   call fftwf_destroy_plan(plan)
 #endif
 
-  deallocate (phik)
+  deallocate (phi0k)
 
   deallocate (fk)
   deallocate (f)
