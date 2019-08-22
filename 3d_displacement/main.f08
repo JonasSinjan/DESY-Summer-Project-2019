@@ -967,6 +967,8 @@ program main
     else
       k = m + kk + 1
     endif  
+    
+    print*, kk
 
     ! SKIP NYQUIST FREQUENCY
     do kj = min((-m/2 + 1), 0), m/2-1
