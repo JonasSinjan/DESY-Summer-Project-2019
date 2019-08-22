@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 8
+  integer :: ngrids = 7
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -96,6 +96,7 @@ program main
   type(C_PTR) :: plan_phi0
   type(C_PTR) :: plan1, plan2
   type(C_PTR) :: plan
+  integer*8 :: dftplan
   real(sp), dimension(:,:,:), allocatable :: f
   complex(sp), dimension(:,:,:), allocatable :: bxk, byk, bzk !3d
   complex(sp), dimension(:,:,:), allocatable :: dbxk, dbyk, dbzk !3d
@@ -131,7 +132,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './256run3D_FFT/'
+  data_dir = './128run3D_DFFT/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -950,12 +951,13 @@ program main
 
 
   ! create plan
-#ifdef DP
-  plan = fftw_plan_dft_c2r_3d (m, m, m, fk, f, FFTW_ESTIMATE)
-#else
-  plan = fftwf_plan_dft_c2r_3d (m, m, m, fk, f, FFTW_ESTIMATE)
-#endif
+! #ifdef DP
+!   plan = fftw_plan_dft_c2r_3d (m, m, m, fk, f, FFTW_ESTIMATE)
+! #else
+!   plan = fftwf_plan_dft_c2r_3d (m, m, m, fk, f, FFTW_ESTIMATE)
+! #endif
 
+  call dfftw_plan_dft_c2r_3d(plan, m,m,m, fk, f FFTW_ESTIMATE)
 
   phi0k(:,:,:) = 0
 
@@ -1009,21 +1011,25 @@ program main
   ! attention with the normalization of the DFT
   fk(:,:,:) = phi0k(:,:,:)
 
-#ifdef DP
-  call fftw_execute_dft_c2r(plan, fk, f)
-#else
-  call fftwf_execute_dft_c2r(plan, fk, f)
-#endif
+! #ifdef DP
+!   call fftw_execute_dft_c2r(plan, fk, f)
+! #else
+!   call fftwf_execute_dft_c2r(plan, fk, f)
+! #endif
+
+  call dfftw_execture_dft_c2r(dftplan, fk, f)
 
   phi0(:,:,:) = f(:,:,:)
   !periodic boundary conditions?
     
   ! destroy plan
-#ifdef DP
-  call fftw_destroy_plan(plan)
-#else
-  call fftwf_destroy_plan(plan)
-#endif
+! #ifdef DP
+!   call fftw_destroy_plan(plan)
+! #else
+!   call fftwf_destroy_plan(plan)
+! #endif
+
+  call dfftw_destroy_plan(dftplan)
 
   deallocate (phi0k)
 
