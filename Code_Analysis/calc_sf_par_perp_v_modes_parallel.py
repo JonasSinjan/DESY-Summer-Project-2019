@@ -97,6 +97,10 @@ sf_par = np.zeros(int(lent / 2))
 sf_perp = np.zeros(int(lent / 2))
 npts = np.zeros(int(lent / 2))
 
+sf_par_2 = np.zeros(int(lent / 2))
+sf_perp_2 = np.zeros(int(lent / 2))
+npts_2 = np.zeros(int(lent / 2))
+
 
 def read_files(dir_data):
     filename = dir_data + 'PHI0' + '.BIN'
@@ -132,8 +136,51 @@ def read_files(dir_data):
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
 
-def read_files3D(dir_data):
+def read_files3D_phi0(dir_data):
     filename = dir_data + 'PHI0' + '.BIN'
+    fd = open(filename, 'rb')
+
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+
+    temp = np.reshape(abx, (nx, ny, nz))
+    phi0 = temp.transpose()  # missed the empty brackets here
+
+    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used
+    fd = open(filename, 'rb')
+
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+
+    temp = np.reshape(abx, (nx, ny, nz))
+    bx = temp.transpose()
+
+    #bx.fill(1)
+
+    filename = dir_data + 'BY' + '.BIN'
+    fd = open(filename, 'rb')
+
+    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+
+    temp = np.reshape(aby, (nx, ny, nz))
+    by = temp.transpose()
+
+    #by.fill(0)
+
+    filename = dir_data + 'BZ' + '.BIN'
+    fd = open(filename, 'rb')
+
+    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+
+    temp = np.reshape(aby, (nx, ny, nz))
+    bz = temp.transpose()
+
+    #bz.fill(0)
+
+    print(bx[:, :, 1])
+    print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
+    return phi0, bx, by, bz
+
+def read_files3D_phi(dir_data):
+    filename = dir_data + 'PHI' + '.BIN'
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -149,7 +196,7 @@ def read_files3D(dir_data):
     temp = np.reshape(abx, (nx, ny, nz))
     bx = temp.transpose()
 
-    bx.fill(1)
+    #bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
     fd = open(filename, 'rb')
@@ -159,7 +206,7 @@ def read_files3D(dir_data):
     temp = np.reshape(aby, (nx, ny, nz))
     by = temp.transpose()
 
-    by.fill(0)
+    #by.fill(0)
 
     filename = dir_data + 'BZ' + '.BIN'
     fd = open(filename, 'rb')
@@ -169,7 +216,7 @@ def read_files3D(dir_data):
     temp = np.reshape(aby, (nx, ny, nz))
     bz = temp.transpose()
 
-    bz.fill(0)
+    #bz.fill(0)
 
     print(bx[:, :, 1])
     print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
@@ -325,7 +372,7 @@ for t in range(0, 1, 1):  # the time loop
 
     if __name__ == '__main__':
         #phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
-        phi0, bx,by,bz = read_files3D(dir_data)
+        phi0, bx,by,bz = read_files3D_phi0(dir_data)
 
         # pool = Pool(processes=nprocs)
         # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
@@ -336,6 +383,18 @@ for t in range(0, 1, 1):  # the time loop
             sff[0, i] = numpt_tmp
             sff[1, i] = par_tmp
             sff[2, i] = perp_tmp
+
+        phi, bx,by,bz = read_files3D_phi(dir_data)
+
+        # pool = Pool(processes=nprocs)
+        # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
+        sf_snapshot = []
+        sff_2 = np.zeros((3, int(lent / 4)))
+        for i in range(int(lent / 4)):
+            numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
+            sff_2[0, i] = numpt_tmp
+            sff_2[1, i] = par_tmp
+            sff_2[2, i] = perp_tmp
 
         # pool.terminate()
         print(np.shape(sff))
@@ -351,6 +410,10 @@ for t in range(0, 1, 1):  # the time loop
     sf_par[0:int(lent / 4)] = sf_par[0:int(lent / 4)] + sff[1, :]
     sf_perp[0:int(lent / 4)] = sf_perp[0:int(lent / 4)] + sff[2, :]
 
+    npts_2[0:int(lent / 4)] = npts_2[0:int(lent / 4)] + sff_2[0, :]
+    sf_par_2[0:int(lent / 4)] = sf_par_2[0:int(lent / 4)] + sff_2[1, :]
+    sf_perp_2[0:int(lent / 4)] = sf_perp_2[0:int(lent / 4)] + sff_2[2, :]
+
     # print(np.shape(sf_snapshot))
     # for q in range (0,lent/4) :
     #  print("sf_snapshot= ",q, sf_snapshot[q])
@@ -358,9 +421,18 @@ for t in range(0, 1, 1):  # the time loop
 sf_par = sf_par / npts
 sf_perp = sf_perp / npts
 
+sf_par_2 = sf_par_2 / npts_2
+sf_perp_2 = sf_perp_2 / npts_2
+
 # writing the spectra to a file
 f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
 for i in range(0, int(lent / 2)):
     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
+    f.write(value + "\n")
+f.close()
+
+f = open(dir_output + 'sf_par_perp_v_phi' + mode + '.txt', 'w')
+for i in range(0, int(lent / 2)):
+    value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i])
     f.write(value + "\n")
 f.close()
