@@ -496,10 +496,10 @@ gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0])
 
-ax0.plot(lperp8[:count_128frac], lpar8[:count_128frac], lw=3, ls = "-", label="128_frac_PHI0")
+ax0.plot(lperp8[:count_128frac], lpar8[:count_128frac], lw=3, ls = "-", label="128_2D_PHI0")
 #ax0.plot(lperp9[:count_256frac], lpar9[:count_256frac], lw=3, ls = "-", label="256_displacement_frac")
-ax0.plot(lperp10[:count_256frac_phi0], lpar10[:count_256frac_phi0], lw=3, ls = "-", label="256_displacement_PHI0")
-ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "-", label="512_displacement_PHI0")
+ax0.plot(lperp10[:count_256frac_phi0], lpar10[:count_256frac_phi0], lw=3, ls = "-", label="256_2D_PHI0")
+ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "-", label="512_2D_PHI0")
 #ax0.plot(lperp12[:count_128mod4_phi0], lpar12[:count_128mod4_phi0], lw=7, ls = ":", label="128_mod4_PHI0")
 #ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=7, ls = ":", label="256_mod4_PHI0")
 ax0.plot(lperp15[:count_64_3D_phi0], lpar15[:count_64_3D_phi0], lw=3, ls = "-", label="64_3D_PHI0")
