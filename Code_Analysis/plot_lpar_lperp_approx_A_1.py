@@ -400,6 +400,23 @@ sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
 lpar22 = lpyare/lentf
 lperp22 = lperpe/lentf
+
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/256run3D_FFT/sf_par_perp_v_phiF.txt'
+lentf=256.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar23 = lpyare/lentf
+lperp23 = lperpe/lentf
 #
 # # in lper and lpar arrays they stop and become 0 - unsure why - this is a filter to slice the array for plotting due to log scale errors with zero otherwise
 # for count, i in enumerate(lperp4):
@@ -507,6 +524,11 @@ for count_128_3D_phi0_DFFT, i in enumerate(lperp22):
     print(count_128_3D_phi0_DFFT)
     break   
 
+for count_256_3D_phi_FFT, i in enumerate(lperp23):
+  if  i <= 0.0001:
+    print(count_256_3D_phi_FFT)
+    break  
+
 #reference slopes
 
 ref_slope_2_3 = lpar11[10]*(np.power(lperp11[:count_512frac_phi0],(2.0/3.0))/np.power(lperp11[12],(2.0/3.0)))
@@ -532,7 +554,7 @@ ax0.plot(lperp19[:count_64_3D_phi0_FFT], lpar19[:count_64_3D_phi0_FFT], lw=3, ls
 ax0.plot(lperp20[:count_128_3D_phi0_FFT], lpar20[:count_128_3D_phi0_FFT], lw=3, ls = "-", label="128_3D_PHI0_FFT")
 ax0.plot(lperp21[:count_256_3D_phi0_FFT], lpar21[:count_256_3D_phi0_FFT], lw=3, ls = "-", label="256_3D_PHI0_FFT")
 ax0.plot(lperp22[:count_128_3D_phi0_DFFT], lpar22[:count_128_3D_phi0_DFFT], lw=3, ls = "-", label="128_3D_PHI0_DFFT")
-# ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
+ax0.plot(lperp23[:count_256_3D_phi_FFT], lpar23[:count_256_3D_phi_FFT], lw=3, ls = "-", label="256_PHI_FFT")
 #ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
 #ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
 #ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
