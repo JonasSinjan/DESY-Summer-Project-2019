@@ -50,15 +50,15 @@ else:
     nz = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_mod4/'  # data files
-dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_mod4/'  # data files
+dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128run3D/'  # data files
+dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128run3D/'  # data files
 #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
 # IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN -  CHECK!!!
 
 # NUMBER OF DIMENSIONS
-twoD_bool = True # if set to true, will assume data in 2D, otherwise when false defaults to 3D
+twoD_bool = False # if set to true, will assume data in 2D, otherwise when false defaults to 3D
 
 if twoD_bool is True:
     shape = (lent + 1, lent + 1)  # for 2D
@@ -133,7 +133,7 @@ def read_files(dir_data):
     return phi, bx, by
 
 def read_files3D(dir_data):
-    filename = dir_data + 'PHI' + '.BIN'
+    filename = dir_data + 'PHI0' + '.BIN'
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -320,15 +320,15 @@ def struc_funk2D(ff, phi, bx, by):
 for t in range(0, 1, 1):  # the time loop
 
     if __name__ == '__main__':
-        phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
-        #phi0, bx,by,bz = read_files3D(dir_data)
+        #phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
+        phi0, bx,by,bz = read_files3D(dir_data)
 
         # pool = Pool(processes=nprocs)
         # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
         sf_snapshot = []
         sff = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
-            numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi, bx, by)
+            numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
             sff[0, i] = numpt_tmp
             sff[1, i] = par_tmp
             sff[2, i] = perp_tmp
@@ -355,7 +355,7 @@ sf_par = sf_par / npts
 sf_perp = sf_perp / npts
 
 # writing the spectra to a file
-f = open(dir_output + 'sf_par_perp_v_' + mode + '.txt', 'w')
+f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
 for i in range(0, int(lent / 2)):
     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
     f.write(value + "\n")
