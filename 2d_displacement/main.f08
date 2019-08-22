@@ -680,7 +680,7 @@ program main
     y_arr(:,j,:) = j*twopi/n
   enddo
  
-  call dfftw_plan_dft_c2r_2d(plan, m,m, fk, f, FFTW_ESTIMATE)
+  call dfftw_plan_dft_c2r_2d(dftplan, m,m, fk, f, FFTW_ESTIMATE)
 
   phi0k(:,:) = 0
 
