@@ -131,7 +131,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './64run3D_OpenMP/'
+  data_dir = './64run3D_FFT/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
