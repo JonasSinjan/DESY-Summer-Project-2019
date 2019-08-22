@@ -32,7 +32,7 @@ program main
 
   real(dp), parameter :: pi = acos(-1.d0)
   real(dp), parameter :: twopi = 2.d0*pi
-  real(dp), allocatable :: wtime
+  real(dp), allocatable :: wtime, tot_time
   real(dp), allocatable :: time_init, time_final, elapsed_time
   integer, allocatable :: threadno
   integer :: thread_id
@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 7
+  integer :: ngrids = 8
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -131,7 +131,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128run3D_FFT/'
+  data_dir = './256run3D_FFT/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -189,7 +189,7 @@ program main
 
   time = 0.
 
-
+  tot_time = omp_get_wtime()
   ! ------------------------------------------------------------------------
   ! build bx, by and bz and write to file
   ! ------------------------------------------------------------------------
@@ -1246,7 +1246,8 @@ program main
   write(lun) time, x, y, z, dx, dy, dz
   close(lun)
 
-
+  tot_time = omp_get_wtime() - tot_time
+  print *, tot_time
   ! ------------------------------------------------------------------------
   ! deallocate memory
   ! ------------------------------------------------------------------------
