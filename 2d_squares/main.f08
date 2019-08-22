@@ -2,7 +2,7 @@ program main
 
   use spectrum, only: power_kk, dft_filter
   use, intrinsic :: iso_c_binding
-
+  use omp_lib
   implicit none
 
 
@@ -32,7 +32,7 @@ program main
   ! ------------------------------------------------------------------------
 integer :: ngrids = 7
 integer :: nblocks_min = 1       
-integer :: nblocks_max = 1!1024
+integer :: nblocks_max = 1!1024 - actually unsure about this?
 integer :: nwaves_block = 4
 real(sp) :: bx0 = 1.
 real(sp) :: by0 = 0.
