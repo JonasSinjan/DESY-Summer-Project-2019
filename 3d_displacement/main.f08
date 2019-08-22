@@ -1017,7 +1017,7 @@ program main
 !   call fftwf_execute_dft_c2r(plan, fk, f)
 ! #endif
 
-  call dfftw_execture_dft_c2r(dftplan, fk, f)
+  call dfftw_execute_dft_c2r(dftplan, fk, f)
 
   phi0(:,:,:) = f(:,:,:)
   !periodic boundary conditions?
