@@ -504,7 +504,7 @@ ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "
 #ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=7, ls = ":", label="256_mod4_PHI0")
 ax0.plot(lperp15[:count_64_3D_phi0], lpar15[:count_64_3D_phi0], lw=3, ls = "-", label="64_3D_PHI0")
 #ax0.plot(lperp16[:count_64_3D_phi], lpar16[:count_64_3D_phi], lw=3, ls = "-", label="64_3D_PHI")
-#ax0.plot(lperp17[:count_128_3D_phi0], lpar17[:count_128_3D_phi0], lw=3, ls = "-", label="128_3D_PHI0")
+ax0.plot(lperp17[:count_128_3D_phi0], lpar17[:count_128_3D_phi0], lw=3, ls = "-", label="128_3D_PHI0")
 #ax0.plot(lperp18[:count_128_3D_phi0_positivewave], lpar18[:count_128_3D_phi0_positivewave], lw=3, ls = "-",color='red', label="128_3D_PHI0_POSITIVEWAVE")
 ax0.plot(lperp19[:count_64_3D_phi0_FFT], lpar19[:count_64_3D_phi0_FFT], lw=3, ls = "-",color='red', label="64_3D_PHI0_FFT")
 ax0.plot(lperp20[:count_128_3D_phi0_FFT], lpar20[:count_128_3D_phi0_FFT], lw=3, ls = "-", label="128_3D_PHI0_FFT")

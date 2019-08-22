@@ -159,6 +159,8 @@ def read_files3D(dir_data):
     temp = np.reshape(aby, (nx, ny, nz))
     by = temp.transpose()
 
+    by.fill(0)
+
     filename = dir_data + 'BZ' + '.BIN'
     fd = open(filename, 'rb')
 
@@ -166,6 +168,8 @@ def read_files3D(dir_data):
 
     temp = np.reshape(aby, (nx, ny, nz))
     bz = temp.transpose()
+
+    bz.fill(0)
 
     print(bx[:, :, 1])
     print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
