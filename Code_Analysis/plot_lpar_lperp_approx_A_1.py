@@ -491,7 +491,7 @@ ref_slope_2_3 = lpar11[10]*(np.power(lperp11[:count_512frac_phi0],(2.0/3.0))/np.
 # ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
  
 fig=plt.figure()
-fig = plt.figure(figsize=(10.0, 6.0))
+fig = plt.figure(figsize=(20.0, 12.0))
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0])
@@ -522,8 +522,8 @@ ax0.plot(lperp11[:count_512frac_phi0], ref_slope_2_3, lw=7, label="GS95", ls = "
 ax0.set_xscale('log')
 ax0.set_yscale('log')
 #ax0.set_xlim(xmin=0.002)
-ax0.set_xlim(xmax=0.4)
-ax0.set_ylim(ymax=0.4)
+#ax0.set_xlim(xmax=0.4)
+#ax0.set_ylim(ymax=0.4)
 #ax0.set_ylim(ymin=0.002)
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
