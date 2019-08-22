@@ -79,7 +79,7 @@ program main
 
   real(sp), dimension(:,:,:), allocatable :: phi0
   real(sp), dimension(:,:,:), allocatable :: phi
-  complex(sp), dimension(:,:,:), allocatable :: phi0k
+  complex(sp), dimension(:,:,:), allocatable :: phi0k,fk
 
   integer :: nk, nkb, nkt
   real(dp), dimension(:), allocatable :: ps_k !not sure which one this is used for
@@ -99,7 +99,7 @@ program main
   complex(sp), dimension(:,:,:), allocatable :: bxk, byk, bzk !3d
   complex(sp), dimension(:,:,:), allocatable :: dbxk, dbyk, dbzk !3d
   complex(sp), dimension(:,:,:), allocatable :: etzk_x, etzk_y, etzk_z
-
+  
   real(sp) :: b(3), b2 !3d
   real(sp) :: b1(3), ph1, ph2, ph3, aux1, aux2, aux3 !3d
   real(sp) :: rxp, ryp, drxp, dryp, rzp, drzp !3d
@@ -927,7 +927,10 @@ program main
   allocate (y_arr(n,n,n)) 
   allocate (z_arr(n,n,n))
   allocate (input_1(n,n,n))   
-  ! allocate (phi0k((m/2 + 1), m))
+  
+  allocate (phi0k((m/2 + 1), m, m))
+  allocate (fk((m/2 + 1), m, m))
+  allocate (f(m, m, m))
 
   do i = 1, n
     x_arr(i,:,:) = i*twopi/n
@@ -940,43 +943,128 @@ program main
   enddo
 
   phi0(:,:,:) = 0 ! initialise all entries to zero
-
+  
   print*, omp_get_max_threads()
   wtime = omp_get_wtime()
+
+
+  ! create plan
+#ifdef DP
+  plan = fftw_plan_dft_c2r_3d (m, m, m, fk, f, FFTW_ESTIMATE)
+#else
+  plan = fftwf_plan_dft_c2r_3d (m, m, m, fk, f, FFTW_ESTIMATE)
+#endif
+
+
+  phi0k(:,:,:) = 0
+
+  ! SKIP NYQUIST FREQUENCY
+  do kk = min((-m/2 + 1), 0), m/2-1
+    ! do kj = 0, 0
+    if (kk >= 0) then
+      k = kk + 1
+    else
+      k = m + kk + 1
+    endif  
+
+    ! SKIP NYQUIST FREQUENCY
+    do kj = min((-m/2 + 1), 0), m/2-1
+      ! do kj = 0, 0
+      if (kj >= 0) then
+        j = kj + 1
+      else
+        j = m + kj + 1
+      endif
+
+      ! SKIP NYQUIST FREQUENCY
+      do ki = 0, m/2-1
+        i = ki + 1
+
+        kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
+
+        if (b2 > 0.) then
+          k_para = abs(real(ki)*b(1) + real(kj)*b(2))/sqrt(b2)
+        else
+          k_para = 0.
+        endif
+        k_perp = sqrt(max((kmod**2 - k_para**2), 0.))
+
+        ! GS95
+        if (k_perp > 0.) then
+          E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
+        else
+          E_coeff = 0.
+        endif
+
+        ! sort random phase
+        call random_number(ph)
+        ph = ph*twopi
+
+        phik(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+
+      enddo ! ki
+    enddo ! kj
+  enddo !kk
   
+  ! execute inverse DFT
+  ! attention with the normalization of the DFT
+  fk(:,:,:) = phik(:,:,:)
+
+  #ifdef DP
+  call fftw_execute_dft_c2r(plan, fk, f)
+#else
+  call fftwf_execute_dft_c2r(plan, fk, f)
+#endif
+
+  phi(:,:,:) = f(:,:,:)
+  !periodic boundary conditions?
+    
+  ! destroy plan
+  #ifdef DP
+  call fftw_destroy_plan(plan)
+  #else
+  call fftwf_destroy_plan(plan)
+  #endif
+
+  deallocate (phik)
+
+  deallocate (fk)
+  deallocate (f)
+
+    
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
 
   !call omp_set_num_threads(30)
         
-  do ki = 0, n-3 
-    kx = (-(n-1)/2 + 1) + ki
-    print*, kx
+  ! do ki = 0, n-3 
+  !   kx = (-(n-1)/2 + 1) + ki
+  !   print*, kx
     
-    do kj = 0, n-3 ! up to nyquist frequency
-      ky = (-(n-1)/2 + 1) + kj
+  !   do kj = 0, n-3 ! up to nyquist frequency
+  !     ky = (-(n-1)/2 + 1) + kj
 
-      do kk = 0, n-3 !3d
-        kz = (-(n-1)/2 + 1) + kk
+  !     do kk = 0, n-3 !3d
+  !       kz = (-(n-1)/2 + 1) + kk
 
-        if ((abs (ky) < 1.0D-5 .and. abs(kz) < 1.0D-5)) then !cant root 0 - now for 3d
-            continue
+  !       if ((abs (ky) < 1.0D-5 .and. abs(kz) < 1.0D-5)) then !cant root 0 - now for 3d
+  !           continue
 
-        else
+  !       else
 
-          call random_number(num)
-          tmp = abs(ky**2+kz**2)**(-10.0d0/6.0d0) !3D
-          tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky**2+kz**2)**(2.0d0/6.0d0)))
-          amp = sqrt(tmp*tmp2) !amplitude
+  !         call random_number(num)
+  !         tmp = abs(ky**2+kz**2)**(-10.0d0/6.0d0) !3D
+  !         tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky**2+kz**2)**(2.0d0/6.0d0)))
+  !         amp = sqrt(tmp*tmp2) !amplitude
 
-          input_1 = kx*x_arr + ky*y_arr + kz*z_arr + num*twopi
+  !         input_1 = kx*x_arr + ky*y_arr + kz*z_arr + num*twopi
 
-          phi0(:,:,:) = phi0(:,:,:) + amp*cos(input_1) !3d
+  !         phi0(:,:,:) = phi0(:,:,:) + amp*cos(input_1) !3d
           
-        endif
+  !       endif
       
-      enddo  
-    enddo
-  enddo
+  !     enddo  
+  !   enddo
+  ! enddo
 
   print*, 'The loop has successfully completed'
 
