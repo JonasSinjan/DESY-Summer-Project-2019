@@ -1075,7 +1075,7 @@ program main
 
   wtime = omp_get_wtime() - wtime
 
-  print *, wtime 
+  print *, wtime, "Loop Time Phi0 init" 
 
   print*, '* Writing file: phi_0'
 
@@ -1253,7 +1253,7 @@ program main
   close(lun)
 
   tot_time = omp_get_wtime() - tot_time
-  print *, tot_time
+  print *, tot_time, "Total Time"
   ! ------------------------------------------------------------------------
   ! deallocate memory
   ! ------------------------------------------------------------------------

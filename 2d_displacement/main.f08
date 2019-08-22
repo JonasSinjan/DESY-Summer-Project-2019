@@ -32,7 +32,7 @@ program main
 
   real(dp), parameter :: pi = acos(-1.d0)
   real(dp), parameter :: twopi = 2.d0*pi
-  real(dp), allocatable :: wtime
+  real(dp), allocatable :: wtime, tot_time
   real(dp), allocatable :: time_init, time_final, elapsed_time
   integer, allocatable :: threadno
   integer :: thread_id
@@ -82,7 +82,7 @@ program main
 
   real(sp), dimension(:,:), allocatable :: phi0
   real(sp), dimension(:,:), allocatable :: phi
-  complex(sp), dimension(:,:), allocatable :: phi0k
+  complex(sp), dimension(:,:), allocatable :: phi0k,fk
 
   integer :: nk, nkb, nkt
   real(dp), dimension(:), allocatable :: ps_k
@@ -98,6 +98,7 @@ program main
   ! ------------------------------------------------------------------------
   type(C_PTR) :: plan_phi0
   type(C_PTR) :: plan1, plan2
+  integer*8 :: dftplan
   real(sp), dimension(:,:), allocatable :: f
   complex(sp), dimension(:,:), allocatable :: bxk, byk
   complex(sp), dimension(:,:), allocatable :: dbxk, dbyk
@@ -189,7 +190,7 @@ program main
   enddo
 
   time = 0.
-
+  tot_time = omp_get_wtime()
 
   ! ------------------------------------------------------------------------
   ! build bx and by and write to file
@@ -663,7 +664,14 @@ program main
   allocate (input_1(n,n)) 
   ! allocate (phi0k((m/2 + 1), m))
 
+  allocate (phi0k((m/2 + 1), m))
+  allocate (fk((m/2 + 1), m))
+  allocate (f(m, m))
+
+
   phi0(:,:) = 0 ! initialise all entries to zero
+
+  wtime = omp_get_wtime()
   
   do i = 1, n
     x_arr(i,:,:) = i*twopi/n
@@ -672,49 +680,95 @@ program main
     y_arr(:,j,:) = j*twopi/n
   enddo
  
+  call dfftw_plan_dft_c2r_2d(plan, m,m, fk, f, FFTW_ESTIMATE)
 
-  !---ALTERNATIVE TIMING---
+  phi0k(:,:) = 0
 
-  !call system_clock(start_time, count_rate, count_max)
-  !time_init = start_time*1.0/count_rate
+  ! SKIP NYQUIST FREQUENCY
+  do kj = min((-m/2 + 1), 0), m/2-1
+    ! do kj = 0, 0
+    if (kj >= 0) then
+      j = kj + 1
+    else
+      j = m + kj + 1
+    endif
 
-  print*, omp_get_max_threads()
+    ! SKIP NYQUIST FREQUENCY
+    do ki = 0, m/2-1
+      i = ki + 1
+
+      kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
+
+      k_para = abs(ki)
+      k_perp = sqrt(max((kmod**2 - k_para**2), 0.))
+
+      ! GS95
+      if (k_perp > 0.) then
+        E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
+      else
+        E_coeff = 0.
+      endif
+
+      ! sort random phase
+      call random_number(ph)
+      ph = ph*twopi
+
+      phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+
+    enddo ! ki
+  enddo ! kj
+
+  fk(:,:) = phi0k(:,:)
+
+  call dfftw_execute_dft_c2r(dftplan, fk, f)
+
+  phi0(:,:) = f(:,:)
+
+  call dfftw_destroy_plan(dftplan)
+
+  deallocate (phi0k)
+
+  deallocate (fk)
+  deallocate (f)
+
+  !print*, omp_get_max_threads()
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
-  wtime = omp_get_wtime()
-
-  call omp_set_num_threads(1)
   
+
+  !call omp_set_num_threads(1)
+  
+
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
 
-  !!$OMP PARALLEL
-  !!$OMP DO 
-  do ki = 0, n-3 
-    kx = (-(n-1)/2 + 1) + ki
-    if (ki == 2) then
-      threadno = omp_get_num_threads() !check to see if openmp working
-      print*, "Total running threads", threadno
-    endif
-    thread_id = omp_get_thread_num()
-    if (thread_id == 3) then
-      print*, "ki value", ki
-    endif
-    do kj = 0, n-3 ! up to nyquist frequency
-      ky = (-(n-1)/2 + 1) + kj
-      if (ky == 0) then !cant root 0
-          continue
-      else
-        !print*, ky
-        call random_number(num)
-        tmp = abs(ky)**(-7.0d0/3.0d0) !2D
-        tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
-        amp = sqrt(tmp*tmp2) !amplitude
+  ! !!$OMP PARALLEL
+  ! !!$OMP DO 
+  ! do ki = 0, n-3 
+  !   kx = (-(n-1)/2 + 1) + ki
+  !   if (ki == 2) then
+  !     threadno = omp_get_num_threads() !check to see if openmp working
+  !     print*, "Total running threads", threadno
+  !   endif
+  !   thread_id = omp_get_thread_num()
+  !   if (thread_id == 3) then
+  !     print*, "ki value", ki
+  !   endif
+  !   do kj = 0, n-3 ! up to nyquist frequency
+  !     ky = (-(n-1)/2 + 1) + kj
+  !     if (ky == 0) then !cant root 0
+  !         continue
+  !     else
+  !       !print*, ky
+  !       call random_number(num)
+  !       tmp = abs(ky)**(-7.0d0/3.0d0) !2D
+  !       tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
+  !       amp = sqrt(tmp*tmp2) !amplitude
         
-        input_1 = kx*x_arr + ky*y_arr + num*twopi
+  !       input_1 = kx*x_arr + ky*y_arr + num*twopi
 
-        phi0(:,:) = phi0(:,:) + amp*cos(input_1)
-      endif  
-    enddo
-  enddo
+  !       phi0(:,:) = phi0(:,:) + amp*cos(input_1)
+  !     endif  
+  !   enddo
+  ! enddo
   !!$OMP END DO
   !!$OMP END PARALLEL
 
@@ -724,11 +778,13 @@ program main
   !    enddo
   !  enddo
 
+
+
   print*, 'The loop has successfully completed'
 
   wtime = omp_get_wtime() - wtime
 
-  print *, wtime 
+  print *, wtime, "Loop Time for Phi0 init"
 
   !print *, phi0(1,:), size(phi0(1,:))
 
@@ -767,7 +823,7 @@ program main
   !   enddo
   ! enddo
 
-  print*, '* Writing file: phi_0'
+  !print*, '* Writing file: phi_0'
 
   file_out = trim(data_dir) // 'PHI0.DAT'
   open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
@@ -918,6 +974,8 @@ program main
   write(lun) time, x, y, z, dx, dy, dz
   close(lun)
 
+  tot_time = omp_get_wtime() - tot_time
+  print *, tot_time, "Total Time"
 
   ! ------------------------------------------------------------------------
   ! deallocate memory
