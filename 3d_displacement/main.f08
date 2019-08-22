@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 8
+  integer :: ngrids = 7
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -132,7 +132,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './256run3D_FFT/'
+  data_dir = './128run3D_DFFT/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
