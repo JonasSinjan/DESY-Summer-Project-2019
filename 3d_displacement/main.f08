@@ -957,7 +957,7 @@ program main
 !   plan = fftwf_plan_dft_c2r_3d (m, m, m, fk, f, FFTW_ESTIMATE)
 ! #endif
 
-  call dfftw_plan_dft_c2r_3d(plan, m,m,m, fk, f FFTW_ESTIMATE)
+  call dfftw_plan_dft_c2r_3d(plan, m,m,m, fk, f, FFTW_ESTIMATE)
 
   phi0k(:,:,:) = 0
 
