@@ -697,7 +697,7 @@ program main
     do ki = 0, m/2-1
       i = ki + 1
 
-      kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
+      kmod = sqrt(real(ki)**2 + real(kj)**2)
 
       k_para = abs(ki)
       k_perp = sqrt(max((kmod**2 - k_para**2), 0.))
