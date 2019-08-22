@@ -95,6 +95,7 @@ program main
   ! ------------------------------------------------------------------------
   type(C_PTR) :: plan_phi0
   type(C_PTR) :: plan1, plan2
+  type(C_PTR) :: plan
   real(sp), dimension(:,:,:), allocatable :: f
   complex(sp), dimension(:,:,:), allocatable :: bxk, byk, bzk !3d
   complex(sp), dimension(:,:,:), allocatable :: dbxk, dbyk, dbzk !3d
@@ -982,11 +983,7 @@ program main
 
         kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
 
-        if (b2 > 0.) then
-          k_para = abs(real(ki)*b(1) + real(kj)*b(2))/sqrt(b2)
-        else
-          k_para = 0.
-        endif
+        k_para = abs(ki)
         k_perp = sqrt(max((kmod**2 - k_para**2), 0.))
 
         ! GS95
@@ -1010,7 +1007,7 @@ program main
   ! attention with the normalization of the DFT
   fk(:,:,:) = phik(:,:,:)
 
-  #ifdef DP
+#ifdef DP
   call fftw_execute_dft_c2r(plan, fk, f)
 #else
   call fftwf_execute_dft_c2r(plan, fk, f)
@@ -1020,11 +1017,11 @@ program main
   !periodic boundary conditions?
     
   ! destroy plan
-  #ifdef DP
+#ifdef DP
   call fftw_destroy_plan(plan)
-  #else
+#else
   call fftwf_destroy_plan(plan)
-  #endif
+#endif
 
   deallocate (phik)
 
