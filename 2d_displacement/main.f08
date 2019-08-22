@@ -713,7 +713,7 @@ program main
       call random_number(ph)
       ph = ph*twopi
 
-      phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+      phi0k(i,j) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
 
     enddo ! ki
   enddo ! kj
