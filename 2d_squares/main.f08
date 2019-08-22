@@ -24,6 +24,7 @@ program main
 
   real(dp), parameter :: pi = acos(-1.d0)
   real(dp), parameter :: twopi = 2.d0*pi
+  real(dp), allocatable :: wtime, tot_time
 
 
   ! ------------------------------------------------------------------------
@@ -170,7 +171,7 @@ real(sp) :: anis = 1.
   enddo
 
   time = 0.
-
+  tot_time = omp_get_wtime()
 
   ! ------------------------------------------------------------------------
   ! set initial background density, velocity, and magnetic field
@@ -694,6 +695,8 @@ real(sp) :: anis = 1.
   write(lun) time, x, y, z, dx, dy, dz
   close(lun)
 
+  tot_time = omp_get_wtime() - tot_time
+  print *, tot_time, "Total Time"
 
   ! ------------------------------------------------------------------------
   ! deallocate memory
