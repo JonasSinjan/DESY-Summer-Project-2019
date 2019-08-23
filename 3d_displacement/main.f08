@@ -6,7 +6,7 @@
 
 program main
 
-  use spectrum, only: power_kk, dft_filter
+  !use spectrum, only: power_kk, dft_filter
   use, intrinsic :: iso_c_binding
   use omp_lib
   implicit none

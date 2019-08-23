@@ -196,6 +196,8 @@ def read_files3D_phi(dir_data):
     temp = np.reshape(abx, (nx, ny, nz))
     bx = temp.transpose()
 
+    dbx = bx - 1
+    dbx = np.average(dbx)
     #bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
@@ -206,6 +208,8 @@ def read_files3D_phi(dir_data):
     temp = np.reshape(aby, (nx, ny, nz))
     by = temp.transpose()
 
+    dby = by
+    dby = np.average(dby)
     #by.fill(0)
 
     filename = dir_data + 'BZ' + '.BIN'
@@ -216,11 +220,15 @@ def read_files3D_phi(dir_data):
     temp = np.reshape(aby, (nx, ny, nz))
     bz = temp.transpose()
 
+    dbz = bz
+    dbz = np.average(dbz)
     #bz.fill(0)
+
+    mach_alfven = np.sqrt(dbx**2 + dby**2 + dbz**2)
 
     print(bx[:, :, 1])
     print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
-    return phi, bx, by, bz
+    return phi, bx, by, bz, mach_alfven
 
 def struc_funk3D(ff, phi, bx, by, bz):
     ll = ff * 1.0
@@ -384,14 +392,14 @@ for t in range(0, 1, 1):  # the time loop
             sff[1, i] = par_tmp
             sff[2, i] = perp_tmp
 
-        phi, bx,by,bz = read_files3D_phi(dir_data)
+        phi, bx,by,bz, mach_2 = read_files3D_phi(dir_data)
 
         # pool = Pool(processes=nprocs)
         # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
         sf_snapshot = []
         sff_2 = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
-            numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
+            numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi, bx, by, bz)
             sff_2[0, i] = numpt_tmp
             sff_2[1, i] = par_tmp
             sff_2[2, i] = perp_tmp
@@ -433,6 +441,6 @@ f.close()
 
 f = open(dir_output + 'sf_par_perp_v_phi' + mode + '.txt', 'w')
 for i in range(0, int(lent / 2)):
-    value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i])
+    value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) + " " + str(mach_2)
     f.write(value + "\n")
 f.close()
