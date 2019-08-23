@@ -36,10 +36,10 @@ def lppcorr(llv,sfpar,sfperp) :
   return [lperp_arr,lpar_arr]
 
 ####################################################################################
-max_size = 512.0
+max_size = 2048.0
 ####################################################################################
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/128run_sq/sf_par_perp_v_F.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/128run2D_FFT/sf_par_perp_v_phiF.txt'
 lentf= 128.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -56,7 +56,7 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar1 = lpyare/lentf
 lperp1 = lperpe/lentf
 #
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/256run_sq/sf_par_perp_v_F.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/256run2D_FFT/sf_par_perp_v_phiF.txt'
 lentf= 256.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -73,7 +73,7 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar2 = lpyare/lentf
 lperp2 = lperpe/lentf
 #
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_squares/512run_sq/sf_par_perp_v_F.txt'
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
 lentf= 512.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
@@ -89,79 +89,10 @@ sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
 lpar3 = lpyare/lentf
 lperp3 = lperpe/lentf
-#
-# filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/sf_par_perp_v_F.txt'
-# lentf=128.0
-# data = np.loadtxt(filename,skiprows=1)
-# ll = data[:,0]
-# sf_par = data[:,1]
-# sf_perp= data[:,2]
-# valid = ~np.isnan(sf_perp)
-# sf_perp = sf_perp[valid]
-# ll = ll[valid]
-# sf_par = sf_par[valid]
-# lent = np.size(ll)
-# sf_par_smoothed = smoothing(sf_par)
-# sf_perp_smoothed= smoothing(sf_perp)
-# [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-# lpar4 = lpyare/lentf
-# lperp4 = lperpe/lentf
-#
-# filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/256run2D_73/sf_par_perp_v_F.txt'
-# lentf=256.0
-# data = np.loadtxt(filename,skiprows=1)
-# ll = data[:,0]
-# sf_par = data[:,1]
-# sf_perp= data[:,2]
-# valid = ~np.isnan(sf_perp)
-# sf_perp = sf_perp[valid]
-# ll = ll[valid]
-# sf_par = sf_par[valid]
-# lent = np.size(ll)
-# sf_par_smoothed = smoothing(sf_par)
-# sf_perp_smoothed= smoothing(sf_perp)
-# [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-# lpar5 = lpyare/lentf
-# lperp5 = lperpe/lentf
-#
-#
-# filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/512run2D_73/sf_par_perp_v_F.txt'
-# lentf=512.0
-# data = np.loadtxt(filename,skiprows=1)
-# ll = data[:,0]
-# sf_par = data[:,1]
-# sf_perp= data[:,2]
-# valid = ~np.isnan(sf_perp)
-# sf_perp = sf_perp[valid]
-# ll = ll[valid]
-# sf_par = sf_par[valid]
-# lent = np.size(ll)
-# sf_par_smoothed = smoothing(sf_par)
-# sf_perp_smoothed= smoothing(sf_perp)
-# [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-# lpar6 = lpyare/lentf
-# lperp6 = lperpe/lentf
-#
-# filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/512run2D_73_paratest/sf_par_perp_v_F.txt'
-# lentf=512.0
-# data = np.loadtxt(filename,skiprows=1)
-# ll = data[:,0]
-# sf_par = data[:,1]
-# sf_perp= data[:,2]
-# valid = ~np.isnan(sf_perp)
-# sf_perp = sf_perp[valid]
-# ll = ll[valid]
-# sf_par = sf_par[valid]
-# lent = np.size(ll)
-# sf_par_smoothed = smoothing(sf_par)
-# sf_perp_smoothed= smoothing(sf_perp)
-# [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-# lpar7 = lpyare/lentf
-# lperp7 = lperpe/lentf
 
 #filename = 'c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
-lentf=128.0
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/1024run2D_FFT/sf_par_perp_v_phiF.txt'
+lentf=1024.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
 sf_par = data[:,1]
@@ -177,27 +108,25 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar8 = lpyare/lentf
 lperp8 = lperpe/lentf
 
-# #filename = 'c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_F.txt'
-# filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_F.txt'
-# lentf=256.0
-# data = np.loadtxt(filename,skiprows=1)
-# ll = data[:,0]
-# sf_par = data[:,1]
-# sf_perp= data[:,2]
-# valid = ~np.isnan(sf_perp)
-# sf_perp = sf_perp[valid]
-# ll = ll[valid]
-# sf_par = sf_par[valid]
-# lent = np.size(ll)
-# sf_par_smoothed = smoothing(sf_par)
-# sf_perp_smoothed= smoothing(sf_perp)
-# [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-# lpar9 = lpyare/lentf
-# lperp9 = lperpe/lentf
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/2048run2D_FFT/sf_par_perp_v_phiF.txt'
+lentf=2048.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar9 = lpyare/lentf
+lperp9 = lperpe/lentf
 
-#filename = 'c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/256run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
-lentf=256.0
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_128run2D/sf_par_perp_v_phiF.txt'
+lentf=128.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
 sf_par = data[:,1]
@@ -213,9 +142,8 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar10 = lpyare/lentf
 lperp10 = lperpe/lentf
 
-#filename = 'c:/Users/jonas/DESY/2d_displacement/512run2D_73_frac/sf_par_perp_v_phi0F.txt'
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/512run2D_73_frac/sf_par_perp_v_phi0F.txt'
-lentf=512.0
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_256run2D/sf_par_perp_v_phiF.txt'
+lentf=256.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
 sf_par = data[:,1]
@@ -231,8 +159,8 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar11 = lpyare/lentf
 lperp11 = lperpe/lentf
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_mod4/sf_par_perp_v_phi0F.txt'
-lentf=128.0
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_512run2D/sf_par_perp_v_phiF.txt'
+lentf=512.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
 sf_par = data[:,1]
@@ -248,8 +176,8 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar12 = lpyare/lentf
 lperp12 = lperpe/lentf
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/256run2D_73_mod4/sf_par_perp_v_phi0F.txt'
-lentf=256.0
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_1024run2D/sf_par_perp_v_phiF.txt'
+lentf=1024.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
 sf_par = data[:,1]
@@ -265,8 +193,8 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar13 = lpyare/lentf
 lperp13 = lperpe/lentf
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/sf_par_perp_v_phi0F.txt'
-lentf=64.0
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_2048run2D/sf_par_perp_v_phiF.txt'
+lentf=2048.0
 data = np.loadtxt(filename,skiprows=1)
 ll = data[:,0]
 sf_par = data[:,1]
@@ -279,259 +207,62 @@ lent = np.size(ll)
 sf_par_smoothed = smoothing(sf_par)
 sf_perp_smoothed= smoothing(sf_perp)
 [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar15 = lpyare/lentf
-lperp15 = lperpe/lentf
+lpar14 = lpyare/lentf
+lperp14 = lperpe/lentf
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/sf_par_perp_v_F.txt'
-lentf=64.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar16 = lpyare/lentf
-lperp16 = lperpe/lentf
+for count_128disp, i in enumerate(lperp1):
+   if  i <= 0.0001:
+     print(count_128disp)
+     break
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128run3D/sf_par_perp_v_phi0F.txt'
-lentf=128.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar17 = lpyare/lentf
-lperp17 = lperpe/lentf
+for count_256disp, i in enumerate(lperp2):
+   if  i <= 0.0001:
+     print(count_256disp)
+     break
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128run3D_positivewave/sf_par_perp_v_phi0F.txt'
-lentf=128.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar18 = lpyare/lentf
-lperp18 = lperpe/lentf
+for count_512disp, i in enumerate(lperp3):
+   if  i <= 0.0001:
+     print(count_512disp)
+     break
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D_FFT/sf_par_perp_v_phi0F.txt'
-lentf=64.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar19 = lpyare/lentf
-lperp19 = lperpe/lentf
+for count_1024disp, i in enumerate(lperp8):
+   if  i <= 0.0001:
+     print(count_1024disp)
+     break
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128run3D_FFT/sf_par_perp_v_phi0F.txt'
-lentf=128.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar20 = lpyare/lentf
-lperp20 = lperpe/lentf
+for count_2048disp, i in enumerate(lperp9):
+   if  i <= 0.0001:
+     print(count_2048disp)
+     break
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/256run3D_FFT/sf_par_perp_v_phi0F.txt'
-lentf=64.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar21 = lpyare/lentf
-lperp21 = lperpe/lentf
-
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128run3D_DFFT/sf_par_perp_v_phi0F.txt'
-lentf=128.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar22 = lpyare/lentf
-lperp22 = lperpe/lentf
-
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/256run3D_FFT/sf_par_perp_v_phiF.txt'
-lentf=256.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar23 = lpyare/lentf
-lperp23 = lperpe/lentf
-#
-# # in lper and lpar arrays they stop and become 0 - unsure why - this is a filter to slice the array for plotting due to log scale errors with zero otherwise
-# for count, i in enumerate(lperp4):
-#   if  i <= 0.0001:
-#     print(count)
-#     break
-#
-# for count_256, i in enumerate(lperp5):
-#   if  i <= 0.0001:
-#     print(count_256)
-#     break
-#
-# for count_512, i in enumerate(lperp6):
-#   if  i <= 0.0001:
-#     print(count_512)
-#     break
-#
-# for count_512_para, i in enumerate(lperp7):
-#   if  i <= 0.0001:
-#     print(count_512_para)
-#     break
-#
-for count_128sq, i in enumerate(lperp1):
+for count_128sq, i in enumerate(lperp10):
    if  i <= 0.0001:
      print(count_128sq)
      break
 
-for count_256sq, i in enumerate(lperp2):
+for count_256sq, i in enumerate(lperp11):
    if  i <= 0.0001:
      print(count_256sq)
      break
 
-for count_512sq, i in enumerate(lperp3):
-   if  i <= 0.0001:
-     print(count_512sq)
-     break
-
-for count_128frac, i in enumerate(lperp8):
-   if  i <= 0.0001:
-     print(count_128frac)
-     break
-
-# for count_256frac, i in enumerate(lperp9):
-#    if  i <= 0.0001:
-#      print(count_256frac)
-#      break
-
-for count_256frac_phi0, i in enumerate(lperp10):
-   if  i <= 0.0001:
-     print(count_256frac_phi0)
-     break
-
-for count_512frac_phi0, i in enumerate(lperp11):
-   if  i <= 0.0001:
-     print(count_512frac_phi0)
-     break
-
-for count_128mod4_phi0, i in enumerate(lperp12):
+for count_512sq, i in enumerate(lperp12):
   if  i <= 0.0001:
-    print(count_128mod4_phi0)
+    print(count_512sq)
     break
 
-for count_256mod4_phi0, i in enumerate(lperp13):
+for count_1024sq, i in enumerate(lperp13):
   if  i <= 0.0001:
-    print(count_256mod4_phi0)
-    break     
-
-for count_64_3D_phi0, i in enumerate(lperp15):
-  if  i <= 0.0001:
-    print(count_64_3D_phi0)
-    break   
-
-for count_64_3D_phi, i in enumerate(lperp16):
-  if  i <= 0.0001:
-    print(count_64_3D_phi)
-    break   
-
-for count_128_3D_phi0, i in enumerate(lperp17):
-  if  i <= 0.0001:
-    print(count_128_3D_phi0)
-    break   
-
-for count_128_3D_phi0_positivewave, i in enumerate(lperp18):
-  if  i <= 0.0001:
-    print(count_128_3D_phi0_positivewave)
-    break   
-
-for count_64_3D_phi0_FFT, i in enumerate(lperp19):
-  if  i <= 0.0001:
-    print(count_64_3D_phi0_FFT)
-    break   
-
-for count_128_3D_phi0_FFT, i in enumerate(lperp20):
-  if  i <= 0.0001:
-    print(count_128_3D_phi0_FFT)
-    break   
-
-for count_256_3D_phi0_FFT, i in enumerate(lperp21):
-  if  i <= 0.0001:
-    print(count_256_3D_phi0_FFT)
-    break   
-
-for count_128_3D_phi0_DFFT, i in enumerate(lperp22):
-  if  i <= 0.0001:
-    print(count_128_3D_phi0_DFFT)
-    break   
-
-for count_256_3D_phi_FFT, i in enumerate(lperp23):
-  if  i <= 0.0001:
-    print(count_256_3D_phi_FFT)
+    print(count_1024sq)
     break  
+
+for count_2048sq, i in enumerate(lperp14):
+  if  i <= 0.0001:
+    print(count_2048sq)
+    break      
 
 #reference slopes
 
-ref_slope_2_3 = lpar11[10]*(np.power(lperp11[:count_512frac_phi0],(2.0/3.0))/np.power(lperp11[12],(2.0/3.0)))
+ref_slope_2_3 = lpar9[10]*(np.power(lperp9[]:count_2048disp],(2.0/3.0))/np.power(lperp9[12],(2.0/3.0)))
 # ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
  
 fig=plt.figure()
@@ -540,30 +271,20 @@ gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0])
 
-ax0.plot(lperp8[:count_128frac], lpar8[:count_128frac], lw=3, ls = "-", label="128_2D_PHI0")
-#ax0.plot(lperp9[:count_256frac], lpar9[:count_256frac], lw=3, ls = "-", label="256_displacement_frac")
-ax0.plot(lperp10[:count_256frac_phi0], lpar10[:count_256frac_phi0], lw=3, ls = "-", label="256_2D_PHI0")
-ax0.plot(lperp11[:count_512frac_phi0], lpar11[:count_512frac_phi0], lw=3, ls = "-", label="512_2D_PHI0")
-#ax0.plot(lperp12[:count_128mod4_phi0], lpar12[:count_128mod4_phi0], lw=7, ls = ":", label="128_mod4_PHI0")
-#ax0.plot(lperp13[:count_256mod4_phi0], lpar13[:count_256mod4_phi0], lw=7, ls = ":", label="256_mod4_PHI0")
-ax0.plot(lperp15[:count_64_3D_phi0], lpar15[:count_64_3D_phi0], lw=3, ls = "-", label="64_3D_PHI0")
-#ax0.plot(lperp16[:count_64_3D_phi], lpar16[:count_64_3D_phi], lw=3, ls = "-", label="64_3D_PHI")
-ax0.plot(lperp17[:count_128_3D_phi0], lpar17[:count_128_3D_phi0], lw=3, ls = "-", label="128_3D_PHI0")
-#ax0.plot(lperp18[:count_128_3D_phi0_positivewave], lpar18[:count_128_3D_phi0_positivewave], lw=3, ls = "-",color='red', label="128_3D_PHI0_POSITIVEWAVE")
-ax0.plot(lperp19[:count_64_3D_phi0_FFT], lpar19[:count_64_3D_phi0_FFT], lw=3, ls = "-",color='red', label="64_3D_PHI0_FFT")
-ax0.plot(lperp20[:count_128_3D_phi0_FFT], lpar20[:count_128_3D_phi0_FFT], lw=3, ls = "-", label="128_3D_PHI0_FFT")
-ax0.plot(lperp21[:count_256_3D_phi0_FFT], lpar21[:count_256_3D_phi0_FFT], lw=3, ls = "-", label="256_3D_PHI0_FFT")
-ax0.plot(lperp22[:count_128_3D_phi0_DFFT], lpar22[:count_128_3D_phi0_DFFT], lw=3, ls = "-", label="128_3D_PHI0_DFFT")
-ax0.plot(lperp23[:count_256_3D_phi_FFT], lpar23[:count_256_3D_phi_FFT], lw=3, ls = "-", label="256_PHI_FFT")
-#ax0.plot(lperp1[:count_128sq], lpar1[:count_128sq], lw=3, ls = "-", label="128_SQ")
-#ax0.plot(lperp2[:count_256sq], lpar2[:count_256sq], lw=3, ls = "-", label="256_SQ")
-#ax0.plot(lperp3[:count_512sq], lpar3[:count_512sq], lw=3, ls = "-", label="512_SQ")
-# ax0.plot(lperp4[:count], lpar4[:count], ls = "--", lw=4,label="128_73")
-# ax0.plot(lperp5[:count_256], lpar5[:count_256], ls = "--", lw=4, label="256_73")
-# ax0.plot(lperp6[:count_512], lpar6[:count_512], lw=4, ls = "--", label="512_73")
-# ax0.plot(lperp7[:count_512_para], lpar7[:count_512_para], lw=4, ls = "--", label="512_73_PARA")
-# ax0.plot(lperp4, ref_slope_1, lw=5,ls=":",label="Isotropic",color="blue")
-ax0.plot(lperp11[:count_512frac_phi0], ref_slope_2_3, lw=7, label="GS95", ls = "-", color="black")
+ax0.plot(lperp1[:count_128disp], lpar1[:count_128disp], lw=3, ls = "-", label="128_2D_disp")
+ax0.plot(lperp2[:count_256disp], lpar2[:count_256disp], lw=3, ls = "-", label="256_2D_disp")
+ax0.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp")
+ax0.plot(lperp8[:count_1024disp], lpar8[:count_1024disp], lw=3, ls = "-", label="1024_2D_disp")
+ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp")
+
+ax0.plot(lperp10[:count_128sq], lpar10[:count_128sq], lw=3, ls = "-", label="128_2D_sq")
+ax0.plot(lperp11[:count_256sq], lpar11[:count_256sq], lw=3, ls = "-", label="256_2D_sq")
+ax0.plot(lperp12[:count_512sq], lpar12[:count_512sq], lw=3, ls = ":", label="512_2D_sq")
+ax0.plot(lperp13[:count_1024sq], lpar13[:count_1024sq], lw=3, ls = ":", label="1024_2D_sq")
+ax0.plot(lperp14[:count_2048sq], lpar14[:count_2048sq], lw=3, ls = ":", label="2048_2D_sq")
+
+ax0.plot(lperp9[:count_2048disp], ref_slope_2_3, lw=3, ls = "-", label="GS95 Slope")
+
 ax0.set_xscale('log')
 ax0.set_yscale('log')
 #ax0.set_xlim(xmin=0.002)
@@ -572,7 +293,7 @@ ax0.set_yscale('log')
 #ax0.set_ylim(ymin=0.002)
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
-ax0.set_title('Structure Function')
+ax0.set_title('Structure Function 2D Squares vs Displacement')
 #ax0.text(3,100,'(a)',fontsize=18)
 ax0.legend(loc='lower right',ncol=2,fontsize=14)
 
