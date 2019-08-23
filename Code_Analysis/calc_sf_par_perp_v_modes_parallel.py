@@ -37,7 +37,7 @@ from numpy.random import rand
 size = 128
 lent = size
 
-sq_bool = False
+sq_bool = True
 
 if sq_bool:
     nx = size
