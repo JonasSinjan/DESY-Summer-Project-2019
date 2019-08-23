@@ -51,7 +51,7 @@ else:
 
 # DATA INPUT AND OUTPUT PATH
 dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_128run2D/'  # data files
-dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/square_128run2D/'  # data files
+dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_128run2D/'  # data files
 #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
