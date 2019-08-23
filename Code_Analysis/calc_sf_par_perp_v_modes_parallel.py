@@ -34,10 +34,10 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 2048
+size = 128
 lent = size
 
-sq_bool = True
+sq_bool = False
 
 if sq_bool:
     nx = size
@@ -50,8 +50,8 @@ else:
     nz = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_2048run2D/'  # data files
-dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_2048run2D/'  # data files
+dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/128run2D_FFT/'  # data files
+dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/128run2D_FFT/'  # data files
 #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
@@ -436,7 +436,7 @@ for t in range(0, 1, 1):  # the time loop
         #     sff_2[1, i] = par_tmp
         #     sff_2[2, i] = perp_tmp
 
-        phi, bx, by = read_files_sq(dir_data)
+        phi, bx, by = read_files(dir_data)
 
         sf_snapshot = []
         sff = np.zeros((3, int(lent / 4)))
