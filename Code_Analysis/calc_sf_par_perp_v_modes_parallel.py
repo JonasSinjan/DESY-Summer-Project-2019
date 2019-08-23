@@ -197,7 +197,7 @@ def read_files3D_phi(dir_data):
     bx = temp.transpose()
 
     dbx = bx - 1
-    dbx = np.average(dbx)
+    
     #bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
@@ -209,7 +209,7 @@ def read_files3D_phi(dir_data):
     by = temp.transpose()
 
     dby = by
-    dby = np.average(dby)
+    
     #by.fill(0)
 
     filename = dir_data + 'BZ' + '.BIN'
@@ -221,10 +221,12 @@ def read_files3D_phi(dir_data):
     bz = temp.transpose()
 
     dbz = bz
-    dbz = np.average(dbz)
+    
     #bz.fill(0)
 
-    mach_alfven = np.sqrt(dbx**2 + dby**2 + dbz**2)
+    tmp = dbx**2 + dby**2 + dbz**2
+    tmp = np.mean(tmp)
+    mach_alfven = np.sqrt(tmp)
 
     print(bx[:, :, 1])
     print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
