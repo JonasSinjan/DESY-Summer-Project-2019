@@ -5,6 +5,7 @@ from matplotlib import ticker
 from matplotlib import gridspec
 from scipy.interpolate import interp1d
 from scipy.interpolate import UnivariateSpline
+from scipy.stats import linregress
 
 def smoothing(xarr) :
   lls = xarr.size
@@ -260,6 +261,18 @@ for count_2048sq, i in enumerate(lperp14):
     print(count_2048sq)
     break      
 
+def linfit(lperp, lpara):
+  slope, intercept, rval, p, err = linregress(np.log(lperp), np.log(lpar))
+  return round(slope,2), round(rval,2), round(err,2)
+
+slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp3,lpar3)
+slope_1024_disp, rval_1024_disp, err_1024_disp = linfit(lperp8,lpar8)
+slope_2048_disp, rval_2048_disp, err_2048_disp = linfit(lperp9,lpar9)
+
+slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp12,lpar12)
+slope_1024_sq, rval_1024_sq, err_1024_sq = linfit(lperp13,lpar13)
+slope_2048_sq, rval_2048_sq, err_2048_sq = linfit(lperp14,lpar14)
+
 #reference slopes
 
 ref_slope_2_3 = lpar9[100]*(np.power(lperp9[:count_2048disp],(2.0/3.0))/np.power(lperp9[100],(2.0/3.0)))
@@ -273,15 +286,15 @@ ax0 = plt.subplot(gs[0])
 
 #ax0.plot(lperp1[:count_128disp], lpar1[:count_128disp], lw=3, ls = "-", label="128_2D_disp")
 #ax0.plot(lperp2[:count_256disp], lpar2[:count_256disp], lw=3, ls = "-", label="256_2D_disp")
-ax0.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp")
-ax0.plot(lperp8[:count_1024disp], lpar8[:count_1024disp], lw=3, ls = "-", label="1024_2D_disp")
-ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp")
+ax0.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
+ax0.plot(lperp8[:count_1024disp], lpar8[:count_1024disp], lw=3, ls = "-", label="1024_2D_disp grad: %s R^2: %s  Err: %s" % (slope_1024_disp, rval_1024_disp, err_1024_disp))
+ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp grad: %s R^2: %s  Err: %s" % (slope_2048_disp, rval_2048_disp, err_2048_disp))
 
 #ax0.plot(lperp10[:count_128sq], lpar10[:count_128sq], lw=3, ls = ":", label="128_2D_sq")
 #ax0.plot(lperp11[:count_256sq], lpar11[:count_256sq], lw=3, ls = ":", label="256_2D_sq")
-ax0.plot(lperp12[:count_512sq], lpar12[:count_512sq], lw=5, ls = ":", label="512_2D_sq")
-ax0.plot(lperp13[:count_1024sq], lpar13[:count_1024sq], lw=5, ls = ":", label="1024_2D_sq")
-ax0.plot(lperp14[:count_2048sq], lpar14[:count_2048sq], lw=5, ls = ":", label="2048_2D_sq")
+ax0.plot(lperp12[:count_512sq], lpar12[:count_512sq], lw=5, ls = ":", label="512_2D_sq grad: %s R^2: %s  Err: %s" % (slope_512_sq, rval_512_sq, err_512_sq))
+ax0.plot(lperp13[:count_1024sq], lpar13[:count_1024sq], lw=5, ls = ":", label="1024_2D_sq grad: %s R^2: %s  Err: %s" % (slope_1024_sq, rval_1024_sq, err_1024_sq))
+ax0.plot(lperp14[:count_2048sq], lpar14[:count_2048sq], lw=5, ls = ":", label="2048_2D_sq grad: %s R^2: %s  Err: %s" % (slope_2048_sq, rval_2048_sq, err_2048_sq))
 
 ax0.plot(lperp9[:count_2048disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 Slope")
 
