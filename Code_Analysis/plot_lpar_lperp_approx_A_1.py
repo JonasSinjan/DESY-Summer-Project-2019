@@ -261,17 +261,22 @@ for count_2048sq, i in enumerate(lperp14):
     print(count_2048sq)
     break      
 
-def linfit(lperp, lpara):
-  slope, intercept, rval, p, err = linregress(np.log(lperp), np.log(lpar))
-  return round(slope,2), round(rval,2), round(err,2)
+perp_arr,para_arr = [], []
 
-slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp3,lpar3)
-slope_1024_disp, rval_1024_disp, err_1024_disp = linfit(lperp8,lpar8)
-slope_2048_disp, rval_2048_disp, err_2048_disp = linfit(lperp9,lpar9)
+def linfit(perp_arr, para_arr, count):
+  slope, intercept, rval, p, err = linregress(np.log(perp_arr[:count]), np.log(para_arr[:count]))
+  tmp_slop = round(slope,3)
+  tmp_r = round(rval,3)
+  tmp_err = round(err,3)
+  return tmp_slop, tmp_r, tmp_err
 
-slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp12,lpar12)
-slope_1024_sq, rval_1024_sq, err_1024_sq = linfit(lperp13,lpar13)
-slope_2048_sq, rval_2048_sq, err_2048_sq = linfit(lperp14,lpar14)
+slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp3,lpar3, count_512disp)
+slope_1024_disp, rval_1024_disp, err_1024_disp = linfit(lperp8,lpar8, count_1024disp)
+slope_2048_disp, rval_2048_disp, err_2048_disp = linfit(lperp9,lpar9, count_2048disp)
+
+slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp12,lpar12, count_512sq)
+slope_1024_sq, rval_1024_sq, err_1024_sq = linfit(lperp13,lpar13, count_1024sq)
+slope_2048_sq, rval_2048_sq, err_2048_sq = linfit(lperp14,lpar14, count_2048sq)
 
 #reference slopes
 
