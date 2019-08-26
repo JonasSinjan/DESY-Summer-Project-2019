@@ -998,7 +998,7 @@ program main
       endif
 
       ! SKIP NYQUIST FREQUENCY
-      do ki = 0, m/2-1
+      do ki = 0, 0 !m/2-1
         i = ki + 1
 
         kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
