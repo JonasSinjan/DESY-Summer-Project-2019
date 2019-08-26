@@ -34,10 +34,10 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 4096
+size = 512
 lent = size
 
-sq_bool = True
+sq_bool = False
 
 if sq_bool:
     nx = size
@@ -470,11 +470,7 @@ for t in range(0, 1, 1):  # the time loop
         #     sff_2[1, i] = par_tmp
         #     sff_2[2, i] = perp_tmp
 
-<<<<<<< HEAD
-        phi, bx, by = read_files_sq(dir_data)
-=======
         phi0, bx, by = read_files_phi0(dir_data)
->>>>>>> a7b7c7b66dbaa44d0a9f6ac151b19cb33b9ff0c2
 
         sf_snapshot = []
         sff = np.zeros((3, int(lent / 4)))
