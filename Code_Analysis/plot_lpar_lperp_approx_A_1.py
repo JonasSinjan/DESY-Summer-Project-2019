@@ -37,217 +37,83 @@ def lppcorr(llv,sfpar,sfperp) :
   return [lperp_arr,lpar_arr]
 
 ####################################################################################
-max_size = 2048.0
+#max_size = 2048.0
 ####################################################################################
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/128run2D_FFT/sf_par_perp_v_phiF.txt'
-lentf= 128.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar1 = lpyare/lentf
-lperp1 = lperpe/lentf
+def read_sf(dir_data, n):
+  filename = dir_data
+  lentf= n
+  data = np.loadtxt(filename,skiprows=1)
+  ll = data[:,0]
+  sf_par = data[:,1]
+  sf_perp= data[:,2]
+  valid = ~np.isnan(sf_perp)
+  sf_perp = sf_perp[valid]
+  ll = ll[valid]
+  sf_par = sf_par[valid]
+  lent = np.size(ll)
+  sf_par_smoothed = smoothing(sf_par)
+  sf_perp_smoothed= smoothing(sf_perp)
+  [lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+  lpar = lpyare/lentf
+  lperp = lperpe/lentf
+
+  return lpar, lperp
+
+#2d displacement sf phi
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/128run2D_FFT/sf_par_perp_v_phiF.txt'
+lpar1, lperp1 = read_sf(dir_sf, 128.0)
 #
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/256run2D_FFT/sf_par_perp_v_phiF.txt'
-lentf= 256.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar2 = lpyare/lentf
-lperp2 = lperpe/lentf
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/256run2D_FFT/sf_par_perp_v_phiF.txt'
+lpar2, lperp2 = read_sf(dir_sf, 256.0)
 #
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
-lentf= 512.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar3 = lpyare/lentf
-lperp3 = lperpe/lentf
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
+lpar3, lperp3 = read_sf(dir_sf, 512.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/1024run2D_FFT/sf_par_perp_v_phiF.txt'
+lpar8, lperp8 = read_sf(dir_sf, 1024.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/2048run2D_FFT/sf_par_perp_v_phiF.txt'
+lpar9, lperp9 = read_sf(dir_sf, 2048.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/4096run2D_FFT/sf_par_perp_v_phiF.txt'
+lpar16, lperp16 = read_sf(dir_sf, 4096.0)
 
-#filename = 'c:/Users/jonas/DESY/2d_displacement/128run2D_73_frac/sf_par_perp_v_phi0F_re.txt'
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/1024run2D_FFT/sf_par_perp_v_phiF.txt'
-lentf=1024.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar8 = lpyare/lentf
-lperp8 = lperpe/lentf
+#2d_squares sf rho(=phi) 
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_128run2D/sf_par_perp_v_phiF.txt'
+lpar10, lperp10 = read_sf(dir_sf, 128.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_256run2D/sf_par_perp_v_phiF.txt'
+lpar11, lperp11 = read_sf(dir_sf, 256.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_512run2D/sf_par_perp_v_phiF.txt'
+lpar12, lperp12 = read_sf(dir_sf, 512.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_1024run2D/sf_par_perp_v_phiF.txt'
+lpar13, lperp13 = read_sf(dir_sf, 1024.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_2048run2D/sf_par_perp_v_phiF.txt'
+lpar14, lperp14 = read_sf(dir_sf, 2048.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_4096run2D/sf_par_perp_v_phiF.txt'
+lpar15, lperp15 = read_sf(dir_sf, 4096.0)
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/2048run2D_FFT/sf_par_perp_v_phiF.txt'
-lentf=2048.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar9 = lpyare/lentf
-lperp9 = lperpe/lentf
+#3d displacement phi0
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phi0F.txt'
+lpar17, lperp17 = read_sf(dir_sf, 128.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/sf_par_perp_v_phi0F.txt'
+lpar18, lperp18 = read_sf(dir_sf, 256.0)
+#
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phi0F.txt'
+lpar19, lperp19 = read_sf(dir_sf, 512.0)
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/4096run2D_FFT/sf_par_perp_v_phiF.txt'
-lentf=4096.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar16 = lpyare/lentf
-lperp16 = lperpe/lentf
+#perp and para - data becomes 0 at some point, run into errors, so want to find point that they become 0 and stop at that point
 
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_128run2D/sf_par_perp_v_phiF.txt'
-lentf=128.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar10 = lpyare/lentf
-lperp10 = lperpe/lentf
-
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_256run2D/sf_par_perp_v_phiF.txt'
-lentf=256.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar11 = lpyare/lentf
-lperp11 = lperpe/lentf
-
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_512run2D/sf_par_perp_v_phiF.txt'
-lentf=512.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar12 = lpyare/lentf
-lperp12 = lperpe/lentf
-
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_1024run2D/sf_par_perp_v_phiF.txt'
-lentf=1024.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar13 = lpyare/lentf
-lperp13 = lperpe/lentf
-
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_2048run2D/sf_par_perp_v_phiF.txt'
-lentf=2048.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar14 = lpyare/lentf
-lperp14 = lperpe/lentf
-
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_4096run2D/sf_par_perp_v_phiF.txt'
-lentf=4096.0
-data = np.loadtxt(filename,skiprows=1)
-ll = data[:,0]
-sf_par = data[:,1]
-sf_perp= data[:,2]
-valid = ~np.isnan(sf_perp)
-sf_perp = sf_perp[valid]
-ll = ll[valid]
-sf_par = sf_par[valid]
-lent = np.size(ll)
-sf_par_smoothed = smoothing(sf_par)
-sf_perp_smoothed= smoothing(sf_perp)
-[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
-lpar15 = lpyare/lentf
-lperp15 = lperpe/lentf
-
+#2d displacement phi
 for count_128disp, i in enumerate(lperp1):
    if  i <= 0.0001:
-     print(count_128disp)
+     print(count_128disp) #returns the index where 0 starts
      break
 
 for count_256disp, i in enumerate(lperp2):
@@ -275,6 +141,7 @@ for count_4096disp, i in enumerate(lperp16):
      print(count_4096disp)
      break
 
+#2d squares rho
 for count_128sq, i in enumerate(lperp10):
    if  i <= 0.0001:
      print(count_128sq)
@@ -305,6 +172,44 @@ for count_4096sq, i in enumerate(lperp15):
     print(count_4096sq)
     break      
 
+#2d displacement phi0
+for count_128disp_phi0, i in enumerate(lperp17):
+   if  i <= 0.0001:
+     print(count_128disp_phi0) #returns the index where 0 starts
+     break
+
+for count_256disp_phi0, i in enumerate(lperp18):
+   if  i <= 0.0001:
+     print(count_256disp_phi0)
+     break
+
+for count_512disp_phi0, i in enumerate(lperp19):
+   if  i <= 0.0001:
+     print(count_512disp_phi0)
+     break
+
+#3d displacement phi0
+# for count_128disp_3dphi0, i in enumerate(lperp20):
+#    if  i <= 0.0001:
+#      print(count_128disp_3dphi0) #returns the index where 0 starts
+#      break
+
+# for count_256disp_3dphi0, i in enumerate(lperp21):
+#    if  i <= 0.0001:
+#      print(count_256disp_3dphi0)
+#      break
+
+#3d displacement phi
+# for count_128disp_3dphi, i in enumerate(lperp20):
+#    if  i <= 0.0001:
+#      print(count_128disp_3dphi) #returns the index where 0 starts
+#      break
+
+# for count_256disp_3dphi, i in enumerate(lperp21):
+#    if  i <= 0.0001:
+#      print(count_256disp_3dphi0)
+#      break
+
 perp_arr,para_arr = [], []
 
 def linfit(perp_arr, para_arr, count):
@@ -314,74 +219,89 @@ def linfit(perp_arr, para_arr, count):
   tmp_err = round(err,3)
   return tmp_slop, tmp_r, tmp_err
 
+#slopes linefitting for 2d displacement phi
+slope_128_disp, rval_128_disp, err_128_disp = linfit(lperp1,lpar1, count_128disp)
+slope_256_disp, rval_256_disp, err_256_disp = linfit(lperp2,lpar2, count_256disp)
 slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp3,lpar3, count_512disp)
 slope_1024_disp, rval_1024_disp, err_1024_disp = linfit(lperp8,lpar8, count_1024disp)
 slope_2048_disp, rval_2048_disp, err_2048_disp = linfit(lperp9,lpar9, count_2048disp)
 slope_4096_disp, rval_4096_disp, err_4096_disp = linfit(lperp16,lpar16, count_4096disp)
 
+#slope linefitting for 2d squares rho (=phi)
 slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp12,lpar12, count_512sq)
 slope_1024_sq, rval_1024_sq, err_1024_sq = linfit(lperp13,lpar13, count_1024sq)
 slope_2048_sq, rval_2048_sq, err_2048_sq = linfit(lperp14,lpar14, count_2048sq)
 slope_4096_sq, rval_4096_sq, err_4096_sq = linfit(lperp15,lpar15, count_4096sq)
 
 
-#reference slopes
+#Reference slopes
+ref_slope_2_3 = lpar16[100]*(np.power(lperp16[:count_4096disp],(2.0/3.0))/np.power(lperp16[100],(2.0/3.0)))
+#ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
+slope_ref, rval_ref, err_ref = linfit(lperp16, ref_slope_2_3, count_4096disp)
 
-ref_slope_2_3 = lpar9[100]*(np.power(lperp9[:count_2048disp],(2.0/3.0))/np.power(lperp9[100],(2.0/3.0)))
-# ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
 
-slope_ref, rval_ref, err_ref = linfit(lperp9, ref_slope_2_3, count_2048disp)
- 
+#plot for 2d squares vs displacement phi 
 fig=plt.figure(1)
 fig = plt.figure(figsize=(16.0, 10.0))
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0])
 
-#ax0.plot(lperp1[:count_128disp], lpar1[:count_128disp], lw=3, ls = "-", label="128_2D_disp")
-#ax0.plot(lperp2[:count_256disp], lpar2[:count_256disp], lw=3, ls = "-", label="256_2D_disp")
+#2D displacement phi
 ax0.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
 ax0.plot(lperp8[:count_1024disp], lpar8[:count_1024disp], lw=3, ls = "-", label="1024_2D_disp grad: %s R^2: %s  Err: %s" % (slope_1024_disp, rval_1024_disp, err_1024_disp))
 ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp grad: %s R^2: %s  Err: %s" % (slope_2048_disp, rval_2048_disp, err_2048_disp))
 ax0.plot(lperp16[:count_4096disp], lpar16[:count_4096disp], lw=3, ls = "-", label="4096_2D_disp grad: %s R^2: %s  Err: %s" % (slope_4096_disp, rval_4096_disp, err_4096_disp))
 
-#ax0.plot(lperp10[:count_128sq], lpar10[:count_128sq], lw=3, ls = ":", label="128_2D_sq")
-#ax0.plot(lperp11[:count_256sq], lpar11[:count_256sq], lw=3, ls = ":", label="256_2D_sq")
+#2D squares rho(=phi)
 ax0.plot(lperp12[:count_512sq], lpar12[:count_512sq], lw=5, ls = ":", label="512_2D_sq grad: %s R^2: %s  Err: %s" % (slope_512_sq, rval_512_sq, err_512_sq))
 ax0.plot(lperp13[:count_1024sq], lpar13[:count_1024sq], lw=5, ls = ":", label="1024_2D_sq grad: %s R^2: %s  Err: %s" % (slope_1024_sq, rval_1024_sq, err_1024_sq))
 ax0.plot(lperp14[:count_2048sq], lpar14[:count_2048sq], lw=5, ls = ":", label="2048_2D_sq grad: %s R^2: %s  Err: %s" % (slope_2048_sq, rval_2048_sq, err_2048_sq))
 ax0.plot(lperp14[:count_4096sq], lpar14[:count_4096sq], lw=5, ls = ":", label="4096_2D_sq grad: %s R^2: %s  Err: %s" % (slope_4096_sq, rval_4096_sq, err_4096_sq))
 
-ax0.plot(lperp9[:count_2048disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
+ax0.plot(lperp16[:count_4096disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
 ax0.set_xscale('log')
 ax0.set_yscale('log')
-#ax0.set_xlim(xmin=0.002)
-#ax0.set_xlim(xmax=0.4)
-#ax0.set_ylim(ymax=0.4)
-#ax0.set_ylim(ymin=0.002)
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
 ax0.set_title('Structure Function 2D Squares vs Displacement')
-#ax0.text(3,100,'(a)',fontsize=18)
 ax0.legend(loc='lower right',ncol=2,fontsize=14)
 
 plt.show()
 
+#plot for 2d vs 3d displacement method both phi and phi0
 fig=plt.figure(2)
 fig = plt.figure(figsize=(16.0, 10.0))
 gs = gridspec.GridSpec(2, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0],aspect='equal')
 
-ax0.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
-ax0.plot(lperp8[:count_1024disp], lpar8[:count_1024disp], lw=3, ls = "-", label="1024_2D_disp grad: %s R^2: %s  Err: %s" % (slope_1024_disp, rval_1024_disp, err_1024_disp))
-ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp grad: %s R^2: %s  Err: %s" % (slope_2048_disp, rval_2048_disp, err_2048_disp))
+#2D displacement PHI0
+ax0.plot(lperp17[:count_128disp_phi0], lpar17[:count_128disp_phi0], lw=3, ls = "-", label="128_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
+ax0.plot(lperp18[:count_256disp_phi0], lpar18[:count_256disp_phi0], lw=3, ls = "-", label="256_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0))
+ax0.plot(lperp19[:count_512disp_phi0], lpar19[:count_512disp_phi0], lw=3, ls = "-", label="512_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_512_disp_phi0, rval_512_disp_phi0, err_512_disp_phi0))
 
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
-ax0.set_title('Structure Function 2D vs 3D Displacement')
+ax0.set_title('Struc Funk 2D vs 3D Displacement PHI0')
 ax0.legend(loc='lower right',ncol=2,fontsize=14)
+
+
+
+
+ax1 = plt.subplot(gs[1],aspect='equal')
+
+#2D displacement PHI
+ax1.plot(lperp3[:count_128disp], lpar3[:count_128disp], lw=3, ls = "-", label="128_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_128_disp, rval_128_disp, err_128_disp))
+ax1.plot(lperp8[:count_256disp], lpar8[:count_256disp], lw=3, ls = "-", label="256_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_256_disp, rval_256_disp, err_256_disp))
+ax1.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
+
+ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
+ax1.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
+ax1.set_title('Struc Funk 2D vs 3D Displacement PHI')
+ax1.legend(loc='lower right',ncol=2,fontsize=14)
+
 
 
 
