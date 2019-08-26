@@ -36,9 +36,6 @@ def lppcorr(llv,sfpar,sfperp) :
     count = count+1  
   return [lperp_arr,lpar_arr]
 
-####################################################################################
-#max_size = 2048.0
-####################################################################################
 
 def read_sf(dir_data, n):
   filename = dir_data
@@ -59,6 +56,12 @@ def read_sf(dir_data, n):
   lperp = lperpe/lentf
 
   return lpar, lperp
+
+def find_indeix(arr): #normally pass through the perp array: lperp
+  for count, i in enumerate(arr):
+    if  i <= 0.0001:
+      return count #returns the index where 0 starts
+      break
 
 #2d displacement sf phi
 dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/128run2D_FFT/sf_par_perp_v_phiF.txt'
@@ -98,7 +101,17 @@ lpar14, lperp14 = read_sf(dir_sf, 2048.0)
 dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_4096run2D/sf_par_perp_v_phiF.txt'
 lpar15, lperp15 = read_sf(dir_sf, 4096.0)
 
-#3d displacement phi0
+# #3d displacement sf phi
+# dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phiF.txt'
+# lpar20, lperp20 = read_sf(dir_sf, 128.0)
+# #
+# dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/sf_par_perp_v_phiF.txt'
+# lpar21, lperp21 = read_sf(dir_sf, 256.0)
+# #
+# filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
+# lpar22, lperp22 = read_sf(dir_sf, 512.0)
+
+#2d displacement sf phi0
 dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phi0F.txt'
 lpar17, lperp17 = read_sf(dir_sf, 128.0)
 #
@@ -108,108 +121,67 @@ lpar18, lperp18 = read_sf(dir_sf, 256.0)
 filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phi0F.txt'
 lpar19, lperp19 = read_sf(dir_sf, 512.0)
 
+# #3d displacement sf phi0
+# dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phiF.txt'
+# lpar23, lperp23 = read_sf(dir_sf, 128.0)
+# #
+# dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/sf_par_perp_v_phiF.txt'
+# lpar24, lperp24 = read_sf(dir_sf, 256.0)
+# #
+# filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
+# lpar25, lperp25 = read_sf(dir_sf, 512.0)
+
 #perp and para - data becomes 0 at some point, run into errors, so want to find point that they become 0 and stop at that point
 
 #2d displacement phi
-for count_128disp, i in enumerate(lperp1):
-   if  i <= 0.0001:
-     print(count_128disp) #returns the index where 0 starts
-     break
+count_128disp = find_indeix(lperp1)
+#
+count_256disp = find_indeix(lperp2)
+#
+count_512disp = find_indeix(lperp3)
+#
+count_1024disp = find_indeix(lperp8)
+#
+count_2048disp = find_indeix(lperp9)
+#
+count_4096disp = find_indeix(lperp16)
 
-for count_256disp, i in enumerate(lperp2):
-   if  i <= 0.0001:
-     print(count_256disp)
-     break
-
-for count_512disp, i in enumerate(lperp3):
-   if  i <= 0.0001:
-     print(count_512disp)
-     break
-
-for count_1024disp, i in enumerate(lperp8):
-   if  i <= 0.0001:
-     print(count_1024disp)
-     break
-
-for count_2048disp, i in enumerate(lperp9):
-   if  i <= 0.0001:
-     print(count_2048disp)
-     break
-
-for count_4096disp, i in enumerate(lperp16):
-   if  i <= 0.0001:
-     print(count_4096disp)
-     break
-
-#2d squares rho
-for count_128sq, i in enumerate(lperp10):
-   if  i <= 0.0001:
-     print(count_128sq)
-     break
-
-for count_256sq, i in enumerate(lperp11):
-   if  i <= 0.0001:
-     print(count_256sq)
-     break
-
-for count_512sq, i in enumerate(lperp12):
-  if  i <= 0.0001:
-    print(count_512sq)
-    break
-
-for count_1024sq, i in enumerate(lperp13):
-  if  i <= 0.0001:
-    print(count_1024sq)
-    break  
-
-for count_2048sq, i in enumerate(lperp14):
-  if  i <= 0.0001:
-    print(count_2048sq)
-    break      
-
-for count_4096sq, i in enumerate(lperp15):
-  if  i <= 0.0001:
-    print(count_4096sq)
-    break      
+#2d squares rho(=phi)
+count_128sq = find_indeix(lperp10)
+#
+count_256sq = find_indeix(lperp11)
+#
+count_512sq = find_indeix(lperp12)
+#
+count_1024sq = find_indeix(lperp13)
+#
+count_2048sq = find_indeix(lperp14)
+#
+count_4096sq = find_indeix(lperp15)
 
 #2d displacement phi0
-for count_128disp_phi0, i in enumerate(lperp17):
-   if  i <= 0.0001:
-     print(count_128disp_phi0) #returns the index where 0 starts
-     break
+count_128disp_phi0 = find_indeix(lperp17)
+#
+count_256disp_phi0 = find_indeix(lperp18)
+#
+count_512disp_phi0 = find_indeix(lperp19)
+#
 
-for count_256disp_phi0, i in enumerate(lperp18):
-   if  i <= 0.0001:
-     print(count_256disp_phi0)
-     break
+# #3d displacement phi
+# count_128disp_3dphi = find_indeix(lper20)
+# #
+# count_256disp_3dphi = find_indeix(lperp21)
+# #
+# count_512disp_phi = find_indeix(lperp22)
+# #
 
-for count_512disp_phi0, i in enumerate(lperp19):
-   if  i <= 0.0001:
-     print(count_512disp_phi0)
-     break
-
-#3d displacement phi0
-# for count_128disp_3dphi0, i in enumerate(lperp20):
-#    if  i <= 0.0001:
-#      print(count_128disp_3dphi0) #returns the index where 0 starts
-#      break
-
-# for count_256disp_3dphi0, i in enumerate(lperp21):
-#    if  i <= 0.0001:
-#      print(count_256disp_3dphi0)
-#      break
-
-#3d displacement phi
-# for count_128disp_3dphi, i in enumerate(lperp20):
-#    if  i <= 0.0001:
-#      print(count_128disp_3dphi) #returns the index where 0 starts
-#      break
-
-# for count_256disp_3dphi, i in enumerate(lperp21):
-#    if  i <= 0.0001:
-#      print(count_256disp_3dphi0)
-#      break
-
+# #3d displacement phi0
+# count_128disp_3dphi0 = find_indeix(lper20)
+# #
+# count_256disp_3dphi0 = find_indeix(lperp21)
+# #
+# count_512disp_phi0 = find_indeix(lperp22)
+# #
 perp_arr,para_arr = [], []
 
 def linfit(perp_arr, para_arr, count):
@@ -270,66 +242,39 @@ ax0.legend(loc='lower right',ncol=2,fontsize=14)
 
 plt.show()
 
-#plot for 2d vs 3d displacement method both phi and phi0
-fig=plt.figure(2)
-fig = plt.figure(figsize=(16.0, 10.0))
-gs = gridspec.GridSpec(2, 1, hspace=0.0, wspace=0.0)
+# #plot for 2d vs 3d displacement method both phi and phi0
+# fig=plt.figure(2)
+# fig = plt.figure(figsize=(16.0, 10.0))
+# gs = gridspec.GridSpec(2, 1, hspace=0.0, wspace=0.0)
 
-ax0 = plt.subplot(gs[0],aspect='equal')
+# ax0 = plt.subplot(gs[0],aspect='equal')
 
-#2D displacement PHI0
-ax0.plot(lperp17[:count_128disp_phi0], lpar17[:count_128disp_phi0], lw=3, ls = "-", label="128_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
-ax0.plot(lperp18[:count_256disp_phi0], lpar18[:count_256disp_phi0], lw=3, ls = "-", label="256_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0))
-ax0.plot(lperp19[:count_512disp_phi0], lpar19[:count_512disp_phi0], lw=3, ls = "-", label="512_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_512_disp_phi0, rval_512_disp_phi0, err_512_disp_phi0))
+# #2D displacement PHI0
+# ax0.plot(lperp17[:count_128disp_phi0], lpar17[:count_128disp_phi0], lw=3, ls = "-", label="128_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
+# ax0.plot(lperp18[:count_256disp_phi0], lpar18[:count_256disp_phi0], lw=3, ls = "-", label="256_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0))
+# ax0.plot(lperp19[:count_512disp_phi0], lpar19[:count_512disp_phi0], lw=3, ls = "-", label="512_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_512_disp_phi0, rval_512_disp_phi0, err_512_disp_phi0))
 
-ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
-ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
-ax0.set_title('Struc Funk 2D vs 3D Displacement PHI0')
-ax0.legend(loc='lower right',ncol=2,fontsize=14)
-
-
+# ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
+# ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
+# ax0.set_title('Struc Funk 2D vs 3D Displacement PHI0')
+# ax0.legend(loc='lower right',ncol=2,fontsize=14)
 
 
-ax1 = plt.subplot(gs[1],aspect='equal')
 
-#2D displacement PHI
-ax1.plot(lperp3[:count_128disp], lpar3[:count_128disp], lw=3, ls = "-", label="128_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_128_disp, rval_128_disp, err_128_disp))
-ax1.plot(lperp8[:count_256disp], lpar8[:count_256disp], lw=3, ls = "-", label="256_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_256_disp, rval_256_disp, err_256_disp))
-ax1.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
 
-ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
-ax1.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
-ax1.set_title('Struc Funk 2D vs 3D Displacement PHI')
-ax1.legend(loc='lower right',ncol=2,fontsize=14)
+# ax1 = plt.subplot(gs[1],aspect='equal')
+
+# #2D displacement PHI
+# ax1.plot(lperp3[:count_128disp], lpar3[:count_128disp], lw=3, ls = "-", label="128_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_128_disp, rval_128_disp, err_128_disp))
+# ax1.plot(lperp8[:count_256disp], lpar8[:count_256disp], lw=3, ls = "-", label="256_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_256_disp, rval_256_disp, err_256_disp))
+# ax1.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
+
+# ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
+# ax1.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
+# ax1.set_title('Struc Funk 2D vs 3D Displacement PHI')
+# ax1.legend(loc='lower right',ncol=2,fontsize=14)
 
 
 
 
 #plt.show()
-
-"""
-ax1 = plt.subplot(gs[1])
-ax1.plot(lperp_v_1, lpar_v_1, lw=3,label="S1")
-ax1.plot(lperp_v_2, lpar_v_2, lw=3,label="S2")
-ax1.plot(lperp_v_3, lpar_v_3, lw=3,label="S3")
-ax1.plot(lperp_v_4, lpar_v_4, lw=3,label="S4")
-ax1.plot(lperp_v_5, lpar_v_5, lw=3,label="C1")
-ax1.plot(lperp_v_6, lpar_v_6, lw=3,label="C2")
-ax1.plot(lperp_v_7, lpar_v_7, lw=3,label="C4")
-ax1.plot(lperp_B_4, ref_slope_1, lw=4,ls=":",label="Isotropic",color="blue")
-ax1.plot(lperp_B_4, ref_slope_2_3, lw=4,ls=":",label="GS",color="red")
-ax1.set_xscale('log')
-ax1.set_yscale('log')
-ax1.set_xlim(xmin=2.0)
-ax1.set_xlim(xmax=120)
-ax1.set_ylim(ymin=2.0)
-ax1.set_ylim(ymax=130.0)
-ax1.set_xlabel(r'$l_{\perp}$',fontsize=18)
-ax1.set_ylabel('$l_{\parallel}$',fontsize=18)
-ax1.text(3,100,'(b)',fontsize=18)
-ax1.legend(loc='lower right',ncol=2,fontsize=14)
-"""
-
-
-
-
