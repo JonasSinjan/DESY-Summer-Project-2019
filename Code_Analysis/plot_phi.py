@@ -16,7 +16,7 @@ nx=res
 ny=res
 nz=res
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/512run2D/"
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/512run2D_73/"
 
 filename=dir_data+'PHI'+'.BIN'
 print(filename)  
