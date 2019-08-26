@@ -279,8 +279,9 @@ def plot_power3d(dir1, n):
                                                                      np.log(para_total[start:end]))
     print(slope, slope_par,"3d kperp calc")
 
-    lin_perb = [slope * i + intercept for i in np.log(range(1, int(n / 2)))]
-    lin_par = [slope_par * i + intercept_par for i in np.log(range(1, int(n / 2)))]
+    lin_perb = [slope * i + intercept for i in logk[start:end]]
+    lin_par = [slope_par * i + intercept_par for i in logk[start:end]]
+    #for i in np.log(range(1, int(n / 2)))]
 
     plt.figure()
     plt.scatter(logk[start:end], np.log(perp_total[start:end]), label='Perp')
