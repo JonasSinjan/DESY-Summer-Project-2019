@@ -85,9 +85,9 @@ phi_3d,phi0_3d, by = read_phi_3d(dir_data,n)
 
 slice_index = 23
 
-fig = plt.figure(constrained_layout=True)
+fig = plt.figure()
 
-gs0 = gridspec.GridSpec(1,2, figure=fig)
+gs0 = gridspec.GridSpec(1,2,hspace=0.2, wspace=0.2)
 
 gs1 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=gs0[0])
 
