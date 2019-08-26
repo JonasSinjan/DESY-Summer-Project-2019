@@ -50,8 +50,8 @@ else:
     nz = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_4096run2D/'  # data files
-dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_4096run2D/'  # data files
+dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/512run2D_FFT/'  # data files
+dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/512run2D_FFT/'  # data files
 #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
@@ -80,7 +80,7 @@ step = 1
 
 seed(1)
 n_avg_bfield_pts = 5
-nrandpts = 30000
+nrandpts = 10000
 mode = 'F'
 nprocs = 16
 
@@ -135,6 +135,40 @@ def read_files(dir_data):
     print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
+
+def read_files_phi0(dir_data):
+    filename = dir_data + 'PHI0' + '.BIN'
+    # print(filename)
+    fd = open(filename, 'rb')
+
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+
+    temp = np.reshape(abx, (nx, ny))
+    phi0 = temp.transpose()  # missed the empty brackets here
+    # print(phi[22,:]) - working correctly
+
+    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used:
+    # print(filename)
+    fd = open(filename, 'rb')
+
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+
+    temp = np.reshape(abx, (nx, ny))
+    bx = temp.transpose()
+
+    bx.fill(1)
+
+    filename = dir_data + 'BY' + '.BIN'
+    # print(filename)
+    fd = open(filename, 'rb')
+
+    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+    by.fill(0)
+    temp = np.reshape(aby, (nx, ny))
+    by = temp.transpose()
+    print(bx[:, 1])
+    print(np.mean(bx), np.mean(by))
+    return phi0, bx, by
 
 def read_files_sq(dir_data):
     filename = dir_data + 'RHO' + '.BIN'
@@ -436,12 +470,16 @@ for t in range(0, 1, 1):  # the time loop
         #     sff_2[1, i] = par_tmp
         #     sff_2[2, i] = perp_tmp
 
+<<<<<<< HEAD
         phi, bx, by = read_files_sq(dir_data)
+=======
+        phi0, bx, by = read_files_phi0(dir_data)
+>>>>>>> a7b7c7b66dbaa44d0a9f6ac151b19cb33b9ff0c2
 
         sf_snapshot = []
         sff = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
-            numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi, bx, by)
+            numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi0, bx, by)
             sff[0, i] = numpt_tmp
             sff[1, i] = par_tmp
             sff[2, i] = perp_tmp
@@ -489,7 +527,7 @@ sf_perp = sf_perp / npts
 #     f.write(value + "\n")
 # f.close()
 
-f = open(dir_output + 'sf_par_perp_v_phi' + mode + '.txt', 'w')
+f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
 for i in range(0, int(lent / 2)):
     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
     f.write(value + "\n")
