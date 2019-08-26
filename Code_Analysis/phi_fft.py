@@ -129,8 +129,8 @@ def plot_power2d(dir1, dir2, n):
     lin_par = [slope_par * i + intercept_par for i in np.log(range(start, end))]
 
     plt.figure()
-    plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp', color='orange')
-    plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para', color='green')
+    plt.scatter(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp', color='orange')
+    plt.scatter(np.log(range(start, end)), np.log(para_total[start:end]), label='Para', color='green')
     plt.plot(np.log(range(start, end)), lin_perb, label='Slope K_perp: %f' % round(slope, 3))
     plt.plot(np.log(range(start, end)), lin_par, label='Slope K_para: %f' % round(slope_par, 3))
     plt.legend()
