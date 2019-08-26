@@ -656,7 +656,7 @@ program main
   ! ------------------------------------------------------------------------
   ! build scalar field phi0 and write to file
   ! ------------------------------------------------------------------------
-  m = n !- 1
+  m = n - 1
 
   allocate (phi0(n,n))
   allocate (x_arr(n,n)) 
@@ -704,7 +704,7 @@ program main
 
       ! GS95
       if (k_perp > 0.) then
-        E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
+        E_coeff = k_perp**(-7./3.)*exp(-k_para/k_perp**(2./3.))  ! 2D
       else
         E_coeff = 0.
       endif
@@ -722,7 +722,12 @@ program main
 
   call dfftw_execute_dft_c2r(dftplan, fk, f)
 
-  phi0(:,:) = f(:,:)
+  phi0(1:m,1:m) = f(:,:)
+
+  phi0(m+1,1:m) = f(1,:)
+  phi0(1:m,m+1) = f(:,1)
+
+  phi0(m+1,m+1) = f(1,1)
 
   call dfftw_destroy_plan(dftplan)
 
