@@ -62,8 +62,9 @@ program main
   ! ------------------------------------------------------------------------
   ! define variables
   ! ------------------------------------------------------------------------
-  integer :: n
+  integer :: n, num_seed
   integer, dimension(1) :: rand_seed
+  integer, allocatable :: seed(:)
   real(sp) :: num
   real(sp) :: h
   real(sp) :: amp
@@ -154,7 +155,14 @@ program main
   nkb = n/2 + 1
   nkt = n/2 + 1
 
+  call random_seed(size = num_seed)
+  allocate(seed(num_seed))
 
+  do i=1, num_seed
+    seed(i) = i*4251
+  enddo
+
+  call random_seed(put=seed)
   ! ------------------------------------------------------------------------
   ! allocate arrays
   ! ------------------------------------------------------------------------
@@ -958,6 +966,7 @@ program main
   print*, omp_get_max_threads(), "calculating phi0k"
   wtime = omp_get_wtime()
 
+  call
 
   ! create plan
 ! #ifdef DP
