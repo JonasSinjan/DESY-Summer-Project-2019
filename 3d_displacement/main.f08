@@ -1019,7 +1019,11 @@ program main
         if (ki == 0) then
           if (kj > 0) then
             phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-            phi0k(i,m-j+2,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+            if (k/=1) then
+              phi0k(i,m-j+2,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+            else 
+              phi0k(i,m-j+2,k) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+            endif
           else if (kj < 0) then
             cycle
           else
