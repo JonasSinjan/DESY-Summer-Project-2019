@@ -125,8 +125,8 @@ def plot_power2d(dir1, dir2, n):
     slope_par, intercept_par, rval_pa, p_para, err_para = linregress(np.log(range(start, end)),
                                                                      np.log(para_total[start:end]))
 
-    lin_perb = [slope * i + intercept for i in np.log(range(1, int(n / 2)))]
-    lin_par = [slope_par * i + intercept_par for i in np.log(range(1, int(n / 2)))]
+    lin_perb = [slope * i + intercept for i in np.log(range(start, end))]
+    lin_par = [slope_par * i + intercept_par for i in np.log(range(start, end))]
 
     plt.figure(3)
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp', color='orange')
