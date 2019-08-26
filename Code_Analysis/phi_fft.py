@@ -87,7 +87,7 @@ def plot_power2d(dir1, dir2, n):
     plt.colorbar()
     plt.ylabel('K_parallel')
     plt.xlabel('K_perp')
-    plt.title('FFT of Phi0')
+    plt.title('FFT of Phi0 2D')
 
     ax1 = plt.subplot(gs[1], aspect='equal')
 
@@ -98,9 +98,7 @@ def plot_power2d(dir1, dir2, n):
     plt.colorbar()
     plt.ylabel('K_parallel')
     plt.xlabel('K_perp')
-    plt.title('FFT of Phi')
-    
-    plt.show()
+    plt.title('FFT of Phi 2D')
 
     perp_spectrum = np.zeros(nx)
     para_spectrum = np.zeros(nx)
@@ -133,7 +131,7 @@ def plot_power2d(dir1, dir2, n):
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
     plt.legend()
-    plt.title('Phi0 Power Spectrum')
+    plt.title('Phi0 Power Spectrum 2D')
     # plt.show()
 
     print(slope, slope_par)
@@ -173,7 +171,7 @@ def plot_power2d(dir1, dir2, n):
 
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
-    plt.title('Phi0 Spectrum')
+    plt.title('Phi0 Spectrum 2D from spectrum.f08')
     plt.legend()
     plt.show()
 
@@ -235,7 +233,7 @@ def plot_power3d(dir1, n):
     plt.colorbar()
     plt.ylabel('K_parallel')
     plt.xlabel('K_perp')
-    plt.title('FFT of Phi0')
+    plt.title('FFT of Phi0 3D')
 
     ax1 = plt.subplot(gs[1], aspect='equal')
 
@@ -247,8 +245,7 @@ def plot_power3d(dir1, n):
     plt.colorbar()
     plt.ylabel('K_parallel')
     plt.xlabel('K_perp')
-    plt.title('FFT of Phi')
-    plt.show()
+    plt.title('FFT of Phi 3D')
 
     para_spectrum = np.zeros(nx)
     para_total = np.zeros(n/2)
@@ -279,7 +276,7 @@ def plot_power3d(dir1, n):
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
     plt.legend()
-    plt.title('Phi0 Spectrum')
+    plt.title('Phi0 Spectrum 3D')
     plt.show()
 
 
