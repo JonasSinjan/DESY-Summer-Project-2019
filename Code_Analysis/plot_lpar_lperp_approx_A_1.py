@@ -209,7 +209,7 @@ slope_4096_sq, rval_4096_sq, err_4096_sq = linfit(lperp15,lpar15, count_4096sq)
 #Reference slopes
 ref_slope_2_3 = lpar8[100]*(np.power(lperp8[:count_1024disp],(2.0/3.0))/np.power(lperp8[100],(2.0/3.0)))
 #ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
-slope_ref, rval_ref, err_ref = linfit(lperp16, ref_slope_2_3, count_4096disp)
+slope_ref, rval_ref, err_ref = linfit(lperp8, ref_slope_2_3, count_1024disp)
 
 
 #plot for 2d squares vs displacement phi 
