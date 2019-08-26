@@ -16,7 +16,7 @@ nx=res
 ny=res
 nz=res
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64run3D/"
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/512run2D/"
 
 filename=dir_data+'PHI'+'.BIN'
 print(filename)  
@@ -36,15 +36,17 @@ temp2 = np.reshape(abx,(nx,ny,nz))
 
 #print(temp2[:,22])
 
-for i in range(3):
-    slice_index = randint(0,res)
+for i in range(1):
+    #slice_index = randint(0,res)
 
     fig=plt.figure(i)
     fig = plt.figure(figsize=(5.0, 5.0))
     gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
     ax0 = plt.subplot(gs[0],aspect='equal')
 
-    z=temp1[slice_index,:,:] #one slice
+    #z=temp1[slice_index,:,:] #one slice
+    z = temp1
+
 
     plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
                 interpolation='nearest', origin='lower')
@@ -54,7 +56,8 @@ for i in range(3):
 
     ax1 = plt.subplot(gs[1],aspect='equal')
 
-    z=temp2[slice_index,:,:] #one slice
+    #z=temp2[slice_index,:,:] #one slice
+    z=temp2
 
     plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
             interpolation='nearest', origin='lower')
@@ -62,6 +65,6 @@ for i in range(3):
     fig = plt.gcf()
     plt.clim()   # clamp the color limits
     plt.colorbar()
-    plt.title('%f'% slice_index)
+    #plt.title('%f'% slice_index)
 
 plt.show()
