@@ -63,6 +63,23 @@ def find_indeix(arr): #normally pass through the perp array: lperp
       return count #returns the index where 0 starts
       break
 
+perp_arr,para_arr = [], []
+
+def linfit(perp_arr, para_arr, count):
+  slope, intercept, rval, p, err = linregress(np.log(perp_arr[:count]), np.log(para_arr[:count]))
+  tmp_slop = round(slope,3)
+  tmp_r = round(rval,3)
+  tmp_err = round(err,3)
+  return tmp_slop, tmp_r, tmp_err
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+# Reading SF data
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+#PHI
+
 #2d displacement sf phi
 dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/128run2D_FFT/sf_par_perp_v_phiF.txt'
 lpar1, lperp1 = read_sf(dir_sf, 128.0)
@@ -111,6 +128,8 @@ lpar15, lperp15 = read_sf(dir_sf, 4096.0)
 # filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
 # lpar22, lperp22 = read_sf(dir_sf, 512.0)
 
+#PHI0
+
 # #2d displacement sf phi0
 # dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phi0F.txt'
 # lpar17, lperp17 = read_sf(dir_sf, 128.0)
@@ -130,6 +149,12 @@ lpar15, lperp15 = read_sf(dir_sf, 4096.0)
 # #
 # filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
 # lpar25, lperp25 = read_sf(dir_sf, 512.0)
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+# Finding index at which sf becomes 0
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
 
 #perp and para - data becomes 0 at some point, run into errors, so want to find point that they become 0 and stop at that point
 
@@ -182,14 +207,12 @@ count_4096sq = find_indeix(lperp15)
 # #
 # count_512disp_phi0 = find_indeix(lperp22)
 # #
-perp_arr,para_arr = [], []
 
-def linfit(perp_arr, para_arr, count):
-  slope, intercept, rval, p, err = linregress(np.log(perp_arr[:count]), np.log(para_arr[:count]))
-  tmp_slop = round(slope,3)
-  tmp_r = round(rval,3)
-  tmp_err = round(err,3)
-  return tmp_slop, tmp_r, tmp_err
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+# ALL linefitting
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
 
 #slopes linefitting for 2d displacement phi
 slope_128_disp, rval_128_disp, err_128_disp = linfit(lperp1,lpar1, count_128disp)
@@ -212,7 +235,11 @@ ref_slope_2_3 = lpar8[100]*(np.power(lperp8[:count_1024disp],(2.0/3.0))/np.power
 slope_ref, rval_ref, err_ref = linfit(lperp8, ref_slope_2_3, count_1024disp)
 
 
-#plot for 2d squares vs displacement phi 
+#--------------------------------------------------------------------------------------------------------------------------------------------
+# 2d squares vs displacement phi PLOT
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
 fig=plt.figure(1)
 fig = plt.figure(figsize=(16.0, 10.0))
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
@@ -243,6 +270,13 @@ ax0.set_title('Structure Function 2D Squares vs Displacement')
 ax0.legend(loc='lower center',ncol=2,fontsize=14)
 
 plt.show()
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+# 2d vs 3d displacement phi & phi0 PLOT
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 # #plot for 2d vs 3d displacement method both phi and phi0
 # fig=plt.figure(2)
