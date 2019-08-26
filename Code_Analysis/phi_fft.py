@@ -57,7 +57,7 @@ def plot_power2d(dir1, dir2, n):
 
     # plotting phik at particular k_perp to see exponential drop off at centre
     var = abs(phi0k) ** 2
-    plt.figure(1)
+    plt.figure()
     #plt.plot(np.log(var[:, 20]), label='20')
     #plt.plot(np.log(var[:, 10]), label='10')
     #plt.plot(np.log(var[:, 40]), label='40')
@@ -73,7 +73,7 @@ def plot_power2d(dir1, dir2, n):
 
     # print(tmp_arr)
 
-    fig = plt.figure(2)
+    fig = plt.figure()
     fig = plt.figure(figsize=(5.0, 5.0))
     gs = gridspec.GridSpec(2, 1, hspace=0.5, wspace=0.2)
 
@@ -128,7 +128,7 @@ def plot_power2d(dir1, dir2, n):
     lin_perb = [slope * i + intercept for i in np.log(range(start, end))]
     lin_par = [slope_par * i + intercept_par for i in np.log(range(start, end))]
 
-    plt.figure(3)
+    plt.figure()
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp', color='orange')
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para', color='green')
     plt.plot(np.log(range(start, end)), lin_perb, label='Slope K_perp: %f' % round(slope, 3))
@@ -166,7 +166,7 @@ def plot_power2d(dir1, dir2, n):
 
     print(slope, slope_par, "power spectra dir")
 
-    plt.figure(4)
+    plt.figure()
     plt.scatter(logk[start:end], log_ps_kperp[start:end], label='Kperp', color='blue')
     plt.scatter(logk[start:end], log_ps_kpar[start:end], label='Kpara', color='red')
     plt.plot(logk[start:end], lin_perb, label='Slope K_perp: %f' % round(slope, 3))
@@ -216,13 +216,13 @@ def plot_power3d(dir1, n):
 
     # plotting phik at particular k_perp to see exponential drop off at centre
     var = abs(phi0k) ** 2
-    plt.figure(5)
+    plt.figure()
     plt.plot(np.log(var[:, 2, 2]), label=':2,2')
     plt.plot(np.log(var[:, 40, 40]), label=':40,40')
     plt.legend()
     #plt.show()
 
-    fig = plt.figure(6)
+    fig = plt.figure()
     fig = plt.figure(figsize=(5.0, 5.0))
     gs = gridspec.GridSpec(2, 1, hspace=0.5, wspace=0.2)
 
@@ -277,7 +277,7 @@ def plot_power3d(dir1, n):
     lin_perb = [slope * i + intercept for i in np.log(range(1, int(n / 2)))]
     lin_par = [slope_par * i + intercept_par for i in np.log(range(1, int(n / 2)))]
 
-    plt.figure(7)
+    plt.figure()
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
     plt.legend()
