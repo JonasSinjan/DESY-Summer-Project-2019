@@ -1,7 +1,6 @@
 import struct
 import numpy as np
 import matplotlib.pyplot as plt
-from multiprocessing import Pool
 import math
 import scipy.interpolate as spint
 from numpy.random import seed
@@ -10,13 +9,6 @@ from numpy.random import rand
 from matplotlib import ticker
 from matplotlib import gridspec
 from mpl_toolkits.mplot3d import Axes3D
-
-res = 512
-nx=res
-ny=res
-nz=res
-
-
 
 def read_phi_2d(dir_data, n):
         res=n
@@ -140,33 +132,3 @@ plt.clim()   # clamp the color limits
 plt.colorbar()
 
 plt.show()
-
-# #2d
-# fig=plt.figure(1)
-# fig = plt.figure(figsize=(5.0, 5.0))
-# gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
-# ax0 = plt.subplot(gs[0],aspect='equal')
-
-# z = phi0_2d
-
-
-# plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-#         interpolation='nearest', origin='lower')
-# fig = plt.gcf()
-# plt.clim()   # clamp the color limits
-# plt.colorbar()
-
-# ax1 = plt.subplot(gs[1],aspect='equal')
-
-# z=phi_2d
-
-# plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-#         interpolation='nearest', origin='lower')
-
-# fig = plt.gcf()
-# plt.clim()   # clamp the color limits
-# plt.colorbar()
-
-
-#3d
-#slice_index = randint(0,res)
