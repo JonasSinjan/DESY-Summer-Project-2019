@@ -88,8 +88,12 @@ slice_index = 23
 fig = plt.figure(figsize=(10.0, 10.0))
 
 gs0 = gridspec.GridSpec(1,2, hspace=0.2, wspace=0.2)
+fig = plt.figure()
+
+gs0 = gridspec.GridSpec(1,2,hspace=0.2, wspace=0.2)
 
 gs1 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=gs0[0])
+
 
 z=[phi0_2d, phi_2d, phi0_3d[:,:,slice_index], phi_3d[:,:,slice_index]]#one slice
 title=['2D Phi0', '2D Phi', '3D Phi0', '3D Phi']

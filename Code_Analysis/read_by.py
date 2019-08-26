@@ -13,14 +13,15 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128_test/"
-n=128
+n=129
 nx = n
 ny = n
 nz = n
-filename=dir_data+'BX'+'.BIN'
+filename=dir_data+'BY'+'.BIN'
 print(filename)
 fd = open(filename, 'rb')
 abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny*nz)
+#temp1 = abx.astype('float64')
 temp3 = np.reshape(abx,(nx,ny,nz))
 
 print(temp3[12,:,34])

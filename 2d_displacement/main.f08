@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = '../2d_vs_3d_data/128run2D_FFT/'
+  data_dir = '../2d_vs_3d_data/256run2D_FFT/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
