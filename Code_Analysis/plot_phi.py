@@ -11,7 +11,7 @@ from matplotlib import ticker
 from matplotlib import gridspec
 from mpl_toolkits.mplot3d import Axes3D
 
-res = 64
+res = 512
 nx=res
 ny=res
 nz=res
