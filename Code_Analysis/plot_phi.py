@@ -76,12 +76,12 @@ def read_phi_3d(dir_data, n):
 
         return temp1, temp2, temp3
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/"
-n=129
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/"
+n=257
 phi_2d,phi0_2d = read_phi_2d(dir_data,n)
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run3D_FFT/"
-n=129
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT_5mag/"
+n=257
 phi_3d,phi0_3d, by = read_phi_3d(dir_data,n)
 
 
