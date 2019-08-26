@@ -110,8 +110,7 @@ gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
 ax0 = plt.subplot(gs[0],aspect='equal')
 
 z=phi0_3d[:,:,slice_index] #one slice
-for k in range(n):
-        z[k,:]=k
+
 
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
         interpolation='nearest', origin='lower')
@@ -148,7 +147,9 @@ plt.colorbar()
 ax1 = plt.subplot(gs[1],aspect='equal')
 
 z=phi_3d[:,slice_index,:] #one slice
-
+for k in range(n):
+        z[k,:]=k
+        
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
         interpolation='nearest', origin='lower')
 
