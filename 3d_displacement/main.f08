@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 9
+  integer :: ngrids = 7
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -132,7 +132,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = '../2d_vs_3d_data/512run3D_FFT/'
+  data_dir = './128_test/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -931,7 +931,7 @@ program main
   ! ------------------------------------------------------------------------
   ! build scalar field phi0 and write to file
   ! ------------------------------------------------------------------------
-  m = n !- 1
+  m = n - 1
 
   allocate (phi0(n,n,n))
   allocate (x_arr(n,n,n)) 
@@ -1027,9 +1027,20 @@ program main
 
   call dfftw_execute_dft_c2r(dftplan, fk, f)
 
-  phi0(:,:,:) = f(:,:,:)
+  phi0(1:m,1:m,1:m) = f(:,:,:) !inner cube
+
+  phi0(m+1,1:m,1:m) = f(1,:,:) !outer faces
+  phi0(1:m,m+1,1:m) = f(:,1,:)
+  phi0(1:m,1:m,m+1) = f(:,:,1)
+
+  phi0(1:m,m+1,m+1) = f(:,1,1) !outer edges
+  phi0(m+1,m+1,1:m) = f(1,1,:)
+  phi0(m+1,1:m,m+1) = f(1,:,1)
+
+  phi0(m+1,m+1,m+1) = f(1,1,1) !last point
+
   !periodic boundary conditions?
-    
+
   ! destroy plan
 ! #ifdef DP
 !   call fftw_destroy_plan(plan)
