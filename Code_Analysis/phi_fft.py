@@ -22,7 +22,7 @@ import scipy.interpolate as spint
 
 def plot_power2d(dir1, dir2, n):
     # 2D
-    nx = n + 1
+    nx = n + 1 #displacement
     ny = n + 1
 
     # Reading in PHI0 binary file
@@ -177,7 +177,7 @@ def plot_power2d(dir1, dir2, n):
 
 def plot_power3d(dir1, n):
     # 3D
-    nx = n + 1
+    nx = n + 1 #displacement only
     ny = n + 1
     nz = n + 1
 
@@ -213,13 +213,13 @@ def plot_power3d(dir1, n):
 
     # plotting phik at particular k_perp to see exponential drop off at centre
     var = abs(phi0k) ** 2
-    plt.figure(3)
+    plt.figure(4)
     plt.plot(np.log(var[:, 2, 2]), label=':2,2')
     plt.plot(np.log(var[:, 40, 40]), label=':40,40')
     plt.legend()
     #plt.show()
 
-    fig = plt.figure(4)
+    fig = plt.figure(5)
     fig = plt.figure(figsize=(5.0, 5.0))
     gs = gridspec.GridSpec(2, 1, hspace=0.5, wspace=0.2)
 
@@ -249,15 +249,16 @@ def plot_power3d(dir1, n):
 
     para_spectrum = np.zeros(nx)
     para_total = np.zeros(n/2)
-    for i in range(nx):
-        para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
-    for w in range(1,n/2): 
-        para_total[w] = 0.5*(para_spectrum[nx/2-1+w]+para_spectrum[nx/2-1-w])
-    # para_first = para_spectrum[:int(n / 2)]
-    # para_second = para_spectrum[int(n / 2 + 1):]
-    # para_flipped = np.flip(para_first)
+    # for i in range(nx):
+    #     para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
+    # for w in range(1,n/2): 
+    #     para_total[w] = 0.5*(para_spectrum[nx/2-1+w]+para_spectrum[nx/2-1-w])
 
-    # para_total = (para_second + para_flipped) / 2.0
+    para_first = para_spectrum[:int(n / 2)]
+    para_second = para_spectrum[int(n / 2 + 1):]
+    para_flipped = np.flip(para_first)
+
+    para_total = (para_second + para_flipped) / 2.0
    
     start = 5
     end = 25
@@ -272,7 +273,7 @@ def plot_power3d(dir1, n):
     lin_perb = [slope * i + intercept for i in np.log(range(1, int(n / 2)))]
     lin_par = [slope_par * i + intercept_par for i in np.log(range(1, int(n / 2)))]
 
-    plt.figure(5)
+    plt.figure(6)
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
     plt.legend()
@@ -282,7 +283,7 @@ def plot_power3d(dir1, n):
 
 if __name__ == "__main__":
 
-    n = 128
+    # n = 128
     # dir_data1 = "c:/Users/jonas/DESY/2d_displacement/Runs/128run2D_73_test/"  # this one allows kx == 0
     # dir_data2 = "c:/Users/jonas/DESY/2d_displacement/Runs/128run2D_73_test/power_spectra/"
     # plot_power(dir_data1, dir_data2, n)
