@@ -92,7 +92,7 @@ fig, axs = plt.subplots(nrows=2, ncols=2)
 z=[phi0_2d, phi_2d, phi0_3d[:,:,slice_index], phi_3d[:,:,slice_index]]#one slice
 title=['2D Phi0', '2D Phi', '3D Phi0', '3D Phi']
 
-axs[0,0].imshow(z[0], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[0], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 axs[0,0].set_xlabel('x', fontsize=12)
 axs[0,0].set_ylabel('y', fontsize=12)
 axs[0,0].set_title('2D Phi0', fontsize=14)
@@ -100,7 +100,7 @@ fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
 
-axs[1,0].imshow(z[1], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[1], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 axs[1,0].set_xlabel('x', fontsize=12)
 axs[1,0].set_ylabel('y', fontsize=12)
 axs[1,0].set_title('2D Phi', fontsize=14)
@@ -108,7 +108,7 @@ fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
 
-axs[0,1].imshow(z[2], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[2], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 axs[0,1].set_xlabel('x', fontsize=12)
 axs[0,1].set_ylabel('y', fontsize=12)
 axs[0,1].set_title('3D Phi0', fontsize=14)
@@ -116,7 +116,7 @@ fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
 
-axs[1,1].imshow(z[3], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[3], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 axs[1,1].set_xlabel('x', fontsize=12)
 axs[1,1].set_ylabel('y', fontsize=12)
 axs[1,1].set_title('3D Phi', fontsize=14)
