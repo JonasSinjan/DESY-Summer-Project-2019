@@ -111,15 +111,15 @@ lpar15, lperp15 = read_sf(dir_sf, 4096.0)
 # filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
 # lpar22, lperp22 = read_sf(dir_sf, 512.0)
 
-#2d displacement sf phi0
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phi0F.txt'
-lpar17, lperp17 = read_sf(dir_sf, 128.0)
-#
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/sf_par_perp_v_phi0F.txt'
-lpar18, lperp18 = read_sf(dir_sf, 256.0)
-#
-filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phi0F.txt'
-lpar19, lperp19 = read_sf(dir_sf, 512.0)
+# #2d displacement sf phi0
+# dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phi0F.txt'
+# lpar17, lperp17 = read_sf(dir_sf, 128.0)
+# #
+# dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/sf_par_perp_v_phi0F.txt'
+# lpar18, lperp18 = read_sf(dir_sf, 256.0)
+# #
+# filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phi0F.txt'
+# lpar19, lperp19 = read_sf(dir_sf, 512.0)
 
 # #3d displacement sf phi0
 # dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phiF.txt'
