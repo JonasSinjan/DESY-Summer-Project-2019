@@ -53,6 +53,7 @@ def read_phi_3d(dir_data, n):
         abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny*nz)
         
         temp1 = np.reshape(abx,(nx,ny,nz))
+	temp1 = temp1.transpose()
 
         filename=dir_data+'PHI0'+'.BIN'
         print(filename)
@@ -61,6 +62,7 @@ def read_phi_3d(dir_data, n):
         abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny*nz)
 
         temp2 = np.reshape(abx,(nx,ny,nz))
+	temp2 = temp2.transpose()
 
         filename=dir_data+'BY'+'.BIN'
         print(filename)
@@ -77,7 +79,7 @@ n=256
 phi_2d,phi0_2d = read_phi_2d(dir_data,n)
 
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128_test/"
-n=128
+n=129
 phi_3d,phi0_3d, by = read_phi_3d(dir_data,n)
 
 # #2d
@@ -136,6 +138,7 @@ plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
 fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
+plt.title('x,y plane')
 
 slice_index = 64
 
@@ -144,7 +147,7 @@ fig = plt.figure(figsize=(5.0, 5.0))
 gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
 ax0 = plt.subplot(gs[0],aspect='equal')
 
-z=by[:,slice_index,:] #one slice
+z=phi0_3d[:,slice_index,:] #one slice
 
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
         interpolation='nearest', origin='lower')
@@ -162,5 +165,6 @@ plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
 fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
+plt.title('x,z plane')
 
 plt.show()
