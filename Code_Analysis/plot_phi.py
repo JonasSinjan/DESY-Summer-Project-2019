@@ -74,13 +74,38 @@ def read_phi_3d(dir_data, n):
 
         return temp1, temp2, temp3
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/"
-n=256
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/"
+n=129
 phi_2d,phi0_2d = read_phi_2d(dir_data,n)
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128_test/"
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run3D_FFT/"
 n=129
 phi_3d,phi0_3d, by = read_phi_3d(dir_data,n)
+
+
+slice_index = 23
+
+fig, axs = plt.subplots(nrows=2, ncols=2, constrained_layout=True)
+
+z=[phi0_2d, phi_2d, phi0_3d[:,:,slice_index], phi_3d[:,:,slice_index]]#one slice
+
+def phi_plot(ax,z, title):
+    ax.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
+        interpolation='nearest', origin='lower')
+    ax.set_xlabel('x', fontsize=12)
+    ax.set_ylabel('y', fontsize=12)
+    ax.set_title('%s' % (title), fontsize=14)
+    fig = plt.gcf()
+    plt.clim()   # clamp the color limits
+    plt.colorbar()
+
+title=['2D Phi0', '2D Phi', '3D Phi0', '3D Phi']
+
+for ax, icount in enumerate(axs.flat):
+        phi_plot(ax,z[count],title[count])
+
+
+plt.show()
 
 # #2d
 # fig=plt.figure(1)
@@ -111,60 +136,3 @@ phi_3d,phi0_3d, by = read_phi_3d(dir_data,n)
 
 #3d
 #slice_index = randint(0,res)
-
-slice_index = 23
-
-fig=plt.figure(2)
-fig = plt.figure(figsize=(5.0, 5.0))
-gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
-ax0 = plt.subplot(gs[0],aspect='equal')
-
-z=phi0_3d[:,:,slice_index] #one slice
-
-
-plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-        interpolation='nearest', origin='lower')
-fig = plt.gcf()
-plt.clim()   # clamp the color limits
-plt.colorbar()
-
-ax1 = plt.subplot(gs[1],aspect='equal')
-
-z=phi_3d[:,:,slice_index] #one slice
-
-plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-        interpolation='nearest', origin='lower')
-
-fig = plt.gcf()
-plt.clim()   # clamp the color limits
-plt.colorbar()
-plt.title('x,y plane')
-
-slice_index = 64
-
-fig=plt.figure(3)
-fig = plt.figure(figsize=(5.0, 5.0))
-gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
-ax0 = plt.subplot(gs[0],aspect='equal')
-
-z=phi0_3d[:,slice_index,:] #one slice
-
-plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-        interpolation='nearest', origin='lower')
-fig = plt.gcf()
-plt.clim()   # clamp the color limits
-plt.colorbar()
-
-ax1 = plt.subplot(gs[1],aspect='equal')
-
-z=phi_3d[:,slice_index,:] #one slice
-
-plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-        interpolation='nearest', origin='lower')
-
-fig = plt.gcf()
-plt.clim()   # clamp the color limits
-plt.colorbar()
-plt.title('x,z plane')
-
-plt.show()

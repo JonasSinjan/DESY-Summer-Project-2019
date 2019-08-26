@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 7
+  integer :: ngrids = 8
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128_test/'
+  data_dir = '../2d_vs_3d_data/256run3D_FFT/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -998,7 +998,7 @@ program main
       endif
 
       ! SKIP NYQUIST FREQUENCY
-      do ki = 0, 0 !m/2-1
+      do ki = 0, m/2-1
         i = ki + 1
 
         kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)

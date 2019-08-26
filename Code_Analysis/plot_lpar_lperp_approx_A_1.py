@@ -223,8 +223,8 @@ slope_2048_disp, rval_2048_disp, err_2048_disp = linfit(lperp9,lpar9, count_2048
 slope_4096_disp, rval_4096_disp, err_4096_disp = linfit(lperp16,lpar16, count_4096disp)
 
 #slope linefitting for 2d squares rho (=phi)
-slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp12,lpar12, count_512sq)
-slope_1024_sq, rval_1024_sq, err_1024_sq = linfit(lperp13,lpar13, count_1024sq)
+slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp12,lpar12, count_512disp)
+slope_1024_sq, rval_1024_sq, err_1024_sq = linfit(lperp13,lpar13, count_1024disp)
 slope_2048_sq, rval_2048_sq, err_2048_sq = linfit(lperp14,lpar14, count_2048sq)
 slope_4096_sq, rval_4096_sq, err_4096_sq = linfit(lperp15,lpar15, count_4096sq)
 

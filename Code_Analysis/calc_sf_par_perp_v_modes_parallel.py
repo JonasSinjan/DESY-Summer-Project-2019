@@ -163,9 +163,9 @@ def read_files_phi0(dir_data):
     fd = open(filename, 'rb')
 
     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
-    by.fill(0)
     temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
+    by.fill(0)
     print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
     return phi0, bx, by

@@ -53,7 +53,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 7
+  integer :: ngrids = 8
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: anis = 1.
@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './128_test/'
+  data_dir = '../2d_vs_3d_data/256run2D_FFT/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
