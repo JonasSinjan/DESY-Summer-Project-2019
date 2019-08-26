@@ -69,6 +69,7 @@ n=256
 phi_2d,phi0_2d = read_phi_2d(dir_data,n)
 
 dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128_test/"
+n=128
 phi_3d,phi0_3d = read_phi_3d(dir_data,n)
 
 # #2d
@@ -99,7 +100,9 @@ phi_3d,phi0_3d = read_phi_3d(dir_data,n)
 
 
 #3d
-slice_index = randint(0,res)
+#slice_index = randint(0,res)
+
+slice_index = 23
 
 fig=plt.figure(2)
 fig = plt.figure(figsize=(5.0, 5.0))
@@ -117,6 +120,32 @@ plt.colorbar()
 ax1 = plt.subplot(gs[1],aspect='equal')
 
 z=phi_3d[:,:,slice_index] #one slice
+
+plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
+        interpolation='nearest', origin='lower')
+
+fig = plt.gcf()
+plt.clim()   # clamp the color limits
+plt.colorbar()
+
+slice_index = 64
+
+fig=plt.figure(3)
+fig = plt.figure(figsize=(5.0, 5.0))
+gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
+ax0 = plt.subplot(gs[0],aspect='equal')
+
+z=phi0_3d[:,slice_index,:] #one slice
+
+plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
+        interpolation='nearest', origin='lower')
+fig = plt.gcf()
+plt.clim()   # clamp the color limits
+plt.colorbar()
+
+ax1 = plt.subplot(gs[1],aspect='equal')
+
+z=phi_3d[:,slice_index,:] #one slice
 
 plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
         interpolation='nearest', origin='lower')
