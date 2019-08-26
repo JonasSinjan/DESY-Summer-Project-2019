@@ -966,7 +966,6 @@ program main
   print*, omp_get_max_threads(), "calculating phi0k"
   wtime = omp_get_wtime()
 
-  call
 
   ! create plan
 ! #ifdef DP
@@ -1017,9 +1016,23 @@ program main
         ! sort random phase
         call random_number(ph)
         ph = ph*twopi
-
-        phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-
+        if (ki == 0) then
+          if (kj > 0) then
+            phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+            phi0k(i,m-j+2,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+          else if (kj < 0) then
+            cycle
+          else
+            if (kk > 0) then
+              phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+              phi0k(i,j,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+            else
+              cycle
+            endif
+          endif
+        else
+          phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+        endif
       enddo ! ki
     enddo ! kj
   enddo !kk
