@@ -239,7 +239,7 @@ ax0.set_yscale('log')
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
 ax0.set_title('Structure Function 2D Squares vs Displacement')
-ax0.legend(loc='lower right',ncol=2,fontsize=14)
+ax0.legend(loc='lower center',ncol=2,fontsize=14)
 
 plt.show()
 
