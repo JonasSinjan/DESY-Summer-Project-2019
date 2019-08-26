@@ -295,8 +295,9 @@ if __name__ == "__main__":
     #plot_power2d(dir_data3, dir_data4, n)
 
     n = 256
-    dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_disp_data/256run3D_FFT/"
-    plot_power2d(dir_data,n)
+    dir_data1 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_disp_data/256run2D_FFT/"
+    dir_data2 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_disp_data/256run2D_FFT/power_spectra/"
+    plot_power2d(dir_data, dir_data2,n)
 
     n = 256
     dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_disp_data/256run3D_FFT/"
