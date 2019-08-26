@@ -236,6 +236,7 @@ ax0.plot(lperp8[:count_1024disp], ref_slope_2_3, lw=6, color = "black", ls = "-"
 
 ax0.set_xscale('log')
 ax0.set_yscale('log')
+#sort out scales max - these were all phi wrt to magnetic field
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
 ax0.set_title('Structure Function 2D Squares vs Displacement')
