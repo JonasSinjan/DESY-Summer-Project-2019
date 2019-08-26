@@ -64,7 +64,7 @@ def plot_power2d(dir1, dir2, n):
     plt.plot(np.log(var[:, 2]), label='2')
     plt.plot(np.log(var[:, 80]), label='80')
     plt.legend()
-    plt.show()
+    #plt.show()
 
     # test array for index
     # tmp_arr = np.zeros((20, 20))
@@ -99,7 +99,7 @@ def plot_power2d(dir1, dir2, n):
     plt.ylabel('K_parallel')
     plt.xlabel('K_perp')
     plt.title('FFT of Phi 2D')
-    plt.show()
+    #plt.show()
 
     perp_spectrum = np.zeros(nx)
     para_spectrum = np.zeros(nx)
@@ -129,11 +129,13 @@ def plot_power2d(dir1, dir2, n):
     lin_par = [slope_par * i + intercept_par for i in np.log(range(1, int(n / 2)))]
 
     plt.figure(3)
-    plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
-    plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
+    plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp', color='orange')
+    plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para', color='green')
+    plt.plot(np.log(range(start, end)), lin_perb, label='Slope K_perp: %f' % round(slope, 3))
+    plt.plot(np.log(range(start, end)), lin_par, label='Slope K_para: %f' % round(slope_par, 3))
     plt.legend()
-    plt.title('Phi0 Power Spectrum 2D')
-    plt.show()
+    plt.title('Phi0 Power Spectrum 2D np.flip')
+    #plt.show()
 
     print(slope, slope_par, "np.flip method")
 
@@ -174,7 +176,7 @@ def plot_power2d(dir1, dir2, n):
     plt.ylabel('Log E(k)')
     plt.title('Phi0 Spectrum 2D from spectrum.f08')
     plt.legend()
-    plt.show()
+    #plt.show()
 
 def plot_power3d(dir1, n):
     # 3D
@@ -218,7 +220,7 @@ def plot_power3d(dir1, n):
     plt.plot(np.log(var[:, 2, 2]), label=':2,2')
     plt.plot(np.log(var[:, 40, 40]), label=':40,40')
     plt.legend()
-    plt.show()
+    #plt.show()
 
     fig = plt.figure(6)
     fig = plt.figure(figsize=(5.0, 5.0))
@@ -247,7 +249,7 @@ def plot_power3d(dir1, n):
     plt.ylabel('K_parallel')
     plt.xlabel('K_perp')
     plt.title('FFT of Phi 3D')
-    plt.show()
+    #plt.show()
 
     para_spectrum = np.zeros(nx)
     para_total = np.zeros(n/2)
