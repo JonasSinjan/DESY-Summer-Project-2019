@@ -219,7 +219,7 @@ def plot_power3d(dir1, n):
     plt.legend()
     #plt.show()
 
-    fig = plt.figure(1)
+    fig = plt.figure(4)
     fig = plt.figure(figsize=(5.0, 5.0))
     gs = gridspec.GridSpec(2, 1, hspace=0.5, wspace=0.2)
 
@@ -272,7 +272,7 @@ def plot_power3d(dir1, n):
     lin_perb = [slope * i + intercept for i in np.log(range(1, int(n / 2)))]
     lin_par = [slope_par * i + intercept_par for i in np.log(range(1, int(n / 2)))]
 
-    plt.figure(2)
+    plt.figure(5)
     plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
     plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
     plt.legend()
