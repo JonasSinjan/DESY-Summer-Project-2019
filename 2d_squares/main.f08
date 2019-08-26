@@ -30,7 +30,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-integer :: ngrids = 11
+integer :: ngrids = 12
 integer :: nblocks_min = 1       
 integer :: nblocks_max = 1!1024 - actually unsure about this?
 integer :: nwaves_block = 4
@@ -109,7 +109,7 @@ real(sp) :: anis = 1.
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = '../2d_sq_vs_disp_data/square_2048run2D'
+  data_dir = '../2d_sq_vs_disp_data/square_4096run2D'
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
