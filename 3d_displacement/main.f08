@@ -966,7 +966,6 @@ program main
   print*, omp_get_max_threads(), "calculating phi0k"
   wtime = omp_get_wtime()
 
-  call
 
   ! create plan
 ! #ifdef DP
