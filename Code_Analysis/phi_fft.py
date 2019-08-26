@@ -58,12 +58,10 @@ def plot_power2d(dir1, dir2, n):
     # plotting phik at particular k_perp to see exponential drop off at centre
     var = abs(phi0k) ** 2
     plt.figure()
-    #plt.plot(np.log(var[:, 20]), label='20')
-    #plt.plot(np.log(var[:, 10]), label='10')
-    #plt.plot(np.log(var[:, 40]), label='40')
     plt.plot(np.log(var[:, 2]), label='2')
     plt.plot(np.log(var[:, 80]), label='80')
     plt.legend()
+    plt.title('Phi0k at particular k_perp to see exp. drop from centre')
     #plt.show()
 
     # test array for index
@@ -224,6 +222,7 @@ def plot_power3d(dir1, n):
     plt.plot(np.log(var[:, 2, 2]), label=':2,2')
     plt.plot(np.log(var[:, 40, 40]), label=':40,40')
     plt.legend()
+    plt.title('Phi0k at one k_perp to see exp. drop from centre')
     #plt.show()
 
     fig = plt.figure()
@@ -257,8 +256,8 @@ def plot_power3d(dir1, n):
 
     para_spectrum = np.zeros(nx)
     para_total = np.zeros(n/2)
-    # for i in range(nx):
-    #     para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
+    for i in range(nx):
+        para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
     # for w in range(1,n/2): 
     #     para_total[w] = 0.5*(para_spectrum[nx/2-1+w]+para_spectrum[nx/2-1-w])
 
@@ -271,10 +270,12 @@ def plot_power3d(dir1, n):
     start = 5
     end = 25
 
+    logk = np.log(range(int((n - 1) / 2)))
+
     perp_total = k_perp_calculator(n,phi,phi0,dir1)
 
-    slope, intercept, rval, p, err = linregress(np.log(range(start, end)), np.log(perp_total[start:end]))
-    slope_par, intercept_par, rval_pa, p_para, err_para = linregress(np.log(range(start, end)),
+    slope, intercept, rval, p, err = linregress(logk[start:end], np.log(perp_total[start:end]))
+    slope_par, intercept_par, rval_pa, p_para, err_para = linregress(logk[start:end],
                                                                      np.log(para_total[start:end]))
     print(slope, slope_par,"3d kperp calc")
 
@@ -282,8 +283,10 @@ def plot_power3d(dir1, n):
     lin_par = [slope_par * i + intercept_par for i in np.log(range(1, int(n / 2)))]
 
     plt.figure()
-    plt.plot(np.log(range(start, end)), np.log(perp_total[start:end]), label='Perp')
-    plt.plot(np.log(range(start, end)), np.log(para_total[start:end]), label='Para')
+    plt.scatter(logk[start:end], np.log(perp_total[start:end]), label='Perp')
+    plt.scatter(logk[start:end], np.log(para_total[start:end]), label='Para')
+    plt.plot(logk[start:end], lin_perb, label='Slope K_perp: %f' % round(slope, 3))
+    plt.plot(logk[start:end], lin_par, label='Slope K_para: %f' % round(slope_par, 3))
     plt.legend()
     plt.title('Phi0 Spectrum 3D')
     plt.show()
