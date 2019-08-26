@@ -64,7 +64,7 @@ def plot_power2d(dir1, dir2, n):
     plt.plot(np.log(var[:, 2]), label='2')
     plt.plot(np.log(var[:, 80]), label='80')
     plt.legend()
-    plt.show()
+    #plt.show()
 
     # test array for index
     # tmp_arr = np.zeros((20, 20))
