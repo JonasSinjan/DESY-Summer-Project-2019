@@ -126,6 +126,23 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar9 = lpyare/lentf
 lperp9 = lperpe/lentf
 
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/4096run2D_FFT/sf_par_perp_v_phiF.txt'
+lentf=4096.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar16 = lpyare/lentf
+lperp16 = lperpe/lentf
+
 filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_128run2D/sf_par_perp_v_phiF.txt'
 lentf=128.0
 data = np.loadtxt(filename,skiprows=1)
@@ -211,6 +228,23 @@ sf_perp_smoothed= smoothing(sf_perp)
 lpar14 = lpyare/lentf
 lperp14 = lperpe/lentf
 
+filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/square_4096run2D/sf_par_perp_v_phiF.txt'
+lentf=4096.0
+data = np.loadtxt(filename,skiprows=1)
+ll = data[:,0]
+sf_par = data[:,1]
+sf_perp= data[:,2]
+valid = ~np.isnan(sf_perp)
+sf_perp = sf_perp[valid]
+ll = ll[valid]
+sf_par = sf_par[valid]
+lent = np.size(ll)
+sf_par_smoothed = smoothing(sf_par)
+sf_perp_smoothed= smoothing(sf_perp)
+[lperpe,lpyare] = lppcorr(ll,sf_par_smoothed,sf_perp_smoothed)
+lpar15 = lpyare/lentf
+lperp15 = lperpe/lentf
+
 for count_128disp, i in enumerate(lperp1):
    if  i <= 0.0001:
      print(count_128disp)
@@ -234,6 +268,11 @@ for count_1024disp, i in enumerate(lperp8):
 for count_2048disp, i in enumerate(lperp9):
    if  i <= 0.0001:
      print(count_2048disp)
+     break
+
+for count_4096disp, i in enumerate(lperp16):
+   if  i <= 0.0001:
+     print(count_4096disp)
      break
 
 for count_128sq, i in enumerate(lperp10):
@@ -261,6 +300,11 @@ for count_2048sq, i in enumerate(lperp14):
     print(count_2048sq)
     break      
 
+for count_4096sq, i in enumerate(lperp15):
+  if  i <= 0.0001:
+    print(count_4096sq)
+    break      
+
 perp_arr,para_arr = [], []
 
 def linfit(perp_arr, para_arr, count):
@@ -273,10 +317,12 @@ def linfit(perp_arr, para_arr, count):
 slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp3,lpar3, count_512disp)
 slope_1024_disp, rval_1024_disp, err_1024_disp = linfit(lperp8,lpar8, count_1024disp)
 slope_2048_disp, rval_2048_disp, err_2048_disp = linfit(lperp9,lpar9, count_2048disp)
+slope_4096_disp, rval_4096_disp, err_4096_disp = linfit(lperp16,lpar16, count_4096disp)
 
 slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp12,lpar12, count_512sq)
 slope_1024_sq, rval_1024_sq, err_1024_sq = linfit(lperp13,lpar13, count_1024sq)
 slope_2048_sq, rval_2048_sq, err_2048_sq = linfit(lperp14,lpar14, count_2048sq)
+slope_4096_sq, rval_4096_sq, err_4096_sq = linfit(lperp15,lpar15, count_4096sq)
 
 
 #reference slopes
@@ -286,7 +332,7 @@ ref_slope_2_3 = lpar9[100]*(np.power(lperp9[:count_2048disp],(2.0/3.0))/np.power
 
 slope_ref, rval_ref, err_ref = linfit(lperp9, ref_slope_2_3, count_2048disp)
  
-fig=plt.figure()
+fig=plt.figure(1)
 fig = plt.figure(figsize=(16.0, 10.0))
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
@@ -297,14 +343,16 @@ ax0 = plt.subplot(gs[0])
 ax0.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
 ax0.plot(lperp8[:count_1024disp], lpar8[:count_1024disp], lw=3, ls = "-", label="1024_2D_disp grad: %s R^2: %s  Err: %s" % (slope_1024_disp, rval_1024_disp, err_1024_disp))
 ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp grad: %s R^2: %s  Err: %s" % (slope_2048_disp, rval_2048_disp, err_2048_disp))
+ax0.plot(lperp16[:count_4096disp], lpar16[:count_4096disp], lw=3, ls = "-", label="4096_2D_disp grad: %s R^2: %s  Err: %s" % (slope_4096_disp, rval_4096_disp, err_4096_disp))
 
 #ax0.plot(lperp10[:count_128sq], lpar10[:count_128sq], lw=3, ls = ":", label="128_2D_sq")
 #ax0.plot(lperp11[:count_256sq], lpar11[:count_256sq], lw=3, ls = ":", label="256_2D_sq")
 ax0.plot(lperp12[:count_512sq], lpar12[:count_512sq], lw=5, ls = ":", label="512_2D_sq grad: %s R^2: %s  Err: %s" % (slope_512_sq, rval_512_sq, err_512_sq))
 ax0.plot(lperp13[:count_1024sq], lpar13[:count_1024sq], lw=5, ls = ":", label="1024_2D_sq grad: %s R^2: %s  Err: %s" % (slope_1024_sq, rval_1024_sq, err_1024_sq))
 ax0.plot(lperp14[:count_2048sq], lpar14[:count_2048sq], lw=5, ls = ":", label="2048_2D_sq grad: %s R^2: %s  Err: %s" % (slope_2048_sq, rval_2048_sq, err_2048_sq))
+ax0.plot(lperp14[:count_4096sq], lpar14[:count_4096sq], lw=5, ls = ":", label="4096_2D_sq grad: %s R^2: %s  Err: %s" % (slope_4096_sq, rval_4096_sq, err_4096_sq))
 
-ax0.plot(lperp9[:count_2048disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 Slopegrad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
+ax0.plot(lperp9[:count_2048disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
 ax0.set_xscale('log')
 ax0.set_yscale('log')
@@ -317,6 +365,27 @@ ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
 ax0.set_title('Structure Function 2D Squares vs Displacement')
 #ax0.text(3,100,'(a)',fontsize=18)
 ax0.legend(loc='lower right',ncol=2,fontsize=14)
+
+plt.show()
+
+fig=plt.figure(2)
+fig = plt.figure(figsize=(16.0, 10.0))
+gs = gridspec.GridSpec(2, 1, hspace=0.0, wspace=0.0)
+
+ax0 = plt.subplot(gs[0],aspect='equal')
+
+ax0.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
+ax0.plot(lperp8[:count_1024disp], lpar8[:count_1024disp], lw=3, ls = "-", label="1024_2D_disp grad: %s R^2: %s  Err: %s" % (slope_1024_disp, rval_1024_disp, err_1024_disp))
+ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp grad: %s R^2: %s  Err: %s" % (slope_2048_disp, rval_2048_disp, err_2048_disp))
+
+ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
+ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
+ax0.set_title('Structure Function 2D vs 3D Displacement')
+ax0.legend(loc='lower right',ncol=2,fontsize=14)
+
+
+
+#plt.show()
 
 """
 ax1 = plt.subplot(gs[1])
@@ -341,6 +410,6 @@ ax1.text(3,100,'(b)',fontsize=18)
 ax1.legend(loc='lower right',ncol=2,fontsize=14)
 """
 
-#plt.savefig('test.eps', bbox_inches='tight',transparent=False)
-plt.show()
+
+
 

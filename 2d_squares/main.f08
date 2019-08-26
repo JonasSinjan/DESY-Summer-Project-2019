@@ -193,60 +193,6 @@ real(sp) :: anis = 1.
    enddo
   enddo
 
-  !print *, by_f(:,1)
-  ! ! build a random magnetic field
-  ! do kj = 0, 2
-  !   do ki = 0, 2
-
-  !     kmod = sqrt(real(ki)**2 + real(kj)**2)
-
-  !     ! only continue if kmod is inside interval [1,2]
-  !     if ((kmod < 1) .or. (kmod > 2)) cycle
-
-  !     ! sort a random direction perpendicular to k
-  !     call random_number(b(:))
-  !     b(1) = b(1) - (b(1)*real(ki) + b(2)*real(kj))*real(ki)/(real(ki)**2 + real(kj)**2)
-  !     b(2) = b(2) - (b(1)*real(ki) + b(2)*real(kj))*real(kj)/(real(ki)**2 + real(kj)**2)
-  !     b(:) = b(:) / sqrt( sum(b(:)**2) )
-
-  !     call random_number(b1(:))
-  !     b1(1) = b1(1) - (b1(1)*real(ki) + b1(2)*real(kj))*real(ki)/(real(ki)**2 + real(kj)**2)
-  !     b1(2) = b1(2) - (b1(1)*real(ki) + b1(2)*real(kj))*real(kj)/(real(ki)**2 + real(kj)**2)
-  !     b1(:) = b1(:) / sqrt( sum(b1(:)**2) )
-
-  !     ! sort random phases
-  !     call random_number(ph1)
-  !     ph1 = ph1*twopi
-
-  !     call random_number(ph2)
-  !     ph2 = ph2*twopi
-
-  !     do j = 1, n
-  !       do i = 1, n
-
-  !         aux1 = b(1)*cos(real(ki)*x(i) + real(kj)*y(j) + ph1)
-  !         aux2 = b(2)*cos(real(ki)*x(i) + real(kj)*y(j) + ph1)
-
-  !         if ((ki > 0) .and. (kj > 0)) then
-  !           aux1 = aux1 + b1(1)*cos(real(ki)*x(i) - real(kj)*y(j) + ph2)
-  !           aux2 = aux2 + b1(2)*cos(real(ki)*x(i) - real(kj)*y(j) + ph2)
-  !         endif
-
-  !         if (kmod > 0.) then
-  !           aux1 = 2.*aux1
-  !           aux2 = 2.*aux2
-  !         endif
-
-  !         bx_f(i,j) = bx_f(i,j) + aux1
-  !         by_f(i,j) = by_f(i,j) + aux2
-
-  !       enddo
-  !     enddo
-
-  !   enddo ! ki
-  ! enddo ! kj
-
-
   ! ------------------------------------------------------------------------
   ! set initial scalar field
   ! ------------------------------------------------------------------------
