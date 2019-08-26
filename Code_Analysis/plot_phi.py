@@ -30,6 +30,7 @@ def read_phi_2d(dir_data, n):
         abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
         
         temp1 = np.reshape(abx,(nx,ny))
+        temp1 = temp1.transpose()
 
         filename=dir_data+'PHI0'+'.BIN'
         print(filename)
@@ -38,6 +39,7 @@ def read_phi_2d(dir_data, n):
         abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny)
 
         temp2 = np.reshape(abx,(nx,ny))
+        temp2 = temp2.transpose()
 
         return temp1, temp2
 
@@ -97,7 +99,7 @@ title=['2D Phi0', '2D Phi', '3D Phi0', '3D Phi']
 
 ax0 = fig.add_subplot(gs1[0])
 
-plt.imshow(z[0], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[0].transpose(), cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax0.set_xlabel('x', fontsize=12)
 ax0.set_ylabel('y', fontsize=12)
 ax0.set_title('2D Phi0', fontsize=14)
@@ -107,7 +109,7 @@ plt.colorbar()
 
 ax1 = fig.add_subplot(gs1[1])
 
-plt.imshow(z[1], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[1].transpose(), cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax1.set_xlabel('x', fontsize=12)
 ax1.set_ylabel('y', fontsize=12)
 ax1.set_title('2D Phi', fontsize=14)
@@ -119,7 +121,7 @@ gs2 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=gs0[1])
 
 ax2 = fig.add_subplot(gs2[0])
 
-ax2.imshow(z[2], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+ax2.imshow(z[2].transpose(), cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax2.set_xlabel('x', fontsize=12)
 ax2.set_ylabel('y', fontsize=12)
 ax2.set_title('3D Phi0', fontsize=14)
@@ -129,7 +131,7 @@ plt.colorbar()
 
 ax3 = fig.add_subplot(gs2[1])
 
-ax3.imshow(z[3], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+ax3.imshow(z[3].transpose(), cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax3.set_xlabel('x', fontsize=12)
 ax3.set_ylabel('y', fontsize=12)
 ax3.set_title('3D Phi', fontsize=14)
