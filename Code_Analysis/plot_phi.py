@@ -68,34 +68,34 @@ dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2
 n=256
 phi_2d,phi0_2d = read_phi_2d(dir_data,n)
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/"
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128_test/"
 phi_3d,phi0_3d = read_phi_3d(dir_data,n)
 
-#2d
-fig=plt.figure(1)
-fig = plt.figure(figsize=(5.0, 5.0))
-gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
-ax0 = plt.subplot(gs[0],aspect='equal')
+# #2d
+# fig=plt.figure(1)
+# fig = plt.figure(figsize=(5.0, 5.0))
+# gs = gridspec.GridSpec(2, 1, hspace=0.2, wspace=0.2)
+# ax0 = plt.subplot(gs[0],aspect='equal')
 
-z = phi0_2d
+# z = phi0_2d
 
 
-plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-        interpolation='nearest', origin='lower')
-fig = plt.gcf()
-plt.clim()   # clamp the color limits
-plt.colorbar()
+# plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
+#         interpolation='nearest', origin='lower')
+# fig = plt.gcf()
+# plt.clim()   # clamp the color limits
+# plt.colorbar()
 
-ax1 = plt.subplot(gs[1],aspect='equal')
+# ax1 = plt.subplot(gs[1],aspect='equal')
 
-z=phi_2d
+# z=phi_2d
 
-plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
-        interpolation='nearest', origin='lower')
+# plt.imshow(z, cmap='seismic', extent=[0, 1, 0, 1],
+#         interpolation='nearest', origin='lower')
 
-fig = plt.gcf()
-plt.clim()   # clamp the color limits
-plt.colorbar()
+# fig = plt.gcf()
+# plt.clim()   # clamp the color limits
+# plt.colorbar()
 
 
 #3d
