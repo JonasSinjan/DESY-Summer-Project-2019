@@ -133,6 +133,8 @@ def plot_power2d(dir1, dir2, n):
     plt.scatter(np.log(range(start, end)), np.log(para_total[start:end]), label='Para', color='green')
     plt.plot(np.log(range(start, end)), lin_perb, label='Slope K_perp: %f' % round(slope, 3))
     plt.plot(np.log(range(start, end)), lin_par, label='Slope K_para: %f' % round(slope_par, 3))
+    plt.xlabel('Log K')
+    plt.ylabel('Log E(k)')
     plt.legend()
     plt.title('Phi0 Power Spectrum 2D np.flip')
     #plt.show()
