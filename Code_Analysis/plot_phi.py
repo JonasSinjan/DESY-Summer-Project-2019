@@ -84,8 +84,8 @@ phi_3d,phi0_3d, by = read_phi_3d(dir_data,n)
 
 
 slice_index = 23
-
-fig, axs = plt.subplots(nrows=2, ncols=2, constrained_layout=True)
+plt.figure(constrained_layout=True)
+fig, axs = plt.subplots(nrows=2, ncols=2)
 
 z=[phi0_2d, phi_2d, phi0_3d[:,:,slice_index], phi_3d[:,:,slice_index]]#one slice
 
@@ -101,7 +101,7 @@ def phi_plot(ax,z, title):
 
 title=['2D Phi0', '2D Phi', '3D Phi0', '3D Phi']
 
-for ax, count in enumerate(axs):
+for ax, count in enumerate(axs.flat):
         phi_plot(ax,z[count],title[count])
 
 
