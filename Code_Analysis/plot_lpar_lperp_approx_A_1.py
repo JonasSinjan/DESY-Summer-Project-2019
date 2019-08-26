@@ -159,13 +159,13 @@ count_2048sq = find_indeix(lperp14)
 #
 count_4096sq = find_indeix(lperp15)
 
-#2d displacement phi0
-count_128disp_phi0 = find_indeix(lperp17)
-#
-count_256disp_phi0 = find_indeix(lperp18)
-#
-count_512disp_phi0 = find_indeix(lperp19)
-#
+# #2d displacement phi0
+# count_128disp_phi0 = find_indeix(lperp17)
+# #
+# count_256disp_phi0 = find_indeix(lperp18)
+# #
+# count_512disp_phi0 = find_indeix(lperp19)
+# #
 
 # #3d displacement phi
 # count_128disp_3dphi = find_indeix(lper20)
