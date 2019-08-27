@@ -34,7 +34,7 @@ from numpy.random import rand
 ##############################################################################################
 
 # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 512
+size = 256
 lent = size
 
 sq_bool = False
@@ -50,15 +50,15 @@ else:
     nz = size + 1
 
 # DATA INPUT AND OUTPUT PATH
-dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/512run2D_FFT/'  # data files
-dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_sq_vs_disp_data/512run2D_FFT/'  # data files
+dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
+dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
 #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
 # IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN -  CHECK!!!
 
 # NUMBER OF DIMENSIONS
-twoD_bool = True # if set to true, will assume data in 2D, otherwise when false defaults to 3D
+twoD_bool = False # if set to true, will assume data in 2D, otherwise when false defaults to 3D
 
 if twoD_bool is True:
     shape = (lent + 1, lent + 1)  # for 2D
@@ -384,6 +384,11 @@ def struc_funk2D(ff, phi, bx, by):
     sf_pare = 0.0
     sf_perpe = 0.0
 
+    # if (ff == 5) :
+    #     print("bx= ",bx[12,:])
+    #     print("by= ",by[23,:])
+    #     print("phi0=",phi0[12,:])
+
 
     for kup in range(0, nrandpts):
         # 2D method
@@ -459,27 +464,27 @@ for t in range(0, 1, 1):  # the time loop
         #     sff[1, i] = par_tmp
         #     sff[2, i] = perp_tmp
 
-        # phi, bx,by,bz, mach_2 = read_files3D_phi(dir_data)
+        phi0, bx,by,bz, mach_2 = read_files3D_phi0(dir_data)
 
-        # # pool = Pool(processes=nprocs)
-        # # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
-        # sf_snapshot = []
-        # sff_2 = np.zeros((3, int(lent / 4)))
-        # for i in range(int(lent / 4)):
-        #     numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi, bx, by, bz)
-        #     sff_2[0, i] = numpt_tmp
-        #     sff_2[1, i] = par_tmp
-        #     sff_2[2, i] = perp_tmp
-
-        phi0, bx, by = read_files_phi0(dir_data)
-
+        # pool = Pool(processes=nprocs)
+        # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
         sf_snapshot = []
-        sff = np.zeros((3, int(lent / 4)))
+        sff_2 = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
-            numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi0, bx, by)
-            sff[0, i] = numpt_tmp
-            sff[1, i] = par_tmp
-            sff[2, i] = perp_tmp
+            numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
+            sff_2[0, i] = numpt_tmp
+            sff_2[1, i] = par_tmp
+            sff_2[2, i] = perp_tmp
+
+        # phi0, bx, by = read_files_phi0(dir_data)
+
+        # sf_snapshot = []
+        # sff = np.zeros((3, int(lent / 4)))
+        # for i in range(int(lent / 4)):
+        #     numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi0, bx, by)
+        #     sff[0, i] = numpt_tmp
+        #     sff[1, i] = par_tmp
+        #     sff[2, i] = perp_tmp
 
 
         # pool.terminate()
@@ -492,23 +497,23 @@ for t in range(0, 1, 1):  # the time loop
 
     # sff = np.asarray(sf_snapshot)
 
-    npts[0:int(lent / 4)] = npts[0:int(lent / 4)] + sff[0, :]
-    sf_par[0:int(lent / 4)] = sf_par[0:int(lent / 4)] + sff[1, :]
-    sf_perp[0:int(lent / 4)] = sf_perp[0:int(lent / 4)] + sff[2, :]
+    # npts[0:int(lent / 4)] = npts[0:int(lent / 4)] + sff[0, :]
+    # sf_par[0:int(lent / 4)] = sf_par[0:int(lent / 4)] + sff[1, :]
+    # sf_perp[0:int(lent / 4)] = sf_perp[0:int(lent / 4)] + sff[2, :]
 
-    # npts_2[0:int(lent / 4)] = npts_2[0:int(lent / 4)] + sff_2[0, :]
-    # sf_par_2[0:int(lent / 4)] = sf_par_2[0:int(lent / 4)] + sff_2[1, :]
-    # sf_perp_2[0:int(lent / 4)] = sf_perp_2[0:int(lent / 4)] + sff_2[2, :]
+    npts_2[0:int(lent / 4)] = npts_2[0:int(lent / 4)] + sff_2[0, :]
+    sf_par_2[0:int(lent / 4)] = sf_par_2[0:int(lent / 4)] + sff_2[1, :]
+    sf_perp_2[0:int(lent / 4)] = sf_perp_2[0:int(lent / 4)] + sff_2[2, :]
 
     # print(np.shape(sf_snapshot))
     # for q in range (0,lent/4) :
     #  print("sf_snapshot= ",q, sf_snapshot[q])
 
-sf_par = sf_par / npts
-sf_perp = sf_perp / npts
+# sf_par = sf_par / npts
+# sf_perp = sf_perp / npts
 
-# sf_par_2 = sf_par_2 / npts_2
-# sf_perp_2 = sf_perp_2 / npts_2
+sf_par_2 = sf_par_2 / npts_2
+sf_perp_2 = sf_perp_2 / npts_2
 
 # writing the spectra to a file
 
@@ -518,14 +523,14 @@ sf_perp = sf_perp / npts
 #     f.write(value + "\n")
 # f.close()
 
-# f = open(dir_output + 'sf_par_perp_v_phi' + mode + '.txt', 'w')
-# for i in range(0, int(lent / 2)):
-#     value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) + " " + str(mach_2)
-#     f.write(value + "\n")
-# f.close()
-
 f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
 for i in range(0, int(lent / 2)):
-    value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
+    value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) + " " + str(mach_2)
     f.write(value + "\n")
 f.close()
+
+# f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
+# for i in range(0, int(lent / 2)):
+#     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
+#     f.write(value + "\n")
+# f.close()
