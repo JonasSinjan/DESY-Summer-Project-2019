@@ -122,9 +122,9 @@ lpar15, lperp15 = read_sf(dir_sf, 4096.0)
 # dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phiF.txt'
 # lpar20, lperp20 = read_sf(dir_sf, 128.0)
 # #
-# dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/sf_par_perp_v_phiF.txt'
-# lpar21, lperp21 = read_sf(dir_sf, 256.0)
-# #
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/sf_par_perp_v_phiF.txt'
+lpar21, lperp21 = read_sf(dir_sf, 256.0)
+#
 # filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
 # lpar22, lperp22 = read_sf(dir_sf, 512.0)
 
@@ -202,8 +202,8 @@ count_4096sq = find_indeix(lperp15)
 # #3d displacement phi
 # count_128disp_3dphi = find_indeix(lper20)
 # #
-# count_256disp_3dphi = find_indeix(lperp21)
-# #
+count_256disp_3dphi = find_indeix(lperp21)
+#
 # count_512disp_phi = find_indeix(lperp22)
 # #
 
@@ -249,10 +249,14 @@ fit_end = 20
 slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0 = linfit(lperp23,lpar23, fit_end)
 slope_256_disp_3dphi0, rval_256_disp_3dphi0, err_256_disp_3dphi0 = linfit(lperp24,lpar24, fit_end) #count_256disp_3dphi0)
 
-#slope linefitting 3d displacement phi0 wrt global
+#slope linefitting 3d displacement phi0 wrt local
 fit_end = 20
 slope_128_disp_3dphi0_loc, rval_128_disp_3dphi0_loc, err_128_disp_3dphi0_loc = linfit(lperp26,lpar26, fit_end)
 slope_256_disp_3dphi0_loc, rval_256_disp_3dphi0_loc, err_256_disp_3dphi0_loc = linfit(lperp27,lpar27, fit_end) #count_256disp_3dphi0)
+
+#slope linefitting 3d displacement phi wrt local
+fit_end = 20
+slope_256_disp_3dphi, rval_256_disp_3dphi, err_256_disp_3dphi = linfit(lperp21,lpar21, fit_end) #count_256disp_3dphi0)
 
 #Reference slopes
 
@@ -327,14 +331,17 @@ ax0 = plt.subplot(gs[0],aspect='equal')
 #ax0.plot(lperp18[:count_256disp_phi0], lpar18[:count_256disp_phi0], lw=3, ls = "-", label="256_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0))
 
 #3D displacement PHI0 wrt global
-ax0.plot(lperp23[:count_128disp_3dphi0], lpar23[:count_128disp_3dphi0], lw=3, ls = "-", label="128_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0))
+#ax0.plot(lperp23[:count_128disp_3dphi0], lpar23[:count_128disp_3dphi0], lw=3, ls = "-", label="128_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0))
 ax0.plot(lperp24[:count_256disp_3dphi0], lpar24[:count_256disp_3dphi0], lw=3, ls = "-", label="256_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi0, rval_256_disp_3dphi0, err_256_disp_3dphi0))
 ax0.scatter(lperp24[fit_end-1], lpar24[fit_end-1], color='red',s=80, label = 'End of linear fit region')
 
 #3D displacement PHI0 wrt local
-ax0.plot(lperp26[:count_128disp_3dphi0_loc], lpar26[:count_128disp_3dphi0_loc], lw=3, ls = "-", label="128_3D_disp_PHI0_local grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0_loc, rval_128_disp_3dphi0_loc, err_128_disp_3dphi0_loc))
+#ax0.plot(lperp26[:count_128disp_3dphi0_loc], lpar26[:count_128disp_3dphi0_loc], lw=3, ls = "-", label="128_3D_disp_PHI0_local grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0_loc, rval_128_disp_3dphi0_loc, err_128_disp_3dphi0_loc))
 ax0.plot(lperp27[:count_256disp_3dphi0_loc], lpar27[:count_256disp_3dphi0_loc], lw=3, ls = "-", label="256_3D_disp_PHI0_local grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi0_loc, rval_256_disp_3dphi0_loc, err_256_disp_3dphi0_loc))
 ax0.scatter(lperp27[fit_end-1], lpar27[fit_end-1], color='pink',s=80, label = 'End of linear fit region')
+
+#3D displacement PHI wrt local
+ax0.plot(lperp21[:count_256disp_3dphi], lpar21[:count_256disp_3dphi], lw=3, ls = "-", label="256_3D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi, rval_256_disp_3dphi, err_256_disp_3dphi))
 
 ax0.plot(lperp24[:count_256disp_3dphi0], ref_slope_2_3, lw=2, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
