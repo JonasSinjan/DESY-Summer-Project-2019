@@ -332,7 +332,7 @@ ax0 = plt.subplot(gs[0],aspect='equal')
 
 #3D displacement PHI0 wrt global
 #ax0.plot(lperp23[:count_128disp_3dphi0], lpar23[:count_128disp_3dphi0], lw=3, ls = "-", label="128_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0))
-ax0.plot(lperp24[:count_256disp_3dphi0], lpar24[:count_256disp_3dphi0], lw=3, ls = "-", label="256_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi0, rval_256_disp_3dphi0, err_256_disp_3dphi0))
+ax0.plot(lperp24[:count_256disp_3dphi0], lpar24[:count_256disp_3dphi0], lw=3, ls = "-", label="256_3D_disp_PHI0_global grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi0, rval_256_disp_3dphi0, err_256_disp_3dphi0))
 ax0.scatter(lperp24[fit_end-1], lpar24[fit_end-1], color='red',s=80, label = 'End of linear fit region')
 
 #3D displacement PHI0 wrt local
@@ -351,7 +351,7 @@ ax0.set_xlim(xmin=0.005, xmax=0.3)
 ax0.set_ylim(ymin=0.005, ymax=0.5)
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
-ax0.set_title('Structure Function 3D Displacement PHI0')
+ax0.set_title('Structure Function 3D Displacement')
 ax0.legend(loc='lower right',ncol=1,fontsize=14)
 
 
