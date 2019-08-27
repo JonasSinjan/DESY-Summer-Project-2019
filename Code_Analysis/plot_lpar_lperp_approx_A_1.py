@@ -272,8 +272,8 @@ slope_256_disp_3dphi, rval_256_disp_3dphi, err_256_disp_3dphi = linfit(lperp21,l
 ref_slope_2_3 = lpar8[100]*(np.power(lperp8[:count_1024disp],(2.0/3.0))/np.power(lperp8[100],(2.0/3.0)))
 slope_ref, rval_ref, err_ref = linfit(lperp8, ref_slope_2_3, count_1024disp)
 
-#ref_slope_2_3 = lpar16[100]*(np.power(lperp16[:count_4096disp],(2.0/3.0))/np.power(lperp16[100],(2.0/3.0)))
-#slope_ref, rval_ref, err_ref = linfit(lperp16, ref_slope_2_3, count_4096disp)
+ref_slope_2_3 = lpar16[100]*(np.power(lperp16[:count_4096disp],(2.0/3.0))/np.power(lperp16[100],(2.0/3.0)))
+slope_ref, rval_ref, err_ref = linfit(lperp16, ref_slope_2_3, count_4096disp)
 #ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
 
 
@@ -284,40 +284,40 @@ slope_ref, rval_ref, err_ref = linfit(lperp8, ref_slope_2_3, count_1024disp)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 
-# fig=plt.figure(1)
-# fig = plt.figure(figsize=(16.0, 10.0))
-# gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
+fig=plt.figure(1)
+fig = plt.figure(figsize=(16.0, 10.0))
+gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
-# ax0 = plt.subplot(gs[0])
+ax0 = plt.subplot(gs[0])
 
 # #2D displacement phi
 # ax0.plot(lperp1[:count_128disp], lpar1[:count_128disp], lw=3, ls = "-", label="128_2D_disp grad: %s R^2: %s  Err: %s" % (slope_128_disp, rval_128_disp, err_128_disp))
 # ax0.plot(lperp2[:count_256disp], lpar2[:count_256disp], lw=3, ls = "-", label="256_2D_disp grad: %s R^2: %s  Err: %s" % (slope_256_disp, rval_256_disp, err_256_disp))
 # ax0.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
-# ax0.plot(lperp8[:count_1024disp], lpar8[:count_1024disp], lw=3, ls = "-", label="1024_2D_disp grad: %s R^2: %s  Err: %s" % (slope_1024_disp, rval_1024_disp, err_1024_disp))
-# # #ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp grad: %s R^2: %s  Err: %s" % (slope_2048_disp, rval_2048_disp, err_2048_disp))
-# # #ax0.plot(lperp16[:count_4096disp], lpar16[:count_4096disp], lw=3, ls = "-", label="4096_2D_disp grad: %s R^2: %s  Err: %s" % (slope_4096_disp, rval_4096_disp, err_4096_disp))
+#ax0.plot(lperp8[:count_1024disp], lpar8[:count_1024disp], lw=3, ls = "-", label="1024_2D_disp grad: %s R^2: %s  Err: %s" % (slope_1024_disp, rval_1024_disp, err_1024_disp))
+#ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp grad: %s R^2: %s  Err: %s" % (slope_2048_disp, rval_2048_disp, err_2048_disp))
+ax0.plot(lperp16[:count_4096disp], lpar16[:count_4096disp], lw=3, ls = "-", label="4096_2D_disp grad: %s R^2: %s  Err: %s" % (slope_4096_disp, rval_4096_disp, err_4096_disp))
 
 # # #2D squares rho(=phi)
 # # #ax0.plot(lperp12[:count_512sq], lpar12[:count_512sq], lw=5, ls = ":", label="512_2D_sq grad: %s R^2: %s  Err: %s" % (slope_512_sq, rval_512_sq, err_512_sq))
-# # #ax0.plot(lperp13[:count_1024sq], lpar13[:count_1024sq], lw=5, ls = ":", label="1024_2D_sq grad: %s R^2: %s  Err: %s" % (slope_1024_sq, rval_1024_sq, err_1024_sq))
-# # #ax0.plot(lperp14[:count_2048sq], lpar14[:count_2048sq], lw=5, ls = ":", label="2048_2D_sq grad: %s R^2: %s  Err: %s" % (slope_2048_sq, rval_2048_sq, err_2048_sq))
-# # #ax0.plot(lperp14[:count_4096sq], lpar14[:count_4096sq], lw=5, ls = ":", label="4096_2D_sq grad: %s R^2: %s  Err: %s" % (slope_4096_sq, rval_4096_sq, err_4096_sq))
+#ax0.plot(lperp13[:count_1024sq], lpar13[:count_1024sq], lw=5, ls = ":", label="1024_2D_sq grad: %s R^2: %s  Err: %s" % (slope_1024_sq, rval_1024_sq, err_1024_sq))
+#ax0.plot(lperp14[:count_2048sq], lpar14[:count_2048sq], lw=5, ls = ":", label="2048_2D_sq grad: %s R^2: %s  Err: %s" % (slope_2048_sq, rval_2048_sq, err_2048_sq))
+ax0.plot(lperp14[:count_4096sq], lpar14[:count_4096sq], lw=5, ls = "-", label="4096_2D_sq grad: %s R^2: %s  Err: %s" % (slope_4096_sq, rval_4096_sq, err_4096_sq))
 
-# # #ax0.plot(lperp16[:count_4096disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
+ax0.plot(lperp16[:count_4096disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 # ax0.plot(lperp8[:count_1024disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
-# ax0.set_xscale('log')
-# ax0.set_yscale('log')
-# ax0.set_xlim(xmax=0.3)
-# ax0.set_ylim(ymax=0.5)
-# #sort out scales max - these were all phi wrt to magnetic field
-# ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
-# ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
-# ax0.set_title('Structure Function 2D Displacement')
-# ax0.legend(loc='lower center',ncol=2,fontsize=14)
+ax0.set_xscale('log')
+ax0.set_yscale('log')
+ax0.set_xlim(xmax=0.3)
+ax0.set_ylim(ymax=0.5)
+#sort out scales max - these were all phi wrt to magnetic field
+ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
+ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
+ax0.set_title('Structure Function 2D Displacement vs squares')
+ax0.legend(loc='lower center',ncol=2,fontsize=14)
 
-# plt.show()
+plt.show()
 
 #print(lperp3)
 #print(lpar3)
