@@ -231,7 +231,7 @@ def plot_power3d(dir1, n):
 
     ax0 = plt.subplot(gs[0], aspect='equal')
 
-    plt.imshow(np.log(abs(phi0k) ** 2)[2,:,:], cmap='seismic',
+    plt.imshow(np.log(abs(phi0k) ** 2)[:,2,:], cmap='seismic',
                interpolation='nearest', origin='lower')
 
     fig = plt.gcf()  # get the current figure
@@ -243,7 +243,7 @@ def plot_power3d(dir1, n):
 
     ax1 = plt.subplot(gs[1], aspect='equal')
 
-    plt.imshow(np.log(abs(phik) ** 2)[2,:,:], cmap='seismic',
+    plt.imshow(np.log(abs(phik) ** 2)[:,2,:], cmap='seismic',
                interpolation='nearest', origin='lower')
 
     fig = plt.gcf()  # get current figure
@@ -289,6 +289,8 @@ def plot_power3d(dir1, n):
     plt.plot(logk[start:end], lin_perb, label='Slope K_perp: %f' % round(slope, 3))
     plt.plot(logk[start:end], lin_par, label='Slope K_para: %f' % round(slope_par, 3))
     plt.legend()
+    plt.xlabel('Log K')
+    plt.ylabel('Log E(k)')
     plt.title('Phi0 Spectrum 3D')
     plt.show()
 
