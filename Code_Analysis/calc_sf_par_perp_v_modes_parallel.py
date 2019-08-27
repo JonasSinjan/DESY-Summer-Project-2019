@@ -360,89 +360,88 @@ def struc_funk2D(ff, phi, bx, by):
     return [numpt, sf_pare, sf_perpe]
 
 
-for t in range(0, 1, 1):  # the time loop
 
-    if __name__ == '__main__':
+if __name__ == '__main__':
 
-        ##############################################################################################
-        #####                                      SETUP                                       #######
-        ##############################################################################################
+    #---------------------------------------------------------------------------------------------
+    #  SETUP                                       
+    #----------------------------------------------------------------------------------------------
 
-        # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-        size = 256
-        lent = size
+    # resolution size must be specified
+    size = 256
+    lent = size
 
-        sq_bool = False
+    sq_bool = False
 
-        if sq_bool:
-            nx = size
-            ny = size
-            nz = size
+    if sq_bool:
+        nx = size
+        ny = size
+        nz = size
 
-        else:
-            nx = size + 1
-            ny = size + 1
-            nz = size + 1
+    else:
+        nx = size + 1
+        ny = size + 1
+        nz = size + 1
 
-        # DATA INPUT AND OUTPUT PATH
-        dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
-        dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
-        #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
-        #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
-
-        # IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN
-
-        # NUMBER OF DIMENSIONS
-        twoD_bool = False # if set to true, will assume data in 2D, otherwise when false defaults to 3D
-
-        if twoD_bool is True:
-            shape = (lent + 1, lent + 1)  # for 2D
-        else:
-            shape = (lent + 1, lent + 1, lent + 1)
-
-        xpt, ypt, zpt = size, size, size
-
-        Lx, Ly, Lz = 1.0, 1.0, 1.0
-
-        seed(1)
-        n_avg_bfield_pts = 5
-        nrandpts = 10000
-        mode = 'F'
-
-        # initliasing 1D arrays
-        # sf_snapshot = np.zeros((lent/4,3))
-
-        ntstp = 0
-        sf_par = np.zeros(int(lent / 2))
-        sf_perp = np.zeros(int(lent / 2))
-        npts = np.zeros(int(lent / 2))
-
-        sf_par_2 = np.zeros(int(lent / 2))
-        sf_perp_2 = np.zeros(int(lent / 2))
-        npts_2 = np.zeros(int(lent / 2))
-
-        #3D PHI0
-        phi0, bx,by,bz = read_files3D_phi0(dir_data)
-
-        sf_snapshot = []
-        sff_2 = np.zeros((3, int(lent / 4)))
-        for i in range(int(lent / 4)):
-            numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
-            sff_2[0, i] = numpt_tmp
-            sff_2[1, i] = par_tmp
-            sff_2[2, i] = perp_tmp
+    # data input and output path
+    dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
+    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
+    
+    #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
+    #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
 
-        ##2D PHI0
-        # phi0, bx, by = read_files_phi0(dir_data)
+    # dimensions
+    twoD_bool = False # if set to true, will assume data in 2D, otherwise when false defaults to 3D
 
-        # sf_snapshot = []
-        # sff = np.zeros((3, int(lent / 4)))
-        # for i in range(int(lent / 4)):
-        #     numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi0, bx, by)
-        #     sff[0, i] = numpt_tmp
-        #     sff[1, i] = par_tmp
-        #     sff[2, i] = perp_tmp
+    if twoD_bool is True:
+        shape = (lent + 1, lent + 1)  # for 2D
+    else:
+        shape = (lent + 1, lent + 1, lent + 1)
+
+    xpt, ypt, zpt = size, size, size
+
+    Lx, Ly, Lz = 1.0, 1.0, 1.0
+
+    seed(1)
+    n_avg_bfield_pts = 5
+    nrandpts = 10000
+    mode = 'F'
+
+    # initliasing 1D arrays
+    # sf_snapshot = np.zeros((lent/4,3))
+
+    ntstp = 0
+    sf_par = np.zeros(int(lent / 2))
+    sf_perp = np.zeros(int(lent / 2))
+    npts = np.zeros(int(lent / 2))
+
+    sf_par_2 = np.zeros(int(lent / 2))
+    sf_perp_2 = np.zeros(int(lent / 2))
+    npts_2 = np.zeros(int(lent / 2))
+
+    #3D PHI0
+    phi0, bx,by,bz = read_files3D_phi0(dir_data)
+
+    sf_snapshot = []
+    sff_2 = np.zeros((3, int(lent / 4)))
+    for i in range(int(lent / 4)):
+        numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
+        sff_2[0, i] = numpt_tmp
+        sff_2[1, i] = par_tmp
+        sff_2[2, i] = perp_tmp
+
+
+    ##2D PHI0
+    # phi0, bx, by = read_files_phi0(dir_data)
+
+    # sf_snapshot = []
+    # sff = np.zeros((3, int(lent / 4)))
+    # for i in range(int(lent / 4)):
+    #     numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi0, bx, by)
+    #     sff[0, i] = numpt_tmp
+    #     sff[1, i] = par_tmp
+    #     sff[2, i] = perp_tmp
 
 
         
@@ -474,7 +473,7 @@ sf_perp_2 = sf_perp_2 / npts_2
 
 f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
 for i in range(0, int(lent / 2)):
-    value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) + " " + str(mach_2)
+    value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
     f.write(value + "\n")
 f.close()
 
