@@ -384,6 +384,11 @@ def struc_funk2D(ff, phi, bx, by):
     sf_pare = 0.0
     sf_perpe = 0.0
 
+    if (ff == 5) :
+        print("bx= ",bx[12,:])
+        print("by= ",by[23,:])
+        print("phi0=",phi0[12,:])
+
     for kup in range(0, nrandpts):
         # 2D method
         # choose a random point
