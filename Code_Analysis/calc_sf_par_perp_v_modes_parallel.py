@@ -25,96 +25,16 @@ from numpy.random import seed
 from numpy.random import randint
 from numpy.random import rand
 
-# from pylab import *
-
-# testing git properly setup
-
-##############################################################################################
-#####                                      SETUP                                       #######
-##############################################################################################
-
-# NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
-size = 256
-lent = size
-
-sq_bool = False
-
-if sq_bool:
-    nx = size
-    ny = size
-    nz = size
-
-else:
-    nx = size + 1
-    ny = size + 1
-    nz = size + 1
-
-# DATA INPUT AND OUTPUT PATH
-dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
-dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
-#dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
-#dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
-
-# IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN -  CHECK!!!
-
-# NUMBER OF DIMENSIONS
-twoD_bool = False # if set to true, will assume data in 2D, otherwise when false defaults to 3D
-
-if twoD_bool is True:
-    shape = (lent + 1, lent + 1)  # for 2D
-else:
-    shape = (lent + 1, lent + 1, lent + 1)
-
-###############################################################################################
-
-xpt = size
-ypt = size
-zpt = size
-
-Lx = 1.0
-Ly = 1.0
-Lz = 1.0
-t_start = 5
-t_stop = 6  # only want one loop
-step = 1
-
-seed(1)
-n_avg_bfield_pts = 5
-nrandpts = 10000
-mode = 'F'
-nprocs = 16
-
-# initliasing 1D arrays
-magk = np.zeros(int(lent / 2))
-mag_power_spec = np.zeros(int(lent / 2))
-kin_power_spec = np.zeros(int(lent / 2))
-mag_pspec_tavg = np.zeros(int(lent / 2))
-kin_pspec_tavg = np.zeros(int(lent / 2))
-# sf_snapshot = np.zeros((lent/4,3))
-
-ntstp = 0
-sf_par = np.zeros(int(lent / 2))
-sf_perp = np.zeros(int(lent / 2))
-npts = np.zeros(int(lent / 2))
-
-sf_par_2 = np.zeros(int(lent / 2))
-sf_perp_2 = np.zeros(int(lent / 2))
-npts_2 = np.zeros(int(lent / 2))
-
-
 def read_files(dir_data):
     filename = dir_data + 'PHI' + '.BIN'
-    # print(filename)
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
 
     temp = np.reshape(abx, (nx, ny))
-    phi = temp.transpose()  # missed the empty brackets here
-    # print(phi[22,:]) - working correctly
+    phi = temp.transpose()
 
-    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used:
-    # print(filename)
+    filename = dir_data + 'BX' + '.BIN'
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
@@ -125,30 +45,27 @@ def read_files(dir_data):
     #bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
-    # print(filename)
     fd = open(filename, 'rb')
 
     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
 
     temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
+
     print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
 
 def read_files_phi0(dir_data):
     filename = dir_data + 'PHI0' + '.BIN'
-    # print(filename)
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
 
     temp = np.reshape(abx, (nx, ny))
-    phi0 = temp.transpose()  # missed the empty brackets here
-    # print(phi[22,:]) - working correctly
+    phi0 = temp.transpose() 
 
-    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used:
-    # print(filename)
+    filename = dir_data + 'BX' + '.BIN'
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
@@ -159,13 +76,15 @@ def read_files_phi0(dir_data):
     bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
-    # print(filename)
     fd = open(filename, 'rb')
 
     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
+
     temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
+
     by.fill(0)
+
     print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
     return phi0, bx, by
@@ -179,15 +98,13 @@ def read_files_sq(dir_data):
     temp = np.reshape(abx, (nx, ny))
     phi = temp.transpose()
   
-
-    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used:
+    filename = dir_data + 'BX' + '.BIN' 
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny)
 
     temp = np.reshape(abx, (nx, ny))
     bx = temp.transpose()
-
 
     filename = dir_data + 'BY' + '.BIN'
     fd = open(filename, 'rb')
@@ -196,6 +113,7 @@ def read_files_sq(dir_data):
 
     temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
+
     print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
@@ -207,9 +125,9 @@ def read_files3D_phi0(dir_data):
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
 
     temp = np.reshape(abx, (nx, ny, nz))
-    phi0 = temp.transpose()  # missed the empty brackets here
+    phi0 = temp.transpose()
 
-    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used
+    filename = dir_data + 'BX' + '.BIN' 
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -250,9 +168,9 @@ def read_files3D_phi(dir_data):
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
 
     temp = np.reshape(abx, (nx, ny, nz))
-    phi = temp.transpose()  # missed the empty brackets here
+    phi = temp.transpose()
 
-    filename = dir_data + 'BX' + '.BIN'  # 'B' + mode + str(t) + '.BIN' not sure why this was used
+    filename = dir_data + 'BX' + '.BIN'  
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -288,7 +206,7 @@ def read_files3D_phi(dir_data):
     
     #bz.fill(0)
 
-    tmp = dbx**2 + dby**2 + dbz**2
+    tmp = dbx**2 + dby**2 + dbz**2 #calculating the mach alfven number
     tmp = np.mean(tmp)
     mach_alfven = np.sqrt(tmp)
 
@@ -384,11 +302,6 @@ def struc_funk2D(ff, phi, bx, by):
     sf_pare = 0.0
     sf_perpe = 0.0
 
-    # if (ff == 5) :
-    #     print("bx= ",bx[12,:])
-    #     print("by= ",by[23,:])
-    #     print("phi0=",phi0[12,:])
-
     for kup in range(0, nrandpts):
         # 2D method
         # choose a random point
@@ -450,23 +363,67 @@ def struc_funk2D(ff, phi, bx, by):
 for t in range(0, 1, 1):  # the time loop
 
     if __name__ == '__main__':
-        #phi, bx, by = read_files(dir_data)  # will these be recognised by the struc funk function?
-        # phi0, bx,by,bz = read_files3D_phi0(dir_data)
 
-        # # pool = Pool(processes=nprocs)
-        # # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
-        # sf_snapshot = []
-        # sff = np.zeros((3, int(lent / 4)))
-        # for i in range(int(lent / 4)):
-        #     numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
-        #     sff[0, i] = numpt_tmp
-        #     sff[1, i] = par_tmp
-        #     sff[2, i] = perp_tmp
+        ##############################################################################################
+        #####                                      SETUP                                       #######
+        ##############################################################################################
 
-        phi0, bx,by,bz, mach_2 = read_files3D_phi0(dir_data)
+        # NUMBER OF POINTS: OPTIONS 128, 256, 512 ETC
+        size = 256
+        lent = size
 
-        # pool = Pool(processes=nprocs)
-        # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
+        sq_bool = False
+
+        if sq_bool:
+            nx = size
+            ny = size
+            nz = size
+
+        else:
+            nx = size + 1
+            ny = size + 1
+            nz = size + 1
+
+        # DATA INPUT AND OUTPUT PATH
+        dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
+        dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
+        #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
+        #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
+
+        # IF DISPLACEMENT MUST PULL FROM PHI.BIN FOR SQUARES RHO.BIN
+
+        # NUMBER OF DIMENSIONS
+        twoD_bool = False # if set to true, will assume data in 2D, otherwise when false defaults to 3D
+
+        if twoD_bool is True:
+            shape = (lent + 1, lent + 1)  # for 2D
+        else:
+            shape = (lent + 1, lent + 1, lent + 1)
+
+        xpt, ypt, zpt = size, size, size
+
+        Lx, Ly, Lz = 1.0, 1.0, 1.0
+
+        seed(1)
+        n_avg_bfield_pts = 5
+        nrandpts = 10000
+        mode = 'F'
+
+        # initliasing 1D arrays
+        # sf_snapshot = np.zeros((lent/4,3))
+
+        ntstp = 0
+        sf_par = np.zeros(int(lent / 2))
+        sf_perp = np.zeros(int(lent / 2))
+        npts = np.zeros(int(lent / 2))
+
+        sf_par_2 = np.zeros(int(lent / 2))
+        sf_perp_2 = np.zeros(int(lent / 2))
+        npts_2 = np.zeros(int(lent / 2))
+
+        #3D PHI0
+        phi0, bx,by,bz = read_files3D_phi0(dir_data)
+
         sf_snapshot = []
         sff_2 = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
@@ -475,6 +432,8 @@ for t in range(0, 1, 1):  # the time loop
             sff_2[1, i] = par_tmp
             sff_2[2, i] = perp_tmp
 
+
+        ##2D PHI0
         # phi0, bx, by = read_files_phi0(dir_data)
 
         # sf_snapshot = []
@@ -486,16 +445,7 @@ for t in range(0, 1, 1):  # the time loop
         #     sff[2, i] = perp_tmp
 
 
-        # pool.terminate()
-        #print(np.shape(sff))
-        print("The Process has Completed")
-
-        # pool = Pool(processes=nprocs)              # start 4 worker processes
-
-    # sf_snapshot = pool.map(struc_funk, range(lent/4))
-
-    # sff = np.asarray(sf_snapshot)
-
+        
     # npts[0:int(lent / 4)] = npts[0:int(lent / 4)] + sff[0, :]
     # sf_par[0:int(lent / 4)] = sf_par[0:int(lent / 4)] + sff[1, :]
     # sf_perp[0:int(lent / 4)] = sf_perp[0:int(lent / 4)] + sff[2, :]
@@ -533,3 +483,5 @@ f.close()
 #     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
 #     f.write(value + "\n")
 # f.close()
+
+print("The Process has Completed")
