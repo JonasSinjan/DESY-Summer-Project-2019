@@ -86,7 +86,7 @@ def k_perp_calculator(n,phi,phi0, dir_data):
     def kspec_funk(ff):
 
         #print(ff)
-        n = 64
+        
         #looping over theta and phi angles in k space
         theta_array = np.linspace(0.0,np.pi/2.0,n_theta_pts)
         count = 0
@@ -108,7 +108,7 @@ def k_perp_calculator(n,phi,phi0, dir_data):
 
         return f_pow
 
-    def slice_fft(sn,phi):
+    def slice_fft(sn,phi,n):
         fx2d = phi[sn,:,:]
         # WHY ARE THEY SLICING? AND WHY IN LAST INDEX- WHICH INDEX SHOULD IT BE?
 
@@ -127,7 +127,7 @@ def k_perp_calculator(n,phi,phi0, dir_data):
                     pfxk[ii,jj] = tinynum
 
         pfxyzk = pfxk      
-        xpt, ypt = 64, 64
+        xpt, ypt = n, n
         #removing the Nyquist component
         pfxyzk_wn = pfxyzk[1:xpt,0:ypt/2] 
 
@@ -135,7 +135,7 @@ def k_perp_calculator(n,phi,phi0, dir_data):
 
     for i in np.arange(0,n,n/nzslices):
         if i == 0:
-            tmp = slice_fft(i, phi0)
+            tmp = slice_fft(i, phi0, n)
             oter = tmp*0.0
         oter = oter + slice_fft(i, phi0)
     
