@@ -321,7 +321,7 @@ slope_ref, rval_ref, err_ref = linfit(lperp24, ref_slope_2_3, count_256disp_3dph
 
 #plot for 2d vs 3d displacement method both phi and phi0
 fig=plt.figure(2)
-fig = plt.figure(figsize=(16.0, 12.0))
+fig = plt.figure(figsize=(16.0, 16.0))
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0],aspect='equal')
@@ -351,7 +351,7 @@ ax0.set_xlim(xmin=0.005, xmax=0.3)
 ax0.set_ylim(ymin=0.005, ymax=0.5)
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
-ax0.set_title('Structure Function 3D Displacement PHI0 wrt global')
+ax0.set_title('Structure Function 3D Displacement')
 ax0.legend(loc='lower right',ncol=1,fontsize=14)
 
 
