@@ -137,7 +137,7 @@ def k_perp_calculator(n,phi,phi0, dir_data):
         if i == 0:
             tmp = slice_fft(i, phi0, n)
             oter = tmp*0.0
-        oter = oter + slice_fft(i, phi0)
+        oter = oter + slice_fft(i, phi0, n)
     
     pk_slice = oter/len(np.arange(0,n,n/nzslices))
 
