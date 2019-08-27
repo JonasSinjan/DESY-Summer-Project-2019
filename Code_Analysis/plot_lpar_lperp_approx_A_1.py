@@ -150,6 +150,13 @@ lpar24, lperp24 = read_sf(dir_sf, 256.0)
 # filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phiF.txt'
 # lpar25, lperp25 = read_sf(dir_sf, 512.0)
 
+#3d displacement sf phi0 wrt local
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run3D_FFT/sf_par_perp_v_phi0F.txt'
+lpar26, lperp26 = read_sf(dir_sf, 128.0)
+#
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/sf_par_perp_v_phi0F.txt'
+lpar27, lperp27 = read_sf(dir_sf, 256.0)
+
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
@@ -200,7 +207,7 @@ count_4096sq = find_indeix(lperp15)
 # count_512disp_phi = find_indeix(lperp22)
 # #
 
-#3d displacement phi0
+#3d displacement phi0 wrt global
 count_128disp_3dphi0 = find_indeix(lperp23)
 #
 count_256disp_3dphi0 = find_indeix(lperp24)
@@ -208,6 +215,11 @@ count_256disp_3dphi0 = find_indeix(lperp24)
 # count_512disp_phi0 = find_indeix(lperp25)
 # #
 
+#3d displacement phi0 wrt local
+count_128disp_3dphi0_loc = find_indeix(lperp26)
+#
+count_256disp_3dphi0_loc = find_indeix(lperp27)
+#
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
@@ -233,9 +245,14 @@ slope_4096_sq, rval_4096_sq, err_4096_sq = linfit(lperp15,lpar15, count_4096sq)
 # slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0 = linfit(lperp18,lpar18, count_256disp_phi0)
 
 #slope linefitting 3d displacement phi0 wrt global
-slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0 = linfit(lperp23,lpar23, count_128disp_3dphi0)
 fit_end = 20
+slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0 = linfit(lperp23,lpar23, fit_end)
 slope_256_disp_3dphi0, rval_256_disp_3dphi0, err_256_disp_3dphi0 = linfit(lperp24,lpar24, fit_end) #count_256disp_3dphi0)
+
+#slope linefitting 3d displacement phi0 wrt global
+fit_end = 20
+slope_128_disp_3dphi0_loc, rval_128_disp_3dphi0_loc, err_128_disp_3dphi0_loc = linfit(lperp26,lpar26, fit_end)
+slope_256_disp_3dphi0_loc, rval_256_disp_3dphi0_loc, err_256_disp_3dphi0_loc = linfit(lperp27,lpar27, fit_end) #count_256disp_3dphi0)
 
 #Reference slopes
 
@@ -309,10 +326,16 @@ ax0 = plt.subplot(gs[0],aspect='equal')
 #ax0.plot(lperp17[:count_128disp_phi0], lpar17[:count_128disp_phi0], lw=3, ls = "-", label="128_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
 #ax0.plot(lperp18[:count_256disp_phi0], lpar18[:count_256disp_phi0], lw=3, ls = "-", label="256_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0))
 
-#3D displacement PHI0
+#3D displacement PHI0 wrt global
 ax0.plot(lperp23[:count_128disp_3dphi0], lpar23[:count_128disp_3dphi0], lw=3, ls = "-", label="128_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0))
 ax0.plot(lperp24[:count_256disp_3dphi0], lpar24[:count_256disp_3dphi0], lw=3, ls = "-", label="256_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi0, rval_256_disp_3dphi0, err_256_disp_3dphi0))
-ax0.scatter(lperp24[fit_end-1], lpar24[fit_end-1], color='red',s=40, label = 'End of linear fit region')
+ax0.scatter(lperp24[fit_end-1], lpar24[fit_end-1], color='red',s=80, label = 'End of linear fit region')
+
+#3D displacement PHI0 wrt local
+ax0.plot(lperp26[:count_128disp_3dphi0_loc], lpar26[:count_128disp_3dphi0_loc], lw=3, ls = "-", label="128_3D_disp_PHI0_local grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0_loc, rval_128_disp_3dphi0_loc, err_128_disp_3dphi0_loc))
+ax0.plot(lperp27[:count_256disp_3dphi0_loc], lpar27[:count_256disp_3dphi0_loc], lw=3, ls = "-", label="256_3D_disp_PHI0_local grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi0_loc, rval_256_disp_3dphi0_loc, err_256_disp_3dphi0_loc))
+ax0.scatter(lperp27[fit_end-1], lpar27[fit_end-1], color='pink',s=80, label = 'End of linear fit region')
+
 ax0.plot(lperp24[:count_256disp_3dphi0], ref_slope_2_3, lw=2, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
 ax0.set_xscale('log')
