@@ -293,8 +293,8 @@ slope_ref, rval_ref, err_ref = linfit(lperp8, ref_slope_2_3, count_1024disp)
 # 2d vs 3d displacement phi & phi0 PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
-ref_slope_2_3 = lpar24[20]*(np.power(lperp23[:count_256disp_3dphi0],(2.0/3.0))/np.power(lperp24[20],(2.0/3.0)))
-slope_ref, rval_ref, err_ref = linfit(lperp23, ref_slope_2_3, count_256disp_3dphi0)
+ref_slope_2_3 = lpar24[20]*(np.power(lperp24[:count_256disp_3dphi0],(2.0/3.0))/np.power(lperp24[20],(2.0/3.0)))
+slope_ref, rval_ref, err_ref = linfit(lperp24, ref_slope_2_3, count_256disp_3dphi0)
 
 
 #plot for 2d vs 3d displacement method both phi and phi0
