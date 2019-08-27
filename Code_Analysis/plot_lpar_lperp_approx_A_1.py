@@ -316,12 +316,12 @@ ax0.plot(lperp24[:count_256disp_3dphi0], ref_slope_2_3, lw=6, color = "black", l
 
 ax0.set_xscale('log')
 ax0.set_yscale('log')
-ax0.set_xlim(xmax=0.3)
-ax0.set_ylim(ymax=0.5)
+ax0.set_xlim(xmin=0.005, xmax=0.3)
+ax0.set_ylim(ymin=0.005, ymax=0.5)
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
 ax0.set_title('Struc Funk 2D vs 3D Displacement PHI0 wrt global')
-ax0.legend(loc='lower right',ncol=2,fontsize=14)
+ax0.legend(loc='lower right',ncol=1,fontsize=14)
 
 
 
