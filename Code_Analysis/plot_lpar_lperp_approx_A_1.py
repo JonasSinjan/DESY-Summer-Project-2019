@@ -157,6 +157,9 @@ lpar26, lperp26 = read_sf(dir_sf, 128.0)
 dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/sf_par_perp_v_phi0F.txt'
 lpar27, lperp27 = read_sf(dir_sf, 256.0)
 
+#3d displacement real init phi0
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/128run3D/sf_par_perp_v_phi0F.txt'
+lpar28, lperp28 = read_sf(dir_sf, 128.0)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
@@ -206,6 +209,9 @@ count_256disp_3dphi = find_indeix(lperp21)
 #
 # count_512disp_phi = find_indeix(lperp22)
 # #
+
+#3d displacement phi0 real init
+count_128disp_3dphi0_real = find_indeix(lperp28)
 
 #3d displacement phi0 wrt global
 count_128disp_3dphi0 = find_indeix(lperp23)
@@ -342,6 +348,9 @@ ax0.scatter(lperp27[fit_end-1], lpar27[fit_end-1], color='pink',s=80, label = 'E
 
 #3D displacement PHI wrt local
 ax0.plot(lperp21[:count_256disp_3dphi], lpar21[:count_256disp_3dphi], lw=3, ls = "-", label="256_3D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi, rval_256_disp_3dphi, err_256_disp_3dphi))
+
+#3D displacement PHI0 real init
+ax0.plot(lperp28[:count_128disp_3dphi0_real], lpar28[:count_128disp_3dphi0_real], lw=3, ls = "-", label="128_3D_disp_PHI0_real") #grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi, rval_256_disp_3dphi, err_256_disp_3dphi))
 
 ax0.plot(lperp24[:count_256disp_3dphi0], ref_slope_2_3, lw=2, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
