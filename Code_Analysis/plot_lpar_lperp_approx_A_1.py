@@ -250,6 +250,9 @@ slope_4096_sq, rval_4096_sq, err_4096_sq = linfit(lperp15,lpar15, count_4096sq)
 # slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0 = linfit(lperp17,lpar17, count_128disp_phi0)
 # slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0 = linfit(lperp18,lpar18, count_256disp_phi0)
 
+#slope linefit 2d displacement real init
+slope_128_disp_3dphi0_real, rval_128_disp_3dphi0_real, err_128_disp_3dphi0_real = linfit(lperp28,lpar28, count_128disp_3dphi0_real)
+
 #slope linefitting 3d displacement phi0 wrt global
 fit_end = 20
 slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0 = linfit(lperp23,lpar23, fit_end)
@@ -352,9 +355,9 @@ ax0.plot(lperp23[:count_128disp_3dphi0], lpar23[:count_128disp_3dphi0], lw=3, ls
 #ax0.plot(lperp21[:count_256disp_3dphi], lpar21[:count_256disp_3dphi], lw=3, ls = "-", label="256_3D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi, rval_256_disp_3dphi, err_256_disp_3dphi))
 
 #3D displacement PHI0 real init
-ax0.plot(lperp28[:count_128disp_3dphi0_real], lpar28[:count_128disp_3dphi0_real], lw=3, ls = "-", label="128_3D_disp_PHI0_real") #grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi, rval_256_disp_3dphi, err_256_disp_3dphi))
+ax0.plot(lperp28[:count_128disp_3dphi0_real], lpar28[:count_128disp_3dphi0_real], lw=3, ls = "-", label="128_3D_disp_PHI0_real grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0_real, rval_128_disp_3dphi0_real, err_128_disp_3dphi0_real))
 
-ax0.plot(lperp24[:count_256disp_3dphi0], ref_slope_2_3, lw=2, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
+#ax0.plot(lperp24[:count_256disp_3dphi0], ref_slope_2_3, lw=2, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
 ax0.set_xscale('log')
 ax0.set_yscale('log')
