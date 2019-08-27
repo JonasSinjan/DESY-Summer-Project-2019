@@ -293,7 +293,7 @@ slope_ref, rval_ref, err_ref = linfit(lperp8, ref_slope_2_3, count_1024disp)
 # 2d vs 3d displacement phi & phi0 PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
-ref_slope_2_3 = lpar23[50]*(np.power(lperp23[:count_256disp_3dphi0],(2.0/3.0))/np.power(lperp23[50],(2.0/3.0)))
+ref_slope_2_3 = lpar24[20]*(np.power(lperp23[:count_256disp_3dphi0],(2.0/3.0))/np.power(lperp24[20],(2.0/3.0)))
 slope_ref, rval_ref, err_ref = linfit(lperp23, ref_slope_2_3, count_256disp_3dphi0)
 
 
@@ -312,7 +312,7 @@ ax0 = plt.subplot(gs[0],aspect='equal')
 ax0.plot(lperp23[:count_128disp_3dphi0], lpar23[:count_128disp_3dphi0], lw=3, ls = "-", label="128_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0))
 ax0.plot(lperp24[:count_256disp_3dphi0], lpar24[:count_256disp_3dphi0], lw=3, ls = "-", label="256_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi0, rval_256_disp_3dphi0, err_256_disp_3dphi0))
 
-ax0.plot(lperp23[:count_256disp_3dphi0], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
+ax0.plot(lperp24[:count_256disp_3dphi0], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
