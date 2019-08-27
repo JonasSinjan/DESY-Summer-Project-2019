@@ -315,7 +315,7 @@ ax0.legend(loc='lower right',ncol=2,fontsize=14)
 
 
 
-ax1 = plt.subplot(gs[1],aspect='equal')
+#ax1 = plt.subplot(gs[1],aspect='equal')
 
 # #2D displacement PHI
 # ax1.plot(lperp3[:count_128disp], lpar3[:count_128disp], lw=3, ls = "-", label="128_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_128_disp, rval_128_disp, err_128_disp))
