@@ -464,7 +464,7 @@ for t in range(0, 1, 1):  # the time loop
         #     sff[1, i] = par_tmp
         #     sff[2, i] = perp_tmp
 
-        phi0, bx,by,bz, mach_2 = read_files3D_phi0(dir_data)
+        phi0, bx,by,bz = read_files3D_phi0(dir_data)
 
         # pool = Pool(processes=nprocs)
         # sf_snapshot = pool.map(struc_funk, range(lent / 4)) #ff/ll is the distance taken
