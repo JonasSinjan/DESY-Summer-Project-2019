@@ -214,8 +214,8 @@ program main
   do k = 1, n
     do j = 1, n
       do i = 1, n
-        by(i,j,k) = by(i,j,k) + 5*sin(2.0*x(i))
-        by(i,j,k) = by(i,j,k) + 5*sin(4.0*x(i)+1.6)
+        by(i,j,k) = by(i,j,k) + 0.5*sin(2.0*x(i))
+        by(i,j,k) = by(i,j,k) + 0.5*sin(4.0*x(i)+1.6)
       enddo
     enddo
   enddo

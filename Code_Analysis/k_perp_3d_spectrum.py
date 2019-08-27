@@ -60,7 +60,6 @@ from multiprocessing import Pool
 
 def k_perp_calculator(n,phi,phi0, dir_data):
     
-    n=64
     xpt=n
     ypt=n
     zpt=n
