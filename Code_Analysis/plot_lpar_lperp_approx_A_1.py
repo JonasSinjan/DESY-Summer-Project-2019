@@ -130,17 +130,17 @@ lpar15, lperp15 = read_sf(dir_sf, 4096.0)
 
 #PHI0
 
-#2d displacement sf phi0
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phi0F_wrt_global.txt'
-lpar17, lperp17 = read_sf(dir_sf, 128.0)
-#
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/sf_par_perp_v_phi0F_wrt_global.txt'
-lpar18, lperp18 = read_sf(dir_sf, 256.0)
+# #2d displacement sf phi0 wrt global
+# dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phi0F_wrt_global.txt'
+# lpar17, lperp17 = read_sf(dir_sf, 128.0)
+# #
+# dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/sf_par_perp_v_phi0F_wrt_global.txt'
+# lpar18, lperp18 = read_sf(dir_sf, 256.0)
 #
 # filename = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/512run2D_FFT/sf_par_perp_v_phi0F.txt'
 # lpar19, lperp19 = read_sf(dir_sf, 512.0)
 
-#3d displacement sf phi0
+#3d displacement sf phi0 wrt global
 dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run2D_FFT/sf_par_perp_v_phi0F_wrt_global.txt'
 lpar23, lperp23 = read_sf(dir_sf, 128.0)
 #
@@ -184,10 +184,10 @@ count_2048sq = find_indeix(lperp14)
 #
 count_4096sq = find_indeix(lperp15)
 
-#2d displacement phi0
-count_128disp_phi0 = find_indeix(lperp17)
-#
-count_256disp_phi0 = find_indeix(lperp18)
+# #2d displacement phi0
+# count_128disp_phi0 = find_indeix(lperp17)
+# #
+# count_256disp_phi0 = find_indeix(lperp18)
 # #
 # count_512disp_phi0 = find_indeix(lperp19)
 # #
@@ -228,9 +228,9 @@ slope_1024_sq, rval_1024_sq, err_1024_sq = linfit(lperp13,lpar13, count_1024disp
 slope_2048_sq, rval_2048_sq, err_2048_sq = linfit(lperp14,lpar14, count_2048sq)
 slope_4096_sq, rval_4096_sq, err_4096_sq = linfit(lperp15,lpar15, count_4096sq)
 
-#slope linefitting 2d displacement phi0 wrt global
-slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0 = linfit(lperp17,lpar17, count_128disp_phi0)
-slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0 = linfit(lperp18,lpar18, count_256disp_phi0)
+# #slope linefitting 2d displacement phi0 wrt global
+# slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0 = linfit(lperp17,lpar17, count_128disp_phi0)
+# slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0 = linfit(lperp18,lpar18, count_256disp_phi0)
 
 #slope linefitting 3d displacement phi0 wrt global
 slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0 = linfit(lperp23,lpar23, count_128disp_3dphi0)
@@ -301,12 +301,12 @@ gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 ax0 = plt.subplot(gs[0],aspect='equal')
 
 #2D displacement PHI0
-ax0.plot(lperp17[:count_128disp_phi0], lpar17[:count_128disp_phi0], lw=3, ls = "-", label="128_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
-ax0.plot(lperp18[:count_256disp_phi0], lpar18[:count_256disp_phi0], lw=3, ls = "-", label="256_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0))
+#ax0.plot(lperp17[:count_128disp_phi0], lpar17[:count_128disp_phi0], lw=3, ls = "-", label="128_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
+#ax0.plot(lperp18[:count_256disp_phi0], lpar18[:count_256disp_phi0], lw=3, ls = "-", label="256_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0, rval_256_disp_phi0, err_256_disp_phi0))
 
 #3D displacement PHI0
 ax0.plot(lperp23[:count_128disp_3dphi0], lpar23[:count_128disp_3dphi0], lw=3, ls = "-", label="128_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_128_disp_3dphi0, rval_128_disp_3dphi0, err_128_disp_3dphi0))
-ax0.plot(lperp18[:count_256disp_phi0], lpar18[:count_256disp_phi0], lw=3, ls = "-", label="256_2D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi0, rval_256_disp_3dphi0, err_256_disp_3dphi0))
+ax0.plot(lperp24[:count_256disp_3dphi0], lpar24[:count_256disp_3dphi0], lw=3, ls = "-", label="256_3D_disp_PHI0 grad: %s R^2: %s  Err: %s" % (slope_256_disp_3dphi0, rval_256_disp_3dphi0, err_256_disp_3dphi0))
 
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
