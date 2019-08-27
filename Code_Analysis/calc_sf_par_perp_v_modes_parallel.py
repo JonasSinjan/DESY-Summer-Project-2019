@@ -488,7 +488,7 @@ for t in range(0, 1, 1):  # the time loop
 
 
         # pool.terminate()
-        print(np.shape(sff))
+        #print(np.shape(sff))
         print("The Process has Completed")
 
         # pool = Pool(processes=nprocs)              # start 4 worker processes
