@@ -314,7 +314,7 @@ ax0.set_ylim(ymax=0.5)
 #sort out scales max - these were all phi wrt to magnetic field
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
-ax0.set_title('Structure Function 2D Displacement vs squares')
+ax0.set_title('Structure Function 2D Displacement vs Squares')
 ax0.legend(loc='lower center',ncol=2,fontsize=14)
 
 plt.show()
