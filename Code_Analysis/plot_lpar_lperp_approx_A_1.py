@@ -314,6 +314,10 @@ ax0.plot(lperp24[:count_256disp_3dphi0], lpar24[:count_256disp_3dphi0], lw=3, ls
 
 ax0.plot(lperp24[:count_256disp_3dphi0], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
+ax0.set_xscale('log')
+ax0.set_yscale('log')
+ax0.set_xlim(xmax=0.3)
+ax0.set_ylim(ymax=0.5)
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
 ax0.set_title('Struc Funk 2D vs 3D Displacement PHI0 wrt global')
