@@ -368,7 +368,7 @@ if __name__ == '__main__':
     #----------------------------------------------------------------------------------------------
 
     # resolution size must be specified
-    size = 256
+    size = 128
     lent = size
 
     sq_bool = False
@@ -384,8 +384,8 @@ if __name__ == '__main__':
         nz = size + 1
 
     # data input and output path
-    dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
-    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/'  # data files
+    dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run3D_FFT/'  # data files
+    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/128run3D_FFT/'  # data files
     
     #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
     #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
