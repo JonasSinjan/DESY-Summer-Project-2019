@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = '../final_data/2d/512_run2D_disp_real'
+  data_dir = '../final_data/2d/512run2D_disp_real/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
