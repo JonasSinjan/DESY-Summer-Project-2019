@@ -674,10 +674,10 @@ program main
   wtime = omp_get_wtime()
   
   do i = 1, n
-    x_arr(i,:,) = i*twopi/n
+    x_arr(i,:) = i*twopi/n
   enddo
   do j = 1, n
-    y_arr(:,j,) = j*twopi/n
+    y_arr(:,j) = j*twopi/n
   enddo
  
   ! call dfftw_plan_dft_c2r_2d(dftplan, m,m, fk, f, FFTW_ESTIMATE)
