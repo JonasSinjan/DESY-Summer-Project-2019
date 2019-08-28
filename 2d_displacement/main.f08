@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = '../2d_vs_3d_data/256run2D_FFT/'
+  data_dir = '../final_data/2d/512_run2D_disp_real'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -673,68 +673,68 @@ program main
 
   wtime = omp_get_wtime()
   
-  ! do i = 1, n
-  !   x_arr(i,:,:) = i*twopi/n
-  ! enddo
-  ! do j = 1, n
-  !   y_arr(:,j,:) = j*twopi/n
-  ! enddo
+  do i = 1, n
+    x_arr(i,:,:) = i*twopi/n
+  enddo
+  do j = 1, n
+    y_arr(:,j,:) = j*twopi/n
+  enddo
  
-  call dfftw_plan_dft_c2r_2d(dftplan, m,m, fk, f, FFTW_ESTIMATE)
+  ! call dfftw_plan_dft_c2r_2d(dftplan, m,m, fk, f, FFTW_ESTIMATE)
 
-  phi0k(:,:) = 0
+  ! phi0k(:,:) = 0
 
-  ! SKIP NYQUIST FREQUENCY
-  do kj = min((-m/2 + 1), 0), m/2-1
-    ! do kj = 0, 0
-    if (kj >= 0) then
-      j = kj + 1
-    else
-      j = m + kj + 1
-    endif
+  ! ! SKIP NYQUIST FREQUENCY
+  ! do kj = min((-m/2 + 1), 0), m/2-1
+  !   ! do kj = 0, 0
+  !   if (kj >= 0) then
+  !     j = kj + 1
+  !   else
+  !     j = m + kj + 1
+  !   endif
 
-    ! SKIP NYQUIST FREQUENCY
-    do ki = 0, m/2-1
-      i = ki + 1
+  !   ! SKIP NYQUIST FREQUENCY
+  !   do ki = 0, m/2-1
+  !     i = ki + 1
 
-      kmod = sqrt(real(ki)**2 + real(kj)**2)
+  !     kmod = sqrt(real(ki)**2 + real(kj)**2)
 
-      k_para = abs(ki)
-      k_perp = sqrt(max((kmod**2 - k_para**2), 0.))
+  !     k_para = abs(ki)
+  !     k_perp = sqrt(max((kmod**2 - k_para**2), 0.))
 
-      ! GS95
-      if (k_perp > 0.) then
-        E_coeff = k_perp**(-7./3.)*exp(-k_para/k_perp**(2./3.))  ! 2D
-      else
-        E_coeff = 0.
-      endif
+  !     ! GS95
+  !     if (k_perp > 0.) then
+  !       E_coeff = k_perp**(-7./3.)*exp(-k_para/k_perp**(2./3.))  ! 2D
+  !     else
+  !       E_coeff = 0.
+  !     endif
 
-      ! sort random phase
-      call random_number(ph)
-      ph = ph*twopi
+  !     ! sort random phase
+  !     call random_number(ph)
+  !     ph = ph*twopi
 
-      phi0k(i,j) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+  !     phi0k(i,j) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
 
-    enddo ! ki
-  enddo ! kj
+  !   enddo ! ki
+  ! enddo ! kj
 
-  fk(:,:) = phi0k(:,:)
+  ! fk(:,:) = phi0k(:,:)
 
-  call dfftw_execute_dft_c2r(dftplan, fk, f)
+  ! call dfftw_execute_dft_c2r(dftplan, fk, f)
 
-  phi0(1:m,1:m) = f(:,:)
+  ! phi0(1:m,1:m) = f(:,:)
 
-  phi0(m+1,1:m) = f(1,:)
-  phi0(1:m,m+1) = f(:,1)
+  ! phi0(m+1,1:m) = f(1,:)
+  ! phi0(1:m,m+1) = f(:,1)
 
-  phi0(m+1,m+1) = f(1,1)
+  ! phi0(m+1,m+1) = f(1,1)
 
-  call dfftw_destroy_plan(dftplan)
+  ! call dfftw_destroy_plan(dftplan)
 
-  deallocate (phi0k)
+  ! deallocate (phi0k)
 
-  deallocate (fk)
-  deallocate (f)
+  ! deallocate (fk)
+  ! deallocate (f)
 
   !print*, omp_get_max_threads()
   !SHARED(tmp, tmp2, amp, phi0, i, j, kj)
@@ -747,33 +747,34 @@ program main
 
   ! !!$OMP PARALLEL
   ! !!$OMP DO 
-  ! do ki = 0, n-3 
-  !   kx = (-(n-1)/2 + 1) + ki
-  !   if (ki == 2) then
-  !     threadno = omp_get_num_threads() !check to see if openmp working
-  !     print*, "Total running threads", threadno
-  !   endif
-  !   thread_id = omp_get_thread_num()
-  !   if (thread_id == 3) then
-  !     print*, "ki value", ki
-  !   endif
-  !   do kj = 0, n-3 ! up to nyquist frequency
-  !     ky = (-(n-1)/2 + 1) + kj
-  !     if (ky == 0) then !cant root 0
-  !         continue
-  !     else
-  !       !print*, ky
-  !       call random_number(num)
-  !       tmp = abs(ky)**(-7.0d0/3.0d0) !2D
-  !       tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
-  !       amp = sqrt(tmp*tmp2) !amplitude
+  do ki = 0, n-3 
+    kx = (-(n-1)/2 + 1) + ki
+    ! if (ki == 2) then
+    !   threadno = omp_get_num_threads() !check to see if openmp working
+    !   print*, "Total running threads", threadno
+    ! endif
+    ! thread_id = omp_get_thread_num()
+    ! if (thread_id == 3) then
+    !   print*, "ki value", ki
+    ! endif
+    print*, kx
+    do kj = 0, n-3 ! up to nyquist frequency
+      ky = (-(n-1)/2 + 1) + kj
+      if (ky == 0) then !cant root 0
+          continue
+      else
+        !print*, ky
+        call random_number(num)
+        tmp = abs(ky)**(-7.0d0/3.0d0) !2D
+        tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky)**(2.0d0/3.0d0)))
+        amp = sqrt(tmp*tmp2) !amplitude
         
-  !       input_1 = kx*x_arr + ky*y_arr + num*twopi
+        input_1 = kx*x_arr + ky*y_arr + num*twopi
 
-  !       phi0(:,:) = phi0(:,:) + amp*cos(input_1)
-  !     endif  
-  !   enddo
-  ! enddo
+        phi0(:,:) = phi0(:,:) + amp*cos(input_1)
+      endif  
+    enddo
+  enddo
   !!$OMP END DO
   !!$OMP END PARALLEL
 
