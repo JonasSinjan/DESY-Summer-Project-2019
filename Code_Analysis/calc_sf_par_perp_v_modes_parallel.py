@@ -73,7 +73,7 @@ def read_files_phi0(dir_data):
     temp = np.reshape(abx, (nx, ny))
     bx = temp.transpose()
 
-    bx.fill(1)
+    #bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
     fd = open(filename, 'rb')
@@ -83,7 +83,7 @@ def read_files_phi0(dir_data):
     temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
 
-    by.fill(0)
+    #by.fill(0)
 
     print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
@@ -432,13 +432,13 @@ if __name__ == '__main__':
     #     sff_2[2, i] = perp_tmp
 
 
-    #2D PHI0
-    phi0, bx, by = read_files_phi0(dir_data)
+    #2D PHI
+    phi, bx, by = read_files(dir_data)
 
     sf_snapshot = []
     sff = np.zeros((3, int(lent / 4)))
     for i in range(int(lent / 4)):
-        numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi0, bx, by)
+        numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi, bx, by)
         sff[0, i] = numpt_tmp
         sff[1, i] = par_tmp
         sff[2, i] = perp_tmp
@@ -465,7 +465,7 @@ sf_perp = sf_perp / npts
 
 # writing the spectra to a file
 
-f = open(dir_output + 'sf_par_perp_v_phi0_wrt_global' + mode + '.txt', 'w')
+f = open(dir_output + 'sf_par_perp_v_phi' + mode + '.txt', 'w')
 for i in range(0, int(lent / 2)):
     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
     f.write(value + "\n")
