@@ -212,7 +212,7 @@ lpar10, lperp10 = read_sf(dir_sf, 64.0)
 dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/sf_par_perp_v_phi0F.txt'#should check is global
 lpar11, lperp11 = read_sf(dir_sf, 128.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/28run3D_real/sf_par_perp_v_phiF.txt'
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/sf_par_perp_v_phiF.txt'
 lpar12, lperp12 = read_sf(dir_sf, 128.0)
 
 #fft - 256
