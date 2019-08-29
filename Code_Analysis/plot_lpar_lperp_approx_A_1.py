@@ -358,7 +358,7 @@ slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp8,lpar8, count_512sq)
 
 
 
-fig = plt.figure(figsize=(16.0, 10.0))
+plt.figure(figsize=(16.0, 10.0))
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0])
