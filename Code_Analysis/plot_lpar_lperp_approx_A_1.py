@@ -169,10 +169,10 @@ def linfit(perp_arr, para_arr, count):
 
 #displacement
 #real - 512
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0F_wrt_globalF.txt'
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar1, lperp1 = read_sf(dir_sf, 512.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0F_wrt_localF.txt'
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_localF.txt'
 lpar2, lperp2 = read_sf(dir_sf, 512.0)
 
 dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phiF.txt'
