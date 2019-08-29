@@ -236,6 +236,11 @@ lpar13, lperp13 = read_sf(dir_sf, 256.0)
 dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phiF.txt'
 lpar14, lperp14 = read_sf(dir_sf, 256.0)
 
+#fft-128
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phiF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/3d/128run3D_FFT/sf_par_perp_v_phiF.txt'
+lpar15, lperp15 = read_sf(dir_sf, 128.0)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -311,6 +316,12 @@ count_512sq= find_indeix(lperp8)
 #3d displacement phi
 count_1283d = find_indeix(lperp12)
 
+#3d displacement phi fft
+count_256_3d_f = find_indeix(lperp14)
+
+#3d displacement phi fft
+count_128_3d_f = find_indeix(lperp15)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -365,6 +376,10 @@ ref_slope_2_3_sq = lpar8[10]*(np.power(lperp8[:count_512sq],(2.0/3.0))/np.power(
 #slope_ref, rval_ref, err_ref = linfit(lperp8, ref_slope_2_3, count_1024disp)
 ref_slope_2_3_3d = lpar12[6]*(np.power(lperp12[:count_1283d],(2.0/3.0))/np.power(lperp12[6],(2.0/3.0)))
 
+ref_slope_3d_128_f = lpar15[6]*(np.power(lperp15[:count_128_3d_f],(2.0/3.0))/np.power(lperp15[6],(2.0/3.0)))
+ref_slope_3d_256_f = lpar14[6]*(np.power(lperp14[:count_256_3d_f],(2.0/3.0))/np.power(lperp14[6],(2.0/3.0)))
+
+
 #2d displacement 512
 slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp1,lpar1, count_512disp)
 
@@ -373,6 +388,12 @@ slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp8,lpar8, count_512sq)
 
 #3d displacement 128 real
 slope_128_disp, rval_128_disp, err_128_disp = linfit(lperp12,lpar12, count_1283d)
+
+#3d displacement 128 fft
+slope_128_disp_f, rval_128_disp_f, err_128_disp_f = linfit(lperp15,lpar15, count_128_3d_f)
+
+#3d displacement 256 fft
+slope_256_disp_f, rval_256_disp_f, err_256_disp_f = linfit(lperp14,lpar14, count_256_3d_f)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
@@ -420,6 +441,7 @@ ax0.legend(loc='lower right',ncol=1,fontsize=12)
 
 plt.show()
 
+#2d vs 3d real
 plt.figure(figsize=(9.0, 5.0), dpi=200)
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
@@ -438,6 +460,34 @@ ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=18)
 ax0.set_title('Structure Function 2D vs 3D Displacement Real PHI')
 ax0.legend(loc='lower right',ncol=1,fontsize=12)
+
+plt.show()
+
+#3d fft vs real
+plt.figure(figsize=(9.0, 5.0), dpi=200)
+gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
+
+ax1 = plt.subplot(gs[0])
+
+
+
+ax1.plot(lperp12[:count_1283d], lpar12[:count_1283d], lw=5, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp, rval_128_disp, err_128_disp))
+
+ax1.plot(lperp15[:count_128_3d_f], lpar15[:count_128_3d_f], lw=5, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_f, rval_128_disp_f, err_128_disp_f))
+
+ax1.plot(lperp14[:count_256_3d_f], lpar14[:count_256_3d_f], lw=5, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_f, rval_256_disp_f, err_256_disp_f))
+
+#ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=4, color = "black", ls = "-", label="GS95 2/3")
+ax1.plot(lperp12[:count_1283d], 1.5*ref_slope_2_3_3d, lw=4, color = "black", ls = "-", label="GS95 2/3")
+#ax1.plot(lperp15[:count_128_3d_f], ref_slope_3d_128_f, lw=4, color = "black", ls = "-")
+
+
+ax1.set_xscale('log')
+ax1.set_yscale('log')
+ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
+ax1.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=18)
+ax1.set_title('Structure Function 3D Disp. Real vs FFT PHI')
+ax1.legend(loc='lower right',ncol=1,fontsize=13)
 
 plt.show()
 
