@@ -136,7 +136,7 @@ def plot_power2d(dir1, dir2, n):
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
     plt.legend(loc='lower left', fontsize=14)
-    plt.title('Phi0 Power Spectrum 2D')
+    plt.title('Phi0 Power Spectrum 2D %s' %n)
     #plt.show()
 
     print(slope, slope_par, "np.flip method")
@@ -291,7 +291,7 @@ def plot_power3d(dir1, n):
     plt.legend(loc='lower left',fontsize=14)
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
-    plt.title('Phi0 Power Spectrum 3D')
+    plt.title('Phi0 Power Spectrum 3D %s' % n)
     plt.show()
 
 
