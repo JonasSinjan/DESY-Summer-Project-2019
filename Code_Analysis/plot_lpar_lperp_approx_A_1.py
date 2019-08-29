@@ -202,10 +202,10 @@ lpar8, lperp8 = read_sf(dir_sf, 512.0)
 #displacement
 #real
 #64
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/64run3D_real/sf_par_perp_v_F.txt' #need to check if actually phi0
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/64run3D_real/sf_par_perp_v_F.txt' #need to check if actually phi
 lpar9, lperp9 = read_sf(dir_sf, 64.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/64run3D_real/sf_par_perp_v_phiF.txt'
+dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/64run3D_real/sf_par_perp_v_phi0F.txt'
 lpar10, lperp10 = read_sf(dir_sf, 64.0)
 
 #128
