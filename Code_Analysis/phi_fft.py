@@ -102,8 +102,8 @@ def plot_power2d(dir1, dir2, n):
     perp_spectrum = np.zeros(nx)
     para_spectrum = np.zeros(nx)
     for i in range(nx):
-        perp_spectrum[i] = np.sum(abs(phi0k[:, i]) ** 2)
-        para_spectrum[i] = np.sum(abs(phi0k[i, :]) ** 2)
+        perp_spectrum[i] = np.sum(abs(phik[:, i]) ** 2)
+        para_spectrum[i] = np.sum(abs(phik[i, :]) ** 2)
 
     para_first = para_spectrum[:int(n / 2)]
     para_second = para_spectrum[int(n / 2 + 1):]
@@ -116,8 +116,8 @@ def plot_power2d(dir1, dir2, n):
     perp_total = (perp_second + perp_flipped) / 2.0
     para_total = (para_second + para_flipped) / 2.0
 
-    start = 4
-    end = 21
+    start = 10
+    end = 50
 
     logk = np.log(range(int((n - 1) / 2)))
 
@@ -136,7 +136,7 @@ def plot_power2d(dir1, dir2, n):
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
     plt.legend(loc='lower left', fontsize=14)
-    plt.title('Phi0 Power Spectrum 2D %s' %n)
+    plt.title('Phi Power Spectrum 2D %s' %n)
     #plt.show()
 
     print(slope, slope_par, "np.flip method")
@@ -237,8 +237,8 @@ def plot_power3d(dir1, n):
     fig = plt.gcf()  # get the current figure
     plt.clim()  # clamp the color limits
     plt.colorbar()
-    plt.ylabel('K_parallel')
-    plt.xlabel('K_perp')
+    plt.ylabel('K_y')
+    plt.xlabel('K_x')
     plt.title('FFT of Phi0 3D')
 
     ax1 = plt.subplot(gs[1], aspect='equal')
@@ -249,15 +249,15 @@ def plot_power3d(dir1, n):
     fig = plt.gcf()  # get current figure
     plt.clim()  # clamp the color limits
     plt.colorbar()
-    plt.ylabel('K_parallel')
-    plt.xlabel('K_perp')
+    plt.ylabel('K_z')
+    plt.xlabel('K_x')
     plt.title('FFT of Phi 3D')
     #plt.show()
 
     para_spectrum = np.zeros(nx)
     para_total = np.zeros(int(n/2))
     for i in range(nx):
-        para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
+        para_spectrum[i] = np.sum(abs(phik[i, :, :]) ** 2)
     # for w in range(1,n/2): 
     #     para_total[w] = 0.5*(para_spectrum[nx/2-1+w]+para_spectrum[nx/2-1-w])
 
@@ -267,8 +267,8 @@ def plot_power3d(dir1, n):
 
     para_total = (para_second + para_flipped) / 2.0
    
-    start = 2
-    end = 18
+    start = 10
+    end = 50
 
     logk = np.log(range(int((n - 1) / 2)))
 
@@ -291,7 +291,7 @@ def plot_power3d(dir1, n):
     plt.legend(loc='lower left',fontsize=14)
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
-    plt.title('Phi0 Power Spectrum 3D %s' % n)
+    plt.title('Phi Power Spectrum 3D %s' % n)
     plt.show()
 
 
