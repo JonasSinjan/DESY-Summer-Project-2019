@@ -108,7 +108,7 @@ program main
   real(sp) :: rxp, ryp, drxp, dryp, rzp, drzp !3d
   real(sp) :: wx0, wx1, wy0, wy1, wz0, wz1
   real(sp) :: kmax, kmod, mag
-  complex(sp) :: test_var
+  real(sp) :: test_var
   real(sp) :: k_para, k_perp, E_coeff, ph
 
 
@@ -647,8 +647,8 @@ program main
           etzk_z(i,j,k) = - (0., 1.)*(dbxk(i,j,k)*real(kj) - dbyk(i,j,k)*real(ki))/mag
 
           !testing requirement dot product is zero
-          test_var = etzk_x(i,j,k)*(0., 1.)*real(ki) + etzk_y*(0., 1.)*real(kj) + etzk_z(i,j,k)*(0., 1.)*real(kk)
-          if (test_var>0.001) then
+          test_var = abs(etzk_x(i,j,k))*ki + abs(etzk_y(i,j,k))kj + abs(etzk_z(i,j,k))*kk
+          if (abs(test_var)>0.001) then
             print*, test_var
           endif
         enddo
