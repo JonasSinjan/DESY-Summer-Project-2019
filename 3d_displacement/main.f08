@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 8
+  integer :: ngrids = 6
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -108,7 +108,7 @@ program main
   real(sp) :: rxp, ryp, drxp, dryp, rzp, drzp !3d
   real(sp) :: wx0, wx1, wy0, wy1, wz0, wz1
   real(sp) :: kmax, kmod, mag
-
+  complex(sp) :: test_var
   real(sp) :: k_para, k_perp, E_coeff, ph
 
 
@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = '../2d_vs_3d_data/256run3D_FFT_5mag/'
+  data_dir = './64_FFT_testdot/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -646,6 +646,11 @@ program main
 
           etzk_z(i,j,k) = - (0., 1.)*(dbxk(i,j,k)*real(kj) - dbyk(i,j,k)*real(ki))/mag
 
+          !testing requirement dot product is zero
+          test_var = etzk_x(i,j,k)*(0., 1.)*real(ki) + etzk_y*(0., 1.)*real(kj) + etzk_z(i,j,k)*(0., 1.)*real(kk)
+          if (test_var>0.001) then
+            print*, test_var
+            
         enddo
       enddo
     enddo
