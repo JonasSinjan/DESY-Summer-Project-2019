@@ -77,11 +77,11 @@ def k_perp_calculator(n,phi,phi0, dir_data):
 
     RGI = spint.RegularGridInterpolator
 
-    kperp_rad = np.zeros(n/2)
-    phipower_spec = np.zeros(n/2)
-    f_power_spec = np.zeros(n/2)
-    pfolded = np.zeros((xpt/2,ypt/2))
-    logpfolded = np.zeros((xpt/2,ypt/2))
+    kperp_rad = np.zeros(int(n/2))
+    phipower_spec = np.zeros(int(n/2))
+    f_power_spec = np.zeros(int(n/2))
+    pfolded = np.zeros((int(xpt/2),int(ypt/2)))
+    logpfolded = np.zeros((int(xpt/2),int(ypt/2)))
 
     def kspec_funk(ff):
 
@@ -93,8 +93,8 @@ def k_perp_calculator(n,phi,phi0, dir_data):
         pwr_f = 0.0
         
         for theta in theta_array :
-            kxx = kperp_rad[ff]*np.cos(theta) #kxx in that plane - actually ky and kz(perp)
-            kyy = kperp_rad[ff]*np.sin(theta) 
+            kxx = kperp_rad[int(ff)]*np.cos(theta) #kxx in that plane - actually ky and kz(perp)
+            kyy = kperp_rad[int(ff)]*np.sin(theta)
             pont=(kxx,kyy)
             pwr_f = pwr_f + np.exp(logp_interp(pont))
             count=count+1
@@ -104,12 +104,12 @@ def k_perp_calculator(n,phi,phi0, dir_data):
         
         #multiplying by shell area to get 1D power
         # THIS ISNT SHELL AREA? 
-        f_pow = pwr_f*2.0*np.pi*kperp_rad[ff]
+        f_pow = pwr_f*2.0*np.pi*kperp_rad[int(ff)]
 
         return f_pow
 
     def slice_fft(sn,phi,n):
-        fx2d = phi[sn,:,:]
+        fx2d = phi[int(sn),:,:]
         # WHY ARE THEY SLICING? AND WHY IN LAST INDEX- WHICH INDEX SHOULD IT BE?
 
         #calculating the FFT
@@ -129,22 +129,22 @@ def k_perp_calculator(n,phi,phi0, dir_data):
         pfxyzk = pfxk      
         xpt, ypt = n, n
         #removing the Nyquist component
-        pfxyzk_wn = pfxyzk[1:xpt,0:ypt/2] 
+        pfxyzk_wn = pfxyzk[1:int(xpt),0:int(ypt/2)]
 
         return(pfxyzk_wn)
 
     for i in np.arange(0,n,n/nzslices):
         if i == 0:
-            tmp = slice_fft(i, phi0, n)
+            tmp = slice_fft(i, phi, n)
             oter = tmp*0.0
-        oter = oter + slice_fft(i, phi0, n)
+        oter = oter + slice_fft(i, phi, n)
     
     pk_slice = oter/len(np.arange(0,n,n/nzslices))
 
     #folding along the y axis
-    pfolded[0,:] = pk_slice[ypt/2-1,:]
-    for w in range (1,ypt/2):
-        pfolded[w,:] = 0.5*(pk_slice[ypt/2-1+w,:]+pk_slice[ypt/2-1-w,:]) 
+    pfolded[0,:] = pk_slice[int(ypt/2-1),:]
+    for w in range (1,int(ypt/2)):
+        pfolded[w,:] = 0.5*(pk_slice[int(ypt/2-1+w),:]+pk_slice[int(ypt/2-1-w),:])
 
     #taking the log for easier interpolation
     logpfolded = np.log(pfolded)
@@ -163,15 +163,15 @@ def k_perp_calculator(n,phi,phi0, dir_data):
     f_power_spec[0] = np.exp(logp_interp(pont))
 
     #looping over the higher wavenumbers? - this is the radius
-    kperp_rad[1:] = range(1,n/2)
+    kperp_rad[1:] = range(1,int(n/2))
 
     for i in np.arange(1,n/2):
-        f_power_spec[i] = kspec_funk(i)
+        f_power_spec[int(i)] = kspec_funk(int(i))
 
     #writing the spectra to a file
     f=open(dir_data+mode+'_kperp_spec.txt','w')
-    for i in range(0,n/2):
-        value=str(kperp_rad[i]) +" "+str(f_power_spec[i])
+    for i in range(0,int(n/2)):
+        value=str(kperp_rad[i]) +" "+str(f_power_spec[int(i)])
         f.write(value+"\n")
     f.close()
 

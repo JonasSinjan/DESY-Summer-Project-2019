@@ -169,32 +169,40 @@ def linfit(perp_arr, para_arr, count):
 
 #displacement
 #real - 512
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_globalF.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_globalF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar1, lperp1 = read_sf(dir_sf, 512.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_localF.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_localF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_localF.txt'
 lpar2, lperp2 = read_sf(dir_sf, 512.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phiF.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phiF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/512run2D_disp_real/sf_par_perp_v_phiF.txt'
 lpar3, lperp3 = read_sf(dir_sf, 512.0)
 
 #fft
 #256
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/256run2D_disp_FFT/sf_par_perp_v_phi0_wrt_globalF.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/256run2D_disp_FFT/sf_par_perp_v_phi0_wrt_globalF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/256run2D_disp_FFT/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar4, lperp4 = read_sf(dir_sf, 256.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/256run2D_disp_FFT/sf_par_perp_v_phiF.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/256run2D_disp_FFT/sf_par_perp_v_phiF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/256run2D_disp_FFT/sf_par_perp_v_phiF.txt'
 lpar5, lperp5 = read_sf(dir_sf, 256.0)
 
 #512
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi0F.txt' #should check
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi0F.txt' #should check
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi0F.txt'
 lpar6, lperp6 = read_sf(dir_sf, 512.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phiF.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phiF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phiF.txt'
 lpar7, lperp7 = read_sf(dir_sf, 512.0)
 
 #squares
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_sq/sf_par_perp_v_phiF.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_sq/sf_par_perp_v_phiF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/512run2D_sq/sf_par_perp_v_phiF.txt'
 lpar8, lperp8 = read_sf(dir_sf, 512.0)
 
 #3d
@@ -202,25 +210,36 @@ lpar8, lperp8 = read_sf(dir_sf, 512.0)
 #displacement
 #real
 #64
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/64run3D_real/sf_par_perp_v_F.txt' #need to check if actually phi
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/64run3D_real/sf_par_perp_v_F.txt' #need to check if actually phi
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/3d/64run3D_real/sf_par_perp_v_F.txt'
 lpar9, lperp9 = read_sf(dir_sf, 64.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/64run3D_real/sf_par_perp_v_phi0F.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/64run3D_real/sf_par_perp_v_phi0F.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/3d/64run3D_real/sf_par_perp_v_phi0F.txt'
 lpar10, lperp10 = read_sf(dir_sf, 64.0)
 
 #128
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/sf_par_perp_v_phi0F.txt'#should check is global
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/sf_par_perp_v_phi0F.txt'#should check is global
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/3d/128run3D_real/sf_par_perp_v_phi0F.txt'
 lpar11, lperp11 = read_sf(dir_sf, 128.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/sf_par_perp_v_phiF.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/sf_par_perp_v_phiF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/3d/128run3D_real/sf_par_perp_v_phiF.txt'
 lpar12, lperp12 = read_sf(dir_sf, 128.0)
 
 #fft - 256
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phi0F.txt'#should check is global
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phi0F.txt'#should check is global
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phi0F.txt'
 lpar13, lperp13 = read_sf(dir_sf, 256.0)
 
-dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phiF.txt'
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phiF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phiF.txt'
 lpar14, lperp14 = read_sf(dir_sf, 256.0)
+
+#fft-128
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phiF.txt'
+dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/3d/128run3D_FFT/sf_par_perp_v_phiF.txt'
+lpar15, lperp15 = read_sf(dir_sf, 128.0)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
@@ -294,6 +313,15 @@ count_512disp = find_indeix(lperp1)
 #2d squares phi
 count_512sq= find_indeix(lperp8)
 
+#3d displacement phi
+count_1283d = find_indeix(lperp12)
+
+#3d displacement phi fft
+count_256_3d_f = find_indeix(lperp14)
+
+#3d displacement phi fft
+count_128_3d_f = find_indeix(lperp15)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -343,8 +371,14 @@ count_512sq= find_indeix(lperp8)
 # slope_ref, rval_ref, err_ref = linfit(lperp16, ref_slope_2_3, count_4096disp)
 #ref_slope_1 = lpar4[3]*(np.power(lperp4,(3.0/3.0))/np.power(lpar4[3],(3.0/3.0)))
 
-ref_slope_2_3 = lpar1[30]*(np.power(lperp1[:count_512disp],(2.0/3.0))/np.power(lperp1[30],(2.0/3.0)))
+ref_slope_2_3 = lpar1[20]*(np.power(lperp1[:count_512disp],(2.0/3.0))/np.power(lperp1[20],(2.0/3.0)))
+ref_slope_2_3_sq = lpar8[10]*(np.power(lperp8[:count_512sq],(2.0/3.0))/np.power(lperp8[10],(2.0/3.0)))
 #slope_ref, rval_ref, err_ref = linfit(lperp8, ref_slope_2_3, count_1024disp)
+ref_slope_2_3_3d = lpar12[6]*(np.power(lperp12[:count_1283d],(2.0/3.0))/np.power(lperp12[6],(2.0/3.0)))
+
+ref_slope_3d_128_f = lpar15[6]*(np.power(lperp15[:count_128_3d_f],(2.0/3.0))/np.power(lperp15[6],(2.0/3.0)))
+ref_slope_3d_256_f = lpar14[6]*(np.power(lperp14[:count_256_3d_f],(2.0/3.0))/np.power(lperp14[6],(2.0/3.0)))
+
 
 #2d displacement 512
 slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp1,lpar1, count_512disp)
@@ -352,13 +386,22 @@ slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp1,lpar1, count_512disp
 #2d sq 512
 slope_512_sq, rval_512_sq, err_512_sq = linfit(lperp8,lpar8, count_512sq)
 
+#3d displacement 128 real
+slope_128_disp, rval_128_disp, err_128_disp = linfit(lperp12,lpar12, count_1283d)
+
+#3d displacement 128 fft
+slope_128_disp_f, rval_128_disp_f, err_128_disp_f = linfit(lperp15,lpar15, count_128_3d_f)
+
+#3d displacement 256 fft
+slope_256_disp_f, rval_256_disp_f, err_256_disp_f = linfit(lperp14,lpar14, count_256_3d_f)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-plt.figure(figsize=(16.0, 10.0))
+plt.figure(figsize=(9.0, 5.0), dpi=200)
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax0 = plt.subplot(gs[0])
@@ -371,7 +414,7 @@ ax0 = plt.subplot(gs[0])
 #ax0.plot(lperp9[:count_2048disp], lpar9[:count_2048disp], lw=3, ls = "-", label="2048_2D_disp grad: %s R^2: %s  Err: %s" % (slope_2048_disp, rval_2048_disp, err_2048_disp))
 #ax0.plot(lperp16[:count_4096disp], lpar16[:count_4096disp], lw=3, ls = "-", label="4096_2D_disp grad: %s R^2: %s  Err: %s" % (slope_4096_disp, rval_4096_disp, err_4096_disp))
 
-ax0.plot(lperp1[:count_512disp], lpar1[:count_512disp], lw=3, ls = "-", label="512_disp_real grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
+ax0.plot(lperp1[:count_512disp], lpar1[:count_512disp], lw=5, ls = "-", label="512_disp_real grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
 
 # # #2D squares rho(=phi)
 # # #ax0.plot(lperp12[:count_512sq], lpar12[:count_512sq], lw=5, ls = ":", label="512_2D_sq grad: %s R^2: %s  Err: %s" % (slope_512_sq, rval_512_sq, err_512_sq))
@@ -379,22 +422,72 @@ ax0.plot(lperp1[:count_512disp], lpar1[:count_512disp], lw=3, ls = "-", label="5
 #ax0.plot(lperp14[:count_2048sq], lpar14[:count_2048sq], lw=5, ls = ":", label="2048_2D_sq grad: %s R^2: %s  Err: %s" % (slope_2048_sq, rval_2048_sq, err_2048_sq))
 #ax0.plot(lperp14[:count_4096sq], lpar14[:count_4096sq], lw=5, ls = "-", label="4096_2D_sq grad: %s R^2: %s  Err: %s" % (slope_4096_sq, rval_4096_sq, err_4096_sq))
 
-ax0.plot(lperp8[:count_512sq], lpar8[:count_512sq], lw=5, ls = ":", label="512_squares grad: %s R^2: %s  Err: %s" % (slope_512_sq, rval_512_sq, err_512_sq))
+ax0.plot(lperp8[:count_512sq], lpar8[:count_512sq], lw=5, ls = "-.", label="512_squares grad: %s R^2: %s  Err: %s" % (slope_512_sq, rval_512_sq, err_512_sq))
 
 #ax0.plot(lperp16[:count_4096disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 # ax0.plot(lperp8[:count_1024disp], ref_slope_2_3, lw=6, color = "black", ls = "-", label="GS95 grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 
-ax0.plot(lperp1[:count_512disp], ref_slope_2_3, lw=5, color = "black", ls = "-", label="GS95 2/3") # grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
-
+ax0.plot(lperp1[:count_512disp], ref_slope_2_3, lw=4, color = "black", ls = "-", label="GS95 2/3") # grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
+ax0.plot(lperp8[:count_512sq], ref_slope_2_3_sq, lw=4, color = "black", ls = "-")#, label="GS95 2/3") # grad: %s R^2: %s  Err: %s" % (slope_ref, rval_ref, err_ref))
 ax0.set_xscale('log')
 ax0.set_yscale('log')
-ax0.set_xlim(xmax=0.3)
-ax0.set_ylim(ymax=0.5)
+#ax0.set_xlim(xmax=0.3)
+#ax0.set_ylim(ymax=0.5)
 #sort out scales max - these were all phi wrt to magnetic field
 ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
 ax0.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
 ax0.set_title('Structure Function 2D Displacement vs Squares')
-ax0.legend(loc='lower center',ncol=2,fontsize=14)
+ax0.legend(loc='lower right',ncol=1,fontsize=12)
+
+plt.show()
+
+#2d vs 3d real
+plt.figure(figsize=(9.0, 5.0), dpi=200)
+gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
+
+ax0 = plt.subplot(gs[0])
+
+ax0.plot(lperp1[:count_512disp], lpar1[:count_512disp], lw=5, ls = "-", label="2D 512 grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
+
+ax0.plot(lperp12[:count_1283d], lpar12[:count_1283d], lw=5, ls = "-.",color = "red", label="3D 128 grad: %s R^2: %s  Err: %s" % (slope_128_disp, rval_128_disp, err_128_disp))
+
+ax0.plot(lperp1[:count_512disp], ref_slope_2_3, lw=4, color = "black", ls = "-", label="GS95 2/3")
+ax0.plot(lperp12[:count_1283d], ref_slope_2_3_3d, lw=4, color = "black", ls = "-")
+
+ax0.set_xscale('log')
+ax0.set_yscale('log')
+ax0.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
+ax0.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=18)
+ax0.set_title('Structure Function 2D vs 3D Displacement Real PHI')
+ax0.legend(loc='lower right',ncol=1,fontsize=12)
+
+plt.show()
+
+#3d fft vs real
+plt.figure(figsize=(9.0, 5.0), dpi=200)
+gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
+
+ax1 = plt.subplot(gs[0])
+
+
+
+ax1.plot(lperp12[:count_1283d], lpar12[:count_1283d], lw=5, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp, rval_128_disp, err_128_disp))
+
+ax1.plot(lperp15[:count_128_3d_f], lpar15[:count_128_3d_f], lw=5, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_f, rval_128_disp_f, err_128_disp_f))
+
+ax1.plot(lperp14[:count_256_3d_f], lpar14[:count_256_3d_f], lw=5, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_f, rval_256_disp_f, err_256_disp_f))
+
+#ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=4, color = "black", ls = "-", label="GS95 2/3")
+ax1.plot(lperp12[:count_1283d], 1.5*ref_slope_2_3_3d, lw=4, color = "black", ls = "-", label="GS95 2/3")
+#ax1.plot(lperp15[:count_128_3d_f], ref_slope_3d_128_f, lw=4, color = "black", ls = "-")
+
+
+ax1.set_xscale('log')
+ax1.set_yscale('log')
+ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
+ax1.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=18)
+ax1.set_title('Structure Function 3D Disp. Real vs FFT PHI')
+ax1.legend(loc='lower right',ncol=1,fontsize=13)
 
 plt.show()
 
@@ -458,7 +551,7 @@ plt.show()
 # ax1.plot(lperp3[:count_512disp], lpar3[:count_512disp], lw=3, ls = "-", label="512_2D_disp_PHI grad: %s R^2: %s  Err: %s" % (slope_512_disp, rval_512_disp, err_512_disp))
 
 # ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
-# ax1.set_ylabel('$l_{\parallel}/L $ parallel',fontsize=18)
+# ax1.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=18)
 # ax1.set_title('Struc Funk 2D vs 3D Displacement PHI')
 # ax1.legend(loc='lower right',ncol=2,fontsize=14)
 

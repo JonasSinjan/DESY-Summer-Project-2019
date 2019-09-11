@@ -102,8 +102,8 @@ def plot_power2d(dir1, dir2, n):
     perp_spectrum = np.zeros(nx)
     para_spectrum = np.zeros(nx)
     for i in range(nx):
-        perp_spectrum[i] = np.sum(abs(phi0k[:, i]) ** 2)
-        para_spectrum[i] = np.sum(abs(phi0k[i, :]) ** 2)
+        perp_spectrum[i] = np.sum(abs(phik[:, i]) ** 2)
+        para_spectrum[i] = np.sum(abs(phik[i, :]) ** 2)
 
     para_first = para_spectrum[:int(n / 2)]
     para_second = para_spectrum[int(n / 2 + 1):]
@@ -116,8 +116,8 @@ def plot_power2d(dir1, dir2, n):
     perp_total = (perp_second + perp_flipped) / 2.0
     para_total = (para_second + para_flipped) / 2.0
 
-    start = 5
-    end = 25
+    start = 10
+    end = 50
 
     logk = np.log(range(int((n - 1) / 2)))
 
@@ -128,15 +128,15 @@ def plot_power2d(dir1, dir2, n):
     lin_perb = [slope * i + intercept for i in np.log(range(start, end))]
     lin_par = [slope_par * i + intercept_par for i in np.log(range(start, end))]
 
-    plt.figure()
-    plt.scatter(logk[start:end], np.log(perp_total[start:end]), label='Perp', color='orange')
-    plt.scatter(logk[start:end], np.log(para_total[start:end]), label='Para', color='green')
-    plt.plot(logk[start:end], lin_perb, label='Slope K_perp: %f' % round(slope, 3))
-    plt.plot(logk[start:end], lin_par, label='Slope K_para: %f' % round(slope_par, 3))
+    plt.figure(figsize=(6.5,6.0), dpi=200)
+    plt.scatter(logk[start:end], np.log(perp_total[start:end]), label='$log(E(K_{\perp}))$', color='orange')
+    plt.scatter(logk[start:end], np.log(para_total[start:end]), label='$log(E(K_{\parallel}))$', color='green')
+    plt.plot(logk[start:end], lin_perb, color='orange', label='Slope $K_{\perp}$: %s err: %s' % (round(slope, 3), round(err,3)))
+    plt.plot(logk[start:end], lin_par, color='green', label='Slope $K_{\parallel}$: %s err: %s' % (round(slope_par, 3), round(err_para,3)))
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
-    plt.legend()
-    plt.title('Phi0 Power Spectrum 2D np.flip')
+    plt.legend(loc='lower left', fontsize=14)
+    plt.title('Phi Power Spectrum 2D %s' %n)
     #plt.show()
 
     print(slope, slope_par, "np.flip method")
@@ -144,41 +144,41 @@ def plot_power2d(dir1, dir2, n):
     # Plotting PS_KT files from power_kk method in spectrum.f08
 
     # perpendicular
-    filename = dir2 + 'PS_KT_PHI0.DAT'
-    ps_kperp = np.loadtxt(filename)
-    log_ps_kperp = [np.log(i) for i in ps_kperp[:, 1] if i.any() != 0]
-
-    # parallel
-    filename = dir2 + 'PS_KB_PHI0.DAT'
-    ps_kpar = np.loadtxt(filename)
-    log_ps_kpar = [np.log(i) for i in ps_kpar[:, 1] if i.any() != 0]
-
-    # print(log_ps_kpar[1:])
-    # print(log_ps_kperp[1:])
-
-    logk = np.log(range(int((n - 1) / 2)))
-
-    # print(logk)
-
-    slope, intercept, rval, p, err = linregress(logk[start:end], log_ps_kperp[start:end])
-    slope_par, intercept_par, rval_pa, p_para, err_para = linregress(logk[start:end], log_ps_kpar[start:end])
-
-    lin_perb = [slope * i + intercept for i in logk[start:end]]
-    lin_par = [slope_par * i + intercept_par for i in logk[start:end]]
-
-    print(slope, slope_par, "power spectra dir")
-
-    plt.figure()
-    plt.scatter(logk[start:end], log_ps_kperp[start:end], label='Kperp', color='blue')
-    plt.scatter(logk[start:end], log_ps_kpar[start:end], label='Kpara', color='red')
-    plt.plot(logk[start:end], lin_perb, label='Slope K_perp: %f' % round(slope, 3))
-    plt.plot(logk[start:end], lin_par, label='Slope K_para: %f' % round(slope_par, 3))
-
-    plt.xlabel('Log K')
-    plt.ylabel('Log E(k)')
-    plt.title('Phi0 Spectrum 2D from spectrum.f08')
-    plt.legend()
-    #plt.show()
+    # filename = dir2 + 'PS_KT_PHI0.DAT'
+    # ps_kperp = np.loadtxt(filename)
+    # log_ps_kperp = [np.log(i) for i in ps_kperp[:, 1] if i.any() != 0]
+    #
+    # # parallel
+    # filename = dir2 + 'PS_KB_PHI0.DAT'
+    # ps_kpar = np.loadtxt(filename)
+    # log_ps_kpar = [np.log(i) for i in ps_kpar[:, 1] if i.any() != 0]
+    #
+    # # print(log_ps_kpar[1:])
+    # # print(log_ps_kperp[1:])
+    #
+    # logk = np.log(range(int((n - 1) / 2)))
+    #
+    # # print(logk)
+    #
+    # slope, intercept, rval, p, err = linregress(logk[start:end], log_ps_kperp[start:end])
+    # slope_par, intercept_par, rval_pa, p_para, err_para = linregress(logk[start:end], log_ps_kpar[start:end])
+    #
+    # lin_perb = [slope * i + intercept for i in logk[start:end]]
+    # lin_par = [slope_par * i + intercept_par for i in logk[start:end]]
+    #
+    # print(slope, slope_par, "power spectra dir")
+    #
+    # plt.figure()
+    # plt.scatter(logk[start:end], log_ps_kperp[start:end], label='Kperp', color='blue')
+    # plt.scatter(logk[start:end], log_ps_kpar[start:end], label='Kpara', color='red')
+    # plt.plot(logk[start:end], lin_perb, label='Slope K_perp: %f' % round(slope, 3))
+    # plt.plot(logk[start:end], lin_par, label='Slope K_para: %f' % round(slope_par, 3))
+    #
+    # plt.xlabel('Log K')
+    # plt.ylabel('Log E(k)')
+    # plt.title('Phi0 Spectrum 2D from spectrum.f08')
+    # plt.legend()
+    # #plt.show()
 
 def plot_power3d(dir1, n):
     # 3D
@@ -237,8 +237,8 @@ def plot_power3d(dir1, n):
     fig = plt.gcf()  # get the current figure
     plt.clim()  # clamp the color limits
     plt.colorbar()
-    plt.ylabel('K_parallel')
-    plt.xlabel('K_perp')
+    plt.ylabel('K_y')
+    plt.xlabel('K_x')
     plt.title('FFT of Phi0 3D')
 
     ax1 = plt.subplot(gs[1], aspect='equal')
@@ -249,15 +249,15 @@ def plot_power3d(dir1, n):
     fig = plt.gcf()  # get current figure
     plt.clim()  # clamp the color limits
     plt.colorbar()
-    plt.ylabel('K_parallel')
-    plt.xlabel('K_perp')
+    plt.ylabel('K_z')
+    plt.xlabel('K_x')
     plt.title('FFT of Phi 3D')
     #plt.show()
 
     para_spectrum = np.zeros(nx)
-    para_total = np.zeros(n/2)
+    para_total = np.zeros(int(n/2))
     for i in range(nx):
-        para_spectrum[i] = np.sum(abs(phi0k[i, :, :]) ** 2)
+        para_spectrum[i] = np.sum(abs(phik[i, :, :]) ** 2)
     # for w in range(1,n/2): 
     #     para_total[w] = 0.5*(para_spectrum[nx/2-1+w]+para_spectrum[nx/2-1-w])
 
@@ -267,8 +267,8 @@ def plot_power3d(dir1, n):
 
     para_total = (para_second + para_flipped) / 2.0
    
-    start = 5
-    end = 25
+    start = 10
+    end = 50
 
     logk = np.log(range(int((n - 1) / 2)))
 
@@ -283,15 +283,15 @@ def plot_power3d(dir1, n):
     lin_par = [slope_par * i + intercept_par for i in logk[start:end]]
     #for i in np.log(range(1, int(n / 2)))]
 
-    plt.figure()
-    plt.scatter(logk[start:end], np.log(perp_total[start:end]), label='Perp')
-    plt.scatter(logk[start:end], np.log(para_total[start:end]), label='Para')
-    plt.plot(logk[start:end], lin_perb, label='Slope K_perp: %f' % round(slope, 3))
-    plt.plot(logk[start:end], lin_par, label='Slope K_para: %f' % round(slope_par, 3))
-    plt.legend()
+    plt.figure(figsize=(6.5,6.0), dpi=200)
+    plt.scatter(logk[start:end], 1.4 * np.log(perp_total[start:end]), label='$log(E(K_{\perp}))$')
+    plt.scatter(logk[start:end], np.log(para_total[start:end]), label='$log(E(K_{\parallel}))$')
+    plt.plot(logk[start:end], 1.4*np.array(lin_perb), label='Slope $K_{\perp}$: %s err: %s' % (round(slope, 3), round(err,3)))
+    plt.plot(logk[start:end], lin_par, label='Slope $K_{\parallel}$: %s err: %s' % (round(slope_par, 3), round(err_para,3)))
+    plt.legend(loc='lower left',fontsize=14)
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
-    plt.title('Phi0 Spectrum 3D')
+    plt.title('Phi Power Spectrum 3D %s' % n)
     plt.show()
 
 
@@ -306,13 +306,16 @@ if __name__ == "__main__":
     #dir_data4 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/power_spectra/"
     #plot_power2d(dir_data3, dir_data4, n)
 
-    n = 256
-    dir_data1 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/"
-    dir_data2 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/power_spectra/"
-    plot_power2d(dir_data1, dir_data2,n)
+    n = 512
+    # dir_data1 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/"
+    # dir_data2 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/power_spectra/"
+    dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/512run2D_disp_real/'
+    dir_data2 = 2
+    plot_power2d(dir_sf, dir_data2,n)
 
-    n = 256
-    dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/"
+    n = 128
+    #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/"
+    dir_data = '/home/jonas/PycharmProjects/DESY/final_data/3d/128run3D_real/'
     plot_power3d(dir_data,n)
 
 # #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/power_spectra/"
