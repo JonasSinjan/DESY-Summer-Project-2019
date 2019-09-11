@@ -650,7 +650,7 @@ program main
           test_var = etzk_x(i,j,k)*(0., 1.)*real(ki) + etzk_y*(0., 1.)*real(kj) + etzk_z(i,j,k)*(0., 1.)*real(kk)
           if (test_var>0.001) then
             print*, test_var
-            
+          endif
         enddo
       enddo
     enddo
