@@ -647,7 +647,7 @@ program main
           etzk_z(i,j,k) = - (0., 1.)*(dbxk(i,j,k)*real(kj) - dbyk(i,j,k)*real(ki))/mag
 
           !testing requirement dot product is zero
-          test_var = abs(etzk_x(i,j,k))*ki + abs(etzk_y(i,j,k))kj + abs(etzk_z(i,j,k))*kk
+          test_var = abs(etzk_x(i,j,k))*ki + abs(etzk_y(i,j,k))*kj + abs(etzk_z(i,j,k))*kk
           if (abs(test_var)>0.001) then
             print*, test_var
           endif
