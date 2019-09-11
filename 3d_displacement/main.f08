@@ -648,7 +648,7 @@ program main
 
           !testing requirement dot product is zero
           test_var = abs(etzk_x(i,j,k))*ki + abs(etzk_y(i,j,k))*kj + abs(etzk_z(i,j,k))*kk
-          if (abs(test_var)>0.001) then
+          if (abs(test_var)>0.00001) then
             print*, test_var
           endif
         enddo
@@ -815,7 +815,7 @@ program main
   do k = 1, n
     !print*, k
     do j = 1, n
-      print*, j
+      !print*, j
       do i = 1, n
 
         rxp = real(i - 1)*h
@@ -991,7 +991,7 @@ program main
       k = m + kk + 1
     endif  
     
-    print*, kk
+    !print*, kk
 
     ! SKIP NYQUIST FREQUENCY
     do kj = min((-m/2 + 1), 0), m/2-1
