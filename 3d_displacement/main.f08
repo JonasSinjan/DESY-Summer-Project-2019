@@ -926,7 +926,7 @@ program main
       do i = 1, n
         drx(i,j,k) = rx0(i,j,k) - real(i - 1)*h
         dry(i,j,k) = ry0(i,j,k) - real(j - 1)*h
-        drz(i,j,k) = ry0(i,j,k) - real(k - 1)*h
+        drz(i,j,k) = rz0(i,j,k) - real(k - 1)*h
       enddo
     enddo
   enddo
@@ -1172,7 +1172,7 @@ program main
   
         rx0(i,j,k) = rxp
         ry0(i,j,k) = ryp
-        ry0(i,j,k) = rzp
+        rz0(i,j,k) = rzp
 
         ! gives account of the periodicity
         rxp = mod(rxp, twopi)
