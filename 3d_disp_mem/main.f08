@@ -237,7 +237,7 @@ program main
   ! ------------------------------------------------------------------------
   allocate (mgrid(ngrids))
 
-  do l = 1, ngrids-1
+  do l = 1, (ngrids-1)
 
     !only allocate once
     if (l==1) then
@@ -455,33 +455,33 @@ program main
     deallocate (bzk)
 
   
-  ! ------------------------------------------------------------------------
-  ! calculate vector field db in each grid level
-  ! ------------------------------------------------------------------------
-  print*, "calculating db"
-  do k = 1, n !3d
-    !print*, k
-    do j = 1, n
-      do i = 1, n
+    ! ------------------------------------------------------------------------
+    ! calculate vector field db in each grid level
+    ! ------------------------------------------------------------------------
+    print*, "calculating db"
+    do k = 1, n !3d
+      !print*, k
+      do j = 1, n
+        do i = 1, n
 
-        if (l < ngrids) then
-          b(1) = mgrid(l+1)%bx(i,j,k)
-          b(2) = mgrid(l+1)%by(i,j,k)
-          b(3) = mgrid(l+1)%bz(i,j,k)
-        else
-          ! use average uniform field
-          b(1) = bx0
-          b(2) = by0
-          b(3) = bz0
-        endif
+          if (l < ngrids) then
+            b(1) = mgrid(l+1)%bx(i,j,k)
+            b(2) = mgrid(l+1)%by(i,j,k)
+            b(3) = mgrid(l+1)%bz(i,j,k)
+          else
+            ! use average uniform field
+            b(1) = bx0
+            b(2) = by0
+            b(3) = bz0
+          endif
 
-        mgrid(l)%dbx(i,j,k) = b(1) - mgrid(l)%bx(i,j,k)
-        mgrid(l)%dby(i,j,k) = b(2) - mgrid(l)%by(i,j,k)
-        mgrid(l)%dbz(i,j,k) = b(3) - mgrid(l)%bz(i,j,k) !3d
+          mgrid(l)%dbx(i,j,k) = b(1) - mgrid(l)%bx(i,j,k)
+          mgrid(l)%dby(i,j,k) = b(2) - mgrid(l)%by(i,j,k)
+          mgrid(l)%dbz(i,j,k) = b(3) - mgrid(l)%bz(i,j,k) !3d
 
+        enddo
       enddo
     enddo
-  enddo
 
   !no longer need l+1
   
@@ -492,252 +492,253 @@ program main
 ! curl(et) = db in each grid level
 ! ------------------------------------------------------------------------
 
-  m = n - 1
+    m = n - 1
 
-  ! allocate auxiliary matrices
-  allocate (f(m, m, m)) !3d
-  allocate (dbxk((m/2 + 1), m, m))
-  allocate (dbyk((m/2 + 1), m, m))
-  allocate (dbzk((m/2 + 1), m, m))
-  allocate (etzk_x((m/2 + 1), m, m))
-  allocate (etzk_y((m/2 + 1), m, m))
-  allocate (etzk_z((m/2 + 1), m, m))
+    ! allocate auxiliary matrices
+    allocate (f(m, m, m)) !3d
+    allocate (dbxk((m/2 + 1), m, m))
+    allocate (dbyk((m/2 + 1), m, m))
+    allocate (dbzk((m/2 + 1), m, m))
+    allocate (etzk_x((m/2 + 1), m, m))
+    allocate (etzk_y((m/2 + 1), m, m))
+    allocate (etzk_z((m/2 + 1), m, m))
 
-  ! prepare plans for the dft (plan1) and dft inverse (plan2)
-#ifdef DP
-  plan1 = fftw_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE) !3d
-  plan2 = fftw_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
-#else
-  plan1 = fftwf_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE)
-  plan2 = fftwf_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
-#endif
+    ! prepare plans for the dft (plan1) and dft inverse (plan2)
+  #ifdef DP
+    plan1 = fftw_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE) !3d
+    plan2 = fftw_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
+  #else
+    plan1 = fftwf_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE)
+    plan2 = fftwf_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
+  #endif
 
-  ! transform dbx and dby to fourier space, destroy plan1
-#ifdef DP
-  f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
-  call fftw_execute_dft_r2c(plan1, f, dbxk)
+    ! transform dbx and dby to fourier space, destroy plan1
+  #ifdef DP
+    f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
+    call fftw_execute_dft_r2c(plan1, f, dbxk)
 
-  f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
-  call fftw_execute_dft_r2c(plan1, f, dbyk)
+    f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
+    call fftw_execute_dft_r2c(plan1, f, dbyk)
 
-  f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
-  call fftw_execute_dft_r2c(plan1, f, dbzk)
+    f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
+    call fftw_execute_dft_r2c(plan1, f, dbzk)
 
-  call fftw_destroy_plan(plan1)
-#else
-  f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
-  call fftwf_execute_dft_r2c(plan1, f, dbxk)
+    call fftw_destroy_plan(plan1)
+  #else
+    f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
+    call fftwf_execute_dft_r2c(plan1, f, dbxk)
 
-  f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
-  call fftwf_execute_dft_r2c(plan1, f, dbyk)
+    f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
+    call fftwf_execute_dft_r2c(plan1, f, dbyk)
 
-  f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
-  call fftw_execute_dft_r2c(plan1, f, dbzk)
+    f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
+    call fftw_execute_dft_r2c(plan1, f, dbzk)
 
-  call fftwf_destroy_plan(plan1)
-#endif
+    call fftwf_destroy_plan(plan1)
+  #endif
 
-  ! normalize dbxk and dbyk
-  dbxk(:,:,:) = dbxk(:,:,:) / real(m*m*m)
-  dbyk(:,:,:) = dbyk(:,:,:) / real(m*m*m)
-  dbzk(:,:,:) = dbzk(:,:,:) / real(m*m*m)
+    ! normalize dbxk and dbyk
+    dbxk(:,:,:) = dbxk(:,:,:) / real(m*m*m)
+    dbyk(:,:,:) = dbyk(:,:,:) / real(m*m*m)
+    dbzk(:,:,:) = dbzk(:,:,:) / real(m*m*m)
 
-  ! loop over all the modes
-  ! (i, j) are the indices of the matrices generated by the dft
-  ! corresponding to the wave numbers (ki, kj)
-  
-  !this unsure about
-  print*, "calculating etz components"
-  do kk = min((-m/2 + 1), 0), m/2
-    if (kk >= 0) then
-      k = kk + 1
-    else
-      k = m + kk + 1
-    endif
-    !print*, kk    
-    do kj = min((-m/2 + 1), 0), m/2
-      if (kj >= 0) then
-        j = kj + 1
+    ! loop over all the modes
+    ! (i, j) are the indices of the matrices generated by the dft
+    ! corresponding to the wave numbers (ki, kj)
+    
+    !this unsure about
+    print*, "calculating etz components"
+    do kk = min((-m/2 + 1), 0), m/2
+      if (kk >= 0) then
+        k = kk + 1
       else
-        j = m + kj + 1
+        k = m + kk + 1
       endif
-
-      do ki = 0, m/2
-        i = ki + 1
-
-        if ((ki==0) .and. (kj==0) .and. (kk==0)) then
-          etzk_x(i,j,k) = (0., 0.)
-          etzk_y(i,j,k) = (0., 0.)
-          etzk_z(i,j,k) = (0., 0.)
-          cycle
+      !print*, kk    
+      do kj = min((-m/2 + 1), 0), m/2
+        if (kj >= 0) then
+          j = kj + 1
+        else
+          j = m + kj + 1
         endif
 
-        ! etk = - i (dbk x k) / k^2
-        !in 3d etzk will still be a vector
-        mag = (real(ki)**2 + real(kj)**2+real(kk)**2) !k**2 magnitude
+        do ki = 0, m/2
+          i = ki + 1
 
-        etzk_x(i,j,k) = - (0., 1.)*(dbyk(i,j,k)*real(kk) - dbzk(i,j,k)*real(kj))/mag
+          if ((ki==0) .and. (kj==0) .and. (kk==0)) then
+            etzk_x(i,j,k) = (0., 0.)
+            etzk_y(i,j,k) = (0., 0.)
+            etzk_z(i,j,k) = (0., 0.)
+            cycle
+          endif
 
-        etzk_y(i,j,k) = - (0., 1.)*(dbzk(i,j,k)*real(ki) - dbxk(i,j,k)*real(kk))/mag
+          ! etk = - i (dbk x k) / k^2
+          !in 3d etzk will still be a vector
+          mag = (real(ki)**2 + real(kj)**2+real(kk)**2) !k**2 magnitude
 
-        etzk_z(i,j,k) = - (0., 1.)*(dbxk(i,j,k)*real(kj) - dbyk(i,j,k)*real(ki))/mag
+          etzk_x(i,j,k) = - (0., 1.)*(dbyk(i,j,k)*real(kk) - dbzk(i,j,k)*real(kj))/mag
 
-        !testing requirement dot product is zero
-        test_var = abs(etzk_x(i,j,k))*ki + abs(etzk_y(i,j,k))*kj + abs(etzk_z(i,j,k))*kk
-        if (abs(test_var)>0.00001) then
-          print*, test_var
-        endif
+          etzk_y(i,j,k) = - (0., 1.)*(dbzk(i,j,k)*real(ki) - dbxk(i,j,k)*real(kk))/mag
+
+          etzk_z(i,j,k) = - (0., 1.)*(dbxk(i,j,k)*real(kj) - dbyk(i,j,k)*real(ki))/mag
+
+          !testing requirement dot product is zero
+          test_var = abs(etzk_x(i,j,k))*ki + abs(etzk_y(i,j,k))*kj + abs(etzk_z(i,j,k))*kk
+          if (abs(test_var)>0.00001) then
+            print*, test_var
+          endif
+        enddo
       enddo
     enddo
-  enddo
 
-  deallocate (dbxk)
-  deallocate (dbyk)
-  deallocate (dbzk)
+    deallocate (dbxk)
+    deallocate (dbyk)
+    deallocate (dbzk)
 
 
-  ! transform each component of etzk to real space, destroy plan2
-#ifdef DP
-  call fftw_execute_dft_c2r(plan2, etzk_x, f)
-  mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    ! transform each component of etzk to real space, destroy plan2
+  #ifdef DP
+    call fftw_execute_dft_c2r(plan2, etzk_x, f)
+    mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-  mgrid(l)%etz_x(m+1,1:m,1:m) = f(1,:,:) !outer faces
-  mgrid(l)%etz_x(1:m,m+1,1:m) = f(:,1,:)
-  mgrid(l)%etz_x(1:m,1:m,m+1) = f(:,:,1)
-  
-  mgrid(l)%etz_x(1:m,m+1,m+1) = f(:,1,1) !outer edges
-  mgrid(l)%etz_x(m+1,m+1,1:m) = f(1,1,:)
-  mgrid(l)%etz_x(m+1,1:m,m+1) = f(1,:,1)
-  
-  mgrid(l)%etz_x(m+1,m+1,m+1) = f(1,1,1) !last point
+    mgrid(l)%etz_x(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l)%etz_x(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%etz_x(1:m,1:m,m+1) = f(:,:,1)
+    
+    mgrid(l)%etz_x(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%etz_x(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%etz_x(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%etz_x(m+1,m+1,m+1) = f(1,1,1) !last point
 
-  call fftw_execute_dft_c2r(plan2, etzk_y, f)
-  mgrid(l)%etz_y(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    call fftw_execute_dft_c2r(plan2, etzk_y, f)
+    mgrid(l)%etz_y(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-  mgrid(l)%etz_y(m+1,1:m,1:m) = f(1,:,:) !outer faces
-  mgrid(l)%etz_y(1:m,m+1,1:m) = f(:,1,:)
-  mgrid(l)%etz_y(1:m,1:m,m+1) = f(:,:,1)
-  
-  mgrid(l)%etz_y(1:m,m+1,m+1) = f(:,1,1) !outer edges
-  mgrid(l)%etz_y(m+1,m+1,1:m) = f(1,1,:)
-  mgrid(l)%etz_y(m+1,1:m,m+1) = f(1,:,1)
-  
-  mgrid(l)%etz_y(m+1,m+1,m+1) = f(1,1,1) !last point
+    mgrid(l)%etz_y(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l)%etz_y(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%etz_y(1:m,1:m,m+1) = f(:,:,1)
+    
+    mgrid(l)%etz_y(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%etz_y(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%etz_y(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%etz_y(m+1,m+1,m+1) = f(1,1,1) !last point
 
-  call fftw_execute_dft_c2r(plan2, etzk_z, f)
-  mgrid(l)%etz_z(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    call fftw_execute_dft_c2r(plan2, etzk_z, f)
+    mgrid(l)%etz_z(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-  mgrid(l)%etz_z(m+1,1:m,1:m) = f(1,:,:) !outer faces
-  mgrid(l)%etz_z(1:m,m+1,1:m) = f(:,1,:)
-  mgrid(l)%etz_z(1:m,1:m,m+1) = f(:,:,1)
-  
-  mgrid(l)%etz_z(1:m,m+1,m+1) = f(:,1,1) !outer edges
-  mgrid(l)%etz_z(m+1,m+1,1:m) = f(1,1,:)
-  mgrid(l)%etz_z(m+1,1:m,m+1) = f(1,:,1)
-  
-  mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
-  call fftw_destroy_plan(plan2)
-#else
-  call fftw_execute_dft_c2r(plan2, etzk_x, f)
-  mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l)%etz_z(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l)%etz_z(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%etz_z(1:m,1:m,m+1) = f(:,:,1)
+    
+    mgrid(l)%etz_z(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%etz_z(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%etz_z(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
+    call fftw_destroy_plan(plan2)
+  #else
+    call fftw_execute_dft_c2r(plan2, etzk_x, f)
+    mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-  mgrid(l)%etz_x(m+1,1:m,1:m) = f(1,:,:) !outer faces
-  mgrid(l)%etz_x(1:m,m+1,1:m) = f(:,1,:)
-  mgrid(l)%etz_x(1:m,1:m,m+1) = f(:,:,1)
-  
-  mgrid(l)%etz_x(1:m,m+1,m+1) = f(:,1,1) !outer edges
-  mgrid(l)%etz_x(m+1,m+1,1:m) = f(1,1,:)
-  mgrid(l)%etz_x(m+1,1:m,m+1) = f(1,:,1)
-  
-  mgrid(l)%etz_x(m+1,m+1,m+1) = f(1,1,1) !last point
-  
-  call fftw_execute_dft_c2r(plan2, etzk_y, f)
-  mgrid(l)%etz_y(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l)%etz_x(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l)%etz_x(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%etz_x(1:m,1:m,m+1) = f(:,:,1)
+    
+    mgrid(l)%etz_x(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%etz_x(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%etz_x(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%etz_x(m+1,m+1,m+1) = f(1,1,1) !last point
+    
+    call fftw_execute_dft_c2r(plan2, etzk_y, f)
+    mgrid(l)%etz_y(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-  mgrid(l)%etz_y(m+1,1:m,1:m) = f(1,:,:) !outer faces
-  mgrid(l)%etz_y(1:m,m+1,1:m) = f(:,1,:)
-  mgrid(l)%etz_y(1:m,1:m,m+1) = f(:,:,1)
-  
-  mgrid(l)%etz_y(1:m,m+1,m+1) = f(:,1,1) !outer edges
-  mgrid(l)%etz_y(m+1,m+1,1:m) = f(1,1,:)
-  mgrid(l)%etz_y(m+1,1:m,m+1) = f(1,:,1)
-  
-  mgrid(l)%etz_y(m+1,m+1,m+1) = f(1,1,1) !last point
+    mgrid(l)%etz_y(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l)%etz_y(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%etz_y(1:m,1:m,m+1) = f(:,:,1)
+    
+    mgrid(l)%etz_y(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%etz_y(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%etz_y(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%etz_y(m+1,m+1,m+1) = f(1,1,1) !last point
 
-  call fftw_execute_dft_c2r(plan2, etzk_z, f)
-  mgrid(l)%etz_z(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    call fftw_execute_dft_c2r(plan2, etzk_z, f)
+    mgrid(l)%etz_z(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-  mgrid(l)%etz_z(m+1,1:m,1:m) = f(1,:,:) !outer faces
-  mgrid(l)%etz_z(1:m,m+1,1:m) = f(:,1,:)
-  mgrid(l)%etz_z(1:m,1:m,m+1) = f(:,:,1)
-  
-  mgrid(l)%etz_z(1:m,m+1,m+1) = f(:,1,1) !outer edges
-  mgrid(l)%etz_z(m+1,m+1,1:m) = f(1,1,:)
-  mgrid(l)%etz_z(m+1,1:m,m+1) = f(1,:,1)
-  
-  mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
-  
-  call fftwf_destroy_plan(plan2)
-#endif
+    mgrid(l)%etz_z(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l)%etz_z(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l)%etz_z(1:m,1:m,m+1) = f(:,:,1)
+    
+    mgrid(l)%etz_z(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l)%etz_z(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l)%etz_z(m+1,1:m,m+1) = f(1,:,1)
+    
+    mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
+    
+    call fftwf_destroy_plan(plan2)
+  #endif
 
-  ! deallocate auxiliary matrices
-  deallocate (f)
-  deallocate (etzk_x)
-  deallocate (etzk_y)
-  deallocate (etzk_z)
-
+    ! deallocate auxiliary matrices
+    deallocate (f)
+    deallocate (etzk_x)
+    deallocate (etzk_y)
+    deallocate (etzk_z)
 
 
 
-! ------------------------------------------------------------------------
-! calculate displacement field dr from equation 
-! et = dr x b in each grid level
-! (need to assume dr . b = 0)
-! 3d so cross product
-! ------------------------------------------------------------------------
-  print*, "calculating dr"
 
-  do k = 1, n
-    do j = 1, n
-      do i = 1, n
+  ! ------------------------------------------------------------------------
+  ! calculate displacement field dr from equation 
+  ! et = dr x b in each grid level
+  ! (need to assume dr . b = 0)
+  ! 3d so cross product
+  ! ------------------------------------------------------------------------
+    print*, "calculating dr"
 
-        b(1) = mgrid(l)%bx(i,j,k) + mgrid(l)%dbx(i,j,k)
-        b(2) = mgrid(l)%by(i,j,k) + mgrid(l)%dby(i,j,k)
-        b(3) = mgrid(l)%bz(i,j,k) + mgrid(l)%dbz(i,j,k)
+    do k = 1, n
+      do j = 1, n
+        do i = 1, n
 
-        b2 = b(1)**2 + b(2)**2+b(3)**2 !magnitude of 3d B field
+          b(1) = mgrid(l)%bx(i,j,k) + mgrid(l)%dbx(i,j,k)
+          b(2) = mgrid(l)%by(i,j,k) + mgrid(l)%dby(i,j,k)
+          b(3) = mgrid(l)%bz(i,j,k) + mgrid(l)%dbz(i,j,k)
 
-        mgrid(l)%drx(i,j,k) = (b(2)*mgrid(l)%etz_z(i,j,k) - b(3)*mgrid(l)%etz_y(i,j,k))/b2
-        mgrid(l)%dry(i,j,k) = (b(3)*mgrid(l)%etz_x(i,j,k) - b(1)*mgrid(l)%etz_z(i,j,k))/b2
-        mgrid(l)%drz(i,j,k) = (b(1)*mgrid(l)%etz_y(i,j,k) - b(2)*mgrid(l)%etz_x(i,j,k))/b2
+          b2 = b(1)**2 + b(2)**2+b(3)**2 !magnitude of 3d B field
 
+          mgrid(l)%drx(i,j,k) = (b(2)*mgrid(l)%etz_z(i,j,k) - b(3)*mgrid(l)%etz_y(i,j,k))/b2
+          mgrid(l)%dry(i,j,k) = (b(3)*mgrid(l)%etz_x(i,j,k) - b(1)*mgrid(l)%etz_z(i,j,k))/b2
+          mgrid(l)%drz(i,j,k) = (b(1)*mgrid(l)%etz_y(i,j,k) - b(2)*mgrid(l)%etz_x(i,j,k))/b2
+
+        enddo
       enddo
     enddo
+
+    !saving l+1 array as new l
+    mgrid(l+1)%bx = mgrid(l)%bx
+    mgrid(l+1)%by = mgrid(l)%by
+    mgrid(l+1)%bz = mgrid(l)%bz
+    
+    !only deallocate in last loop
+
+    !need to keep drx for all grids to further calculations
+
+    if (l==ngrids-1) then 
+      deallocate (mgrid(l)%bx)
+      deallocate (mgrid(l)%by)
+      deallocate (mgrid(l)%bz)
+      deallocate (mgrid(l)%etz_x)
+      deallocate (mgrid(l)%etz_y)
+      deallocate (mgrid(l)%etz_z)
+
+      deallocate (mgrid(l+1)%bx)
+      deallocate (mgrid(l+1)%by)
+      deallocate (mgrid(l+1)%bz)
+    endif
+  
   enddo
 
-  !saving l+1 array as new l
-  mgrid(l+1)%bx = mgrid(l)%bx
-  mgrid(l+1)%by = mgrid(l)%by
-  mgrid(l+1)%bz = mgrid(l)%bz
-  
-  !only deallocate in last loop
-
-  !need to keep drx for all grids to further calculations
-
-  if (l==ngrids-1) then 
-    deallocate (mgrid(l)%bx)
-    deallocate (mgrid(l)%by)
-    deallocate (mgrid(l)%bz)
-    deallocate (mgrid(l)%etz_x)
-    deallocate (mgrid(l)%etz_y)
-    deallocate (mgrid(l)%etz_z)
-
-    deallocate (mgrid(l+1)%bx)
-    deallocate (mgrid(l+1)%by)
-    deallocate (mgrid(l+1)%bz)
-  endif
-  
-enddo
 
 
 
