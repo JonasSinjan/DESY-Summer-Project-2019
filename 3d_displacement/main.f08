@@ -168,10 +168,10 @@ program main
   ! ------------------------------------------------------------------------
   allocate (tmp3d(n,n,n))
 
-  allocate (ps_k(nk))
-  allocate (ps_kb(nkb))
-  allocate (ps_kt(nkt,nkt))
-  allocate (ps_kk(nkb,nkt,nkt))
+  ! allocate (ps_k(nk))
+  ! allocate (ps_kb(nkb))
+  ! allocate (ps_kt(nkt,nkt))
+  ! allocate (ps_kk(nkb,nkt,nkt))
 
   allocate(x(n))
   allocate(y(n))
@@ -205,6 +205,11 @@ program main
   allocate (bx(n,n,n)) !n,n,n for all?
   allocate (by(n,n,n))
   allocate (bz(n,n,n)) !3d
+
+  !------------------------------------------------------------------
+  !max -> +3 = 3 arrays
+  !------------------------------------------------------------------
+  
 
   bx(:,:,:) = bx0 ! :,:,:? for 3d
   by(:,:,:) = by0
@@ -293,6 +298,10 @@ program main
     allocate (mgrid(l)%drz(n,n,n)) !3d
   enddo
 
+  !------------------------------------------------------------------
+  !max -> 3 + ngrids*12 = 111 arrays
+  !------------------------------------------------------------------
+
 
   ! ------------------------------------------------------------------------
   ! build bx and by in each grid level, using spectral filtering
@@ -312,6 +321,10 @@ program main
     allocate (bxk((m/2 + 1), m, m)) !3d added extra m dimension - split first dimension in half
     allocate (byk((m/2 + 1), m, m))
     allocate (bzk((m/2 + 1), m, m)) 
+
+    !------------------------------------------------------------------
+    !max -> 111 + 4 = 115 arrays
+    !------------------------------------------------------------------
 
     ! prepare plans for the dft (plan1) and dft inverse (plan2)
 #ifdef DP
@@ -482,6 +495,11 @@ program main
     deallocate (byk)
     deallocate (bzk)
 
+    !------------------------------------------------------------------
+    !max -> 115 - 4 = 111 arrays
+    !------------------------------------------------------------------
+
+
     ! mgrid(l)%bx(:,:) = bx0
     ! mgrid(l)%by(:,:) = by0
 
@@ -566,6 +584,10 @@ program main
     allocate (etzk_x((m/2 + 1), m, m))
     allocate (etzk_y((m/2 + 1), m, m))
     allocate (etzk_z((m/2 + 1), m, m))
+
+    !------------------------------------------------------------------
+    !max -> 111 + 7 = 118 arrays
+    !------------------------------------------------------------------
 
     ! prepare plans for the dft (plan1) and dft inverse (plan2)
 #ifdef DP
@@ -748,6 +770,10 @@ program main
     deallocate (etzk_y)
     deallocate (etzk_z)
 
+    !------------------------------------------------------------------
+    !max -> 118 - 7 = 111 arrays
+    !------------------------------------------------------------------
+
   enddo
 
 
@@ -810,6 +836,10 @@ program main
   allocate (rx0(n,n,n))
   allocate (ry0(n,n,n))
   allocate (rz0(n,n,n))
+
+  !------------------------------------------------------------------
+  !max -> 111 + 3 = 114 arrays
+  !------------------------------------------------------------------
 
   print*, "calculating origin (rx,ry,rz)"
   do k = 1, n
@@ -920,6 +950,11 @@ program main
   allocate (drx(n,n,n))
   allocate (dry(n,n,n))
   allocate (drz(n,n,n))
+
+  !------------------------------------------------------------------
+  !max -> 114 + 3 = 117 arrays
+  !------------------------------------------------------------------
+
   print*, "calculating total displacement"
   do k = 1, n
     do j = 1, n
@@ -955,6 +990,10 @@ program main
   allocate (phi0k((m/2 + 1), m, m))
   allocate (fk((m/2 + 1), m, m))
   allocate (f(m, m, m))
+
+  !------------------------------------------------------------------
+  !max -> 117 + 4 = 121 arrays
+  !------------------------------------------------------------------
 
   ! do i = 1, n
   !   x_arr(i,:,:) = i*twopi/n
@@ -1082,9 +1121,12 @@ program main
   call dfftw_destroy_plan(dftplan)
 
   deallocate (phi0k)
-
   deallocate (fk)
   deallocate (f)
+
+  !------------------------------------------------------------------
+  !max -> 121 - 3 = 118 arrays
+  !------------------------------------------------------------------
 
     
   !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
@@ -1161,6 +1203,10 @@ program main
   ! remap scalar field phi0 into phi and write to file
   ! ------------------------------------------------------------------------
   allocate (phi(n,n,n))
+
+  !------------------------------------------------------------------
+  !max -> 121 + 1 = 122 arrays
+  !------------------------------------------------------------------
 
   do k = 1, n
     do j = 1, n
@@ -1321,11 +1367,17 @@ program main
     deallocate (mgrid(l)%dry)
     deallocate (mgrid(l)%drz)
   enddo
+
+  !------------------------------------------------------------------
+  !max -> 122 - ngrids*12 = 14 arrays
+  !------------------------------------------------------------------
+
   deallocate (mgrid)
 
   deallocate (bx)
   deallocate (by)
   deallocate (bz)
+
   deallocate (rx0)
   deallocate (ry0)
   deallocate (rz0)
@@ -1333,23 +1385,31 @@ program main
   deallocate (dry)
   deallocate (drz)
 
+  !------------------------------------------------------------------
+  !max -> 14 - 6 = 8 arrays
+  !------------------------------------------------------------------
+
   deallocate(x)
   deallocate(y)
   deallocate(z)
 
   deallocate (tmp3d)
 
-  deallocate (ps_k)
-  deallocate (ps_kb)
-  deallocate (ps_kt)
-  deallocate (ps_kk)
+  ! deallocate (ps_k)
+  ! deallocate (ps_kb)
+  ! deallocate (ps_kt)
+  ! deallocate (ps_kk)
 
   deallocate (phi0)
   deallocate (phi)
-  deallocate (x_arr)
-  deallocate (y_arr)
-  deallocate (z_arr)
-  deallocate (input_1)
+  ! deallocate (x_arr)
+  ! deallocate (y_arr)
+  ! deallocate (z_arr)
+  ! deallocate (input_1)
+
+  !------------------------------------------------------------------
+  !max -> 8 - 2 = 6 arrays
+  !------------------------------------------------------------------
 
   stop
 
