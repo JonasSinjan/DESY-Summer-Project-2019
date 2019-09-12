@@ -824,7 +824,7 @@ program main
   
         rx0(i,j,k) = rxp
         ry0(i,j,k) = ryp
-        ry0(i,j,k) = rzp
+        rz0(i,j,k) = rzp
 
         do l = 1, ngrids
 
@@ -947,24 +947,24 @@ program main
   m = n - 1
 
   allocate (phi0(n,n,n))
-  allocate (x_arr(n,n,n)) 
-  allocate (y_arr(n,n,n)) 
-  allocate (z_arr(n,n,n))
-  allocate (input_1(n,n,n))   
+  ! allocate (x_arr(n,n,n)) 
+  ! allocate (y_arr(n,n,n)) 
+  ! allocate (z_arr(n,n,n))
+  ! allocate (input_1(n,n,n))   
   
   allocate (phi0k((m/2 + 1), m, m))
   allocate (fk((m/2 + 1), m, m))
   allocate (f(m, m, m))
 
-  do i = 1, n
-    x_arr(i,:,:) = i*twopi/n
-  enddo
-  do j = 1, n
-    y_arr(:,j,:) = j*twopi/n
-  enddo
-  do k = 1, n
-    z_arr(:,:,k) = k*twopi/n
-  enddo
+  ! do i = 1, n
+  !   x_arr(i,:,:) = i*twopi/n
+  ! enddo
+  ! do j = 1, n
+  !   y_arr(:,j,:) = j*twopi/n
+  ! enddo
+  ! do k = 1, n
+  !   z_arr(:,:,k) = k*twopi/n
+  ! enddo
 
   phi0(:,:,:) = 0 ! initialise all entries to zero
   
