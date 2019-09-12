@@ -464,7 +464,7 @@ program main
     ! ------------------------------------------------------------------------
     ! calculate vector field db in each grid level
     ! ------------------------------------------------------------------------
-    print*, "calculating db"
+    print*, "calculating db", "l = ", l
     do k = 1, n !3d
       !print*, k
       do j = 1, n
@@ -554,7 +554,7 @@ program main
     ! corresponding to the wave numbers (ki, kj)
     
     !this unsure about
-    print*, "calculating etz components"
+    print*, "calculating etz components", "l = ", l
     do kk = min((-m/2 + 1), 0), m/2
       if (kk >= 0) then
         k = kk + 1
@@ -702,7 +702,7 @@ program main
   ! (need to assume dr . b = 0)
   ! 3d so cross product
   ! ------------------------------------------------------------------------
-    print*, "calculating dr"
+    print*, "calculating dr", "l = ", l
 
     do k = 1, n
       do j = 1, n
@@ -757,7 +757,7 @@ program main
   allocate (ry0(n,n,n))
   allocate (rz0(n,n,n))
 
-  print*, "calculating origin (rx,ry,rz)"
+  print*, "calculating overall origin (rx,ry,rz)"
   do k = 1, n
     !print*, k
     do j = 1, n
