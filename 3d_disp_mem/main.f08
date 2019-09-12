@@ -195,6 +195,10 @@ program main
   allocate (by(n,n,n))
   allocate (bz(n,n,n)) !3d
 
+  !-------------------------------------------------------------------
+  !3 arrays allocated
+  !-------------------------------------------------------------------
+
   bx(:,:,:) = bx0 ! :,:,:? for 3d
   by(:,:,:) = by0
   bz(:,:,:) = bz0 !3d
@@ -243,12 +247,20 @@ program main
     allocate (mgrid(l)%bz(n,n,n)) !3d
   enddo
 
+  !------------------------------------------------------------------
+  !3 + ngrids*3 = 30 arrays - assuming 512 cube
+  !------------------------------------------------------------------
+
   do l = 1, ngrids
 
     allocate (mgrid(l)%drx(n,n,n))
     allocate (mgrid(l)%dry(n,n,n))
     allocate (mgrid(l)%drz(n,n,n)) !3d
-    
+
+    !------------------------------------------------------------------
+    !max -> 30 + ngrids*3 = 57
+    !------------------------------------------------------------------
+
     !only allocate once
     if (l==1) then
 
@@ -265,7 +277,11 @@ program main
       allocate (mgrid(1)%etz_x(n,n,n))
       allocate (mgrid(1)%etz_y(n,n,n))
       allocate (mgrid(1)%etz_z(n,n,n))
-    
+
+      !------------------------------------------------------------------
+      !max -> 57 + 6 = 63
+      !------------------------------------------------------------------
+
     endif
 
 
@@ -285,6 +301,10 @@ program main
         allocate (bxk((m/2 + 1), m, m)) !3d added extra m dimension - split first dimension in half
         allocate (byk((m/2 + 1), m, m))
         allocate (bzk((m/2 + 1), m, m)) 
+
+        !------------------------------------------------------------------
+        !max -> 63 + 4 = 67
+        !------------------------------------------------------------------
 
         ! prepare plans for the dft (plan1) and dft inverse (plan2)
 #ifdef DP
@@ -456,6 +476,10 @@ program main
         deallocate (byk)
         deallocate (bzk)
 
+        !------------------------------------------------------------------
+        !max -> 67 - 4 = 63
+        !------------------------------------------------------------------
+
       enddo
 
     endif
@@ -508,6 +532,10 @@ program main
     allocate (etzk_x((m/2 + 1), m, m))
     allocate (etzk_y((m/2 + 1), m, m))
     allocate (etzk_z((m/2 + 1), m, m))
+
+    !------------------------------------------------------------------
+    !max -> 63 + 7 = 70 - THIS IS THE MAXIUMUM
+    !------------------------------------------------------------------
 
     ! prepare plans for the dft (plan1) and dft inverse (plan2)
 #ifdef DP
@@ -601,6 +629,9 @@ program main
     deallocate (dbyk)
     deallocate (dbzk)
 
+    !------------------------------------------------------------------
+    !max -> 70 - 3 = 67 arrays
+    !------------------------------------------------------------------
 
     ! transform each component of etzk to real space, destroy plan2
 #ifdef DP
@@ -692,7 +723,9 @@ program main
     deallocate (etzk_y)
     deallocate (etzk_z)
 
-
+    !------------------------------------------------------------------
+    !max -> 67 - 4 = 63 arrays
+    !------------------------------------------------------------------
 
 
   ! ------------------------------------------------------------------------
@@ -735,11 +768,19 @@ program main
       deallocate (mgrid(1)%etz_y)
       deallocate (mgrid(1)%etz_z)
 
+      !------------------------------------------------------------------
+      !max -> 63 - 6 = 57 arrays
+      !------------------------------------------------------------------
+
       do q = 1, ngrids
         deallocate (mgrid(q)%bx)
         deallocate (mgrid(q)%by)
         deallocate (mgrid(q)%bz)
       enddo
+
+      !------------------------------------------------------------------
+      !max -> 57 - ngrids*3 = 30 arrays
+      !------------------------------------------------------------------
 
     endif
   
@@ -755,6 +796,10 @@ program main
   allocate (rx0(n,n,n))
   allocate (ry0(n,n,n))
   allocate (rz0(n,n,n))
+
+  !------------------------------------------------------------------
+  !max -> 30 + 3 = 33 arrays
+  !------------------------------------------------------------------
 
   print*, "calculating overall origin (rx,ry,rz)"
   do k = 1, n
@@ -865,6 +910,10 @@ program main
     deallocate (mgrid(l)%drz)
   enddo
 
+  !------------------------------------------------------------------
+  !max -> 30 - 3*ngrids = 3 arrays
+  !------------------------------------------------------------------
+  
   deallocate (mgrid)
 
 
@@ -874,6 +923,11 @@ program main
   allocate (drx(n,n,n))
   allocate (dry(n,n,n))
   allocate (drz(n,n,n))
+
+  !------------------------------------------------------------------
+  !max -> 3 + 3 = 6 arrays
+  !------------------------------------------------------------------
+  
   print*, "calculating total displacement"
   do k = 1, n
     do j = 1, n
@@ -892,10 +946,15 @@ program main
   m = n - 1
 
   allocate (phi0(n,n,n)) 
-  
+  !aux arrays
   allocate (phi0k((m/2 + 1), m, m))
   allocate (fk((m/2 + 1), m, m))
   allocate (f(m, m, m))
+
+  !------------------------------------------------------------------
+  !max -> 6 + 4 = 10 arrays
+  !------------------------------------------------------------------
+  
 
   phi0(:,:,:) = 0 ! initialise all entries to zero
   
@@ -990,10 +1049,13 @@ program main
   call dfftw_destroy_plan(dftplan)
 
   deallocate (phi0k)
-
   deallocate (fk)
   deallocate (f)
 
+  !------------------------------------------------------------------
+  !max -> 10 - 3 = 7 arrays
+  !------------------------------------------------------------------
+  
 
   print*, 'The loop has successfully completed'
 
@@ -1035,6 +1097,11 @@ program main
   ! remap scalar field phi0 into phi and write to file
   ! ------------------------------------------------------------------------
   allocate (phi(n,n,n))
+
+  !------------------------------------------------------------------
+  !max -> 7 + 1 = 8 arrays
+  !------------------------------------------------------------------
+  
 
   do k = 1, n
     do j = 1, n
@@ -1144,12 +1211,18 @@ program main
   deallocate (bx)
   deallocate (by)
   deallocate (bz)
+
   deallocate (rx0)
   deallocate (ry0)
   deallocate (rz0)
   deallocate (drx)
   deallocate (dry)
   deallocate (drz)
+
+  !------------------------------------------------------------------
+  !max -> 8 - 6 = 2 arrays
+  !------------------------------------------------------------------
+  
 
   deallocate(x)
   deallocate(y)
@@ -1158,8 +1231,10 @@ program main
   deallocate (phi0)
   deallocate (phi)
 
+  !------------------------------------------------------------------
+  !max -> 2 - 2 = 0 arrays
+  !------------------------------------------------------------------
 
   stop
-
 
 end program main
