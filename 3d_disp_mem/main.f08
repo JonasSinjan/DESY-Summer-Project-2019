@@ -138,12 +138,6 @@ program main
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
 
-  cmd = 'mkdir -p ' // trim(data_dir) // 'power_spectra/'
-  call system(cmd)
-
-  cmd = 'mkdir -p ' // trim(data_dir) // 'structure_function/'
-  call system(cmd)
-
   ! ------------------------------------------------------------------------
   ! calculate grid parameters
   ! ------------------------------------------------------------------------
@@ -158,7 +152,8 @@ program main
   call random_seed(size = num_seed)
   allocate(seed(num_seed))
 
-  do i=1, num_seed
+  ! creating random seed
+  do i = 1, num_seed
     seed(i) = i*4251
   enddo
 
@@ -166,12 +161,6 @@ program main
   ! ------------------------------------------------------------------------
   ! allocate arrays
   ! ------------------------------------------------------------------------
-  allocate (tmp3d(n,n,n))
-
-  allocate (ps_k(nk))
-  allocate (ps_kb(nkb))
-  allocate (ps_kt(nkt,nkt))
-  allocate (ps_kk(nkb,nkt,nkt))
 
   allocate(x(n))
   allocate(y(n))
@@ -220,36 +209,6 @@ program main
     enddo
   enddo
 
-  !file_out = trim(data_dir) // 'MAGNETIC.DAT' 
-  !open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
-  !do i = 1, n
-  !  do j = 1, n
-  !    do k = 1, n !3d
-  !      write(400,'(4(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, bx(i,j,k), by(i,j,k)
-  !    enddo
-  !  enddo
-  !  write(400,*)
-  !enddo
-  !close(400)
-
-  lun = 701
-  file_out = trim(data_dir) // '/' // 'X.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) x(:)
-  close(lun)
-
-  lun = 701
-  file_out = trim(data_dir) // '/' // 'Y.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) y(:)
-  close(lun)
-
-  lun = 701 !3D
-  file_out = trim(data_dir) // '/' // 'Z.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) z(:)
-  close(lun)
-
   lun = 701
   file_out = trim(data_dir) // '/' // 'BX.BIN'
   ! bx(:,:,:)?
@@ -278,32 +237,44 @@ program main
   ! ------------------------------------------------------------------------
   allocate (mgrid(ngrids))
 
-  do l = 1, ngrids
-    allocate (mgrid(l)%bx(n,n,n)) ! n,n,n ?
-    allocate (mgrid(l)%by(n,n,n))
-    allocate (mgrid(l)%bz(n,n,n)) !3d
-    allocate (mgrid(l)%dbx(n,n,n))
-    allocate (mgrid(l)%dby(n,n,n))
-    allocate (mgrid(l)%dbz(n,n,n)) !3d
-    allocate (mgrid(l)%etz_x(n,n,n))
-    allocate (mgrid(l)%etz_y(n,n,n))
-    allocate (mgrid(l)%etz_z(n,n,n))
-    allocate (mgrid(l)%drx(n,n,n))
-    allocate (mgrid(l)%dry(n,n,n))
-    allocate (mgrid(l)%drz(n,n,n)) !3d
-  enddo
+  do l = 1, ngrids-1
+
+    !only allocate once
+    if (l==1) then
+
+      allocate (mgrid(l)%bx(n,n,n)) ! n,n,n ?
+      allocate (mgrid(l)%by(n,n,n))
+      allocate (mgrid(l)%bz(n,n,n)) !3d
+      allocate (mgrid(l)%dbx(n,n,n))
+      allocate (mgrid(l)%dby(n,n,n))
+      allocate (mgrid(l)%dbz(n,n,n)) !3d
+      allocate (mgrid(l)%etz_x(n,n,n))
+      allocate (mgrid(l)%etz_y(n,n,n))
+      allocate (mgrid(l)%etz_z(n,n,n))
+      allocate (mgrid(l)%drx(n,n,n))
+      allocate (mgrid(l)%dry(n,n,n))
+      allocate (mgrid(l)%drz(n,n,n)) !3d
+
+      !set global magnetic field with perturb - only filtered afterwards
+      mgrid(1)%bx(:,:,:) = bx(:,:,:) !:,:,: 3d
+      mgrid(1)%by(:,:,:) = by(:,:,:)
+      mgrid(1)%bz(:,:,:) = bz(:,:,:) !3d
 
 
-  ! ------------------------------------------------------------------------
-  ! build bx and by in each grid level, using spectral filtering
-  ! ------------------------------------------------------------------------
-  mgrid(1)%bx(:,:,:) = bx(:,:,:) !:,:,: 3d
-  mgrid(1)%by(:,:,:) = by(:,:,:)
-  mgrid(1)%bz(:,:,:) = bz(:,:,:) !3d
+      !allocating second set
+      allocate (mgrid(l+1)%bx(n,n,n)) ! n,n,n ?
+      allocate (mgrid(l+1)%by(n,n,n))
+      allocate (mgrid(l+1)%bz(n,n,n)) !3d
+    
 
-  do l = 2, ngrids
+    endif
 
-    kmax = sqrt(2.d0)*(2.d0**(ngrids - l))
+
+    ! ------------------------------------------------------------------------
+    ! build bx and by in each grid level, using spectral filtering
+    ! ------------------------------------------------------------------------
+    
+    kmax = sqrt(2.d0)*(2.d0**(ngrids - l + 1))
 
     m = n - 1
 
@@ -325,24 +296,24 @@ program main
     ! transform mgrid(l-1)%bx and mgrid(l-1)%by to fourier space, destroy plan1
 
 #ifdef DP
-    f(:,:,:) = mgrid(l-1)%bx(1:m,1:m,1:m) !1:m for all dimensions?
+    f(:,:,:) = mgrid(l)%bx(1:m,1:m,1:m) !1:m for all dimensions?
     call fftw_execute_dft_r2c(plan1, f, bxk)
     !r2c = real to complex
-    f(:,:,:) = mgrid(l-1)%by(1:m,1:m,1:m)
+    f(:,:,:) = mgrid(l)%by(1:m,1:m,1:m)
     call fftw_execute_dft_r2c(plan1, f, byk)
 
-    f(:,:,:) = mgrid(l-1)%bz(1:m,1:m,1:m) !3d again do i need bzk?
+    f(:,:,:) = mgrid(l)%bz(1:m,1:m,1:m) !3d again do i need bzk?
     call fftw_execute_dft_r2c(plan1, f, bzk)
 
     call fftw_destroy_plan(plan1)
 #else
-    f(:,:,:) = mgrid(l-1)%bx(1:m,1:m,1:m)
+    f(:,:,:) = mgrid(l)%bx(1:m,1:m,1:m)
     call fftwf_execute_dft_r2c(plan1, f, bxk)
 
-    f(:,:,:) = mgrid(l-1)%by(1:m,1:m,1:m)
+    f(:,:,:) = mgrid(l)%by(1:m,1:m,1:m)
     call fftwf_execute_dft_r2c(plan1, f, byk)
 
-    f(:,:,:) = mgrid(l-1)%bz(1:m,1:m,1:m)
+    f(:,:,:) = mgrid(l)%bz(1:m,1:m,1:m)
     call fftwf_execute_dft_r2c(plan1, f, bzk)
 
     call fftwf_destroy_plan(plan1)
@@ -391,86 +362,86 @@ program main
     call fftw_execute_dft_c2r(plan2, bxk, f)
     !c2r = complex to real
     !need to add the slices for periodic boundaries
-    mgrid(l)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l+1)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-    mgrid(l)%bx(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%bx(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%bx(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l+1)%bx(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l+1)%bx(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l+1)%bx(1:m,1:m,m+1) = f(:,:,1)
     
-    mgrid(l)%bx(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%bx(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%bx(m+1,1:m,m+1) = f(1,:,1)
+    mgrid(l+1)%bx(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l+1)%bx(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l+1)%bx(m+1,1:m,m+1) = f(1,:,1)
     
-    mgrid(l)%bx(m+1,m+1,m+1) = f(1,1,1) !last point
+    mgrid(l+1)%bx(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_execute_dft_c2r(plan2, byk, f)
-    mgrid(l)%by(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l+1)%by(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-    mgrid(l)%by(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%by(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%by(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l+1)%by(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l+1)%by(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l+1)%by(1:m,1:m,m+1) = f(:,:,1)
     
-    mgrid(l)%by(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%by(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%by(m+1,1:m,m+1) = f(1,:,1)
+    mgrid(l+1)%by(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l+1)%by(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l+1)%by(m+1,1:m,m+1) = f(1,:,1)
     
-    mgrid(l)%by(m+1,m+1,m+1) = f(1,1,1) !last point
+    mgrid(l+1)%by(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_execute_dft_c2r(plan2, bzk, f) !3d
-    mgrid(l)%bz(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l+1)%bz(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-    mgrid(l)%bz(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%bz(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%bz(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l+1)%bz(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l+1)%bz(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l+1)%bz(1:m,1:m,m+1) = f(:,:,1)
     
-    mgrid(l)%bz(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%bz(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%bz(m+1,1:m,m+1) = f(1,:,1)
+    mgrid(l+1)%bz(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l+1)%bz(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l+1)%bz(m+1,1:m,m+1) = f(1,:,1)
     
-    mgrid(l)%bz(m+1,m+1,m+1) = f(1,1,1) !last point
+    mgrid(l+1)%bz(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_destroy_plan(plan2)
 #else
     call fftw_execute_dft_c2r(plan2, bxk, f)
     !c2r = complex to real
     !need to add the slices for periodic boundaries
-    mgrid(l)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l+1)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-    mgrid(l)%bx(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%bx(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%bx(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l+1)%bx(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l+1)%bx(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l+1)%bx(1:m,1:m,m+1) = f(:,:,1)
     
-    mgrid(l)%bx(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%bx(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%bx(m+1,1:m,m+1) = f(1,:,1)
+    mgrid(l+1)%bx(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l+1)%bx(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l+1)%bx(m+1,1:m,m+1) = f(1,:,1)
     
-    mgrid(l)%bx(m+1,m+1,m+1) = f(1,1,1) !last point
+    mgrid(l+1)%bx(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_execute_dft_c2r(plan2, byk, f)
-    mgrid(l)%by(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l+1)%by(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-    mgrid(l)%by(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%by(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%by(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l+1)%by(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l+1)%by(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l+1)%by(1:m,1:m,m+1) = f(:,:,1)
     
-    mgrid(l)%by(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%by(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%by(m+1,1:m,m+1) = f(1,:,1)
+    mgrid(l+1)%by(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l+1)%by(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l+1)%by(m+1,1:m,m+1) = f(1,:,1)
     
-    mgrid(l)%by(m+1,m+1,m+1) = f(1,1,1) !last point
+    mgrid(l+1)%by(m+1,m+1,m+1) = f(1,1,1) !last point
 
     call fftw_execute_dft_c2r(plan2, bzk, f) !3d
-    mgrid(l)%bz(1:m,1:m,1:m) = f(:,:,:) !inner cube
+    mgrid(l+1)%bz(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
-    mgrid(l)%bz(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%bz(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%bz(1:m,1:m,m+1) = f(:,:,1)
+    mgrid(l+1)%bz(m+1,1:m,1:m) = f(1,:,:) !outer faces
+    mgrid(l+1)%bz(1:m,m+1,1:m) = f(:,1,:)
+    mgrid(l+1)%bz(1:m,1:m,m+1) = f(:,:,1)
     
-    mgrid(l)%bz(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%bz(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%bz(m+1,1:m,m+1) = f(1,:,1)
+    mgrid(l+1)%bz(1:m,m+1,m+1) = f(:,1,1) !outer edges
+    mgrid(l+1)%bz(m+1,m+1,1:m) = f(1,1,:)
+    mgrid(l+1)%bz(m+1,1:m,m+1) = f(1,:,1)
     
-    mgrid(l)%bz(m+1,m+1,m+1) = f(1,1,1) !last point
+    mgrid(l+1)%bz(m+1,m+1,m+1) = f(1,1,1) !last point
     
     call fftw_destroy_plan(plan2)
 
@@ -482,331 +453,300 @@ program main
     deallocate (byk)
     deallocate (bzk)
 
-    ! mgrid(l)%bx(:,:) = bx0
-    ! mgrid(l)%by(:,:) = by0
-
-  enddo
-
-
-  ! ------------------------------------------------------------------------
-  ! write bx and by in each grid to a different file
-  ! ------------------------------------------------------------------------
-  do l = 1, ngrids
-
-    write (file_out, "('BX_GRID', i0, '.BIN')") l
-    lun = 701
-    file_out = trim(data_dir) // '/' // file_out
-    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-      write(lun) mgrid(l)%bx(:,:,:)
-    close(lun)
-
-    write (file_out, "('BY_GRID', i0, '.BIN')") l
-    !why 702 all of a sudden??
-    lun = 702
-    file_out = trim(data_dir) // '/' // file_out
-    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-      write(lun) mgrid(l)%by(:,:,:)
-    close(lun)
-
-    write (file_out, "('BZ_GRID', i0, '.BIN')") l
-    !why 702 all of a sudden??
-    lun = 702
-    file_out = trim(data_dir) // '/' // file_out
-    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-      write(lun) mgrid(l)%bz(:,:,:) !3d
-    close(lun)
-
-  enddo
-
-
+  
   ! ------------------------------------------------------------------------
   ! calculate vector field db in each grid level
   ! ------------------------------------------------------------------------
   print*, "calculating db"
-  do l = 1, ngrids
-    do k = 1, n !3d
-      !print*, k
-      do j = 1, n
-        do i = 1, n
+  do k = 1, n !3d
+    !print*, k
+    do j = 1, n
+      do i = 1, n
 
-          if (l < ngrids) then
-            b(1) = mgrid(l+1)%bx(i,j,k)
-            b(2) = mgrid(l+1)%by(i,j,k)
-            b(3) = mgrid(l+1)%bz(i,j,k)
-          else
-            ! use average uniform field
-            b(1) = bx0
-            b(2) = by0
-            b(3) = bz0
-          endif
-
-          mgrid(l)%dbx(i,j,k) = b(1) - mgrid(l)%bx(i,j,k)
-          mgrid(l)%dby(i,j,k) = b(2) - mgrid(l)%by(i,j,k)
-          mgrid(l)%dbz(i,j,k) = b(3) - mgrid(l)%bz(i,j,k) !3d
-
-        enddo
-      enddo
-    enddo
-  enddo
-
-
-  ! ------------------------------------------------------------------------
-  ! calculate etz (only non-null component) from equation 
-  ! curl(et) = db in each grid level
-  ! ------------------------------------------------------------------------
-  do l = 1, ngrids
-
-    m = n - 1
-
-    ! allocate auxiliary matrices
-    allocate (f(m, m, m)) !3d
-    allocate (dbxk((m/2 + 1), m, m))
-    allocate (dbyk((m/2 + 1), m, m))
-    allocate (dbzk((m/2 + 1), m, m))
-    allocate (etzk_x((m/2 + 1), m, m))
-    allocate (etzk_y((m/2 + 1), m, m))
-    allocate (etzk_z((m/2 + 1), m, m))
-
-    ! prepare plans for the dft (plan1) and dft inverse (plan2)
-#ifdef DP
-    plan1 = fftw_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE) !3d
-    plan2 = fftw_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
-#else
-    plan1 = fftwf_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE)
-    plan2 = fftwf_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
-#endif
-
-    ! transform dbx and dby to fourier space, destroy plan1
-#ifdef DP
-    f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
-    call fftw_execute_dft_r2c(plan1, f, dbxk)
-
-    f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
-    call fftw_execute_dft_r2c(plan1, f, dbyk)
-
-    f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
-    call fftw_execute_dft_r2c(plan1, f, dbzk)
-
-    call fftw_destroy_plan(plan1)
-#else
-    f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
-    call fftwf_execute_dft_r2c(plan1, f, dbxk)
-
-    f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
-    call fftwf_execute_dft_r2c(plan1, f, dbyk)
-
-    f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
-    call fftw_execute_dft_r2c(plan1, f, dbzk)
-
-    call fftwf_destroy_plan(plan1)
-#endif
-
-    ! normalize dbxk and dbyk
-    dbxk(:,:,:) = dbxk(:,:,:) / real(m*m*m)
-    dbyk(:,:,:) = dbyk(:,:,:) / real(m*m*m)
-    dbzk(:,:,:) = dbzk(:,:,:) / real(m*m*m)
-
-    ! loop over all the modes
-    ! (i, j) are the indices of the matrices generated by the dft
-    ! corresponding to the wave numbers (ki, kj)
-    
-    !this unsure about
-    print*, "calculating etz components"
-    do kk = min((-m/2 + 1), 0), m/2
-      if (kk >= 0) then
-        k = kk + 1
-      else
-        k = m + kk + 1
-      endif
-      !print*, kk    
-      do kj = min((-m/2 + 1), 0), m/2
-        if (kj >= 0) then
-          j = kj + 1
+        if (l < ngrids) then
+          b(1) = mgrid(l+1)%bx(i,j,k)
+          b(2) = mgrid(l+1)%by(i,j,k)
+          b(3) = mgrid(l+1)%bz(i,j,k)
         else
-          j = m + kj + 1
+          ! use average uniform field
+          b(1) = bx0
+          b(2) = by0
+          b(3) = bz0
         endif
 
-        do ki = 0, m/2
-          i = ki + 1
+        mgrid(l)%dbx(i,j,k) = b(1) - mgrid(l)%bx(i,j,k)
+        mgrid(l)%dby(i,j,k) = b(2) - mgrid(l)%by(i,j,k)
+        mgrid(l)%dbz(i,j,k) = b(3) - mgrid(l)%bz(i,j,k) !3d
 
-          if ((ki==0) .and. (kj==0) .and. (kk==0)) then
-            etzk_x(i,j,k) = (0., 0.)
-            etzk_y(i,j,k) = (0., 0.)
-            etzk_z(i,j,k) = (0., 0.)
-            cycle
-          endif
-
-          ! etk = - i (dbk x k) / k^2
-          !in 3d etzk will still be a vector
-          mag = (real(ki)**2 + real(kj)**2+real(kk)**2) !k**2 magnitude
-
-          etzk_x(i,j,k) = - (0., 1.)*(dbyk(i,j,k)*real(kk) - dbzk(i,j,k)*real(kj))/mag
-
-          etzk_y(i,j,k) = - (0., 1.)*(dbzk(i,j,k)*real(ki) - dbxk(i,j,k)*real(kk))/mag
-
-          etzk_z(i,j,k) = - (0., 1.)*(dbxk(i,j,k)*real(kj) - dbyk(i,j,k)*real(ki))/mag
-
-          !testing requirement dot product is zero
-          test_var = abs(etzk_x(i,j,k))*ki + abs(etzk_y(i,j,k))*kj + abs(etzk_z(i,j,k))*kk
-          if (abs(test_var)>0.00001) then
-            print*, test_var
-          endif
-        enddo
       enddo
     enddo
+  enddo
 
-    ! transform each component of etzk to real space, destroy plan2
+  !no longer need l+1
+  
+
+
+! ------------------------------------------------------------------------
+! calculate etz (only non-null component) from equation 
+! curl(et) = db in each grid level
+! ------------------------------------------------------------------------
+
+  m = n - 1
+
+  ! allocate auxiliary matrices
+  allocate (f(m, m, m)) !3d
+  allocate (dbxk((m/2 + 1), m, m))
+  allocate (dbyk((m/2 + 1), m, m))
+  allocate (dbzk((m/2 + 1), m, m))
+  allocate (etzk_x((m/2 + 1), m, m))
+  allocate (etzk_y((m/2 + 1), m, m))
+  allocate (etzk_z((m/2 + 1), m, m))
+
+  ! prepare plans for the dft (plan1) and dft inverse (plan2)
 #ifdef DP
-    call fftw_execute_dft_c2r(plan2, etzk_x, f)
-    mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
-
-    mgrid(l)%etz_x(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%etz_x(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%etz_x(1:m,1:m,m+1) = f(:,:,1)
-    
-    mgrid(l)%etz_x(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%etz_x(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%etz_x(m+1,1:m,m+1) = f(1,:,1)
-    
-    mgrid(l)%etz_x(m+1,m+1,m+1) = f(1,1,1) !last point
-
-    call fftw_execute_dft_c2r(plan2, etzk_y, f)
-    mgrid(l)%etz_y(1:m,1:m,1:m) = f(:,:,:) !inner cube
-
-    mgrid(l)%etz_y(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%etz_y(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%etz_y(1:m,1:m,m+1) = f(:,:,1)
-    
-    mgrid(l)%etz_y(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%etz_y(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%etz_y(m+1,1:m,m+1) = f(1,:,1)
-    
-    mgrid(l)%etz_y(m+1,m+1,m+1) = f(1,1,1) !last point
-
-    call fftw_execute_dft_c2r(plan2, etzk_z, f)
-    mgrid(l)%etz_z(1:m,1:m,1:m) = f(:,:,:) !inner cube
-
-    mgrid(l)%etz_z(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%etz_z(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%etz_z(1:m,1:m,m+1) = f(:,:,1)
-    
-    mgrid(l)%etz_z(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%etz_z(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%etz_z(m+1,1:m,m+1) = f(1,:,1)
-    
-    mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
-    call fftw_destroy_plan(plan2)
+  plan1 = fftw_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE) !3d
+  plan2 = fftw_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
 #else
-    call fftw_execute_dft_c2r(plan2, etzk_x, f)
-    mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
-
-    mgrid(l)%etz_x(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%etz_x(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%etz_x(1:m,1:m,m+1) = f(:,:,1)
-    
-    mgrid(l)%etz_x(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%etz_x(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%etz_x(m+1,1:m,m+1) = f(1,:,1)
-    
-    mgrid(l)%etz_x(m+1,m+1,m+1) = f(1,1,1) !last point
-   
-    call fftw_execute_dft_c2r(plan2, etzk_y, f)
-    mgrid(l)%etz_y(1:m,1:m,1:m) = f(:,:,:) !inner cube
-
-    mgrid(l)%etz_y(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%etz_y(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%etz_y(1:m,1:m,m+1) = f(:,:,1)
-    
-    mgrid(l)%etz_y(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%etz_y(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%etz_y(m+1,1:m,m+1) = f(1,:,1)
-    
-    mgrid(l)%etz_y(m+1,m+1,m+1) = f(1,1,1) !last point
-
-    call fftw_execute_dft_c2r(plan2, etzk_z, f)
-    mgrid(l)%etz_z(1:m,1:m,1:m) = f(:,:,:) !inner cube
-
-    mgrid(l)%etz_z(m+1,1:m,1:m) = f(1,:,:) !outer faces
-    mgrid(l)%etz_z(1:m,m+1,1:m) = f(:,1,:)
-    mgrid(l)%etz_z(1:m,1:m,m+1) = f(:,:,1)
-    
-    mgrid(l)%etz_z(1:m,m+1,m+1) = f(:,1,1) !outer edges
-    mgrid(l)%etz_z(m+1,m+1,1:m) = f(1,1,:)
-    mgrid(l)%etz_z(m+1,1:m,m+1) = f(1,:,1)
-    
-    mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
-    
-    call fftwf_destroy_plan(plan2)
+  plan1 = fftwf_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE)
+  plan2 = fftwf_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
 #endif
 
-    ! deallocate auxiliary matrices
-    deallocate (f)
-    deallocate (dbxk)
-    deallocate (dbyk)
-    deallocate (dbzk)
-    deallocate (etzk_x)
-    deallocate (etzk_y)
-    deallocate (etzk_z)
+  ! transform dbx and dby to fourier space, destroy plan1
+#ifdef DP
+  f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
+  call fftw_execute_dft_r2c(plan1, f, dbxk)
 
-  enddo
+  f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
+  call fftw_execute_dft_r2c(plan1, f, dbyk)
 
+  f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
+  call fftw_execute_dft_r2c(plan1, f, dbzk)
 
-  ! ------------------------------------------------------------------------
-  ! calculate displacement field dr from equation 
-  ! et = dr x b in each grid level
-  ! (need to assume dr . b = 0)
-  ! 3d SO cross product
-  ! ------------------------------------------------------------------------
-  print*, "calculating dr"
-  do l = 1, ngrids
+  call fftw_destroy_plan(plan1)
+#else
+  f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
+  call fftwf_execute_dft_r2c(plan1, f, dbxk)
 
-    do k = 1, n
-      do j = 1, n
-        do i = 1, n
+  f(:,:,:) = mgrid(l)%dby(1:m,1:m,1:m)
+  call fftwf_execute_dft_r2c(plan1, f, dbyk)
 
-          b(1) = mgrid(l)%bx(i,j,k) + mgrid(l)%dbx(i,j,k)
-          b(2) = mgrid(l)%by(i,j,k) + mgrid(l)%dby(i,j,k)
-          b(3) = mgrid(l)%bz(i,j,k) + mgrid(l)%dbz(i,j,k)
+  f(:,:,:) = mgrid(l)%dbz(1:m,1:m,1:m) !3d
+  call fftw_execute_dft_r2c(plan1, f, dbzk)
 
-          b2 = b(1)**2 + b(2)**2+b(3)**2 !magnitude of 3d B field
+  call fftwf_destroy_plan(plan1)
+#endif
 
-          mgrid(l)%drx(i,j,k) = (b(2)*mgrid(l)%etz_z(i,j,k) - b(3)*mgrid(l)%etz_y(i,j,k))/b2
-          mgrid(l)%dry(i,j,k) = (b(3)*mgrid(l)%etz_x(i,j,k) - b(1)*mgrid(l)%etz_z(i,j,k))/b2
-          mgrid(l)%drz(i,j,k) = (b(1)*mgrid(l)%etz_y(i,j,k) - b(2)*mgrid(l)%etz_x(i,j,k))/b2
+  ! normalize dbxk and dbyk
+  dbxk(:,:,:) = dbxk(:,:,:) / real(m*m*m)
+  dbyk(:,:,:) = dbyk(:,:,:) / real(m*m*m)
+  dbzk(:,:,:) = dbzk(:,:,:) / real(m*m*m)
 
-        enddo
+  ! loop over all the modes
+  ! (i, j) are the indices of the matrices generated by the dft
+  ! corresponding to the wave numbers (ki, kj)
+  
+  !this unsure about
+  print*, "calculating etz components"
+  do kk = min((-m/2 + 1), 0), m/2
+    if (kk >= 0) then
+      k = kk + 1
+    else
+      k = m + kk + 1
+    endif
+    !print*, kk    
+    do kj = min((-m/2 + 1), 0), m/2
+      if (kj >= 0) then
+        j = kj + 1
+      else
+        j = m + kj + 1
+      endif
+
+      do ki = 0, m/2
+        i = ki + 1
+
+        if ((ki==0) .and. (kj==0) .and. (kk==0)) then
+          etzk_x(i,j,k) = (0., 0.)
+          etzk_y(i,j,k) = (0., 0.)
+          etzk_z(i,j,k) = (0., 0.)
+          cycle
+        endif
+
+        ! etk = - i (dbk x k) / k^2
+        !in 3d etzk will still be a vector
+        mag = (real(ki)**2 + real(kj)**2+real(kk)**2) !k**2 magnitude
+
+        etzk_x(i,j,k) = - (0., 1.)*(dbyk(i,j,k)*real(kk) - dbzk(i,j,k)*real(kj))/mag
+
+        etzk_y(i,j,k) = - (0., 1.)*(dbzk(i,j,k)*real(ki) - dbxk(i,j,k)*real(kk))/mag
+
+        etzk_z(i,j,k) = - (0., 1.)*(dbxk(i,j,k)*real(kj) - dbyk(i,j,k)*real(ki))/mag
+
+        !testing requirement dot product is zero
+        test_var = abs(etzk_x(i,j,k))*ki + abs(etzk_y(i,j,k))*kj + abs(etzk_z(i,j,k))*kk
+        if (abs(test_var)>0.00001) then
+          print*, test_var
+        endif
       enddo
     enddo
   enddo
 
+  deallocate (dbxk)
+  deallocate (dbyk)
+  deallocate (dbzk)
 
-  ! ------------------------------------------------------------------------
-  ! write drx and dry in each grid to file - UNSURE FOR 3D
-  ! ------------------------------------------------------------------------
+
+  ! transform each component of etzk to real space, destroy plan2
+#ifdef DP
+  call fftw_execute_dft_c2r(plan2, etzk_x, f)
+  mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
+
+  mgrid(l)%etz_x(m+1,1:m,1:m) = f(1,:,:) !outer faces
+  mgrid(l)%etz_x(1:m,m+1,1:m) = f(:,1,:)
+  mgrid(l)%etz_x(1:m,1:m,m+1) = f(:,:,1)
   
-  !NOT SURE ABOUT THIS WRITING IN 3D - COMMENTED OUT FOR NOW -MAINLY THE BIT AFTER 400 IN WRITE IN NESTED LOOP
+  mgrid(l)%etz_x(1:m,m+1,m+1) = f(:,1,1) !outer edges
+  mgrid(l)%etz_x(m+1,m+1,1:m) = f(1,1,:)
+  mgrid(l)%etz_x(m+1,1:m,m+1) = f(1,:,1)
+  
+  mgrid(l)%etz_x(m+1,m+1,m+1) = f(1,1,1) !last point
 
-  ! do l = 1, ngrids
-  !
-  !   write (file_out, "('DISPLACEMENT_GRID', i0, '.DAT')") l
-  !   file_out = trim(data_dir) // trim(file_out)
-  !   open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
-  !   do k = 1, n  
-  !     do i = 1, n
-  !       do j = 1, n
-  !         write(400,'(4(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h,real(j - 1)*h, mgrid(l)%drx(i,j,k), mgrid(l)%dry(i,j,k), mgrid(l)%drz(i,j,k)
-  !       enddo
-  !       write(400,*)
-  !     enddo
-  !     write(400,*)
-  !   enddo
-  !   close(400)
-  ! enddo
+  call fftw_execute_dft_c2r(plan2, etzk_y, f)
+  mgrid(l)%etz_y(1:m,1:m,1:m) = f(:,:,:) !inner cube
+
+  mgrid(l)%etz_y(m+1,1:m,1:m) = f(1,:,:) !outer faces
+  mgrid(l)%etz_y(1:m,m+1,1:m) = f(:,1,:)
+  mgrid(l)%etz_y(1:m,1:m,m+1) = f(:,:,1)
+  
+  mgrid(l)%etz_y(1:m,m+1,m+1) = f(:,1,1) !outer edges
+  mgrid(l)%etz_y(m+1,m+1,1:m) = f(1,1,:)
+  mgrid(l)%etz_y(m+1,1:m,m+1) = f(1,:,1)
+  
+  mgrid(l)%etz_y(m+1,m+1,m+1) = f(1,1,1) !last point
+
+  call fftw_execute_dft_c2r(plan2, etzk_z, f)
+  mgrid(l)%etz_z(1:m,1:m,1:m) = f(:,:,:) !inner cube
+
+  mgrid(l)%etz_z(m+1,1:m,1:m) = f(1,:,:) !outer faces
+  mgrid(l)%etz_z(1:m,m+1,1:m) = f(:,1,:)
+  mgrid(l)%etz_z(1:m,1:m,m+1) = f(:,:,1)
+  
+  mgrid(l)%etz_z(1:m,m+1,m+1) = f(:,1,1) !outer edges
+  mgrid(l)%etz_z(m+1,m+1,1:m) = f(1,1,:)
+  mgrid(l)%etz_z(m+1,1:m,m+1) = f(1,:,1)
+  
+  mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
+  call fftw_destroy_plan(plan2)
+#else
+  call fftw_execute_dft_c2r(plan2, etzk_x, f)
+  mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
+
+  mgrid(l)%etz_x(m+1,1:m,1:m) = f(1,:,:) !outer faces
+  mgrid(l)%etz_x(1:m,m+1,1:m) = f(:,1,:)
+  mgrid(l)%etz_x(1:m,1:m,m+1) = f(:,:,1)
+  
+  mgrid(l)%etz_x(1:m,m+1,m+1) = f(:,1,1) !outer edges
+  mgrid(l)%etz_x(m+1,m+1,1:m) = f(1,1,:)
+  mgrid(l)%etz_x(m+1,1:m,m+1) = f(1,:,1)
+  
+  mgrid(l)%etz_x(m+1,m+1,m+1) = f(1,1,1) !last point
+  
+  call fftw_execute_dft_c2r(plan2, etzk_y, f)
+  mgrid(l)%etz_y(1:m,1:m,1:m) = f(:,:,:) !inner cube
+
+  mgrid(l)%etz_y(m+1,1:m,1:m) = f(1,:,:) !outer faces
+  mgrid(l)%etz_y(1:m,m+1,1:m) = f(:,1,:)
+  mgrid(l)%etz_y(1:m,1:m,m+1) = f(:,:,1)
+  
+  mgrid(l)%etz_y(1:m,m+1,m+1) = f(:,1,1) !outer edges
+  mgrid(l)%etz_y(m+1,m+1,1:m) = f(1,1,:)
+  mgrid(l)%etz_y(m+1,1:m,m+1) = f(1,:,1)
+  
+  mgrid(l)%etz_y(m+1,m+1,m+1) = f(1,1,1) !last point
+
+  call fftw_execute_dft_c2r(plan2, etzk_z, f)
+  mgrid(l)%etz_z(1:m,1:m,1:m) = f(:,:,:) !inner cube
+
+  mgrid(l)%etz_z(m+1,1:m,1:m) = f(1,:,:) !outer faces
+  mgrid(l)%etz_z(1:m,m+1,1:m) = f(:,1,:)
+  mgrid(l)%etz_z(1:m,1:m,m+1) = f(:,:,1)
+  
+  mgrid(l)%etz_z(1:m,m+1,m+1) = f(:,1,1) !outer edges
+  mgrid(l)%etz_z(m+1,m+1,1:m) = f(1,1,:)
+  mgrid(l)%etz_z(m+1,1:m,m+1) = f(1,:,1)
+  
+  mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
+  
+  call fftwf_destroy_plan(plan2)
+#endif
+
+  ! deallocate auxiliary matrices
+  deallocate (f)
+  deallocate (etzk_x)
+  deallocate (etzk_y)
+  deallocate (etzk_z)
 
 
-  ! ------------------------------------------------------------------------
-  ! calculate origin points rx0, ry0 and rz0
-  ! ------------------------------------------------------------------------
+
+
+! ------------------------------------------------------------------------
+! calculate displacement field dr from equation 
+! et = dr x b in each grid level
+! (need to assume dr . b = 0)
+! 3d so cross product
+! ------------------------------------------------------------------------
+  print*, "calculating dr"
+
+  do k = 1, n
+    do j = 1, n
+      do i = 1, n
+
+        b(1) = mgrid(l)%bx(i,j,k) + mgrid(l)%dbx(i,j,k)
+        b(2) = mgrid(l)%by(i,j,k) + mgrid(l)%dby(i,j,k)
+        b(3) = mgrid(l)%bz(i,j,k) + mgrid(l)%dbz(i,j,k)
+
+        b2 = b(1)**2 + b(2)**2+b(3)**2 !magnitude of 3d B field
+
+        mgrid(l)%drx(i,j,k) = (b(2)*mgrid(l)%etz_z(i,j,k) - b(3)*mgrid(l)%etz_y(i,j,k))/b2
+        mgrid(l)%dry(i,j,k) = (b(3)*mgrid(l)%etz_x(i,j,k) - b(1)*mgrid(l)%etz_z(i,j,k))/b2
+        mgrid(l)%drz(i,j,k) = (b(1)*mgrid(l)%etz_y(i,j,k) - b(2)*mgrid(l)%etz_x(i,j,k))/b2
+
+      enddo
+    enddo
+  enddo
+
+  !saving l+1 array as new l
+  mgrid(l+1)%bx = mgrid(l)%bx
+  mgrid(l+1)%by = mgrid(l)%by
+  mgrid(l+1)%bz = mgrid(l)%bz
+  
+  !only deallocate in last loop
+
+  !need to keep drx for all grids to further calculations
+
+  if (l==ngrids-1) then 
+    deallocate (mgrid(l)%bx)
+    deallocate (mgrid(l)%by)
+    deallocate (mgrid(l)%bz)
+    deallocate (mgrid(l)%etz_x)
+    deallocate (mgrid(l)%etz_y)
+    deallocate (mgrid(l)%etz_z)
+
+    deallocate (mgrid(l+1)%bx)
+    deallocate (mgrid(l+1)%by)
+    deallocate (mgrid(l+1)%bz)
+  endif
+  
+enddo
+
+
+
+
+! this is where the big loop stops
+
+
+! ------------------------------------------------------------------------
+! calculate origin points rx0, ry0 and rz0
+! ------------------------------------------------------------------------
   allocate (rx0(n,n,n))
   allocate (ry0(n,n,n))
   allocate (rz0(n,n,n))
@@ -908,11 +848,16 @@ program main
           ry0(i,j,k) = ry0(i,j,k) + dryp
           rz0(i,j,k) = rz0(i,j,k) + drzp
 
+          deallocate (mgrid(l)%drx)
+          deallocate (mgrid(l)%dry)
+          deallocate (mgrid(l)%drz)
+
         enddo
-        
+
       enddo
     enddo
   enddo
+
 
   ! ------------------------------------------------------------------------
   ! calculate total displacement fields drx and dry and write to file - UNSURE FOR 3D
@@ -930,27 +875,14 @@ program main
       enddo
     enddo
   enddo
-  ! file_out = trim(data_dir) // 'DISPLACEMENT.DAT'
-  ! open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
-  ! do i = 1, n
-  !   do j = 1, n
-  !     write(400,'(4(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, drx(i,j), dry(i,j)
-  !   enddo
-  !   write(400,*)
-  ! enddo
-  ! close(400)
-
+ 
 
   ! ------------------------------------------------------------------------
   ! build scalar field phi0 and write to file
   ! ------------------------------------------------------------------------
   m = n - 1
 
-  allocate (phi0(n,n,n))
-  allocate (x_arr(n,n,n)) 
-  allocate (y_arr(n,n,n)) 
-  allocate (z_arr(n,n,n))
-  allocate (input_1(n,n,n))   
+  allocate (phi0(n,n,n)) 
   
   allocate (phi0k((m/2 + 1), m, m))
   allocate (fk((m/2 + 1), m, m))
@@ -970,14 +902,6 @@ program main
   
   print*, omp_get_max_threads(), "calculating phi0k"
   wtime = omp_get_wtime()
-
-
-  ! create plan
-! #ifdef DP
-!   plan = fftw_plan_dft_c2r_3d (m, m, m, fk, f, FFTW_ESTIMATE)
-! #else
-!   plan = fftwf_plan_dft_c2r_3d (m, m, m, fk, f, FFTW_ESTIMATE)
-! #endif
 
   call dfftw_plan_dft_c2r_3d(dftplan, m,m,m, fk, f, FFTW_ESTIMATE)
 
@@ -1050,12 +974,6 @@ program main
   ! attention with the normalization of the DFT
   fk(:,:,:) = phi0k(:,:,:)
 
-! #ifdef DP
-!   call fftw_execute_dft_c2r(plan, fk, f)
-! #else
-!   call fftwf_execute_dft_c2r(plan, fk, f)
-! #endif
-
   call dfftw_execute_dft_c2r(dftplan, fk, f)
 
   phi0(1:m,1:m,1:m) = f(:,:,:) !inner cube
@@ -1070,15 +988,6 @@ program main
 
   phi0(m+1,m+1,m+1) = f(1,1,1) !last point
 
-  !periodic boundary conditions?
-
-  ! destroy plan
-! #ifdef DP
-!   call fftw_destroy_plan(plan)
-! #else
-!   call fftwf_destroy_plan(plan)
-! #endif
-
   call dfftw_destroy_plan(dftplan)
 
   deallocate (phi0k)
@@ -1086,40 +995,6 @@ program main
   deallocate (fk)
   deallocate (f)
 
-    
-  !not thread safe - phi0 magnitudes greater when using OpenMP - distributed memory also not good for extending into much larger scales
-
-  !call omp_set_num_threads(30)
-        
-  ! do ki = 0, n-3 
-  !   kx = (-(n-1)/2 + 1) + ki
-  !   print*, kx
-    
-  !   do kj = 0, n-3 ! up to nyquist frequency
-  !     ky = (-(n-1)/2 + 1) + kj
-
-  !     do kk = 0, n-3 !3d
-  !       kz = (-(n-1)/2 + 1) + kk
-
-  !       if ((abs (ky) < 1.0D-5 .and. abs(kz) < 1.0D-5)) then !cant root 0 - now for 3d
-  !           continue
-
-  !       else
-
-  !         call random_number(num)
-  !         tmp = abs(ky**2+kz**2)**(-10.0d0/6.0d0) !3D
-  !         tmp2 = exp(-(twopi)**(1.0d0/3.0d0)*abs(kx)/(abs(ky**2+kz**2)**(2.0d0/6.0d0)))
-  !         amp = sqrt(tmp*tmp2) !amplitude
-
-  !         input_1 = kx*x_arr + ky*y_arr + kz*z_arr + num*twopi
-
-  !         phi0(:,:,:) = phi0(:,:,:) + amp*cos(input_1) !3d
-          
-  !       endif
-      
-  !     enddo  
-  !   enddo
-  ! enddo
 
   print*, 'The loop has successfully completed'
 
@@ -1150,9 +1025,9 @@ program main
   !----------------------------------------------------------------
   ! calculate power spectrum of phi0 and write to file
   !----------------------------------------------------------------
-  lsum_power = .false.
+  !lsum_power = .false.
 
-  tmp3d(:,:,:) = phi0(:,:,:)
+  !tmp3d(:,:,:) = phi0(:,:,:)
   !call power_kk(tmp3d, ps_k, ps_kb, ps_kt, ps_kk, lsum_power, lx, ly, lz)
   !call write_power_spectra('PHI0.DAT', 400) - no DAT file created yet
 
@@ -1247,9 +1122,9 @@ program main
   !----------------------------------------------------------------
   ! calculate power spectrum of phi and write to file
   !----------------------------------------------------------------
-  lsum_power = .false.
+  !lsum_power = .false.
 
-  tmp3d(:,:,:) = phi(:,:,:)
+  !tmp3d(:,:,:) = phi(:,:,:)
   !call power_kk(tmp3d, ps_k, ps_kb, ps_kt, ps_kk, lsum_power, lx, ly, lz)
   !call write_power_spectra('PHI.DAT', 400) - no DAT files yet
 
@@ -1261,46 +1136,6 @@ program main
   ! ATTENTION: SAVE FIELD IN DN (TEST-PURPOSE ONLY!)
   ! ------------------------------------------------------------------------
 
-  !3d
-  lun = 700
-  file_out = trim(data_dir) // 'DN0.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
-  write(lun) n, n, n
-
-  tmp3d(:,:,:) = phi(:,:,:)
-
-  write(lun) tmp3d(:,:,:)
-  write(lun) time, x, y, z, dx, dy, dz
-  close(lun)
-
-
-  lun = 701
-  file_out = trim(data_dir) // 'BB0.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
-  write(lun) n, n, n
-
-  tmp3d(:,:,:) = bx(:,:,:)
-  write(lun) tmp3d(:,:,:)
-
-  tmp3d(:,:,:) = by(:,:,:)
-  write(lun) tmp3d(:,:,:)
-  
-  tmp3d(:,:,:) = bz(:,:,:)
-  write(lun) tmp3d(:,:,:)
-
-  write(lun) time, x, y, z, dx, dy, dz
-  close(lun)
-
-
-  lun = 702
-  file_out = trim(data_dir) // 'VV0.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
-  write(lun) n, n, n
-  write(lun) tmp3d(:,:,:)
-  write(lun) tmp3d(:,:,:)
-  write(lun) tmp3d(:,:,:)
-  write(lun) time, x, y, z, dx, dy, dz
-  close(lun)
 
   tot_time = omp_get_wtime() - tot_time
   print *, tot_time, "Total Time"
@@ -1337,8 +1172,6 @@ program main
   deallocate(y)
   deallocate(z)
 
-  deallocate (tmp3d)
-
   deallocate (ps_k)
   deallocate (ps_kb)
   deallocate (ps_kt)
@@ -1346,74 +1179,9 @@ program main
 
   deallocate (phi0)
   deallocate (phi)
-  deallocate (x_arr)
-  deallocate (y_arr)
-  deallocate (z_arr)
-  deallocate (input_1)
+
 
   stop
 
-  ! contains
-
-  !   !----------------------------------------------------------------
-  !   ! calculate power spectrum of phi and write to file
-  !   !----------------------------------------------------------------
-  !   subroutine write_power_spectra(partial_file_name, lun)
-
-  !     implicit none
-
-  !     character(len=*) :: partial_file_name
-  !     integer :: lun
-
-  !     ! local dummy variables
-  !     integer :: k, kb, kt
-  !     character(len=400) :: file_name
-
-
-  !     file_name = trim(data_dir) // 'power_spectra/PS_K_' // trim(partial_file_name)
-  !     open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
-  !     write(lun, "(a1, a4, 1x, 1(a24, 1x))") '#', 'k', &
-  !       '|phi(k)|^2'
-  !     do k = 1, nk
-  !       write(lun, '(i5, 1x, 1(es24.16, 1x))') k-1, &
-  !         ps_k(k)
-  !     enddo
-  !     close(lun)
-
-  !     file_name = trim(data_dir) // 'power_spectra/PS_KB_' // trim(partial_file_name)
-  !     open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
-  !     write(lun, "(a1, a4, 1x, 1(a24, 1x))") '#', 'kx', &
-  !       '|phi(kx)|^2'
-  !     do k = 1, nkb
-  !       write(lun, '(i5, 1x, 1(es24.16, 1x))') k-1, &
-  !         ps_kb(k)
-  !     enddo
-  !     close(lun)
-
-  !     file_name = trim(data_dir) // 'power_spectra/PS_KT_' // trim(partial_file_name)
-  !     open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
-  !     write(lun, "(a1, a4, 1x, 1(a24, 1x))") '#', 'kyz', &
-  !       '|phi(kyz)|^2'
-  !     do k = 1, nkt
-  !       write(lun, '(i5, 1x, 1(es24.16, 1x))') k-1, &
-  !         ps_kt(k)
-  !     enddo
-  !     close(lun)
-
-  !     file_name = trim(data_dir) // 'power_spectra/PS_KK_' // trim(partial_file_name)
-  !     open(unit=lun, file=trim(file_name), form='formatted', status='replace', action='write')
-  !     write(lun, "(a1, a4, 1x, a5, 1x, 1(a24, 1x))") '#', 'kx', 'kyz', &
-  !       '|phi(kx, kyz)|^2'
-  !     do kt = 1, nkt
-  !       do kb = 1, nkb
-  !         write(lun, '(2(i5, 1x), 1(es24.16, 1x))') kb-1, kt-1, &
-  !           ps_kk(kb,kt)
-  !       enddo
-  !       write(lun,*)
-  !     enddo
-  !     close(lun)
-
-  !     return
-  !   end subroutine write_power_spectra
 
 end program main
