@@ -853,17 +853,21 @@ program main
           ry0(i,j,k) = ry0(i,j,k) + dryp
           rz0(i,j,k) = rz0(i,j,k) + drzp
 
-          deallocate (mgrid(l)%drx)
-          deallocate (mgrid(l)%dry)
-          deallocate (mgrid(l)%drz)
-
         enddo
 
       enddo
     enddo
   enddo
 
+  do l = 1, ngrids
+    deallocate (mgrid(l)%drx)
+    deallocate (mgrid(l)%dry)
+    deallocate (mgrid(l)%drz)
+  enddo
+  
   deallocate (mgrid)
+
+
   ! ------------------------------------------------------------------------
   ! calculate total displacement fields drx and dry and write to file - UNSURE FOR 3D
   ! ------------------------------------------------------------------------
