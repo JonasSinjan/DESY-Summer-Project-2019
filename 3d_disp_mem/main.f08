@@ -504,16 +504,16 @@ program main
     allocate (etzk_z((m/2 + 1), m, m))
 
     ! prepare plans for the dft (plan1) and dft inverse (plan2)
-  #ifdef DP
+#ifdef DP
     plan1 = fftw_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE) !3d
     plan2 = fftw_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
-  #else
+#else
     plan1 = fftwf_plan_dft_r2c_3d(m, m, m, f, dbxk, FFTW_ESTIMATE)
     plan2 = fftwf_plan_dft_c2r_3d(m, m, m, etzk_x, f, FFTW_ESTIMATE) !3d do i need plans for each component?
-  #endif
+#endif
 
     ! transform dbx and dby to fourier space, destroy plan1
-  #ifdef DP
+#ifdef DP
     f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
     call fftw_execute_dft_r2c(plan1, f, dbxk)
 
@@ -524,7 +524,7 @@ program main
     call fftw_execute_dft_r2c(plan1, f, dbzk)
 
     call fftw_destroy_plan(plan1)
-  #else
+#else
     f(:,:,:) = mgrid(l)%dbx(1:m,1:m,1:m)
     call fftwf_execute_dft_r2c(plan1, f, dbxk)
 
@@ -535,7 +535,7 @@ program main
     call fftw_execute_dft_r2c(plan1, f, dbzk)
 
     call fftwf_destroy_plan(plan1)
-  #endif
+#endif
 
     ! normalize dbxk and dbyk
     dbxk(:,:,:) = dbxk(:,:,:) / real(m*m*m)
@@ -597,7 +597,7 @@ program main
 
 
     ! transform each component of etzk to real space, destroy plan2
-  #ifdef DP
+#ifdef DP
     call fftw_execute_dft_c2r(plan2, etzk_x, f)
     mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
@@ -637,7 +637,7 @@ program main
     
     mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
     call fftw_destroy_plan(plan2)
-  #else
+#else
     call fftw_execute_dft_c2r(plan2, etzk_x, f)
     mgrid(l)%etz_x(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
@@ -678,7 +678,7 @@ program main
     mgrid(l)%etz_z(m+1,m+1,m+1) = f(1,1,1) !last point
     
     call fftwf_destroy_plan(plan2)
-  #endif
+#endif
 
     ! deallocate auxiliary matrices
     deallocate (f)
