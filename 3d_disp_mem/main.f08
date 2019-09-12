@@ -362,6 +362,7 @@ program main
     call fftw_execute_dft_c2r(plan2, bxk, f)
     !c2r = complex to real
     !need to add the slices for periodic boundaries
+    print*, ngrids, l, l+1
     mgrid(l+1)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
     mgrid(l+1)%bx(m+1,1:m,1:m) = f(1,:,:) !outer faces
