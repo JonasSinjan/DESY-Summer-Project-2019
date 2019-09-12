@@ -764,9 +764,9 @@ program main
       do j = 1, n
         do i = 1, n
 
-          b(1) = mgrid(l)%bx(i,j,k) + mgrid(l)%dbx(i,j,k)
-          b(2) = mgrid(l)%by(i,j,k) + mgrid(l)%dby(i,j,k)
-          b(3) = mgrid(l)%bz(i,j,k) + mgrid(l)%dbz(i,j,k)
+          b(1) = mgrid(l)%bx(i,j,k) !+ mgrid(l)%dbx(i,j,k)
+          b(2) = mgrid(l)%by(i,j,k) !+ mgrid(l)%dby(i,j,k)
+          b(3) = mgrid(l)%bz(i,j,k) !+ mgrid(l)%dbz(i,j,k)
 
           b2 = b(1)**2 + b(2)**2+b(3)**2 !magnitude of 3d B field
 
