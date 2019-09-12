@@ -364,7 +364,7 @@ program main
         call fftw_execute_dft_c2r(plan2, bxk, f)
         !c2r = complex to real
         !need to add the slices for periodic boundaries
-        print*, ngrids, l, l+1
+        print*, ngrids, q-1, q
         mgrid(q)%bx(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
         mgrid(q)%bx(m+1,1:m,1:m) = f(1,:,:) !outer faces
@@ -708,9 +708,9 @@ program main
       do j = 1, n
         do i = 1, n
 
-          b(1) = mgrid(l)%bx(i,j,k) + mgrid(l)%dbx(i,j,k)
-          b(2) = mgrid(l)%by(i,j,k) + mgrid(l)%dby(i,j,k)
-          b(3) = mgrid(l)%bz(i,j,k) + mgrid(l)%dbz(i,j,k)
+          b(1) = mgrid(l)%bx(i,j,k) + mgrid(1)%dbx(i,j,k)
+          b(2) = mgrid(l)%by(i,j,k) + mgrid(1)%dby(i,j,k)
+          b(3) = mgrid(l)%bz(i,j,k) + mgrid(1)%dbz(i,j,k)
 
           b2 = b(1)**2 + b(2)**2+b(3)**2 !magnitude of 3d B field
 
