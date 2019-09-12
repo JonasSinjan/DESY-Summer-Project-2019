@@ -72,8 +72,8 @@ dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2
 n=257
 phi_2d,phi0_2d = read_phi_2d(dir_data,n)
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run3D_FFT/"
-n=257
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64_FFT_testdot/"
+n=65 #(n+1)_
 phi_3d,phi0_3d, by = read_phi_3d(dir_data,n)
 
 
