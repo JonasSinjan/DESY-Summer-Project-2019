@@ -864,7 +864,7 @@ program main
     deallocate (mgrid(l)%dry)
     deallocate (mgrid(l)%drz)
   enddo
-  
+
   deallocate (mgrid)
 
 
@@ -896,16 +896,6 @@ program main
   allocate (phi0k((m/2 + 1), m, m))
   allocate (fk((m/2 + 1), m, m))
   allocate (f(m, m, m))
-
-  do i = 1, n
-    x_arr(i,:,:) = i*twopi/n
-  enddo
-  do j = 1, n
-    y_arr(:,j,:) = j*twopi/n
-  enddo
-  do k = 1, n
-    z_arr(:,:,k) = k*twopi/n
-  enddo
 
   phi0(:,:,:) = 0 ! initialise all entries to zero
   
