@@ -370,16 +370,16 @@ if __name__ == '__main__':
     # data input and output path
 
     #desy cluster path
-    # dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/'  # data files
-    # dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/'  # data files
+    dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/'  # data files
+    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/'  # data files
     
     #windows laptop
     # dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
     # dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
     #linux home pc
-    dir_data = '/home/jonas/Documents/VSCode/DESY/final_data/3d/128run3D_FFT/'
-    dir_output = '/home/jonas/Documents/VSCode/DESY/final_data/3d/128run3D_FFT/'
+    #dir_data = '/home/jonas/Documents/VSCode/DESY/final_data/3d/128run3D_FFT/'
+    #dir_output = '/home/jonas/Documents/VSCode/DESY/final_data/3d/128run3D_FFT/'
 
     # resolution size must be specified
     size = 128
