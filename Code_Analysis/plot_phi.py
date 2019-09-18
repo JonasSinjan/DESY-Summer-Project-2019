@@ -114,7 +114,7 @@ gs2 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=gs0[1])
 
 ax2 = fig.add_subplot(gs2[0])
 
-ax2.imshow(z[2], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[2], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax2.set_xlabel('x', fontsize=12)
 ax2.set_ylabel('y', fontsize=12)
 ax2.set_title('3D Phi0', fontsize=14)
@@ -124,7 +124,7 @@ plt.colorbar()
 
 ax3 = fig.add_subplot(gs2[1])
 
-ax3.imshow(z[3], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[3], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax3.set_xlabel('x', fontsize=12)
 ax3.set_ylabel('y', fontsize=12)
 ax3.set_title('3D Phi', fontsize=14)
@@ -132,12 +132,13 @@ fig = plt.gcf()
 plt.clim()   # clamp the color limits
 plt.colorbar()
 
+#plt.show()
 
-for i in range(5):
+for i in range(3):
         slice_index = randint(0,60)
         z=[phi0_2d, phi_2d, phi0_3d[:,:,slice_index], phi_3d[:,:,slice_index]]#one slice
 
-        fig = plt.figure(figsize=(8.0, 8.0))
+        fig = plt.figure(figsize=(12.0, 10.0))
 
         gs0 = gridspec.GridSpec(2,1,hspace=0.2, wspace=0.2)
 
@@ -145,24 +146,25 @@ for i in range(5):
 
         img = z[1]-z[0]
 
-        ax0.imshow(img, cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+        plt.imshow(img, cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
         ax0.set_xlabel('x', fontsize=12)
         ax0.set_ylabel('y', fontsize=12)
         ax0.set_title('2D Phi Change', fontsize=14)
-        #fig = plt.gcf()
-        #plt.clim()   # clamp the color limits
-        #plt.colorbar()
+        plt.gcf()
+        plt.clim()   # clamp the color limits
+        plt.colorbar()
 
         ax1 = fig.add_subplot(gs0[1])
 
         img = z[3]-z[2]
 
-        ax1.imshow(img, cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+        plt.imshow(img, cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
         ax1.set_xlabel('x', fontsize=12)
         ax1.set_ylabel('y', fontsize=12)
-        ax1.set_title('3D Phi Change', fontsize=14)
-        #fig = plt.gcf()
-        #plt.clim()   # clamp the color limits
-        #plt.colorbar()
+        ax1.set_title('3D Phi Change , slice: %s' % (slice_index), fontsize=14)
+        plt.gcf()
+        plt.clim()   # clamp the color limits
+        plt.colorbar()
 
 plt.show()
+
