@@ -367,10 +367,28 @@ if __name__ == '__main__':
     #  SETUP                                       
     #----------------------------------------------------------------------------------------------
 
+    # data input and output path
+
+    #desy cluster path
+    # dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/'  # data files
+    # dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/'  # data files
+    
+    #windows laptop
+    # dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
+    # dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
+
+    #linux home pc
+    dir_data = '/home/jonas/Documents/VSCode/DESY/final_data/3d/128run3D_FFT/'
+    dir_output = '/home/jonas/Documents/VSCode/DESY/final_data/3d/128run3D_FFT/'
+
     # resolution size must be specified
-    size = 256
+    size = 128
     lent = size
 
+    # dimensions
+    twoD_bool = False # if set to true, will assume data in 2D, otherwise when false defaults to 3D
+
+    #set to true if decoding data files from squares method - if false defaults to displacment method results
     sq_bool = False
 
     if sq_bool:
@@ -383,22 +401,6 @@ if __name__ == '__main__':
         ny = size + 1
         nz = size + 1
 
-    # data input and output path
-    dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/256run2D_disp_FFT/'  # data files
-    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/256run2D_disp_FFT/'  # data files
-    
-    #dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
-    #dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
-
-
-    # dimensions
-    twoD_bool = True # if set to true, will assume data in 2D, otherwise when false defaults to 3D
-
-    if twoD_bool is True:
-        shape = (lent + 1, lent + 1)  # for 2D
-    else:
-        shape = (lent + 1, lent + 1, lent + 1)
-
     xpt, ypt, zpt = size, size, size
 
     Lx, Ly, Lz = 1.0, 1.0, 1.0
@@ -408,77 +410,68 @@ if __name__ == '__main__':
     nrandpts = 10000
     mode = 'F'
 
-    # initliasing 1D arrays
-    # sf_snapshot = np.zeros((lent/4,3))
+    if twoD_bool is True:
+        shape = (lent + 1, lent + 1)  # for 2D
 
-    # ntstp = 0
-    sf_par = np.zeros(int(lent / 2))
-    sf_perp = np.zeros(int(lent / 2))
-    npts = np.zeros(int(lent / 2))
+        sf_par = np.zeros(int(lent / 2))
+        sf_perp = np.zeros(int(lent / 2))
+        npts = np.zeros(int(lent / 2))
 
-    # sf_par_2 = np.zeros(int(lent / 2))
-    # sf_perp_2 = np.zeros(int(lent / 2))
-    # npts_2 = np.zeros(int(lent / 2))
+        #2D PHI0
+        phi0, bx, by = read_files_phi0(dir_data)
 
-    # #3D PHI
-    # phi, bx,by,bz = read_files3D_phi(dir_data)
+        sf_snapshot = []
+        sff = np.zeros((3, int(lent / 4)))
+        for i in range(int(lent / 4)):
+            numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi0, bx, by)
+            sff[0, i] = numpt_tmp
+            sff[1, i] = par_tmp
+            sff[2, i] = perp_tmp
+            
+        npts[0:int(lent / 4)] = npts[0:int(lent / 4)] + sff[0, :]
+        sf_par[0:int(lent / 4)] = sf_par[0:int(lent / 4)] + sff[1, :]
+        sf_perp[0:int(lent / 4)] = sf_perp[0:int(lent / 4)] + sff[2, :]
 
-    # sf_snapshot = []
-    # sff_2 = np.zeros((3, int(lent / 4)))
-    # for i in range(int(lent / 4)):
-    #     numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi, bx, by, bz)
-    #     sff_2[0, i] = numpt_tmp
-    #     sff_2[1, i] = par_tmp
-    #     sff_2[2, i] = perp_tmp
+        sf_par = sf_par / npts
+        sf_perp = sf_perp / npts
 
+        # writing the spectra to a file
+        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_global' + mode + '.txt', 'w')
+        for i in range(0, int(lent / 2)):
+            value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
+            f.write(value + "\n")
+        f.close()
 
-    #2D PHI0
-    phi0, bx, by = read_files_phi0(dir_data)
+    else:
+        shape = (lent + 1, lent + 1, lent + 1)
 
-    sf_snapshot = []
-    sff = np.zeros((3, int(lent / 4)))
-    for i in range(int(lent / 4)):
-        numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi0, bx, by)
-        sff[0, i] = numpt_tmp
-        sff[1, i] = par_tmp
-        sff[2, i] = perp_tmp
-        
-    npts[0:int(lent / 4)] = npts[0:int(lent / 4)] + sff[0, :]
-    sf_par[0:int(lent / 4)] = sf_par[0:int(lent / 4)] + sff[1, :]
-    sf_perp[0:int(lent / 4)] = sf_perp[0:int(lent / 4)] + sff[2, :]
+        sf_par_2 = np.zeros(int(lent / 2))
+        sf_perp_2 = np.zeros(int(lent / 2))
+        npts_2 = np.zeros(int(lent / 2))
 
-    # npts_2[0:int(lent / 4)] = npts_2[0:int(lent / 4)] + sff_2[0, :]
-    # sf_par_2[0:int(lent / 4)] = sf_par_2[0:int(lent / 4)] + sff_2[1, :]
-    # sf_perp_2[0:int(lent / 4)] = sf_perp_2[0:int(lent / 4)] + sff_2[2, :]
+        #3D PHI0
+        phi0, bx,by,bz = read_files3D_phi0(dir_data)
 
-    # print(np.shape(sf_snapshot))
-    # for q in range (0,lent/4) :
-    #  print("sf_snapshot= ",q, sf_snapshot[q])
+        sf_snapshot = []
+        sff_2 = np.zeros((3, int(lent / 4)))
+        for i in range(int(lent / 4)):
+            numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
+            sff_2[0, i] = numpt_tmp
+            sff_2[1, i] = par_tmp
+            sff_2[2, i] = perp_tmp
 
-sf_par = sf_par / npts
-sf_perp = sf_perp / npts
+        npts_2[0:int(lent / 4)] = npts_2[0:int(lent / 4)] + sff_2[0, :]
+        sf_par_2[0:int(lent / 4)] = sf_par_2[0:int(lent / 4)] + sff_2[1, :]
+        sf_perp_2[0:int(lent / 4)] = sf_perp_2[0:int(lent / 4)] + sff_2[2, :]
 
-# sf_par_2 = sf_par_2 / npts_2
-# sf_perp_2 = sf_perp_2 / npts_2
+        sf_par_2 = sf_par_2 / npts_2
+        sf_perp_2 = sf_perp_2 / npts_2
 
-# writing the spectra to a file
-
-f = open(dir_output + 'sf_par_perp_v_phi0_wrt_global' + mode + '.txt', 'w')
-for i in range(0, int(lent / 2)):
-    value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
-    f.write(value + "\n")
-f.close()
-
-# f = open(dir_output + 'sf_par_perp_v_phi' + mode + '.txt', 'w')
-# for i in range(0, int(lent / 2)):
-#     value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
-#     f.write(value + "\n")
-# f.close()
-
-# f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
-# for i in range(0, int(lent / 2)):
-#     value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
-#     f.write(value + "\n")
-# f.close()
+        # writing the spectra to a file - must change name of output file depending on phi0 or phi & if wrt global or local frame
+        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_global' + mode + '.txt', 'w')
+        for i in range(0, int(lent / 2)):
+            value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
+            f.write(value + "\n")
+        f.close()
 
 print("The Process has Completed")
