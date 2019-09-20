@@ -800,6 +800,10 @@ program main
           mgrid(l)%dry(i,j,k) = (b(3)*mgrid(l)%etz_x(i,j,k) - b(1)*mgrid(l)%etz_z(i,j,k))/b2
           mgrid(l)%drz(i,j,k) = (b(1)*mgrid(l)%etz_y(i,j,k) - b(2)*mgrid(l)%etz_x(i,j,k))/b2
 
+          test_var = abs(mgrid(l)%drx(i,j,k))*mgrid(l)%bx(i,j,k) + abs(mgrid(l)%dry(i,j,k))*mgrid(l)%by(i,j,k) + abs(mgrid(l)%drz(i,j,k))*mgrid(l)%bz(i,j,k)
+          if (abs(test_var)>0.00001) then
+            print*, test_var
+          endif
         enddo
       enddo
     enddo
