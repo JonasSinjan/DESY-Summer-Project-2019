@@ -231,7 +231,7 @@ lpar12, lperp12 = read_sf(dir_sf, 128.0)
 
 #fft - 256
 #dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phi0F.txt'#should check is global
-dir_sf = working_dir_path + 'final_data/3d/256run3D_FFT/sf_par_perp_v_phi0F.txt'
+dir_sf = working_dir_path + 'final_data/3d/256run3D_FFT/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar13, lperp13 = read_sf(dir_sf, 256.0)
 
 #dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phiF.txt'
@@ -517,30 +517,30 @@ plt.show()
 
 
 #3d fft vs real phi0
-plt.figure(figsize=(9.0, 5.0), dpi=200)
+plt.figure(figsize=(5.0, 3.0), dpi=200)
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax1 = plt.subplot(gs[0])
 
 
 
-ax1.plot(lperp11[:count_1283d_phi0], lpar11[:count_1283d_phi0], lw=5, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
+ax1.plot(lperp11[:count_1283d_phi0], lpar11[:count_1283d_phi0], lw=2, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
 
-ax1.plot(lperp16[:count_128_3d_phi0f], lpar16[:count_128_3d_phi0f], lw=5, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f, rval_128_disp_phi0f, err_128_disp_phi0f))
+ax1.plot(lperp16[:count_128_3d_phi0f], lpar16[:count_128_3d_phi0f], lw=2, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f, rval_128_disp_phi0f, err_128_disp_phi0f))
 
-ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=5, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
+ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
 
 #ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=4, color = "black", ls = "-", label="GS95 2/3")
-ax1.plot(lperp12[:count_1283d], 1.5*ref_slope_2_3_3d, lw=4, color = "black", ls = "-", label="GS95 2/3")
+ax1.plot(lperp12[:count_1283d], 1.5*ref_slope_2_3_3d, lw=2, color = "black", ls = "-", label="GS95 2/3")
 #ax1.plot(lperp15[:count_128_3d_f], ref_slope_3d_128_f, lw=4, color = "black", ls = "-")
 
 
 ax1.set_xscale('log')
 ax1.set_yscale('log')
-ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=18)
-ax1.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=18)
+ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
+ax1.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=9)
 ax1.set_title('Structure Function 3D Disp. Real vs FFT PHI0')
-ax1.legend(loc='lower right',ncol=1,fontsize=13)
+ax1.legend(loc='lower right',ncol=1,fontsize=6)
 
 plt.show()
 
