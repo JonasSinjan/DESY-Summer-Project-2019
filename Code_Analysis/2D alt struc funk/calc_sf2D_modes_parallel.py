@@ -33,6 +33,22 @@ sf2D_array=np.zeros((lent/4,lent/4))
 
 def read_b_files3D(dir_data):
 
+  filename = dir_data + 'PHI0' + '.BIN'
+  fd = open(filename, 'rb')
+
+  abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+
+  temp = np.reshape(abx, (nx, ny, nz))
+  phi0 = temp.transpose()
+
+  filename = dir_data + 'PHI' + '.BIN'
+  fd = open(filename, 'rb')
+
+  abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+
+  temp = np.reshape(abx, (nx, ny, nz))
+  phi = temp.transpose()
+
   filename = dir_data + 'BX' + '.BIN' 
   fd = open(filename, 'rb')
 
@@ -57,9 +73,9 @@ def read_b_files3D(dir_data):
   temp = np.reshape(aby, (nx, ny, nz))
   bz = temp.transpose()
 
-  return bx, by, bz
+  return phi0, phi, bx, by, bz
 
-def struct2D_funk(ipar, bx, by, bz):
+def struct2D_funk(ipar, phi, bx, by, bz):
 
   lpar = ipar*1.0
   print('ipar = ', ipar)
@@ -86,9 +102,9 @@ def struct2D_funk(ipar, bx, by, bz):
       #print(rand(n_avg_bfield_pts))
       lr = rand(n_avg_bfield_pts)*sp_rad
       theta = rand(n_avg_bfield_pts)*np.pi
-      phi   = rand(n_avg_bfield_pts)*2.0*np.pi
-      lx = lr*np.sin(theta)*np.cos(phi)
-      ly = lr*np.sin(theta)*np.sin(phi)
+      phi_ang   = rand(n_avg_bfield_pts)*2.0*np.pi
+      lx = lr*np.sin(theta)*np.cos(phi_ang)
+      ly = lr*np.sin(theta)*np.sin(phi_ang)
       lz = lr*np.cos(theta)
       xis = np.int_(np.floor(ri[0]+lx))
       yis = np.int_(np.floor(ri[1]+ly))
@@ -120,9 +136,12 @@ def struct2D_funk(ipar, bx, by, bz):
       r1 = r1%lent
       r2 = r2%lent
 
-      b1 = np.array([  bx[r1[0],r1[1],r1[2]]  , by[r1[0],r1[1],r1[2]] , bz[r1[0],r1[1],r1[2]]   ])
-      b2 = np.array([  bx[r2[0],r2[1],r2[2]]  , by[r2[0],r2[1],r2[2]] , bz[r2[0],r2[1],r2[2]]   ])
-      
+      #phi here?
+      # b1 = np.array([  bx[r1[0],r1[1],r1[2]]  , by[r1[0],r1[1],r1[2]] , bz[r1[0],r1[1],r1[2]]   ])
+      # b2 = np.array([  bx[r2[0],r2[1],r2[2]]  , by[r2[0],r2[1],r2[2]] , bz[r2[0],r2[1],r2[2]]   ])
+      b1 = np.array([phi[r1[0], r1[1], r1[2]]])
+      b2 = np.array([phi[r2[0], r2[1], r2[2]]])
+
       diff = b1-b2
       summb = np.sum(diff*diff)
       if (math.isinf(summb) or math.isnan(summb)):
@@ -140,10 +159,11 @@ def struct2D_funk(ipar, bx, by, bz):
 
 if __name__ == '__main__': 
   sf2D_list=[0]*int(lent / 4)
-  bx,by,bz = read_b_files3D(dir_data) 
+  phi0, phi, bx,by,bz = read_b_files3D(dir_data) 
 
+  input_var = phi0
   for i in range(int(lent / 4)):
-    sf2D_list[i] = struct2D_funk(i, bx,by,bz)
+    sf2D_list[i] = struct2D_funk(i, input_var, bx, by, bz)
   
   sf2D_arr = np.asarray(sf2D_list)
   
@@ -153,7 +173,7 @@ ntstp = ntstp + 1
 
 sf2D_array = sf2D_array/ntstp
 
-np.save(dir_output+'sf2D_.npy',sf2D_array)
+np.save(dir_output+'sf2D_' + str(input_var) + '.npy',sf2D_array)
 
 """
 sf_par = sf_par/npts

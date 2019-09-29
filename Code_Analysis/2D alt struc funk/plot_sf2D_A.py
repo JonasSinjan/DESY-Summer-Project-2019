@@ -92,7 +92,7 @@ lperp=lperp1
 cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[5,5],sff2d[5,10],sff2d[5,20]],linewidths=2)
 #plt.clabel(cs,inline=1,fontsize=10)
 ax0.axes.xaxis.set_ticklabels([])
-ax0.set_title('(a) S1b B field',fontsize=18)
+ax0.set_title('(a) S1b Phi0 field',fontsize=18)
 ax0.set_ylabel(r'$l_{\perp}/L$',fontsize=18)
 #ax0.set_xlabel('$l_{\parallel}$',fontsize=16)
 #ax0.legend(loc='bottom left')
