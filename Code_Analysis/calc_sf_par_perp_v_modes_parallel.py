@@ -382,7 +382,7 @@ if __name__ == '__main__':
     #dir_output = '/home/jonas/Documents/VSCode/DESY/final_data/3d/128run3D_FFT/'
 
     # resolution size must be specified
-    size = 128
+    size = 256
     lent = size
 
     # dimensions
