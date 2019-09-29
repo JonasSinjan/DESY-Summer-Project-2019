@@ -135,7 +135,7 @@ def read_files3D_phi0(dir_data):
     temp = np.reshape(abx, (nx, ny, nz))
     bx = temp.transpose()
 
-    bx.fill(1)
+    #bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
     fd = open(filename, 'rb')
@@ -145,7 +145,7 @@ def read_files3D_phi0(dir_data):
     temp = np.reshape(aby, (nx, ny, nz))
     by = temp.transpose()
 
-    by.fill(0)
+    #by.fill(0)
 
     filename = dir_data + 'BZ' + '.BIN'
     fd = open(filename, 'rb')
@@ -155,7 +155,7 @@ def read_files3D_phi0(dir_data):
     temp = np.reshape(aby, (nx, ny, nz))
     bz = temp.transpose()
 
-    bz.fill(0)
+    #bz.fill(0)
 
     print(bx[:, :, 1])
     print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
@@ -468,7 +468,7 @@ if __name__ == '__main__':
         sf_perp_2 = sf_perp_2 / npts_2
 
         # writing the spectra to a file - must change name of output file depending on phi0 or phi & if wrt global or local frame
-        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_global' + mode + '.txt', 'w')
+        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_local' + mode + '.txt', 'w')
         for i in range(0, int(lent / 2)):
             value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
             f.write(value + "\n")

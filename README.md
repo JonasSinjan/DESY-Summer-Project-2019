@@ -12,7 +12,7 @@ Runtimes:
 
 -3d displacement now setup in a configuration which initialises Phi0 in fourier space: 128 takes 4 minutes.
 
--3d 512 requries approx 50GB RAM at least, needs to be made more memory efficient.
+-3d 512 requries approx 100GB RAM at least, needs to be made more memory efficient.
 
 To Run:
 

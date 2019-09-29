@@ -237,23 +237,23 @@ program main
   !enddo
   !close(400)
 
-  lun = 701
-  file_out = trim(data_dir) // '/' // 'X.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) x(:)
-  close(lun)
+  ! lun = 701
+  ! file_out = trim(data_dir) // '/' // 'X.BIN'
+  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+  !   write(lun) x(:)
+  ! close(lun)
 
-  lun = 701
-  file_out = trim(data_dir) // '/' // 'Y.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) y(:)
-  close(lun)
+  ! lun = 701
+  ! file_out = trim(data_dir) // '/' // 'Y.BIN'
+  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+  !   write(lun) y(:)
+  ! close(lun)
 
-  lun = 701 !3D
-  file_out = trim(data_dir) // '/' // 'Z.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) z(:)
-  close(lun)
+  ! lun = 701 !3D
+  ! file_out = trim(data_dir) // '/' // 'Z.BIN'
+  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+  !   write(lun) z(:)
+  ! close(lun)
 
   lun = 701
   file_out = trim(data_dir) // '/' // 'BX.BIN'
@@ -509,32 +509,32 @@ program main
   ! ------------------------------------------------------------------------
   ! write bx and by in each grid to a different file
   ! ------------------------------------------------------------------------
-  do l = 1, ngrids
+  ! do l = 1, ngrids
 
-    write (file_out, "('BX_GRID', i0, '.BIN')") l
-    lun = 701
-    file_out = trim(data_dir) // '/' // file_out
-    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-      write(lun) mgrid(l)%bx(:,:,:)
-    close(lun)
+  !   write (file_out, "('BX_GRID', i0, '.BIN')") l
+  !   lun = 701
+  !   file_out = trim(data_dir) // '/' // file_out
+  !   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+  !     write(lun) mgrid(l)%bx(:,:,:)
+  !   close(lun)
 
-    write (file_out, "('BY_GRID', i0, '.BIN')") l
-    !why 702 all of a sudden??
-    lun = 702
-    file_out = trim(data_dir) // '/' // file_out
-    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-      write(lun) mgrid(l)%by(:,:,:)
-    close(lun)
+  !   write (file_out, "('BY_GRID', i0, '.BIN')") l
+  !   !why 702 all of a sudden??
+  !   lun = 702
+  !   file_out = trim(data_dir) // '/' // file_out
+  !   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+  !     write(lun) mgrid(l)%by(:,:,:)
+  !   close(lun)
 
-    write (file_out, "('BZ_GRID', i0, '.BIN')") l
-    !why 702 all of a sudden??
-    lun = 702
-    file_out = trim(data_dir) // '/' // file_out
-    open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-      write(lun) mgrid(l)%bz(:,:,:) !3d
-    close(lun)
+  !   write (file_out, "('BZ_GRID', i0, '.BIN')") l
+  !   !why 702 all of a sudden??
+  !   lun = 702
+  !   file_out = trim(data_dir) // '/' // file_out
+  !   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+  !     write(lun) mgrid(l)%bz(:,:,:) !3d
+  !   close(lun)
 
-  enddo
+  ! enddo
 
 
   ! ------------------------------------------------------------------------
@@ -800,6 +800,10 @@ program main
           mgrid(l)%dry(i,j,k) = (b(3)*mgrid(l)%etz_x(i,j,k) - b(1)*mgrid(l)%etz_z(i,j,k))/b2
           mgrid(l)%drz(i,j,k) = (b(1)*mgrid(l)%etz_y(i,j,k) - b(2)*mgrid(l)%etz_x(i,j,k))/b2
 
+          test_var = abs(mgrid(l)%drx(i,j,k))*mgrid(l)%bx(i,j,k) + abs(mgrid(l)%dry(i,j,k))*mgrid(l)%by(i,j,k) + abs(mgrid(l)%drz(i,j,k))*mgrid(l)%bz(i,j,k)
+          if (abs(test_var)>0.00001) then
+            print*, test_var
+          endif
         enddo
       enddo
     enddo
@@ -1307,46 +1311,46 @@ program main
   ! ATTENTION: SAVE FIELD IN DN (TEST-PURPOSE ONLY!)
   ! ------------------------------------------------------------------------
 
-  !3d
-  lun = 700
-  file_out = trim(data_dir) // 'DN0.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
-  write(lun) n, n, n
+  ! !3d
+  ! lun = 700
+  ! file_out = trim(data_dir) // 'DN0.BIN'
+  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
+  ! write(lun) n, n, n
 
-  tmp3d(:,:,:) = phi(:,:,:)
+  ! tmp3d(:,:,:) = phi(:,:,:)
 
-  write(lun) tmp3d(:,:,:)
-  write(lun) time, x, y, z, dx, dy, dz
-  close(lun)
+  ! write(lun) tmp3d(:,:,:)
+  ! write(lun) time, x, y, z, dx, dy, dz
+  ! close(lun)
 
 
-  lun = 701
-  file_out = trim(data_dir) // 'BB0.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
-  write(lun) n, n, n
+  ! lun = 701
+  ! file_out = trim(data_dir) // 'BB0.BIN'
+  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
+  ! write(lun) n, n, n
 
-  tmp3d(:,:,:) = bx(:,:,:)
-  write(lun) tmp3d(:,:,:)
+  ! tmp3d(:,:,:) = bx(:,:,:)
+  ! write(lun) tmp3d(:,:,:)
 
-  tmp3d(:,:,:) = by(:,:,:)
-  write(lun) tmp3d(:,:,:)
+  ! tmp3d(:,:,:) = by(:,:,:)
+  ! write(lun) tmp3d(:,:,:)
   
-  tmp3d(:,:,:) = bz(:,:,:)
-  write(lun) tmp3d(:,:,:)
+  ! tmp3d(:,:,:) = bz(:,:,:)
+  ! write(lun) tmp3d(:,:,:)
 
-  write(lun) time, x, y, z, dx, dy, dz
-  close(lun)
+  ! write(lun) time, x, y, z, dx, dy, dz
+  ! close(lun)
 
 
-  lun = 702
-  file_out = trim(data_dir) // 'VV0.BIN'
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
-  write(lun) n, n, n
-  write(lun) tmp3d(:,:,:)
-  write(lun) tmp3d(:,:,:)
-  write(lun) tmp3d(:,:,:)
-  write(lun) time, x, y, z, dx, dy, dz
-  close(lun)
+  ! lun = 702
+  ! file_out = trim(data_dir) // 'VV0.BIN'
+  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write')
+  ! write(lun) n, n, n
+  ! write(lun) tmp3d(:,:,:)
+  ! write(lun) tmp3d(:,:,:)
+  ! write(lun) tmp3d(:,:,:)
+  ! write(lun) time, x, y, z, dx, dy, dz
+  ! close(lun)
 
   tot_time = omp_get_wtime() - tot_time
   print *, tot_time, "Total Time"
