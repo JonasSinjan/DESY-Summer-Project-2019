@@ -247,6 +247,19 @@ lpar15, lperp15 = read_sf(dir_sf, 128.0)
 dir_sf = working_dir_path + 'final_data/3d/128run3D_FFT/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar16, lperp16 = read_sf(dir_sf, 128.0)
 
+#phi0 wrt local
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/128run3D_real/sf_par_perp_v_phi0F.txt'#should check is global
+dir_sf = working_dir_path + 'final_data/3d/128run3D_real/sf_par_perp_v_phi0_wrt_localF.txt'
+lpar17, lperp17 = read_sf(dir_sf, 128.0)
+
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phiF.txt'
+dir_sf = working_dir_path + 'final_data/3d/128run3D_FFT/sf_par_perp_v_phi0_wrt_localF.txt'
+lpar18, lperp18 = read_sf(dir_sf, 128.0)
+
+#dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/256run3D_FFT/sf_par_perp_v_phi0F.txt'#should check is global
+dir_sf = working_dir_path + 'final_data/3d/256run3D_FFT/sf_par_perp_v_phi0_wrt_localF.txt'
+lpar19, lperp19 = read_sf(dir_sf, 256.0)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -337,6 +350,15 @@ count_128_3d_f = find_indeix(lperp15)
 #3d displacement phi0 fft
 count_128_3d_phi0f = find_indeix(lperp16)
 
+#3d displacement phi0 real
+count_128_3d_phi0r_local = find_indeix(lperp17)
+
+#3d displacement phi0 fft
+count_128_3d_phi0f_local = find_indeix(lperp18)
+
+#3d displacement phi0 fft 256
+count_256_3d_phi0f_local = find_indeix(lperp19)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -418,6 +440,15 @@ slope_128_disp_phi0f, rval_128_disp_phi0f, err_128_disp_phi0f = linfit(lperp16,l
 
 #3d displacement 256 fft phi0
 slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f = linfit(lperp13,lpar13, count_256_3d_phi0f)
+
+#3d displacement 128 real phi0 local real
+slope_128_disp_phi0_local, rval_128_disp_phi0_local, err_128_disp_phi0_local = linfit(lperp17,lpar17, count_128_3d_phi0r_local)
+
+#3d displacement 128 fft phi0 local fft
+slope_128_disp_phi0f_local, rval_128_disp_phi0f_local, err_128_disp_phi0f_local = linfit(lperp18,lpar18, count_128_3d_phi0f_local)
+
+#3d displacement 256 fft phi0 local fft
+slope_256_disp_phi0f_local, rval_256_disp_phi0f_local, err_256_disp_phi0f_local = linfit(lperp19,lpar19, count_256_3d_phi0f_local)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
@@ -524,11 +555,17 @@ ax1 = plt.subplot(gs[0])
 
 
 
-ax1.plot(lperp11[:count_1283d_phi0], lpar11[:count_1283d_phi0], lw=2, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
+#ax1.plot(lperp11[:count_1283d_phi0], lpar11[:count_1283d_phi0], lw=2, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
 
-ax1.plot(lperp16[:count_128_3d_phi0f], lpar16[:count_128_3d_phi0f], lw=2, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f, rval_128_disp_phi0f, err_128_disp_phi0f))
+#ax1.plot(lperp16[:count_128_3d_phi0f], lpar16[:count_128_3d_phi0f], lw=2, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f, rval_128_disp_phi0f, err_128_disp_phi0f))
 
-ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
+#ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
+
+ax1.plot(lperp17[:count_128_3d_phi0r_local], lpar17[:count_128_3d_phi0r_local], lw=2, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0_local, rval_128_disp_phi0_local, err_128_disp_phi0_local))
+
+ax1.plot(lperp18[:count_128_3d_phi0f_local], lpar18[:count_128_3d_phi0f_local], lw=2, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f_local, rval_128_disp_phi0f_local, err_128_disp_phi0f_local))
+
+ax1.plot(lperp19[:count_256_3d_phi0f_local], lpar19[:count_256_3d_phi0f_local], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f_local, rval_256_disp_phi0f_local, err_256_disp_phi0f_local))
 
 #ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=4, color = "black", ls = "-", label="GS95 2/3")
 ax1.plot(lperp12[:count_1283d], 1.5*ref_slope_2_3_3d, lw=2, color = "black", ls = "-", label="GS95 2/3")
@@ -539,7 +576,7 @@ ax1.set_xscale('log')
 ax1.set_yscale('log')
 ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
 ax1.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=9)
-ax1.set_title('Structure Function 3D Disp. Real vs FFT PHI0')
+ax1.set_title('Structure Function 3D Disp. Real vs FFT PHI0 wrt local')
 ax1.legend(loc='lower right',ncol=1,fontsize=6)
 
 plt.show()
