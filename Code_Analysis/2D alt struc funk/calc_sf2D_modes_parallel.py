@@ -173,7 +173,7 @@ ntstp = ntstp + 1
 
 sf2D_array = sf2D_array/ntstp
 
-np.save(dir_output+'sf2D_' + str(input_var) + '.npy',sf2D_array)
+np.save(dir_output+'sf2D_' + 'phi0' + '.npy',sf2D_array)
 
 """
 sf_par = sf_par/npts
