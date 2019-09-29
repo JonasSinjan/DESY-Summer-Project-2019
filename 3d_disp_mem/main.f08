@@ -619,13 +619,13 @@ program main
           !testing requirement dot product is zero
           test_var = abs(etzk_x(i,j,k))*ki + abs(etzk_y(i,j,k))*kj + abs(etzk_z(i,j,k))*kk
           if (abs(test_var)>0.00001) then
-            print*, test_var
+            print*, test_var, "etzk.k >0.00001"
           endif
 
           !testing etzk_y = 0
           test_var =  abs(etzk_y(i,j,k))
           if (abs(test_var)>0.00001) then
-            print*, test_var
+            print*, test_var, "etzk_y > 0.00001 0"
           endif
 
         enddo
