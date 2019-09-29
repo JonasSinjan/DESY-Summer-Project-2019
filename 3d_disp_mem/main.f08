@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/128_mem_method_test_FFT/'
+  data_dir = './Runs/128_mem_test_etzk_y/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -621,6 +621,13 @@ program main
           if (abs(test_var)>0.00001) then
             print*, test_var
           endif
+
+          !testing etzk_y = 0
+          test_var =  abs(etzk_y(i,j,k))
+          if (abs(test_var)>0.00001) then
+            print*, test_var
+          endif
+
         enddo
       enddo
     enddo
