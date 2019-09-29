@@ -28,7 +28,7 @@ def smoothing(xarr) :
 
 working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
 
-sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_.npy')
+sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi0.npy')
 lent=128
 lpar1 = 1.0*np.arange(lent/4)/lent
 lperp1 = 1.0*np.arange(lent/4)/lent
@@ -90,12 +90,12 @@ sff2d = sf2D1
 lpar=lpar1
 lperp=lperp1
 cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[5,5],sff2d[5,10],sff2d[5,20]],linewidths=2)
-#plt.clabel(cs,inline=1,fontsize=10)
+plt.clabel(cs,inline=1,fontsize=10)
 ax0.axes.xaxis.set_ticklabels([])
 ax0.set_title('(a) S1b Phi0 field',fontsize=18)
 ax0.set_ylabel(r'$l_{\perp}/L$',fontsize=18)
-#ax0.set_xlabel('$l_{\parallel}$',fontsize=16)
-#ax0.legend(loc='bottom left')
+ax0.set_xlabel('$l_{\parallel}$',fontsize=16)
+ax0.legend(loc='lower left')
 
 
 # ax1 = plt.subplot(gs[1],aspect='equal')
