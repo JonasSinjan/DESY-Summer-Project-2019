@@ -157,8 +157,8 @@ if __name__ == '__main__':
   sf2D_array=np.zeros((lent/4,lent/4))
 
   #working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
-  working_dir_path = '/lustre/fs23/group/that/jonas/Github_rep/DESY/'
-
+  working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'
+  
   dir_data = working_dir_path + '2d_vs_3d_data/256run3D_FFT/'
   dir_output = working_dir_path + 'final_data/3d/256run3D_FFT/'
 
