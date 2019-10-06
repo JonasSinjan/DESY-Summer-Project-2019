@@ -160,7 +160,7 @@ if __name__ == '__main__':
   working_dir_path = '/lustre/fs23/group/that/jonas/Github_rep/DESY/'
 
   dir_data = working_dir_path + 'final_data/3d/256run3D_FFT/'
-  dir_output = working_dir_path + 'final_data/3d/256run3D_FFT/'
+  dir_output = working_dir_path + '2d_vs_3d_data/256run3D_FFT/'
 
   sf2D_list=[0]*int(lent / 4)
   phi0, phi, bx,by,bz = read_b_files3D(dir_data) 
