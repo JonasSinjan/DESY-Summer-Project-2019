@@ -139,7 +139,7 @@ def struct2D_funk(ipar, phi, bx, by, bz):
 
 if __name__ == '__main__': 
 
-  lent=256
+  lent=512
   nx=lent
   ny=lent
   nz=lent
@@ -149,7 +149,7 @@ if __name__ == '__main__':
 
   seed(1)
   n_avg_bfield_pts = 5
-  nrandpts = 2000
+  nrandpts = 1000
 
   mode = 'F'
 
@@ -159,8 +159,8 @@ if __name__ == '__main__':
   #working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
   working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'
   
-  dir_data = working_dir_path + '2d_vs_3d_data/256run3D_FFT/'
-  dir_output = working_dir_path + 'final_data/3d/256run3D_FFT/'
+  dir_data = working_dir_path + '3d_disp_mem/512_mem_FFT/'
+  dir_output = working_dir_path + 'final_data/3d/512_FFT/'
 
   sf2D_list=[0]*int(lent / 4)
   phi0, phi, bx,by,bz = read_b_files3D(dir_data) 
