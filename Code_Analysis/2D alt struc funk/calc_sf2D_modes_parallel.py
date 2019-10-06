@@ -9,27 +9,7 @@ from numpy.random import randint
 from numpy.random import rand
 #from pylab import *
 
-lent=128
-nx=lent
-ny=lent
-nz=lent
-Lx=1.0
-Ly=1.0
-Lz=1.0
 
-working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
-
-dir_data = working_dir_path + 'final_data/3d/128run3D_FFT/'
-dir_output = working_dir_path + "final_data/3d/128run3D_FFT/"
-
-seed(1)
-n_avg_bfield_pts = 5
-nrandpts = 2000
-
-mode= 'F'
-
-ntstp = 0
-sf2D_array=np.zeros((lent/4,lent/4))
 
 def read_b_files3D(dir_data):
 
@@ -158,6 +138,30 @@ def struct2D_funk(ipar, phi, bx, by, bz):
   #print(np.amax(bx),np.amax(by),np.amax(bz))
 
 if __name__ == '__main__': 
+
+  lent=256
+  nx=lent
+  ny=lent
+  nz=lent
+  Lx=1.0
+  Ly=1.0
+  Lz=1.0
+
+  seed(1)
+  n_avg_bfield_pts = 5
+  nrandpts = 2000
+
+  mode = 'F'
+
+  ntstp = 0
+  sf2D_array=np.zeros((lent/4,lent/4))
+
+  #working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
+  working_dir_path = '/lustre/fs23/group/that/jonas/Github_rep/DESY/'
+
+  dir_data = working_dir_path + 'final_data/3d/256run3D_FFT/'
+  dir_output = working_dir_path + 'final_data/3d/256run3D_FFT/'
+
   sf2D_list=[0]*int(lent / 4)
   phi0, phi, bx,by,bz = read_b_files3D(dir_data) 
 

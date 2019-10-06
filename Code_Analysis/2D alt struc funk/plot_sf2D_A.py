@@ -34,11 +34,11 @@ lpar1 = 1.0*np.arange(lent/4)/lent
 lperp1 = 1.0*np.arange(lent/4)/lent
 sf2D1 = smoothing(sf2D_array)
 
-# sf2D_array = np.load('../1024_runs/S4/data/decomped_modes/sf2D_A.npy')
-# lent=1024
-# lpar2 = 1.0*np.arange(lent/4)/lent
-# lperp2 = 1.0*np.arange(lent/4)/lent
-# sf2D2 = smoothing(sf2D_array)
+sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi.npy')
+lent=1024
+lpar2 = 1.0*np.arange(lent/4)/lent
+lperp2 = 1.0*np.arange(lent/4)/lent
+sf2D2 = smoothing(sf2D_array)
 
 # sf2D_array = np.load('../512_runs_4/C2/data/decomped_modes/sf2D_A.npy')
 # lent=512
@@ -77,10 +77,10 @@ sf2D1 = smoothing(sf2D_array)
 # sf2D8 = smoothing(sf2D_array)
 
 
-fig=plt.figure()
-fig = plt.figure(figsize=(24.0, 12.0))
+#fig=plt.figure()
+fig = plt.figure(figsize=(12.0, 8.0))
 # gs = gridspec.GridSpec(2, 4, hspace=0.0, wspace=0.1)
-gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.1)
+gs = gridspec.GridSpec(2, 1, hspace=0.0, wspace=0.1)
 
 ax0 = plt.subplot(gs[0],aspect='equal')
 ax0.set_xlim(xmax=0.2)
@@ -91,27 +91,27 @@ lpar=lpar1
 lperp=lperp1
 cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[5,5],sff2d[5,10],sff2d[5,20]],linewidths=2)
 plt.clabel(cs,inline=1,fontsize=10)
-ax0.axes.xaxis.set_ticklabels([])
+#ax0.axes.xaxis.set_ticklabels([])
 ax0.set_title('(a) S1b Phi0 field',fontsize=18)
 ax0.set_ylabel(r'$l_{\perp}/L$',fontsize=18)
 ax0.set_xlabel('$l_{\parallel}$',fontsize=16)
-ax0.legend(loc='lower left')
+#ax0.legend(loc='lower left')
 
 
-# ax1 = plt.subplot(gs[1],aspect='equal')
-# ax1.set_xlim(xmax=0.2)
-# #ax0.set_ylim(ymin=10.0)
-# ax1.set_ylim(ymax=0.2)
-# sff2d = sf2D2
-# lpar=lpar2
-# lperp=lperp2
-# cs=ax1.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[5,5],sff2d[5,10],sff2d[5,20],sff2d[5,40],sff2d[5,60],sff2d[5,80],sff2d[5,100],sff2d[5,150],sff2d[5,200]],linewidths=2)
-# #plt.clabel(cs,inline=1,fontsize=10)
-# ax1.axes.xaxis.set_ticklabels([])
-# ax1.axes.yaxis.set_ticklabels([])
-# ax1.set_title('(b) S4b B field',fontsize=18)
-# #ax1.set_ylabel(r'$l_{\perp}$',fontsize=16)
-# #ax1.set_xlabel('$l_{\parallel}$',fontsize=16)
+ax1 = plt.subplot(gs[1],aspect='equal')
+ax1.set_xlim(xmax=0.2)
+#ax0.set_ylim(ymin=10.0)
+ax1.set_ylim(ymax=0.2)
+sff2d = sf2D2
+lpar=lpar2
+lperp=lperp2
+cs=ax1.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[5,5],sff2d[5,10],sff2d[5,20],sff2d[5,40],sff2d[5,60],sff2d[5,80],sff2d[5,100],sff2d[5,150],sff2d[5,200]],linewidths=2)
+plt.clabel(cs,inline=1,fontsize=10)
+#ax1.axes.xaxis.set_ticklabels([])
+#ax1.axes.yaxis.set_ticklabels([])
+ax1.set_title('(b) S4b B field',fontsize=18)
+ax1.set_ylabel(r'$l_{\perp}$',fontsize=16)
+ax1.set_xlabel('$l_{\parallel}$',fontsize=16)
 # #ax0.legend(loc='bottom left')
 
 
