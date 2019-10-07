@@ -28,25 +28,29 @@ def smoothing(xarr) :
 
 working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
 
-sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi0.npy')
+#sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi0.npy')
+sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/128_2nd_B/sf2D_phi0.npy')
 lent=128
 lpar1 = 1.0*np.arange(lent/4)/lent
 lperp1 = 1.0*np.arange(lent/4)/lent
 sf2D1 = smoothing(sf2D_array)
 
-sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi.npy')
+#sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi.npy')
+sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/128_2nd_B/sf2D_phi0.npy')
 lent=128
 lpar2 = 1.0*np.arange(lent/4)/lent
 lperp2 = 1.0*np.arange(lent/4)/lent
 sf2D2 = smoothing(sf2D_array)
 
-sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi0.npy')
+#sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi0.npy')
+sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi0.npy')
 lent=256
 lpar3 = 1.0*np.arange(lent/4)/lent
 lperp3 = 1.0*np.arange(lent/4)/lent
 sf2D3 = smoothing(sf2D_array)
 
-sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi.npy')
+#sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi.npy')
+sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi0.npy')
 lent=256
 lpar4 = 1.0*np.arange(lent/4)/lent
 lperp4 = 1.0*np.arange(lent/4)/lent
@@ -90,7 +94,8 @@ sff2d = sf2D1
 lpar=lpar1
 lperp=lperp1
 #print(sff2d)
-cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,3], sff2d[3,6], sff2d[3,9], sff2d[3,12],sff2d[3,15],sff2d[3,20], sff2d[3,25]],linewidths=2) #[5,5] just picks the sf value at that location - finds isocontours
+#cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,3], sff2d[3,6], sff2d[3,9], sff2d[3,12],sff2d[3,15],sff2d[3,20], sff2d[3,25]],linewidths=2) #[5,5] just picks the sf value at that location - finds isocontours
+cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[5,5],sff2d[5,10],sff2d[5,20]],linewidths=2)
 plt.clabel(cs,inline=1,fontsize=10)
 #ax0.axes.xaxis.set_ticklabels([])
 ax0.set_title('128 Phi0',fontsize=18)
@@ -105,7 +110,7 @@ ax1.set_ylim(ymax=0.2)
 sff2d = sf2D2
 lpar=lpar2
 lperp=lperp2
-cs=ax1.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,3], sff2d[3,6], sff2d[3,9], sff2d[3,12],sff2d[3,15],sff2d[3,20], sff2d[3,25]], linewidths=2)
+cs=ax1.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[5,5],sff2d[5,10],sff2d[5,20]], linewidths=2)
 plt.clabel(cs,inline=1,fontsize=10)
 #ax1.axes.xaxis.set_ticklabels([])
 #ax1.axes.yaxis.set_ticklabels([])
@@ -122,7 +127,7 @@ ax2.set_ylim(ymax=0.2)
 sff2d = sf2D3
 lpar=lpar3
 lperp=lperp3
-cs=ax2.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,3], sff2d[3,6], sff2d[3,9], sff2d[3,12],sff2d[3,15],sff2d[3,20], sff2d[3,25], sff2d[3,30],sff2d[3,35]], linewidths=2)
+cs=ax2.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[5,5],sff2d[5,10],sff2d[5,20],sff2d[5,40]], linewidths=2)
 plt.clabel(cs,inline=1,fontsize=10)
 ax2.set_title('256 Phi0',fontsize=18)
 ax2.set_ylabel(r'$l_{\perp}$',fontsize=16)
@@ -137,7 +142,7 @@ ax3.set_ylim(ymax=0.2)
 sff2d = sf2D4
 lpar=lpar4
 lperp=lperp4
-cs=ax3.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,3], sff2d[3,6], sff2d[3,9], sff2d[3,12],sff2d[3,15],sff2d[3,20], sff2d[3,25], sff2d[3,30],sff2d[3,35]], linewidths=2)
+cs=ax3.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[5,5],sff2d[5,10],sff2d[5,20],sff2d[5,40]], linewidths=2)
 plt.clabel(cs,inline=1,fontsize=10)
 ax3.set_title('256 Phi',fontsize=18)
 ax3.set_ylabel(r'$l_{\perp}$',fontsize=16)
