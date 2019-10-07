@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/128_mem_test_etzk_y/'
+  data_dir = './Runs/128_2nd_B/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -207,8 +207,10 @@ program main
   do k = 1, n
     do j = 1, n
       do i = 1, n
-        by(i,j,k) = by(i,j,k) + 0.5*sin(2.0*x(i))
-        by(i,j,k) = by(i,j,k) + 0.5*sin(4.0*x(i)+1.6)
+        by(i,j,k) = by(i,j,k) + 2.5*sin(2.0*x(i))
+        by(i,j,k) = by(i,j,k) + 1.5*sin(4.0*x(i)+1.6)
+        bx(i,j,k) = bx(i,j,k) + 5*cos(2.0*y(j))
+        bx(i,j,k) = bx(i,j,k) + 3*cos(4.0*y(j)+1.6)
       enddo
     enddo
   enddo
