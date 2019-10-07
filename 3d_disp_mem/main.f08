@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 7
+  integer :: ngrids = 8
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/128_2nd_B/'
+  data_dir = './Runs/256_2nd_B/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
