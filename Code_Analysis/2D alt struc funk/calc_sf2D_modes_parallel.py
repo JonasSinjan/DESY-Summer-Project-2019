@@ -165,7 +165,7 @@ if __name__ == '__main__':
   sf2D_list=[0]*int(lent / 4)
   phi0, phi, bx,by,bz = read_b_files3D(dir_data) 
 
-  input_var = phi
+  input_var = phi0
   for i in range(int(lent / 4)):
     sf2D_list[i] = struct2D_funk(i, input_var, bx, by, bz)
   
@@ -177,7 +177,7 @@ ntstp = ntstp + 1
 
 sf2D_array = sf2D_array/ntstp
 
-np.save(dir_output+'sf2D_' + 'phi' + '.npy',sf2D_array)
+np.save(dir_output+'sf2D_' + 'phi0' + '.npy',sf2D_array)
 
 """
 sf_par = sf_par/npts
