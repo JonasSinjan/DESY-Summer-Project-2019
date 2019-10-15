@@ -307,15 +307,15 @@ if __name__ == "__main__":
     #plot_power2d(dir_data3, dir_data4, n)
 
     n = 512
-    dir_sf = "/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/"
+    #dir_sf = "/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/"
     # dir_data2 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/power_spectra/"
-    #dir_sf = '/home/jonas/PycharmProjects/DESY/final_data/2d/512run2D_disp_real/'
+    dir_sf = '/home/jonas/Documents/VSCode/DESY/final_data/2d/512run2D_disp_real/'
     dir_data2 = 2
     plot_power2d(dir_sf, dir_data2, n)
 
     n = 512
-    dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/512_mem_FFT/"
-    #dir_data = '/home/jonas/PycharmProjects/DESY/final_data/3d/128run3D_real/'
+    #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/512_mem_FFT/"
+    dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/512_mem_FFT/'
     plot_power3d(dir_data,n)
 
 # #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/power_spectra/"
