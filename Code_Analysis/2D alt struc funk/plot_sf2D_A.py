@@ -36,21 +36,21 @@ lperp1 = 1.0*np.arange(lent/4)/lent
 sf2D1 = smoothing(sf2D_array)
 
 #sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi.npy')
-sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/128_2nd_B/sf2D_phi0.npy')
+sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/128_2nd_B/sf2D_phi.npy')
 lent=128
 lpar2 = 1.0*np.arange(lent/4)/lent
 lperp2 = 1.0*np.arange(lent/4)/lent
 sf2D2 = smoothing(sf2D_array)
 
 #sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi0.npy')
-sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi0.npy')
+sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi.npy')
 lent=256
 lpar3 = 1.0*np.arange(lent/4)/lent
 lperp3 = 1.0*np.arange(lent/4)/lent
 sf2D3 = smoothing(sf2D_array)
 
 #sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi.npy')
-sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi0.npy')
+sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi.npy')
 lent=256
 lpar4 = 1.0*np.arange(lent/4)/lent
 lperp4 = 1.0*np.arange(lent/4)/lent
@@ -84,7 +84,9 @@ sf2D4 = smoothing(sf2D_array)
 #fig=plt.figure()
 fig = plt.figure(figsize=(20.0, 15.0))
 # gs = gridspec.GridSpec(2, 4, hspace=0.0, wspace=0.1)
-gs = gridspec.GridSpec(2, 2, hspace=0.3, wspace=0.0)
+gs = gridspec.GridSpec(2, 2, hspace=0.4, wspace=0.0)
+
+fig.suptitle('2nd B', size = 20)
 
 ax0 = plt.subplot(gs[0],aspect='equal')
 ax0.set_xlim(xmax=0.2)
@@ -149,6 +151,8 @@ ax3.set_ylabel(r'$l_{\perp}$',fontsize=16)
 ax3.set_xlabel('$l_{\parallel}$',fontsize=16)
 #ax0.legend(loc='bottom left')
 #plt.axvline(x=25.2)
+
+
 
 # ax4 = plt.subplot(gs[4],aspect='equal')
 # ax4.set_xlim(xmax=0.2)
