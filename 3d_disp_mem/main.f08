@@ -1015,7 +1015,7 @@ program main
         if (k_perp > 0.) then
           E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
         else
-          E_coeff = 0. !experiment with this?
+          E_coeff = k_para**(-2.) !experiment with this?
         endif
 
         !sort random phase
