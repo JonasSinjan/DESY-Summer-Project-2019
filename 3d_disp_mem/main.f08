@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 8
+  integer :: ngrids = 7
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/256_2nd_B/'
+  data_dir = './Runs/128_1st_B_testphi0/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -207,10 +207,14 @@ program main
   do k = 1, n
     do j = 1, n
       do i = 1, n
-        by(i,j,k) = by(i,j,k) + 2.5*sin(2.0*x(i))
-        by(i,j,k) = by(i,j,k) + 1.5*sin(4.0*x(i)+1.6)
-        bx(i,j,k) = bx(i,j,k) + 5*cos(2.0*y(j))
-        bx(i,j,k) = bx(i,j,k) + 3*cos(4.0*y(j)+1.6)
+        by(i,j,k) = by(i,j,k) + 0.5*sin(2.0*x(i))
+        by(i,j,k) = by(i,j,k) + 0.5*sin(4.0*x(i)+1.6)
+        
+        ! 2nd B perturb
+        ! by(i,j,k) = by(i,j,k) + 2.5*sin(2.0*x(i))
+        ! by(i,j,k) = by(i,j,k) + 1.5*sin(4.0*x(i)+1.6)
+        ! bx(i,j,k) = bx(i,j,k) + 5*cos(2.0*y(j))
+        ! bx(i,j,k) = bx(i,j,k) + 3*cos(4.0*y(j)+1.6)
       enddo
     enddo
   enddo
@@ -973,6 +977,9 @@ program main
   call dfftw_plan_dft_c2r_3d(dftplan, m,m,m, fk, f, FFTW_ESTIMATE)
 
   phi0k(:,:,:) = 0
+
+  kmax = real(m)/3 !? was /2 for 2D
+
   ! SKIP NYQUIST FREQUENCY
   do kk = min((-m/2 + 1), 0), m/2-1
     ! do kj = 0, 0
@@ -996,6 +1003,8 @@ program main
       ! SKIP NYQUIST FREQUENCY
       do ki = 0, m/2-1
         i = ki + 1
+        
+        if ((ki == 0) .and. (kj == 0) .and. (kk == 0)) cycle
 
         kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
 
@@ -1006,33 +1015,43 @@ program main
         if (k_perp > 0.) then
           E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
         else
-          E_coeff = 0.
+          E_coeff = 0. !experiment with this?
         endif
 
-        ! sort random phase
+        !sort random phase
         call random_number(ph)
         ph = ph*twopi
-        if (ki == 0) then
-          if (kj > 0) then
-            phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-            if (k/=1) then
-              phi0k(i,m-j+2,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
-            else 
-              phi0k(i,m-j+2,k) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
-            endif
-          else if (kj < 0) then
-            cycle
-          else
-            if (kk > 0) then
-              phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-              phi0k(i,j,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
-            else
-              cycle
-            endif
-          endif
+        if (kmod > kmax) then !from michael's method
+          phi0k(i,j,k) = (0.d0, 0.d0)
         else
           phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
         endif
+        
+
+        ! ! sort random phase
+        ! call random_number(ph)
+        ! ph = ph*twopi
+        ! if (ki == 0) then
+        !   if (kj > 0) then
+        !     phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+        !     if (k/=1) then
+        !       phi0k(i,m-j+2,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+        !     else 
+        !       phi0k(i,m-j+2,k) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+        !     endif
+        !   else if (kj < 0) then
+        !     cycle
+        !   else
+        !     if (kk > 0) then
+        !       phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+        !       phi0k(i,j,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+        !     else
+        !       cycle
+        !     endif
+        !   endif  
+        ! else
+        !   phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+        ! endif
       enddo ! ki
     enddo ! kj
   enddo !kk
