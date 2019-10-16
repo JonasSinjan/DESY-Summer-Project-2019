@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/128_1st_B_testphi0/'
+  data_dir = './Runs/128_1st_B_test_-2/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
