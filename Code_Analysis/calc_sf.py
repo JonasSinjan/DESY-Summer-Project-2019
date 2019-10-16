@@ -135,7 +135,7 @@ def read_files3D_phi0(dir_data):
     temp = np.reshape(abx, (nx, ny, nz))
     bx = temp.transpose()
 
-    #bx.fill(1)
+    bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
     fd = open(filename, 'rb')
@@ -145,7 +145,7 @@ def read_files3D_phi0(dir_data):
     temp = np.reshape(aby, (nx, ny, nz))
     by = temp.transpose()
 
-    #by.fill(0)
+    by.fill(0)
 
     filename = dir_data + 'BZ' + '.BIN'
     fd = open(filename, 'rb')
@@ -155,7 +155,7 @@ def read_files3D_phi0(dir_data):
     temp = np.reshape(aby, (nx, ny, nz))
     bz = temp.transpose()
 
-    #bz.fill(0)
+    bz.fill(0)
 
     print(bx[:, :, 1])
     print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
@@ -370,19 +370,19 @@ if __name__ == '__main__':
     # data input and output path
 
     #desy cluster path
-    dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/512_mem_FFT/'  # data files
-    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/512run3D_mem_FFT/'  # data files
+    # dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/512_mem_FFT/'  # data files
+    # dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/512run3D_mem_FFT/'  # data files
     
     #windows laptop
     # dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
     # dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
     #linux home pc
-    #dir_data = '/home/jonas/Documents/VSCode/DESY/final_data/3d/128run3D_FFT/'
-    #dir_output = '/home/jonas/Documents/VSCode/DESY/final_data/3d/128run3D_FFT/'
+    dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_1st_B_testphi0/'
+    dir_output = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_1st_B_testphi0/'
 
     # resolution size must be specified
-    size = 512
+    size = 128
     lent = size
 
     # dimensions
@@ -450,7 +450,7 @@ if __name__ == '__main__':
         npts_2 = np.zeros(int(lent / 2))
 
         #3D PHI0
-        phi0, bx,by,bz = read_files3D_phi(dir_data)
+        phi0, bx,by,bz = read_files3D_phi0(dir_data)
 
         sf_snapshot = []
         sff_2 = np.zeros((3, int(lent / 4)))
@@ -468,7 +468,7 @@ if __name__ == '__main__':
         sf_perp_2 = sf_perp_2 / npts_2
 
         # writing the spectra to a file - must change name of output file depending on phi0 or phi & if wrt global or local frame
-        f = open(dir_output + 'sf_par_perp_v_phi' + mode + '.txt', 'w')
+        f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
         for i in range(0, int(lent / 2)):
             value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
             f.write(value + "\n")
