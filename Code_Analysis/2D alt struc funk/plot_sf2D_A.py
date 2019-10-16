@@ -43,7 +43,7 @@ lperp2 = 1.0*np.arange(lent/4)/lent
 sf2D2 = smoothing(sf2D_array)
 
 #sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi0.npy')
-sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi.npy')
+sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi0.npy')
 lent=256
 lpar3 = 1.0*np.arange(lent/4)/lent
 lperp3 = 1.0*np.arange(lent/4)/lent

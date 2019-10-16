@@ -619,9 +619,9 @@ ax1.plot(lperp24[:count_128_3d_phi0_global_test_2], lpar24[:count_128_3d_phi0_gl
 
 #ax1.plot(lperp22[:count_512_3d_phi0_local], lpar22[:count_512_3d_phi0_local], lw=2, ls = "--",color='orange', label="512 Phi0 local grad: %s R^2: %s  Err: %s" % (slope_512_disp_3d_phi0_local, rval_512_disp_3d_phi0_local, err_512_disp_3d_phi0_local))
 
-#ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=4, color = "black", ls = "-", label="GS95 2/3")
+ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
 #ax1.plot(lperp22[:count_512_3d_phi0], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
-#ax1.plot(lperp15[:count_128_3d_f], ref_slope_3d_128_f, lw=4, color = "black", ls = "-")
+#ax1.plot(lperp15[:count_128_3d_f], ref_slope_3d_128_f, lw=2.5, color = "black", ls = "-")
 
 
 ax1.set_xscale('log')

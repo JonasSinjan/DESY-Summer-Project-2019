@@ -978,7 +978,7 @@ program main
 
   phi0k(:,:,:) = 0
 
-  kmax = real(m)/3 !? was /2 for 2D
+  kmax = real(m)/2 !? was /2 for 2D - at high wavenumber not adding turbulent modes
 
   ! SKIP NYQUIST FREQUENCY
   do kk = min((-m/2 + 1), 0), m/2-1
@@ -1015,43 +1015,44 @@ program main
         if (k_perp > 0.) then
           E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
         else
-          E_coeff = k_para**(-2.) !experiment with this?
+          E_coeff = k_para**(-2.) !different amplitude?
+          E_coeff = 
         endif
 
         !sort random phase
         call random_number(ph)
         ph = ph*twopi
-        if (kmod > kmax) then !from michael's method
-          phi0k(i,j,k) = (0.d0, 0.d0)
-        else
-          phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-        endif
-        
-
-        ! ! sort random phase
-        ! call random_number(ph)
-        ! ph = ph*twopi
-        ! if (ki == 0) then
-        !   if (kj > 0) then
-        !     phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-        !     if (k/=1) then
-        !       phi0k(i,m-j+2,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
-        !     else 
-        !       phi0k(i,m-j+2,k) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
-        !     endif
-        !   else if (kj < 0) then
-        !     cycle
-        !   else
-        !     if (kk > 0) then
-        !       phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-        !       phi0k(i,j,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
-        !     else
-        !       cycle
-        !     endif
-        !   endif  
+        ! if (kmod > kmax) then !from michael's method
+        !   phi0k(i,j,k) = (0.d0, 0.d0)
         ! else
         !   phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
         ! endif
+        
+        ! reality condition of FFT - conjugate
+        ! sort random phase
+        call random_number(ph)
+        ph = ph*twopi
+        if (ki == 0) then
+          if (kj > 0) then
+            phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+            if (k/=1) then
+              phi0k(i,m-j+2,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+            else 
+              phi0k(i,m-j+2,k) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+            endif
+          else if (kj < 0) then
+            cycle
+          else
+            if (kk > 0) then
+              phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+              phi0k(i,j,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
+            else
+              cycle
+            endif
+          endif  
+        else
+          phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
+        endif
       enddo ! ki
     enddo ! kj
   enddo !kk
