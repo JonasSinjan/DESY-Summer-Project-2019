@@ -266,6 +266,10 @@ lpar22, lperp22 = read_sf(dir_sf, 512.0)
 #phi0 wrt gloval 128 test
 dir_sf = working_dir_path + '3d_disp_mem/Runs/128_1st_B_testphi0/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar23, lperp23 = read_sf(dir_sf, 128.0)
+
+#phi0 wrt gloval 128 test
+dir_sf = working_dir_path + '3d_disp_mem/Runs/128_1st_B_test_-2/sf_par_perp_v_phi0_wrt_globalF.txt'
+lpar24, lperp24 = read_sf(dir_sf, 128.0)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -377,6 +381,9 @@ count_512_3d_phi0_local = find_indeix(lperp22)
 #3d displacement 128 phi0 global
 count_128_3d_phi0_global_test = find_indeix(lperp23)
 
+#3d displacement 128 phi0 global test 2
+count_128_3d_phi0_global_test_2 = find_indeix(lperp24)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -481,6 +488,8 @@ slope_512_disp_3d_phi0_local, rval_512_disp_3d_phi0_local, err_512_disp_3d_phi0_
 #3d displacement 128 fft phi0 global
 slope_128_3d_phi0_global, rval_128_3d_phi0_global, err_128_3d_phi0_global = linfit(lperp23,lpar23, count_128_3d_phi0_global_test)
 
+#3d displacement 128 fft phi0 global
+slope_128_3d_phi0_global_test, rval, err = linfit(lperp24,lpar24, count_128_3d_phi0_global_test_2)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -596,6 +605,8 @@ ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "
 
 ax1.plot(lperp23[:count_128_3d_phi0_global_test], lpar23[:count_128_3d_phi0_global_test], lw=2, ls = "-.",color = "red", label="128 FFT test grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global, rval_128_3d_phi0_global, err_128_3d_phi0_global))
 
+ax1.plot(lperp24[:count_128_3d_phi0_global_test_2], lpar24[:count_128_3d_phi0_global_test_2], lw=2, ls = "-.", label="128 FFT test 2 grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global_test, rval, err))
+
 #ax1.plot(lperp17[:count_128_3d_phi0r_local], lpar17[:count_128_3d_phi0r_local], lw=2, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0_local, rval_128_disp_phi0_local, err_128_disp_phi0_local))
 
 #ax1.plot(lperp18[:count_128_3d_phi0f_local], lpar18[:count_128_3d_phi0f_local], lw=2, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f_local, rval_128_disp_phi0f_local, err_128_disp_phi0f_local))
@@ -604,12 +615,12 @@ ax1.plot(lperp23[:count_128_3d_phi0_global_test], lpar23[:count_128_3d_phi0_glob
 
 #ax1.plot(lperp20[:count_512_3d_phi], lpar20[:count_512_3d_phi], lw=2, ls = "-.",color = "red", label="512 Phi grad: %s R^2: %s  Err: %s" % (slope_512_disp_3d_phi, rval_512_disp_3d_phi, err_512_disp_3d_phi))
 
-ax1.plot(lperp21[:count_512_3d_phi0], lpar21[:count_512_3d_phi0], lw=2, ls = "-", label="512 Phi0 global grad: %s R^2: %s  Err: %s" % (slope_512_disp_3d_phi0, rval_512_disp_3d_phi0, err_512_disp_3d_phi0))
+#ax1.plot(lperp21[:count_512_3d_phi0], lpar21[:count_512_3d_phi0], lw=2, ls = "-", label="512 Phi0 global grad: %s R^2: %s  Err: %s" % (slope_512_disp_3d_phi0, rval_512_disp_3d_phi0, err_512_disp_3d_phi0))
 
 #ax1.plot(lperp22[:count_512_3d_phi0_local], lpar22[:count_512_3d_phi0_local], lw=2, ls = "--",color='orange', label="512 Phi0 local grad: %s R^2: %s  Err: %s" % (slope_512_disp_3d_phi0_local, rval_512_disp_3d_phi0_local, err_512_disp_3d_phi0_local))
 
 #ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=4, color = "black", ls = "-", label="GS95 2/3")
-ax1.plot(lperp22[:count_512_3d_phi0], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
+#ax1.plot(lperp22[:count_512_3d_phi0], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
 #ax1.plot(lperp15[:count_128_3d_f], ref_slope_3d_128_f, lw=4, color = "black", ls = "-")
 
 

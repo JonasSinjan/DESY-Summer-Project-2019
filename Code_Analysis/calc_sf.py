@@ -378,8 +378,8 @@ if __name__ == '__main__':
     # dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
     #linux home pc
-    dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_1st_B_testphi0/'
-    dir_output = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_1st_B_testphi0/'
+    dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_1st_B_test_-2/'
+    dir_output = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_1st_B_test_-2/'
 
     # resolution size must be specified
     size = 128
@@ -468,7 +468,7 @@ if __name__ == '__main__':
         sf_perp_2 = sf_perp_2 / npts_2
 
         # writing the spectra to a file - must change name of output file depending on phi0 or phi & if wrt global or local frame
-        f = open(dir_output + 'sf_par_perp_v_phi0' + mode + '.txt', 'w')
+        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_global' + mode + '.txt', 'w')
         for i in range(0, int(lent / 2)):
             value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
             f.write(value + "\n")
