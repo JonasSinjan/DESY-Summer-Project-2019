@@ -644,7 +644,7 @@ program main
           ! test_var =  abs(etzk_x(i,j,k))
           ! if (abs(test_var)>0.00001) then
           !   print*, test_var, "etzk_x > 0.00001 0"
-          endif
+          !endif
 
         enddo
       enddo
