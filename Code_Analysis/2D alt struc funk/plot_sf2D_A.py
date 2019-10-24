@@ -56,6 +56,13 @@ lpar4 = 1.0*np.arange(lent/4)/lent
 lperp4 = 1.0*np.arange(lent/4)/lent
 sf2D4 = smoothing(sf2D_array)
 
+plt.figure()
+plt.imshow(sf2D_array)
+plt.title('2nd B 256 PHI')
+fig = plt.gcf()
+plt.clim()   # clamp the color limits
+plt.colorbar()
+plt.show()
 # sf2D_array = np.load('../1024_runs/S1/data/decomped_modes/sf2D_v_A.npy')
 # lent=1024
 # lpar5 = 1.0*np.arange(lent/4)/lent

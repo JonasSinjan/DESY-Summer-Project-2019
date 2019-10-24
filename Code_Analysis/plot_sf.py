@@ -633,19 +633,19 @@ ax1 = plt.subplot(gs[0])
 
 #ax1.plot(lperp16[:count_128_3d_phi0f], lpar16[:count_128_3d_phi0f], lw=2, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f, rval_128_disp_phi0f, err_128_disp_phi0f))
 
-#ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
+ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
 
-ax1.plot(lperp23[:count_128_3d_phi0_global_test], lpar23[:count_128_3d_phi0_global_test], lw=2, ls = "-.",color = "red", label="128 FFT test grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global, rval_128_3d_phi0_global, err_128_3d_phi0_global))
+#ax1.plot(lperp23[:count_128_3d_phi0_global_test], lpar23[:count_128_3d_phi0_global_test], lw=2, ls = "-.",color = "red", label="128 FFT test grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global, rval_128_3d_phi0_global, err_128_3d_phi0_global))
 
-ax1.plot(lperp24[:count_128_3d_phi0_global_test_2], lpar24[:count_128_3d_phi0_global_test_2], lw=2, ls = "-.", label="128 k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global_test, rval, err))
+#ax1.plot(lperp24[:count_128_3d_phi0_global_test_2], lpar24[:count_128_3d_phi0_global_test_2], lw=2, ls = "-.", label="128 k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global_test, rval, err))
 
-#ax1.plot(lperp28[:count_256_2], lpar28[:count_256_2], lw=2, ls = "-.", label="256 k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_2, rval_256_2, err_256_2))
+ax1.plot(lperp28[:count_256_2], lpar28[:count_256_2], lw=2, ls = "-.", label="256 k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_2, rval_256_2, err_256_2))
 
-#ax1.plot(lperp25[:count_256_5_2], lpar25[:count_256_5_2], lw=2, ls = "-.", label="256 5*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_52, rval_256_52, err_256_52))
+ax1.plot(lperp25[:count_256_5_2], lpar25[:count_256_5_2], lw=2, ls = "-.", label="256 5*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_52, rval_256_52, err_256_52))
 
-#ax1.plot(lperp26[:count_256_10_2], lpar26[:count_256_10_2], lw=2, ls = "-.", label="256 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_102, rval_256_102, err_256_102))
+ax1.plot(lperp26[:count_256_10_2], lpar26[:count_256_10_2], lw=2, ls = "-.", label="256 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_102, rval_256_102, err_256_102))
 
-ax1.plot(lperp27[:count_128__phi0init_2], lpar27[:count_128__phi0init_2], lw=2, ls = "-.", label="128 phi0init -2 grad: %s R^2: %s  Err: %s" % (slope_128_phi0init_2, rval_128_phi0init_2, err_128_phi0init_2))
+#ax1.plot(lperp27[:count_128__phi0init_2], lpar27[:count_128__phi0init_2], lw=2, ls = "-.", label="128 phi0init -2 grad: %s R^2: %s  Err: %s" % (slope_128_phi0init_2, rval_128_phi0init_2, err_128_phi0init_2))
 
 #ax1.plot(lperp17[:count_128_3d_phi0r_local], lpar17[:count_128_3d_phi0r_local], lw=2, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0_local, rval_128_disp_phi0_local, err_128_disp_phi0_local))
 
