@@ -56,7 +56,6 @@ program main
   real(sp) :: h
   real(sp) :: amp
   real(sp) :: kx, ky, kz
-  type(sgrid), dimension(:), allocatable :: mgrid
 
   real(sp), dimension(:), allocatable :: x, y, z
 
