@@ -6,3 +6,7 @@
 .vscode/settings.json
 3d_disp_mem/512_mem_FFT/F_kperp_spec.txt
 Code_Analysis/k_perp_3d_spectrum.pyc
+3d_disp_mem/Runs/256_test_-2/PHI0.BIN
+3d_disp_mem/Runs/256_test_10-2/PHI0.BIN
+3d_disp_mem/Runs/256_test_5-2/PHI0.BIN
+phi0init/Runs/128_test/PHI0.BIN

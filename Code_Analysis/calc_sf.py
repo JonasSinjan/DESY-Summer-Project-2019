@@ -118,45 +118,37 @@ def read_files_sq(dir_data):
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
 
-def read_files3D_phi0(dir_data):
+def read_files3D_phi0(dir_data, local = False):
     filename = dir_data + 'PHI0' + '.BIN'
     fd = open(filename, 'rb')
-
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-
     temp = np.reshape(abx, (nx, ny, nz))
     phi0 = temp.transpose()
 
-    filename = dir_data + 'BX' + '.BIN' 
-    fd = open(filename, 'rb')
+    if local:
+    
+        filename = dir_data + 'BX' + '.BIN' 
+        fd = open(filename, 'rb')
+        abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        temp = np.reshape(abx, (nx, ny, nz))
+        bx = temp.transpose()
 
-    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        filename = dir_data + 'BY' + '.BIN'
+        fd = open(filename, 'rb')
+        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        temp = np.reshape(aby, (nx, ny, nz))
+        by = temp.transpose()
 
-    temp = np.reshape(abx, (nx, ny, nz))
-    bx = temp.transpose()
+        filename = dir_data + 'BZ' + '.BIN'
+        fd = open(filename, 'rb')
+        aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+        temp = np.reshape(aby, (nx, ny, nz))
+        bz = temp.transpose()
 
-    bx.fill(1)
-
-    filename = dir_data + 'BY' + '.BIN'
-    fd = open(filename, 'rb')
-
-    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-
-    temp = np.reshape(aby, (nx, ny, nz))
-    by = temp.transpose()
-
-    by.fill(0)
-
-    filename = dir_data + 'BZ' + '.BIN'
-    fd = open(filename, 'rb')
-
-    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
-
-    temp = np.reshape(aby, (nx, ny, nz))
-    bz = temp.transpose()
-
-    bz.fill(0)
-
+    else:
+        bx = np.ones((nx, ny, nz))
+        by = np.zeros((nx, ny, nz))
+        bz = np.zeros((nx, ny, nz))
     print(bx[:, :, 1])
     print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
     return phi0, bx, by, bz
@@ -378,11 +370,13 @@ if __name__ == '__main__':
     # dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
 
     #linux home pc
-    dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_1st_B_test_-2/'
-    dir_output = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_1st_B_test_-2/'
+    dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/256_test_5-2/'
+    dir_output = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/256_test_5-2/'
+    # dir_data = '/home/jonas/Documents/VSCode/DESY/phi0init/Runs/128_test/'
+    # dir_output = '/home/jonas/Documents/VSCode/DESY/phi0init/Runs/128_test/'
 
     # resolution size must be specified
-    size = 128
+    size = 256
     lent = size
 
     # dimensions
@@ -450,7 +444,8 @@ if __name__ == '__main__':
         npts_2 = np.zeros(int(lent / 2))
 
         #3D PHI0
-        phi0, bx,by,bz = read_files3D_phi0(dir_data)
+        localbool = False
+        phi0, bx,by,bz = read_files3D_phi0(dir_data, localbool)
 
         sf_snapshot = []
         sff_2 = np.zeros((3, int(lent / 4)))

@@ -270,6 +270,22 @@ lpar23, lperp23 = read_sf(dir_sf, 128.0)
 #phi0 wrt gloval 128 test
 dir_sf = working_dir_path + '3d_disp_mem/Runs/128_1st_B_test_-2/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar24, lperp24 = read_sf(dir_sf, 128.0)
+
+#phi0 wrt global 256 test 5 -2
+dir_sf = working_dir_path + '3d_disp_mem/Runs/256_test_5-2/sf_par_perp_v_phi0_wrt_globalF.txt'
+lpar25, lperp25 = read_sf(dir_sf, 256.0)
+
+#phi0 wrt global 256 test 10 -2
+dir_sf = working_dir_path + '3d_disp_mem/Runs/256_test_10-2/sf_par_perp_v_phi0_wrt_globalF.txt'
+lpar26, lperp26 = read_sf(dir_sf, 256.0)
+
+#phi0 wrt global 128 phi0init test -2
+dir_sf = working_dir_path + 'phi0init/Runs/128_test/sf_par_perp_v_phi0_wrt_globalF.txt'
+lpar27, lperp27 = read_sf(dir_sf, 128.0)
+
+#phi0 wrt global 256 test -2
+dir_sf = working_dir_path + '3d_disp_mem/Runs/256_test_10-2/sf_par_perp_v_phi0_wrt_globalF.txt'
+lpar28, lperp28 = read_sf(dir_sf, 256.0)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -384,6 +400,14 @@ count_128_3d_phi0_global_test = find_indeix(lperp23)
 #3d displacement 128 phi0 global test 2
 count_128_3d_phi0_global_test_2 = find_indeix(lperp24)
 
+count_256_5_2 = find_indeix(lperp25)
+
+count_256_10_2 = find_indeix(lperp26)
+
+count_128__phi0init_2 = find_indeix(lperp27)
+
+count_256_2 = find_indeix(lperp28)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -490,6 +514,14 @@ slope_128_3d_phi0_global, rval_128_3d_phi0_global, err_128_3d_phi0_global = linf
 
 #3d displacement 128 fft phi0 global
 slope_128_3d_phi0_global_test, rval, err = linfit(lperp24,lpar24, count_128_3d_phi0_global_test_2)
+
+slope_256_test_52, rval_256_52, err_256_52 = linfit(lperp25,lpar25, count_256_5_2)
+
+slope_256_test_102, rval_256_102, err_256_102 = linfit(lperp26,lpar26, count_256_10_2)
+
+slope_256_test_2, rval_256_2, err_256_2 = linfit(lperp28,lpar28, count_256_2)
+
+slope_128_phi0init_2, rval_128_phi0init_2, err_128_phi0init_2 = linfit(lperp27,lpar27, count_128__phi0init_2)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -595,17 +627,25 @@ gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax1 = plt.subplot(gs[0])
 
-
+#/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/256_test_-2
 
 #ax1.plot(lperp11[:count_1283d_phi0], lpar11[:count_1283d_phi0], lw=2, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
 
-ax1.plot(lperp16[:count_128_3d_phi0f], lpar16[:count_128_3d_phi0f], lw=2, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f, rval_128_disp_phi0f, err_128_disp_phi0f))
+#ax1.plot(lperp16[:count_128_3d_phi0f], lpar16[:count_128_3d_phi0f], lw=2, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f, rval_128_disp_phi0f, err_128_disp_phi0f))
 
-ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
+#ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
 
 ax1.plot(lperp23[:count_128_3d_phi0_global_test], lpar23[:count_128_3d_phi0_global_test], lw=2, ls = "-.",color = "red", label="128 FFT test grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global, rval_128_3d_phi0_global, err_128_3d_phi0_global))
 
-ax1.plot(lperp24[:count_128_3d_phi0_global_test_2], lpar24[:count_128_3d_phi0_global_test_2], lw=2, ls = "-.", label="128 FFT test 2 grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global_test, rval, err))
+ax1.plot(lperp24[:count_128_3d_phi0_global_test_2], lpar24[:count_128_3d_phi0_global_test_2], lw=2, ls = "-.", label="128 k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global_test, rval, err))
+
+#ax1.plot(lperp28[:count_256_2], lpar28[:count_256_2], lw=2, ls = "-.", label="256 k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_2, rval_256_2, err_256_2))
+
+#ax1.plot(lperp25[:count_256_5_2], lpar25[:count_256_5_2], lw=2, ls = "-.", label="256 5*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_52, rval_256_52, err_256_52))
+
+#ax1.plot(lperp26[:count_256_10_2], lpar26[:count_256_10_2], lw=2, ls = "-.", label="256 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_102, rval_256_102, err_256_102))
+
+ax1.plot(lperp27[:count_128__phi0init_2], lpar27[:count_128__phi0init_2], lw=2, ls = "-.", label="128 phi0init -2 grad: %s R^2: %s  Err: %s" % (slope_128_phi0init_2, rval_128_phi0init_2, err_128_phi0init_2))
 
 #ax1.plot(lperp17[:count_128_3d_phi0r_local], lpar17[:count_128_3d_phi0r_local], lw=2, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0_local, rval_128_disp_phi0_local, err_128_disp_phi0_local))
 
@@ -628,7 +668,7 @@ ax1.set_xscale('log')
 ax1.set_yscale('log')
 ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
 ax1.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=9)
-ax1.set_title('Structure Function 3D Disp. FFT PHI0 wrt global')
+ax1.set_title('Structure Function 3D Disp. PHI0 wrt global')
 ax1.legend(loc='lower right',ncol=1,fontsize=6)
 
 plt.show()
