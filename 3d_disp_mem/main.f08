@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/128_1st_B_test_-2/'
+  data_dir = './Runs/128_1st_B_test_-2_test_etzk/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -634,6 +634,18 @@ program main
             print*, test_var, "etzk_y > 0.00001 0"
           endif
 
+          !testing etzk_y = 0
+          test_var =  abs(etzk_z(i,j,k))
+          if (abs(test_var)>0.00001) then
+            print*, test_var, "etzk_z > 0.00001 0"
+          endif
+
+          !testing etzk_y = 0
+          test_var =  abs(etzk_x(i,j,k))
+          if (abs(test_var)>0.00001) then
+            print*, test_var, "etzk_x > 0.00001 0"
+          endif
+
         enddo
       enddo
     enddo
@@ -1016,7 +1028,7 @@ program main
           E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
         else
           E_coeff = k_para**(-2.) !different amplitude?
-          E_coeff = 
+          !E_coeff = 
         endif
 
         !sort random phase
