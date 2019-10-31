@@ -149,7 +149,7 @@ if __name__ == '__main__':
 
   seed(1)
   n_avg_bfield_pts = 5
-  nrandpts = 1000
+  nrandpts = 2000
 
   mode = 'F'
 
@@ -179,7 +179,7 @@ ntstp = ntstp + 1
 
 sf2D_array = sf2D_array/ntstp
 
-np.save(dir_output+'sf2D_' + 'phi' + '.npy',sf2D_array)
+np.save(dir_output+'sf2D_' + 'phi_' + str(nrandpts) + '.npy',sf2D_array)
 
 """
 sf_par = sf_par/npts
