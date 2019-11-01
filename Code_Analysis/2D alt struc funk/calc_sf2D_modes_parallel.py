@@ -159,25 +159,25 @@ if __name__ == '__main__':
   working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
   #working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'
   
-  dir_data = working_dir_path + '3d_disp_mem/Runs/256_2nd_B/'
-  dir_output = working_dir_path + '3d_disp_mem/Runs/256_2nd_B/'
+  dir_data = working_dir_path + 'final_data/3d/256run3D_FFT/'#'3d_disp_mem/Runs/256_2nd_B/'
+  dir_output = working_dir_path + 'final_data/3d/256run3D_FFT/'#'3d_disp_mem/Runs/256_2nd_B/'
 
   sf2D_list=[0]*int(lent / 4)
   phi0, phi, bx,by,bz = read_b_files3D(dir_data) 
 
   input_var = phi
   for i in range(int(lent / 4)): #varying lpar
-    sf2D_list[i] = struct2D_funk(i, input_var, bx, by, bz)
+    sf2D_list[i] = struct2D_funk(i, input_var, bx, by, bz) #output sf_lperp
   
   sf2D_arr = np.asarray(sf2D_list)
   # print(np.shape(sf2D_arr))
   # print(sf2D_arr[40:1])
-  
+
 
 sf2D_array = sf2D_array + sf2D_arr
 ntstp = ntstp + 1
 
-sf2D_array = sf2D_array/ntstp
+#sf2D_array = sf2D_array/ntstp
 
 np.save(dir_output+'sf2D_' + 'phi_' + str(nrandpts) + '.npy',sf2D_array)
 
@@ -186,7 +186,7 @@ sf_par = sf_par/npts
 sf_perp=sf_perp/npts
 
 #writing the spectra to a file
-f=open(dir_output+'sf_par_perp_F.txt','w')
+f=open(dir_output+'sf_par_perp_F_phi.txt','w')
 for i in range(0,lent/2):
   value=str(i*1.0)+" "+str(sf_par[i])+" "+str(sf_perp[i])
   f.write(value+"\n")

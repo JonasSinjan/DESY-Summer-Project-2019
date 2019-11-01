@@ -28,23 +28,25 @@ def smoothing(xarr) :
 
 working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
 
-#sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi0.npy')
-sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/128_2nd_B/sf2D_phi0.npy')
-lent=128
+
+sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi0_2000.npy')
+#sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi0_2000.npy')
+lent=256
 lpar1 = 1.0*np.arange(lent/4)/lent
 lperp1 = 1.0*np.arange(lent/4)/lent
 sf2D1 = smoothing(sf2D_array)
 
-#sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi.npy')
-sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/128_2nd_B/sf2D_phi.npy')
-lent=128
+
+sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi_2000.npy')
+#sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi_2000.npy')
+lent=256
 lpar2 = 1.0*np.arange(lent/4)/lent
 lperp2 = 1.0*np.arange(lent/4)/lent
 sf2D2 = smoothing(sf2D_array)
 
-#sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi0.npy')
+sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi0_1000.npy')
 #sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi0.npy')
-sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/128_2nd_B/sf2D_phi0_1000.npy')
+#sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/128_2nd_B/sf2D_phi0_1000.npy')
 lent=128
 lpar3 = 1.0*np.arange(lent/4)/lent
 lperp3 = 1.0*np.arange(lent/4)/lent
@@ -52,19 +54,20 @@ sf2D3 = smoothing(sf2D_array)
 
 #sf2D_array = np.load(working_dir_path + 'final_data/3d/256run3D_FFT/sf2D_phi.npy')
 #sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi.npy')
-sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/128_2nd_B/sf2D_phi_1000.npy')
+sf2D_array = np.load(working_dir_path + 'final_data/3d/128run3D_FFT/sf2D_phi_1000.npy')
 lent=128
 lpar4 = 1.0*np.arange(lent/4)/lent
 lperp4 = 1.0*np.arange(lent/4)/lent
 sf2D4 = smoothing(sf2D_array)
 
-# plt.figure()
-# plt.imshow(sf2D_array)
-# #plt.title('2nd B 256 PHI')
-# fig = plt.gcf()
-# plt.clim()   # clamp the color limits
-# plt.colorbar()
-# plt.show()
+plt.figure()
+plt.imshow(sf2D2)
+plt.title('256 2nd B PHI 2000')
+fig = plt.gcf()
+plt.clim()   # clamp the color limits
+plt.colorbar()
+plt.show()
+
 # sf2D_array = np.load('../1024_runs/S1/data/decomped_modes/sf2D_v_A.npy')
 # lent=1024
 # lpar5 = 1.0*np.arange(lent/4)/lent
@@ -95,7 +98,7 @@ fig = plt.figure(figsize=(20.0, 15.0))
 # gs = gridspec.GridSpec(2, 4, hspace=0.0, wspace=0.1)
 gs = gridspec.GridSpec(2, 2, hspace=0.4, wspace=0.0)
 
-fig.suptitle('20 v 1000 compar 2nd B', size = 20)
+fig.suptitle('128 v 256 min 1000 1st B', size = 20)
 
 ax0 = plt.subplot(gs[0],aspect='equal')
 ax0.set_xlim(xmax=0.2)
@@ -106,10 +109,10 @@ lpar=lpar1
 lperp=lperp1
 #print(sff2d)
 #cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,3], sff2d[3,6], sff2d[3,9], sff2d[3,12],sff2d[3,15],sff2d[3,20], sff2d[3,25]],linewidths=2) #[5,5] just picks the sf value at that location - finds isocontours
-cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,1], sff2d[5,2],sff2d[5,4], sff2d[5,7],sff2d[5,10],sff2d[5,12], sff2d[5,15], sff2d[5,20]],linewidths=2)
+cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,1], sff2d[5,2],sff2d[5,4], sff2d[5,7],sff2d[5,10],sff2d[5,12], sff2d[5,15], sff2d[5,20], sff2d[5,25],sff2d[5,30], sff2d[5,35], sff2d[5,40]],linewidths=2)
 plt.clabel(cs,inline=1,fontsize=10)
 #ax0.axes.xaxis.set_ticklabels([])
-ax0.set_title('128 Phi0',fontsize=18)
+ax0.set_title('256 Phi0 2000',fontsize=18)
 ax0.set_ylabel(r'$l_{\perp}/L$',fontsize=18)
 ax0.set_xlabel('$l_{\parallel}$',fontsize=16)
 #ax0.legend(loc='lower left')
@@ -121,11 +124,11 @@ ax1.set_ylim(ymax=0.2)
 sff2d = sf2D2
 lpar=lpar2
 lperp=lperp2
-cs=ax1.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,1], sff2d[5,2],sff2d[5,4], sff2d[5,7],sff2d[5,10],sff2d[5,12], sff2d[5,15], sff2d[5,20]], linewidths=2)
+cs=ax1.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,1], sff2d[5,2],sff2d[5,4], sff2d[5,7],sff2d[5,10],sff2d[5,12], sff2d[5,15], sff2d[5,20], sff2d[5,25],sff2d[5,30], sff2d[5,35], sff2d[5,40]], linewidths=2)
 plt.clabel(cs,inline=1,fontsize=10)
 #ax1.axes.xaxis.set_ticklabels([])
 #ax1.axes.yaxis.set_ticklabels([])
-ax1.set_title('128 Phi',fontsize=18)
+ax1.set_title('256 Phi 2000',fontsize=18)
 ax1.set_ylabel(r'$l_{\perp}$',fontsize=16)
 ax1.set_xlabel('$l_{\parallel}$',fontsize=16)
 # #ax0.legend(loc='bottom left')

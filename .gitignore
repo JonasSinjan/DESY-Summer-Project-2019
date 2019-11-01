@@ -20,3 +20,8 @@ phi0init/Runs/128_test/PHI0.BIN
 3d_disp_mem/Runs/256_2nd_B/BZ.BIN
 3d_disp_mem/Runs/256_2nd_B/PHI.BIN
 3d_disp_mem/Runs/256_2nd_B/PHI0.BIN
+final_data/3d/256run3D_FFT/BX.BIN
+final_data/3d/256run3D_FFT/BY.BIN
+final_data/3d/256run3D_FFT/BZ.BIN
+final_data/3d/256run3D_FFT/PHI.BIN
+final_data/3d/256run3D_FFT/PHI0.BIN
