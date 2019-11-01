@@ -286,6 +286,10 @@ lpar27, lperp27 = read_sf(dir_sf, 128.0)
 #phi0 wrt global 256 test -2
 dir_sf = working_dir_path + '3d_disp_mem/Runs/256_test_10-2/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar28, lperp28 = read_sf(dir_sf, 256.0)
+
+#phi0 wrt global 512 test -2
+dir_sf = working_dir_path + 'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
+lpar28, lperp28 = read_sf(dir_sf, 512.0)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
 #--------------------------------------------------------------------------------------------------------------------------------------------

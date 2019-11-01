@@ -189,7 +189,7 @@ program main
         ! else
         !   phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
         ! endif
-        
+        !/home/jonas/Documents/VSCode/DESY/phi0init/Runs/512_test
         ! reality condition of FFT - conjugate
         ! sort random phase
         call random_number(ph)
