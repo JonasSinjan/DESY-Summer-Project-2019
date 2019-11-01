@@ -289,7 +289,7 @@ lpar28, lperp28 = read_sf(dir_sf, 256.0)
 
 #phi0 wrt global 512 test -2
 dir_sf = working_dir_path + 'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
-lpar28, lperp28 = read_sf(dir_sf, 512.0)
+lpar29, lperp29 = read_sf(dir_sf, 512.0)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -412,6 +412,8 @@ count_128__phi0init_2 = find_indeix(lperp27)
 
 count_256_2 = find_indeix(lperp28)
 
+count_512_10_2 = find_indeix(lperp29)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -526,6 +528,8 @@ slope_256_test_102, rval_256_102, err_256_102 = linfit(lperp26,lpar26, count_256
 slope_256_test_2, rval_256_2, err_256_2 = linfit(lperp28,lpar28, count_256_2)
 
 slope_128_phi0init_2, rval_128_phi0init_2, err_128_phi0init_2 = linfit(lperp27,lpar27, count_128__phi0init_2)
+
+slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2 = linfit(lperp29,lpar29, count_512_10_2)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -648,6 +652,8 @@ ax1.plot(lperp28[:count_256_2], lpar28[:count_256_2], lw=2, ls = "-.", label="25
 ax1.plot(lperp25[:count_256_5_2], lpar25[:count_256_5_2], lw=2, ls = "-.", label="256 5*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_52, rval_256_52, err_256_52))
 
 ax1.plot(lperp26[:count_256_10_2], lpar26[:count_256_10_2], lw=2, ls = "-.", label="256 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_102, rval_256_102, err_256_102))
+
+ax1.plot(lperp29[:count_512_10_2], lpar29[:count_512_10_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
 
 #ax1.plot(lperp27[:count_128__phi0init_2], lpar27[:count_128__phi0init_2], lw=2, ls = "-.", label="128 phi0init -2 grad: %s R^2: %s  Err: %s" % (slope_128_phi0init_2, rval_128_phi0init_2, err_128_phi0init_2))
 
