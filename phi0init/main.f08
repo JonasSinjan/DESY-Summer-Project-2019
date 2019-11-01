@@ -98,7 +98,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/128_test/'
+  data_dir = './Runs/128_test_1_5_exp/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -177,7 +177,7 @@ program main
         if (k_perp > 0.) then
           E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
         else
-          E_coeff = 10*k_para**(-2.) !different amplitude?
+          E_coeff = 10*k_para**(-1.5) !different amplitude?
           !E_coeff = 
         endif
 
