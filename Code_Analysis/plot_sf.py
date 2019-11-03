@@ -165,7 +165,7 @@ def linfit(perp_arr, para_arr, count):
 # reading final data
 #-------------------------------------------------------------------------------------------------------------
 
-working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
+working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'#'/home/jonas/Documents/VSCode/DESY/'
 
 # 2d
 
@@ -219,7 +219,7 @@ working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
 # #dir_sf = '/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/3d/64run3D_real/sf_par_perp_v_phi0F.txt'
 # dir_sf = working_dir_path + 'final_data/3d/64run3D_real/sf_par_perp_v_phi0F.txt'
 # lpar10, lperp10 = read_sf(dir_sf, 64.0)
-
+"""
 #128
 dir_sf = working_dir_path + 'final_data/3d/128run3D_real/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar11, lperp11 = read_sf(dir_sf, 128.0)
@@ -286,10 +286,18 @@ lpar27, lperp27 = read_sf(dir_sf, 128.0)
 #phi0 wrt global 256 test -2
 dir_sf = working_dir_path + '3d_disp_mem/Runs/256_test_10-2/sf_par_perp_v_phi0_wrt_globalF.txt'
 lpar28, lperp28 = read_sf(dir_sf, 256.0)
-
+"""
 #phi0 wrt global 512 test -2
 dir_sf = working_dir_path + 'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
 lpar29, lperp29 = read_sf(dir_sf, 512.0)
+
+#phi0 wrt global 512 test -1.5
+dir_sf = working_dir_path + 'phi0init/Runs/512_5_3/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
+lpar30, lperp30 = read_sf(dir_sf, 512.0)
+
+#phi0 wrt global 512 test -5/3
+dir_sf = working_dir_path + 'phi0init/Runs/512_5_3/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
+lpar31, lperp31 = read_sf(dir_sf, 512.0)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -361,7 +369,7 @@ lpar29, lperp29 = read_sf(dir_sf, 512.0)
 
 # #2d squares phi
 # count_512sq= find_indeix(lperp8)
-
+"""
 #3d displacement phi0
 count_1283d_phi0 = find_indeix(lperp11)
 
@@ -411,8 +419,11 @@ count_256_10_2 = find_indeix(lperp26)
 count_128__phi0init_2 = find_indeix(lperp27)
 
 count_256_2 = find_indeix(lperp28)
+"""
 
 count_512_10_2 = find_indeix(lperp29)
+count_512_10_3_2 = find_indeix(lperp30)
+count_512_10_5_3 = find_indeix(lperp31)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
@@ -466,13 +477,13 @@ count_512_10_2 = find_indeix(lperp29)
 # ref_slope_2_3 = lpar1[20]*(np.power(lperp1[:count_512disp],(2.0/3.0))/np.power(lperp1[20],(2.0/3.0)))
 # ref_slope_2_3_sq = lpar8[10]*(np.power(lperp8[:count_512sq],(2.0/3.0))/np.power(lperp8[10],(2.0/3.0)))
 #slope_ref, rval_ref, err_ref = linfit(lperp8, ref_slope_2_3, count_1024disp)
-ref_slope_2_3_3d = lpar12[6]*(np.power(lperp12[:count_1283d],(2.0/3.0))/np.power(lperp12[6],(2.0/3.0)))
+# ref_slope_2_3_3d = lpar12[6]*(np.power(lperp12[:count_1283d],(2.0/3.0))/np.power(lperp12[6],(2.0/3.0)))
 
-ref_slope_3d_128_f = lpar15[6]*(np.power(lperp15[:count_128_3d_f],(2.0/3.0))/np.power(lperp15[6],(2.0/3.0)))
-ref_slope_3d_256_f = lpar14[6]*(np.power(lperp14[:count_256_3d_f],(2.0/3.0))/np.power(lperp14[6],(2.0/3.0)))
-ref_slope_3d_512_f = lpar22[6]*(np.power(lperp22[:count_512_3d_phi0],(2.0/3.0))/np.power(lperp22[6],(2.0/3.0)))
+# ref_slope_3d_128_f = lpar15[6]*(np.power(lperp15[:count_128_3d_f],(2.0/3.0))/np.power(lperp15[6],(2.0/3.0)))
+# ref_slope_3d_256_f = lpar14[6]*(np.power(lperp14[:count_256_3d_f],(2.0/3.0))/np.power(lperp14[6],(2.0/3.0)))
+ref_slope_3d_512_f = lpar29[6]*(np.power(lperp29[:count_512_10_2],(2.0/3.0))/np.power(lperp29[6],(2.0/3.0)))
 
-
+"""
 # #2d displacement 512
 # slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp1,lpar1, count_512disp)
 
@@ -528,8 +539,13 @@ slope_256_test_102, rval_256_102, err_256_102 = linfit(lperp26,lpar26, count_256
 slope_256_test_2, rval_256_2, err_256_2 = linfit(lperp28,lpar28, count_256_2)
 
 slope_128_phi0init_2, rval_128_phi0init_2, err_128_phi0init_2 = linfit(lperp27,lpar27, count_128__phi0init_2)
+"""
 
 slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2 = linfit(lperp29,lpar29, count_512_10_2)
+
+slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2 = linfit(lperp30,lpar30, count_512_10_3_2)
+
+slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3 = linfit(lperp31,lpar31, count_512_10_5_3)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -597,7 +613,7 @@ slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2 = linfit(
 # ax0.legend(loc='lower right',ncol=1,fontsize=12)
 
 # plt.show()
-
+"""
 #3d fft vs real phi
 plt.figure(figsize=(9.0, 5.0), dpi=200)
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
@@ -627,7 +643,7 @@ ax1.set_title('Structure Function 3D Disp. Real vs FFT PHI')
 ax1.legend(loc='lower right',ncol=1,fontsize=13)
 
 plt.show()
-
+"""
 
 #3d fft vs real phi0
 plt.figure(figsize=(5.0, 3.0), dpi=200)
@@ -641,19 +657,23 @@ ax1 = plt.subplot(gs[0])
 
 #ax1.plot(lperp16[:count_128_3d_phi0f], lpar16[:count_128_3d_phi0f], lw=2, ls = "-",color = "green", label="128 FFT grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0f, rval_128_disp_phi0f, err_128_disp_phi0f))
 
-ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
+#ax1.plot(lperp13[:count_256_3d_phi0f], lpar13[:count_256_3d_phi0f], lw=2, ls = "--",color='orange', label="256 FFT grad: %s R^2: %s  Err: %s" % (slope_256_disp_phi0f, rval_256_disp_phi0f, err_256_disp_phi0f))
 
 #ax1.plot(lperp23[:count_128_3d_phi0_global_test], lpar23[:count_128_3d_phi0_global_test], lw=2, ls = "-.",color = "red", label="128 FFT test grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global, rval_128_3d_phi0_global, err_128_3d_phi0_global))
 
 #ax1.plot(lperp24[:count_128_3d_phi0_global_test_2], lpar24[:count_128_3d_phi0_global_test_2], lw=2, ls = "-.", label="128 k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_128_3d_phi0_global_test, rval, err))
 
-ax1.plot(lperp28[:count_256_2], lpar28[:count_256_2], lw=2, ls = "-.", label="256 k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_2, rval_256_2, err_256_2))
+#ax1.plot(lperp28[:count_256_2], lpar28[:count_256_2], lw=2, ls = "-.", label="256 k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_2, rval_256_2, err_256_2))
 
-ax1.plot(lperp25[:count_256_5_2], lpar25[:count_256_5_2], lw=2, ls = "-.", label="256 5*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_52, rval_256_52, err_256_52))
+#ax1.plot(lperp25[:count_256_5_2], lpar25[:count_256_5_2], lw=2, ls = "-.", label="256 5*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_52, rval_256_52, err_256_52))
 
-ax1.plot(lperp26[:count_256_10_2], lpar26[:count_256_10_2], lw=2, ls = "-.", label="256 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_102, rval_256_102, err_256_102))
+#ax1.plot(lperp26[:count_256_10_2], lpar26[:count_256_10_2], lw=2, ls = "-.", label="256 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_102, rval_256_102, err_256_102))
 
 ax1.plot(lperp29[:count_512_10_2], lpar29[:count_512_10_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
+
+ax1.plot(lperp30[:count_512_10_3_2], lpar30[:count_512_10_3_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-3/2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_3_2, rval_512_phi0init_10_2_2, err_512_phi0init_10_3_2))
+
+ax1.plot(lperp31[:count_512_10_5_3], lpar31[:count_512_10_5_3], lw=2, ls = "-.", label="512 phi0init 10*k_para^-5/3 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3))
 
 #ax1.plot(lperp27[:count_128__phi0init_2], lpar27[:count_128__phi0init_2], lw=2, ls = "-.", label="128 phi0init -2 grad: %s R^2: %s  Err: %s" % (slope_128_phi0init_2, rval_128_phi0init_2, err_128_phi0init_2))
 
@@ -669,8 +689,8 @@ ax1.plot(lperp29[:count_512_10_2], lpar29[:count_512_10_2], lw=2, ls = "-.", lab
 
 #ax1.plot(lperp22[:count_512_3d_phi0_local], lpar22[:count_512_3d_phi0_local], lw=2, ls = "--",color='orange', label="512 Phi0 local grad: %s R^2: %s  Err: %s" % (slope_512_disp_3d_phi0_local, rval_512_disp_3d_phi0_local, err_512_disp_3d_phi0_local))
 
-ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
-#ax1.plot(lperp22[:count_512_3d_phi0], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
+#ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
+ax1.plot(lperp29[:count_512_10_2], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
 #ax1.plot(lperp15[:count_128_3d_f], ref_slope_3d_128_f, lw=2.5, color = "black", ls = "-")
 
 
