@@ -40,7 +40,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 9
+  integer :: ngrids = 10
   real(sp) :: anis = 1.
   real(sp) :: lx = twopi ! this the box space in fourier space?
   real(sp) :: ly = twopi
@@ -98,7 +98,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/512_test/'
+  data_dir = './Runs/1024_test/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
