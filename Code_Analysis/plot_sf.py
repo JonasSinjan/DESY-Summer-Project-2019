@@ -292,7 +292,7 @@ dir_sf = working_dir_path + 'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_globa
 lpar29, lperp29 = read_sf(dir_sf, 512.0)
 
 #phi0 wrt global 512 test -1.5
-dir_sf = working_dir_path + 'phi0init/Runs/512_5_3/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
+dir_sf = working_dir_path + 'phi0init/Runs/512_3_2/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
 lpar30, lperp30 = read_sf(dir_sf, 512.0)
 
 #phi0 wrt global 512 test -5/3
@@ -671,7 +671,7 @@ ax1 = plt.subplot(gs[0])
 
 ax1.plot(lperp29[:count_512_10_2], lpar29[:count_512_10_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
 
-ax1.plot(lperp30[:count_512_10_3_2], lpar30[:count_512_10_3_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-3/2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_3_2, rval_512_phi0init_10_2_2, err_512_phi0init_10_3_2))
+ax1.plot(lperp30[:count_512_10_3_2], lpar30[:count_512_10_3_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-3/2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2))
 
 ax1.plot(lperp31[:count_512_10_5_3], lpar31[:count_512_10_5_3], lw=2, ls = "-.", label="512 phi0init 10*k_para^-5/3 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3))
 
