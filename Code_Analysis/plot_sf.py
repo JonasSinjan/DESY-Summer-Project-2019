@@ -550,12 +550,13 @@ slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2 = linfit(
 
 start = 4
 slope_512_phi0init_10_2_lin, rval_512_phi0init_10_2_lin, err_512_phi0init_10_2_lin = linfit(lperp29,lpar29, start, count_512_10_2)
-
+start_10 = 10
 #slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2 = linfit(lperp30,lpar30, 0, count_512_10_3_2)
 
 #slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3 = linfit(lperp31,lpar31, 0, count_512_10_5_3)
+slope_1024_phi0init_10_2_lin, rval_1024_phi0init_10_2_lin, err_1024_phi0init_10_2_lin = linfit(lperp32,lpar32, start, count_1024_10_2)
 
-slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2 = linfit(lperp32,lpar32, start, count_1024_10_2)
+slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2 = linfit(lperp32,lpar32, 0, count_1024_10_2)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -680,11 +681,12 @@ ax1 = plt.subplot(gs[0])
 #ax1.plot(lperp26[:count_256_10_2], lpar26[:count_256_10_2], lw=2, ls = "-.", label="256 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_102, rval_256_102, err_256_102))
 
 ax1.scatter(lperp29[0:count_512_10_2], lpar29[0:count_512_10_2], s = 6, marker = '*',) #label="512 phi0init 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
-ax1.plot(lperp29[0:count_512_10_2], lpar29[0:count_512_10_2], lw = 1, label="512 phi0init 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
+ax1.plot(lperp29[0:count_512_10_2], lpar29[0:count_512_10_2], lw = 1, label="Total 512 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
 ax1.plot(lperp29[start:count_512_10_2], lpar29[start:count_512_10_2], lw=2, ls = "-", color = 'orange', label="512 phi0init 10*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2_lin, rval_512_phi0init_10_2_lin, err_512_phi0init_10_2_lin))
-start = 0
-ax1.plot(lperp32[start:count_1024_10_2], lpar32[start:count_1024_10_2], lw=2, ls = "-", color = 'green', label="1024 phi0init 10*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2))
 
+ax1.plot(lperp32[0:count_1024_10_2], lpar32[0:count_1024_10_2], lw = 1, label="Total 1024 grad: %s R^2: %s  Err: %s" % (slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2))
+ax1.plot(lperp32[start_10:count_1024_10_2], lpar32[start_10:count_1024_10_2], lw=2, ls = "-", color = 'green', label="1024 phi0init 10*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_1024_phi0init_10_2_lin, rval_1024_phi0init_10_2_lin, err_1024_phi0init_10_2_lin))
+ax1.scatter(lperp32[0:count_1024_10_2], lpar32[0:count_1024_10_2], s = 6, marker = '*',)
 #ax1.plot(lperp30[:count_512_10_3_2], lpar30[:count_512_10_3_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-3/2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2))
 
 #ax1.plot(lperp31[:count_512_10_5_3], lpar31[:count_512_10_5_3], lw=2, ls = "-.", label="512 phi0init 10*k_para^-5/3 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3))
