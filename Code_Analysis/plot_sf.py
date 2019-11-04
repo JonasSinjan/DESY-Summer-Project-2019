@@ -292,8 +292,13 @@ dir_sf = working_dir_path + 'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_globa
 lpar29, lperp29 = read_sf(dir_sf, 512.0)
 
 #phi0 wrt global 512 test -1.5
+<<<<<<< HEAD
+dir_sf = working_dir_path + 'phi0init/Runs/512_3_2/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
+lpar30, lperp30 = read_sf(dir_sf, 512.0)
+=======
 #dir_sf = working_dir_path + 'phi0init/Runs/512_3_2/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
 #lpar30, lperp30 = read_sf(dir_sf, 512.0)
+>>>>>>> 199dc14e151fe140b9a451becec717660d644647
 
 #phi0 wrt global 512 test -5/3
 #dir_sf = working_dir_path + 'phi0init/Runs/512_5_3/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
@@ -481,7 +486,7 @@ count_512_10_2 = find_indeix(lperp29)
 
 # ref_slope_3d_128_f = lpar15[6]*(np.power(lperp15[:count_128_3d_f],(2.0/3.0))/np.power(lperp15[6],(2.0/3.0)))
 # ref_slope_3d_256_f = lpar14[6]*(np.power(lperp14[:count_256_3d_f],(2.0/3.0))/np.power(lperp14[6],(2.0/3.0)))
-ref_slope_3d_512_f = lpar29[6]*(np.power(lperp29[:count_512_10_2],(2.0/3.0))/np.power(lperp29[6],(2.0/3.0)))
+ref_slope_3d_512_f = lpar29[0]*(np.power(lperp29[:count_512_10_2],(2.0/3.0)))/(np.power(lperp29[0],(2.0/3.0)))
 
 """
 # #2d displacement 512
@@ -649,7 +654,11 @@ plt.show()
 """
 
 #3d fft vs real phi0
+<<<<<<< HEAD
+plt.figure(figsize=(7.0, 3.0), dpi=200)
+=======
 plt.figure(figsize=(3.0, 2.0), dpi=200)
+>>>>>>> 199dc14e151fe140b9a451becec717660d644647
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax1 = plt.subplot(gs[0])
@@ -672,6 +681,13 @@ ax1 = plt.subplot(gs[0])
 
 #ax1.plot(lperp26[:count_256_10_2], lpar26[:count_256_10_2], lw=2, ls = "-.", label="256 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_102, rval_256_102, err_256_102))
 
+<<<<<<< HEAD
+ax1.plot(lperp29[:count_512_10_2], lpar29[:count_512_10_2], lw=2, ls = "-", label="512 phi0init 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
+
+ax1.plot(lperp30[:count_512_10_3_2], lpar30[:count_512_10_3_2], lw=2, ls = "-", label="512 phi0init 10*k_para^-3/2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2))
+
+ax1.plot(lperp31[:count_512_10_5_3], lpar31[:count_512_10_5_3], lw=2, ls = "-", label="512 phi0init 10*k_para^-5/3 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3))
+=======
 ax1.scatter(lperp29[0:count_512_10_2], lpar29[0:count_512_10_2], s = 6, marker = '*',) #label="512 phi0init 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
 ax1.plot(lperp29[0:count_512_10_2], lpar29[0:count_512_10_2], lw = 1, label="512 phi0init 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
 ax1.plot(lperp29[start:count_512_10_2], lpar29[start:count_512_10_2], lw=2, ls = "-", color = 'orange', label="512 phi0init 10*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2_lin, rval_512_phi0init_10_2_lin, err_512_phi0init_10_2_lin))
@@ -679,6 +695,7 @@ ax1.plot(lperp29[start:count_512_10_2], lpar29[start:count_512_10_2], lw=2, ls =
 #ax1.plot(lperp30[:count_512_10_3_2], lpar30[:count_512_10_3_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-3/2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2))
 
 #ax1.plot(lperp31[:count_512_10_5_3], lpar31[:count_512_10_5_3], lw=2, ls = "-.", label="512 phi0init 10*k_para^-5/3 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3))
+>>>>>>> 199dc14e151fe140b9a451becec717660d644647
 
 #ax1.plot(lperp27[:count_128__phi0init_2], lpar27[:count_128__phi0init_2], lw=2, ls = "-.", label="128 phi0init -2 grad: %s R^2: %s  Err: %s" % (slope_128_phi0init_2, rval_128_phi0init_2, err_128_phi0init_2))
 
