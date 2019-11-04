@@ -98,11 +98,8 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-<<<<<<< HEAD
-  data_dir = './Runs/512_5_3/'
-=======
+
   data_dir = './Runs/1024_test/'
->>>>>>> 199dc14e151fe140b9a451becec717660d644647
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
