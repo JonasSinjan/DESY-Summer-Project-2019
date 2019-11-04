@@ -376,7 +376,7 @@ if __name__ == '__main__':
     # dir_output = '/home/jonas/Documents/VSCode/DESY/phi0init/Runs/512_test/'
 
     # resolution size must be specified
-    size = 512
+    size = 1024
     lent = size
 
     # dimensions
