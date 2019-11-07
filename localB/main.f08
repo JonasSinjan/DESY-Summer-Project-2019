@@ -16,9 +16,6 @@ program main
   ! ------------------------------------------------------------------------
   !include 'fftw3.f03'
 
-  integer :: start_time, stop_time !timing fortran program
-  integer :: count_rate, count_max
-
   ! ------------------------------------------------------------------------
   ! define fixed parameters
   ! ------------------------------------------------------------------------
@@ -32,16 +29,12 @@ program main
 
   real(dp), parameter :: pi = acos(-1.d0)
   real(dp), parameter :: twopi = 2.d0*pi
-  real(dp), allocatable :: wtime, tot_time
-  real(dp), allocatable :: time_init, time_final, elapsed_time
-  integer, allocatable :: threadno
-  integer :: thread_id
+  real(dp), allocatable :: wtime
 
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
   integer :: ngrids = 10
-  real(sp) :: anis = 1.
   real(sp) :: lx = twopi ! this the box space in fourier space?
   real(sp) :: ly = twopi
   real(sp) :: lz = twopi
@@ -53,43 +46,17 @@ program main
   ! define variables
   ! ------------------------------------------------------------------------
   integer :: n, num_seed
-  integer, dimension(1) :: rand_seed
   integer, allocatable :: seed(:)
-  real(sp) :: num
-  real(sp) :: h
-  real(sp) :: amp
-  real(sp) :: kx, ky, kz
 
   real(sp), dimension(:), allocatable :: x, y, z
   real(sp), dimension(:,:,:), allocatable :: bx, by, bz !3d
   real(sp) :: time, dx, dy, dz
 
-  integer :: nk, nkb, nkt
-
-  logical :: lsum_power
-
-  ! ------------------------------------------------------------------------
-  ! define auxiliary variables
-  ! ------------------------------------------------------------------------
-  type(C_PTR) :: plan_phi0
-  type(C_PTR) :: plan1, plan2
-  type(C_PTR) :: plan
-  integer*8 :: dftplan
-  real(sp), dimension(:,:,:), allocatable :: f
-
-  real(sp) :: kmax, kmod, mag
-  real(sp) :: test_var
-  real(sp) :: k_para, k_perp, E_coeff, ph
-
 
   ! ------------------------------------------------------------------------
   ! define dummy variables
   ! ------------------------------------------------------------------------
-  integer :: l,q
-  integer :: m
   integer :: i, j, k
-  integer :: ii, jj, k_k
-  integer :: ki, kj, kk !3d
   integer :: lun
 
   character(len=400) :: data_dir
