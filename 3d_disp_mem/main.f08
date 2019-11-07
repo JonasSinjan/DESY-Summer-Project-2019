@@ -236,9 +236,9 @@ program main
   !3d
   lun = 701
   file_out = trim(data_dir) // '/' // 'BZ.BIN'
-  ! bZ(:,:,:)?
+  ! bz(:,:,:)?
   open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) bZ(:,:,:)
+    write(lun) bz(:,:,:)
   close(lun)
 
 
