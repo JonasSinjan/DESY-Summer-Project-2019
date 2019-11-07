@@ -95,8 +95,10 @@ program main
   character(len=400) :: data_dir
   character(len=1024) :: file_out
   character(len=400) :: cmd
+  
+  time = 0.
 
-
+  tot_time = omp_get_wtime()
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
@@ -147,9 +149,7 @@ program main
     z(k) = (real(k) - 0.5)*dz
   enddo
 
-  time = 0.
 
-  tot_time = omp_get_wtime()
   ! ------------------------------------------------------------------------
   ! build bx, by and bz and write to file
   ! ------------------------------------------------------------------------
@@ -203,5 +203,8 @@ program main
     write(lun) bz(:,:,:)
   close(lun)
  
+  wtime = omp_get_wtime() - wtime
+
+  print *, "Time taken = ", wtime
 
 end program main
