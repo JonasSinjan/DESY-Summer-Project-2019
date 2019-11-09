@@ -98,7 +98,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/512_20_kpara/'
+  data_dir = './Runs/512_15_kpara/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -177,7 +177,7 @@ program main
         if (k_perp > 0.) then
           E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
         else
-          E_coeff = 20*k_para**(-2) !different amplitude?
+          E_coeff = 15*k_para**(-2) !different amplitude?
           !E_coeff = 0
         endif
 
@@ -221,7 +221,9 @@ program main
   
   ! execute inverse DFT
   ! attention with the normalization of the DFT
+  fk(:,:,:) = phi0k(:,:,:)
 
+  call dfftw_execute_dft_c2r(dftplan, fk, f)
   phi0(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
   phi0(m+1,1:m,1:m) = f(1,:,:) !outer faces
