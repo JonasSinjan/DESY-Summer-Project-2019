@@ -165,7 +165,7 @@ def linfit(perp_arr, para_arr, start, end):
 # reading final data
 #-------------------------------------------------------------------------------------------------------------
 
-working_dir_path = '/home/jonas/Documents/VSCode/DESY/'#'/lustre/fs23/group/that/jonas/Github_repo/DESY/'#
+working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'#
 
 # 2d
 
@@ -290,6 +290,9 @@ lpar28, lperp28 = read_sf(dir_sf, 256.0)
 #phi0 wrt global 512 test -2
 dir_sf = working_dir_path + 'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
 lpar29, lperp29 = read_sf(dir_sf, 512.0)
+#phi0 wrt global 512 test no kpara
+dir_sf = working_dir_path + 'phi0init/Runs/512_no_kpara/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
+lpar33, lperp33 = read_sf(dir_sf, 512.0)
 
 # #phi0 wrt global 512 test -1.5
 # dir_sf = working_dir_path + 'phi0init/Runs/512_3_2/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
@@ -429,7 +432,7 @@ count_512_10_2 = find_indeix(lperp29)
 #count_512_10_3_2 = find_indeix(lperp30)
 #count_512_10_5_3 = find_indeix(lperp31)
 count_1024_10_2 = find_indeix(lperp32)
-
+count_512_nokpar = find_indeix(lperp33)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -557,6 +560,8 @@ start_10 = 10
 slope_1024_phi0init_10_2_lin, rval_1024_phi0init_10_2_lin, err_1024_phi0init_10_2_lin = linfit(lperp32,lpar32, start, count_1024_10_2)
 
 slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2 = linfit(lperp32,lpar32, 0, count_1024_10_2)
+
+slope_512_nokpar, rval_512_nokpar, err_512_nokpar = linfit(lperp33, lpar33, 0, count_512_nokpar)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -687,6 +692,8 @@ ax1.plot(lperp29[start:count_512_10_2], lpar29[start:count_512_10_2], lw=2, ls =
 ax1.plot(lperp32[0:count_1024_10_2], lpar32[0:count_1024_10_2], lw = 1, label="Total 1024 grad: %s R^2: %s  Err: %s" % (slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2))
 ax1.plot(lperp32[start_10:count_1024_10_2], lpar32[start_10:count_1024_10_2], lw=2, ls = "-", color = 'green', label="1024 phi0init 10*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_1024_phi0init_10_2_lin, rval_1024_phi0init_10_2_lin, err_1024_phi0init_10_2_lin))
 ax1.scatter(lperp32[0:count_1024_10_2], lpar32[0:count_1024_10_2], s = 6, marker = '*',)
+
+ax1.plot(lperp33[:count_512_nokpar], lpar33[:count_512_nokpar], lw = 1, label = "512 nokpar grad %s" % (slope_512_nokpar))
 #ax1.plot(lperp30[:count_512_10_3_2], lpar30[:count_512_10_3_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-3/2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2))
 
 #ax1.plot(lperp31[:count_512_10_5_3], lpar31[:count_512_10_5_3], lw=2, ls = "-.", label="512 phi0init 10*k_para^-5/3 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3))
@@ -712,11 +719,11 @@ ax1.plot(lperp32[:count_1024_10_2], 1.2*ref_slope_3d_1024_f, lw=2.5, color = "bl
 
 ax1.set_xscale('log')
 ax1.set_yscale('log')
-ax1.set_ylim(0.0005, 0.1)
+#ax1.set_ylim(0.0005, 0.1)
 ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
 ax1.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=9)
 ax1.set_title('Structure Function 3D Disp. PHI0 wrt global')
-ax1.legend(loc='upper left',ncol=1,fontsize=6)
+ax1.legend(loc='best',ncol=1,fontsize=6)
 
 plt.show()
 

@@ -40,7 +40,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 10
+  integer :: ngrids = 9
   real(sp) :: anis = 1.
   real(sp) :: lx = twopi ! this the box space in fourier space?
   real(sp) :: ly = twopi
@@ -98,7 +98,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/1024_test/'
+  data_dir = './Runs/512_20_kpara/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -177,8 +177,8 @@ program main
         if (k_perp > 0.) then
           E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
         else
-          E_coeff = 10*k_para**(-2) !different amplitude?
-          !E_coeff = 
+          E_coeff = 20*k_para**(-2) !different amplitude?
+          !E_coeff = 0
         endif
 
         !sort random phase
@@ -221,9 +221,6 @@ program main
   
   ! execute inverse DFT
   ! attention with the normalization of the DFT
-  fk(:,:,:) = phi0k(:,:,:)
-
-  call dfftw_execute_dft_c2r(dftplan, fk, f)
 
   phi0(1:m,1:m,1:m) = f(:,:,:) !inner cube
 
