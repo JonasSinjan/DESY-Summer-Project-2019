@@ -502,6 +502,8 @@ count_512_20kpar = find_indeix(lperp35)
 # ref_slope_3d_256_f = lpar14[6]*(np.power(lperp14[:count_256_3d_f],(2.0/3.0))/np.power(lperp14[6],(2.0/3.0)))
 ref_slope_3d_1024_f = lpar32[0]*(np.power(lperp32[:count_1024_10_2],(2.0/3.0)))/(np.power(lperp32[0],(2.0/3.0)))
 
+ref_slope_3d_512_f = lpar29[0]*(np.power(lperp29[:count_512_10_2],(2.0/3.0)))/(np.power(lperp29[0],(2.0/3.0)))
+
 """
 # #2d displacement 512
 # slope_512_disp, rval_512_disp, err_512_disp = linfit(lperp1,lpar1, count_512disp)
@@ -576,7 +578,13 @@ slope_512_nokpar, rval_512_nokpar, err_512_nokpar = linfit(lperp33, lpar33, 0, c
 
 slope_512_15kpar, rval_512_15kpar, err_512_15kpar = linfit(lperp34, lpar34, 0, count_512_15kpar)
 
+start = 3
+slope_512_15_lin, rval_512_15_lin, err_512_15_lin = linfit(lperp34,lpar34, start, count_512_15kpar)
+
 slope_512_20kpar, rval_512_20kpar, err_512_20kpar = linfit(lperp35, lpar35, 0, count_512_20kpar)
+
+start = 3
+slope_512_20_lin, rval_512_20_lin, err_512_20_lin = linfit(lperp35,lpar35, start, count_512_20kpar)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
@@ -682,7 +690,7 @@ plt.figure(figsize=(7.0, 3.0), dpi=200)
 gs = gridspec.GridSpec(1, 1, hspace=0.0, wspace=0.0)
 
 ax1 = plt.subplot(gs[0])
-
+start = 4
 #/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/256_test_-2
 
 #ax1.plot(lperp11[:count_1283d_phi0], lpar11[:count_1283d_phi0], lw=2, ls = "-.",color = "red", label="128 Real grad: %s R^2: %s  Err: %s" % (slope_128_disp_phi0, rval_128_disp_phi0, err_128_disp_phi0))
@@ -702,18 +710,26 @@ ax1 = plt.subplot(gs[0])
 #ax1.plot(lperp26[:count_256_10_2], lpar26[:count_256_10_2], lw=2, ls = "-.", label="256 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_256_test_102, rval_256_102, err_256_102))
 
 ax1.scatter(lperp29[0:count_512_10_2], lpar29[0:count_512_10_2], s = 6, marker = '*',) #label="512 phi0init 10*k_para^-2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
+
 ax1.plot(lperp29[0:count_512_10_2], lpar29[0:count_512_10_2], lw = 1, label="Total 512 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
+
 ax1.plot(lperp29[start:count_512_10_2], lpar29[start:count_512_10_2], lw=2, ls = "-", color = 'orange', label="512 phi0init 10*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2_lin, rval_512_phi0init_10_2_lin, err_512_phi0init_10_2_lin))
 
-ax1.plot(lperp32[0:count_1024_10_2], lpar32[0:count_1024_10_2], lw = 1, label="Total 1024 grad: %s R^2: %s  Err: %s" % (slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2))
-ax1.plot(lperp32[start_10:count_1024_10_2], lpar32[start_10:count_1024_10_2], lw=2, ls = "-", color = 'green', label="1024 phi0init 10*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_1024_phi0init_10_2_lin, rval_1024_phi0init_10_2_lin, err_1024_phi0init_10_2_lin))
-ax1.scatter(lperp32[0:count_1024_10_2], lpar32[0:count_1024_10_2], s = 6, marker = '*',)
+#ax1.plot(lperp32[0:count_1024_10_2], lpar32[0:count_1024_10_2], lw = 1, label="Total 1024 grad: %s R^2: %s  Err: %s" % (slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2))
 
-ax1.plot(lperp33[:count_512_nokpar], lpar33[:count_512_nokpar], lw = 1, label = "512 nokpar grad %s" % (slope_512_nokpar))
+#ax1.plot(lperp32[start_10:count_1024_10_2], lpar32[start_10:count_1024_10_2], lw=2, ls = "-", color = 'green', label="1024 phi0init 10*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_1024_phi0init_10_2_lin, rval_1024_phi0init_10_2_lin, err_1024_phi0init_10_2_lin))
 
-ax1.plot(lperp34[:count_512_15kpar], lpar34[:count_512_15kpar], lw = 1, label = "512 15kpar grad %s" % (slope_512_15kpar))
+#ax1.scatter(lperp32[0:count_1024_10_2], lpar32[0:count_1024_10_2], s = 6, marker = '*',)
 
-ax1.plot(lperp35[:count_512_20kpar], lpar35[:count_512_20kpar], lw = 1, label = "512 20kpar grad %s" % (slope_512_20kpar))
+#ax1.plot(lperp33[:count_512_nokpar], lpar33[:count_512_nokpar], lw = 1, label = "512 nokpar grad %s" % (slope_512_nokpar))
+
+ax1.plot(lperp34[:count_512_15kpar], lpar34[:count_512_15kpar], lw = 1) #,label = "512 15kpar grad %s" % (slope_512_15kpar))
+start = 3
+ax1.plot(lperp34[start:count_512_15kpar], lpar34[start:count_512_15kpar], lw=2, ls = "-", label="512 15*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_512_15_lin, rval_512_15_lin, err_512_15_lin))
+
+ax1.plot(lperp35[:count_512_20kpar], lpar35[:count_512_20kpar], lw = 1)#, label = "512 20kpar grad %s" % (slope_512_20kpar))
+
+ax1.plot(lperp35[start:count_512_20kpar], lpar35[start:count_512_20kpar], lw=2, ls = "-", label="512 lin 20*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_512_20_lin, rval_512_20_lin, err_512_20_lin))
 #ax1.plot(lperp30[:count_512_10_3_2], lpar30[:count_512_10_3_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-3/2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2))
 
 #ax1.plot(lperp31[:count_512_10_5_3], lpar31[:count_512_10_5_3], lw=2, ls = "-.", label="512 phi0init 10*k_para^-5/3 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3))
@@ -733,7 +749,8 @@ ax1.plot(lperp35[:count_512_20kpar], lpar35[:count_512_20kpar], lw = 1, label = 
 #ax1.plot(lperp22[:count_512_3d_phi0_local], lpar22[:count_512_3d_phi0_local], lw=2, ls = "--",color='orange', label="512 Phi0 local grad: %s R^2: %s  Err: %s" % (slope_512_disp_3d_phi0_local, rval_512_disp_3d_phi0_local, err_512_disp_3d_phi0_local))
 
 #ax1.plot(lperp14[:count_256_3d_f], ref_slope_3d_256_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
-ax1.plot(lperp32[:count_1024_10_2], 1.2*ref_slope_3d_1024_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
+#ax1.plot(lperp32[:count_1024_10_2], 1.2*ref_slope_3d_1024_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
+ax1.plot(lperp29[:count_512_10_2], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
 #ax1.plot(lperp15[:count_128_3d_f], ref_slope_3d_128_f, lw=2.5, color = "black", ls = "-")
 
 
