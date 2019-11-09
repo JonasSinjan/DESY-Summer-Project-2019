@@ -165,7 +165,7 @@ def linfit(perp_arr, para_arr, start, end):
 # reading final data
 #-------------------------------------------------------------------------------------------------------------
 
-working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'#
+working_dir_path = '/home/jonas/Documents/VSCode/DESY/'#'/lustre/fs23/group/that/jonas/Github_repo/DESY/'#
 
 # 2d
 
@@ -288,11 +288,20 @@ dir_sf = working_dir_path + '3d_disp_mem/Runs/256_test_10-2/sf_par_perp_v_phi0_w
 lpar28, lperp28 = read_sf(dir_sf, 256.0)
 """
 #phi0 wrt global 512 test -2
-dir_sf = working_dir_path + 'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
+dir_sf = '/home/jonas/Documents/VSCode/DESY/phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
 lpar29, lperp29 = read_sf(dir_sf, 512.0)
+
 #phi0 wrt global 512 test no kpara
 dir_sf = working_dir_path + 'phi0init/Runs/512_no_kpara/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
 lpar33, lperp33 = read_sf(dir_sf, 512.0)
+
+#phi0 wrt global 512 test 15 kpara -2
+dir_sf = working_dir_path + 'phi0init/Runs/512_15_kpara/sf_par_perp_v_phi0_wrt_global_15_kparaF.txt'
+lpar34, lperp34 = read_sf(dir_sf, 512.0)
+
+#phi0 wrt global 512 test 20 kpara -2
+dir_sf = working_dir_path + 'phi0init/Runs/512_20_kpara/sf_par_perp_v_phi0_wrt_global_20_kparaF.txt'
+lpar35, lperp35 = read_sf(dir_sf, 512.0)
 
 # #phi0 wrt global 512 test -1.5
 # dir_sf = working_dir_path + 'phi0init/Runs/512_3_2/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
@@ -433,6 +442,8 @@ count_512_10_2 = find_indeix(lperp29)
 #count_512_10_5_3 = find_indeix(lperp31)
 count_1024_10_2 = find_indeix(lperp32)
 count_512_nokpar = find_indeix(lperp33)
+count_512_15kpar = find_indeix(lperp34)
+count_512_20kpar = find_indeix(lperp35)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -562,6 +573,11 @@ slope_1024_phi0init_10_2_lin, rval_1024_phi0init_10_2_lin, err_1024_phi0init_10_
 slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2 = linfit(lperp32,lpar32, 0, count_1024_10_2)
 
 slope_512_nokpar, rval_512_nokpar, err_512_nokpar = linfit(lperp33, lpar33, 0, count_512_nokpar)
+
+slope_512_15kpar, rval_512_15kpar, err_512_15kpar = linfit(lperp34, lpar34, 0, count_512_15kpar)
+
+slope_512_20kpar, rval_512_20kpar, err_512_20kpar = linfit(lperp35, lpar35, 0, count_512_20kpar)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -694,6 +710,10 @@ ax1.plot(lperp32[start_10:count_1024_10_2], lpar32[start_10:count_1024_10_2], lw
 ax1.scatter(lperp32[0:count_1024_10_2], lpar32[0:count_1024_10_2], s = 6, marker = '*',)
 
 ax1.plot(lperp33[:count_512_nokpar], lpar33[:count_512_nokpar], lw = 1, label = "512 nokpar grad %s" % (slope_512_nokpar))
+
+ax1.plot(lperp34[:count_512_15kpar], lpar34[:count_512_15kpar], lw = 1, label = "512 15kpar grad %s" % (slope_512_15kpar))
+
+ax1.plot(lperp35[:count_512_20kpar], lpar35[:count_512_20kpar], lw = 1, label = "512 20kpar grad %s" % (slope_512_20kpar))
 #ax1.plot(lperp30[:count_512_10_3_2], lpar30[:count_512_10_3_2], lw=2, ls = "-.", label="512 phi0init 10*k_para^-3/2 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2))
 
 #ax1.plot(lperp31[:count_512_10_5_3], lpar31[:count_512_10_5_3], lw=2, ls = "-.", label="512 phi0init 10*k_para^-5/3 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3))
