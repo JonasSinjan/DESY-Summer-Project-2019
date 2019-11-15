@@ -158,7 +158,7 @@ program main
         by(i,j,k) = by(i,j,k) + 4*sin(2.0*x(i) - 1.3*z(k))
         by(i,j,k) = by(i,j,k) + 8*sin(4.0*x(i)+1.6)
         bx(i,j,k) = bx(i,j,k) + 7.5*cos(2.0*y(j) + 6*z(k))
-        bx(i,j,k) = bx(i,j,k) + 10*cos(4.0*y(j)+ 1.6 + 4*x(i))
+        bx(i,j,k) = bx(i,j,k) + 10*cos(4.0*y(j)+ 1.6 + 4*z(i))
         bz(i,j,k) = bz(i,j,k) + 8*cos(2.5*x(i) + 3*y(j))
         bz(i,j,k) = bz(i,j,k) + 9*sin(1.8*x(i)- 12*y(j))
 
