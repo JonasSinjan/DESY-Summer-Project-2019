@@ -34,7 +34,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 10
+  integer :: ngrids = 9
   real(sp) :: lx = twopi ! this the box space in fourier space?
   real(sp) :: ly = twopi
   real(sp) :: lz = twopi
