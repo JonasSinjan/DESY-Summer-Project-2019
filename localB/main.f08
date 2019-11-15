@@ -69,7 +69,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/512_3rd_B/'
+  data_dir = './Runs/512_4th_B/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -147,12 +147,28 @@ program main
         ! bx(i,j,k) = bx(i,j,k) + 3*cos(4.0*y(j)+1.6)
 
         ! 3rd B perturb
-        by(i,j,k) = by(i,j,k) + 3.5*sin(2.0*x(i))
-        by(i,j,k) = by(i,j,k) + 2.5*sin(4.0*x(i)+1.6)
-        bx(i,j,k) = bx(i,j,k) + 7*cos(2.0*y(j))
-        bx(i,j,k) = bx(i,j,k) + 4.5*cos(4.0*y(j)+1.6)
-        bz(i,j,k) = bz(i,j,k) + 6*cos(2.5*x(i))
-        bz(i,j,k) = bz(i,j,k) + 5.5*sin(1.8*x(i))
+        ! by(i,j,k) = by(i,j,k) + 3.5*sin(2.0*x(i))
+        ! by(i,j,k) = by(i,j,k) + 2.5*sin(4.0*x(i)+1.6)
+        ! bx(i,j,k) = bx(i,j,k) + 7*cos(2.0*y(j))
+        ! bx(i,j,k) = bx(i,j,k) + 4.5*cos(4.0*y(j)+1.6)
+        ! bz(i,j,k) = bz(i,j,k) + 6*cos(2.5*x(i))
+        ! bz(i,j,k) = bz(i,j,k) + 5.5*sin(1.8*x(i))
+
+        ! 4th B perturb
+        by(i,j,k) = by(i,j,k) + 4*sin(2.0*x(i) - 1.3*z(k))
+        by(i,j,k) = by(i,j,k) + 8*sin(4.0*x(i)+1.6)
+        bx(i,j,k) = bx(i,j,k) + 7.5*cos(2.0*y(j) + 6*z(k))
+        bx(i,j,k) = bx(i,j,k) + 10*cos(4.0*y(j)+ 1.6 + 4*x(i))
+        bz(i,j,k) = bz(i,j,k) + 8*cos(2.5*x(i) + 3*y(j))
+        bz(i,j,k) = bz(i,j,k) + 9*sin(1.8*x(i)- 12*y(j))
+
+        ! ! 3rd B perturb
+        ! by(i,j,k) = by(i,j,k) + 3.5*sin(2.0*x(i))
+        ! by(i,j,k) = by(i,j,k) + 2.5*sin(4.0*x(i)+1.6)
+        ! bx(i,j,k) = bx(i,j,k) + 7*cos(2.0*y(j))
+        ! bx(i,j,k) = bx(i,j,k) + 4.5*cos(4.0*y(j)+1.6)
+        ! bz(i,j,k) = bz(i,j,k) + 6*cos(2.5*x(i))
+        ! bz(i,j,k) = bz(i,j,k) + 5.5*sin(1.8*x(i))
       enddo
     enddo
   enddo
