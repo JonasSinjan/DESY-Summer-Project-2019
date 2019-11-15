@@ -165,7 +165,7 @@ def linfit(perp_arr, para_arr, start, end):
 # reading final data
 #-------------------------------------------------------------------------------------------------------------
 
-working_dir_path = '/home/jonas/Documents/VSCode/DESY/'#'/lustre/fs23/group/that/jonas/Github_repo/DESY/'#
+working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'#'/home/jonas/Documents/VSCode/DESY/'#'/lustre/fs23/group/that/jonas/Github_repo/DESY/'#
 
 # 2d
 
