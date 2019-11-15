@@ -374,8 +374,8 @@ if __name__ == '__main__':
     # dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_15_kpara/'  # data files
 
     dir_phi0 = '/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_test/'
-    dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_1st_B/'  # data files
-    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_1st_B/'  # data files
+    dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_2st_B/'  # data files
+    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_2st_B/'  # data files
     
     #windows laptop
     # dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
