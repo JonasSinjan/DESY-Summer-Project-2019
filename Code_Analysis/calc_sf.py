@@ -458,7 +458,7 @@ if __name__ == '__main__':
         #3D PHI0
         localbool = True
         phi0,bx,by,bz , mach_alfven= read_files3D_phi0(dir_phi0, dir_B, localbool)
-
+        print(f'Mach Alfven = {mach_alfven}')
         sf_snapshot = []
         sff_2 = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
