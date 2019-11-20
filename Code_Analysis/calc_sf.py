@@ -24,6 +24,7 @@ import scipy.interpolate as spint
 from numpy.random import seed
 from numpy.random import randint
 from numpy.random import rand
+import time
 
 def read_files(dir_data):
     filename = dir_data + 'PHI' + '.BIN'
@@ -118,7 +119,7 @@ def read_files_sq(dir_data):
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
 
-def read_files3D_phi0(dr_phi0, dir_B, local = False):
+def read_files3D_phi0(dir_phi0, dir_B, local = False):
     filename = dir_phi0 + 'PHI0' + '.BIN'
     fd = open(filename, 'rb')
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -374,8 +375,8 @@ if __name__ == '__main__':
     # dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_15_kpara/'  # data files
 
     dir_phi0 = '/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_test/'
-    dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_2st_B/'  # data files
-    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_2st_B/'  # data files
+    dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_4th_B/'  # data files
+    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_4th_B/'  # data files
     
     #windows laptop
     # dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
@@ -457,9 +458,10 @@ if __name__ == '__main__':
 
         #3D PHI0
         localbool = True
-        phi0,bx,by,bz , mach_alfven= read_files3D_phi0(dir_phi0, dir_B, localbool)
-        print(f'Mach Alfven = {mach_alfven}')
-        sf_snapshot = []
+        phi0,bx,by,bz,mach_alfven= read_files3D_phi0(dir_phi0, dir_B, localbool)
+        print('Mach Alfven = ', mach_alfven)
+        #time.sleep(30)
+	sf_snapshot = []
         sff_2 = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
             numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
@@ -475,7 +477,7 @@ if __name__ == '__main__':
         sf_perp_2 = sf_perp_2 / npts_2
 
         # writing the spectra to a file - must change name of output file depending on phi0 or phi & if wrt global or local frame
-        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_local_1st_B' + mode + '.txt', 'w')
+        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_local_4th_B' + mode + '.txt', 'w')
         for i in range(0, int(lent / 2)):
             value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
             f.write(value + "\n")
