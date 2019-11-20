@@ -118,7 +118,7 @@ def read_files_sq(dir_data):
     print(np.mean(bx), np.mean(by))
     return phi, bx, by
 
-def read_files3D_phi0(dr_phi0, dir_B, local = False):
+def read_files3D_phi0(dir_phi0, dir_B, local = False):
     filename = dir_phi0 + 'PHI0' + '.BIN'
     fd = open(filename, 'rb')
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
