@@ -135,6 +135,9 @@ program main
   !do I need to vary in 3rd direction now too? k?
   amp_list = (/1.0,2.3,1.8,0.2,0.5,1.6,1.7,1.1,0.1,1.2,2.1,1.5,0.3,0.9,1.4,0.7,1.2,1.3,2.3,0.4,0.8,1.8,1.9,0.6/)
   amp_list = amp_list*0.5
+  ! M_A = 4.9251199812242934
+  !amp_list = amp_list*0.5
+  ! M_A = 2.4625599906121467
   do k = 1, n
     do j = 1, n
       do i = 1, n

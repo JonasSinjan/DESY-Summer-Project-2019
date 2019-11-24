@@ -50,7 +50,7 @@ program main
   ! ------------------------------------------------------------------------
   ! define and initialize problem parameters
   ! ------------------------------------------------------------------------
-  integer :: ngrids = 8
+  integer :: ngrids = 9
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
@@ -75,8 +75,8 @@ program main
   real(sp), dimension(:,:,:), allocatable :: x_arr, y_arr, z_arr, input_1
   type(sgrid), dimension(:), allocatable :: mgrid
 
-  real(sp), dimension(:), allocatable :: x, y, z
-  real(sp) :: time, dx, dy, dz
+  ! real(sp), dimension(:), allocatable :: x, y, z
+  real(sp) :: time !, dx, dy, dz
 
   real(sp), dimension(:,:,:), allocatable :: phi0
   real(sp), dimension(:,:,:), allocatable :: phi
@@ -133,7 +133,8 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/256_1st_B_test_10-2/'
+  data_dir = './Runs/512_B_read_test/'
+  data_B = '../localB/Runs/512_B_amp05/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -162,28 +163,28 @@ program main
   ! allocate arrays
   ! ------------------------------------------------------------------------
 
-  allocate(x(n))
-  allocate(y(n))
-  allocate(z(n))!3d
+  ! allocate(x(n))
+  ! allocate(y(n))
+  ! allocate(z(n))!3d
 
   ! ------------------------------------------------------------------------
   ! set space grid and time of output files
   ! ------------------------------------------------------------------------
-  dx = lx/real(n)
-  dy = ly/real(n)
-  dz = lz/real(n) !3d
+  ! dx = lx/real(n)
+  ! dy = ly/real(n)
+  ! dz = lz/real(n) !3d
 
-  do i = 1, n
-    x(i) = (real(i) - 0.5)*dx
-  enddo
+  ! do i = 1, n
+  !   x(i) = (real(i) - 0.5)*dx
+  ! enddo
 
-  do j = 1, n
-    y(j) = (real(j) - 0.5)*dy
-  enddo
+  ! do j = 1, n
+  !   y(j) = (real(j) - 0.5)*dy
+  ! enddo
 
-  do k = 1, n !3d n instead of 1,1
-    z(k) = (real(k) - 0.5)*dz
-  enddo
+  ! do k = 1, n !3d n instead of 1,1
+  !   z(k) = (real(k) - 0.5)*dz
+  ! enddo
 
   time = 0.
 
@@ -199,49 +200,73 @@ program main
   !3 arrays allocated
   !-------------------------------------------------------------------
 
-  bx(:,:,:) = bx0 ! :,:,:? for 3d
-  by(:,:,:) = by0
-  bz(:,:,:) = bz0 !3d
+  ! bx(:,:,:) = bx0 ! :,:,:? for 3d
+  ! by(:,:,:) = by0
+  ! bz(:,:,:) = bz0 !3d
 
-  !do I need to vary in 3rd direction now too? k?
-  do k = 1, n
-    do j = 1, n
-      do i = 1, n
-        by(i,j,k) = by(i,j,k) + 0.5*sin(2.0*x(i))
-        by(i,j,k) = by(i,j,k) + 0.5*sin(4.0*x(i)+1.6)
+  ! !do I need to vary in 3rd direction now too? k?
+  ! do k = 1, n
+  !   do j = 1, n
+  !     do i = 1, n
+  !       by(i,j,k) = by(i,j,k) + 0.5*sin(2.0*x(i))
+  !       by(i,j,k) = by(i,j,k) + 0.5*sin(4.0*x(i)+1.6)
         
-        ! 2nd B perturb
-        ! by(i,j,k) = by(i,j,k) + 2.5*sin(2.0*x(i))
-        ! by(i,j,k) = by(i,j,k) + 1.5*sin(4.0*x(i)+1.6)
-        ! bx(i,j,k) = bx(i,j,k) + 5*cos(2.0*y(j))
-        ! bx(i,j,k) = bx(i,j,k) + 3*cos(4.0*y(j)+1.6)
-      enddo
-    enddo
-  enddo
+  !       ! 2nd B perturb
+  !       ! by(i,j,k) = by(i,j,k) + 2.5*sin(2.0*x(i))
+  !       ! by(i,j,k) = by(i,j,k) + 1.5*sin(4.0*x(i)+1.6)
+  !       ! bx(i,j,k) = bx(i,j,k) + 5*cos(2.0*y(j))
+  !       ! bx(i,j,k) = bx(i,j,k) + 3*cos(4.0*y(j)+1.6)
+  !     enddo
+  !   enddo
+  ! enddo
+
+  ! lun = 701
+  ! file_out = trim(data_dir) // '/' // 'BX.BIN'
+  ! ! bx(:,:,:)?
+  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+  !   write(lun) bx(:,:,:)
+  ! close(lun)
+
+  ! lun = 701
+  ! file_out = trim(data_dir) // '/' // 'BY.BIN'
+  ! ! by(:,:,:)?
+  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+  !   write(lun) by(:,:,:)
+  ! close(lun)
+
+  ! !3d
+  ! lun = 701
+  ! file_out = trim(data_dir) // '/' // 'BZ.BIN'
+  ! ! bz(:,:,:)?
+  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
+  !   write(lun) bz(:,:,:)
+  ! close(lun)
 
   lun = 701
-  file_out = trim(data_dir) // '/' // 'BX.BIN'
+  file_in = trim(data_B) // '/' // 'BX.BIN'
   ! bx(:,:,:)?
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) bx(:,:,:)
+  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='direct')
+    read(lun) bx(:,:,:)
   close(lun)
 
   lun = 701
-  file_out = trim(data_dir) // '/' // 'BY.BIN'
+  file_in = trim(data_B) // '/' // 'BY.BIN'
   ! by(:,:,:)?
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) by(:,:,:)
+  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='direct')
+    read(lun) by(:,:,:)
   close(lun)
 
   !3d
   lun = 701
-  file_out = trim(data_dir) // '/' // 'BZ.BIN'
+  file_in = trim(data_B) // '/' // 'BZ.BIN'
   ! bz(:,:,:)?
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) bz(:,:,:)
+  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='direct')
+    read(lun) bz(:,:,:)
   close(lun)
-
-
+  !testing read in
+  print*, bx(1:2,:,:)
+  print*, by(1:2,:,:)
+  print*, bz(1:2,:,:)
   ! ------------------------------------------------------------------------
   ! generate grids hierarchy and allocate memory for each grid level
   ! ------------------------------------------------------------------------
