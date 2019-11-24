@@ -264,9 +264,9 @@ program main
     read(lun) bz(:,:,:)
   close(lun)
   !testing read in
-  print*, bx(1:2,:,:)
-  print*, by(1:2,:,:)
-  print*, bz(1:2,:,:)
+  print*, bx(1:2,1:3,1:2)
+  print*, by(1:2,1:3,1:2)
+  print*, bz(1:2,1:3,1:2)
   ! ------------------------------------------------------------------------
   ! generate grids hierarchy and allocate memory for each grid level
   ! ------------------------------------------------------------------------
