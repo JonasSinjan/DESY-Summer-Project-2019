@@ -24,6 +24,7 @@ import scipy.interpolate as spint
 from numpy.random import seed
 from numpy.random import randint
 from numpy.random import rand
+import time
 
 def read_files(dir_data):
     filename = dir_data + 'PHI' + '.BIN'
@@ -457,9 +458,10 @@ if __name__ == '__main__':
 
         #3D PHI0
         localbool = True
-        phi0,bx,by,bz , mach_alfven= read_files3D_phi0(dir_phi0, dir_B, localbool)
-        print(f'Mach Alfven = {mach_alfven}')
-        sf_snapshot = []
+        phi0,bx,by,bz,mach_alfven= read_files3D_phi0(dir_phi0, dir_B, localbool)
+        print('Mach Alfven = ', mach_alfven)
+        #time.sleep(30)
+	sf_snapshot = []
         sff_2 = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
             numpt_tmp, par_tmp, perp_tmp = struc_funk3D(i, phi0, bx, by, bz)
@@ -475,7 +477,7 @@ if __name__ == '__main__':
         sf_perp_2 = sf_perp_2 / npts_2
 
         # writing the spectra to a file - must change name of output file depending on phi0 or phi & if wrt global or local frame
-        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_local_1st_B' + mode + '.txt', 'w')
+        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_local_4th_B' + mode + '.txt', 'w')
         for i in range(0, int(lent / 2)):
             value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
             f.write(value + "\n")
