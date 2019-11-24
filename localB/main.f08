@@ -48,7 +48,7 @@ program main
   integer :: n, num_seed
   integer, allocatable :: seed(:)
 
-  real(sp), dimension(:), allocatable :: x, y, z
+  real(sp), dimension(:), allocatable :: x, y, z, amp_list
   real(sp), dimension(:,:,:), allocatable :: bx, by, bz !3d
   real(sp) :: time, dx, dy, dz
 
@@ -69,7 +69,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/512_4th_B/'
+  data_dir = './Runs/512_B_amp1/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -123,7 +123,7 @@ program main
   allocate (bx(n,n,n)) !n,n,n for all?
   allocate (by(n,n,n))
   allocate (bz(n,n,n)) !3d
-
+  allocate (amp_list(24))
   !-------------------------------------------------------------------
   !3 arrays allocated
   !-------------------------------------------------------------------
@@ -133,42 +133,39 @@ program main
   bz(:,:,:) = bz0 !3d
 
   !do I need to vary in 3rd direction now too? k?
+  amp_list = (1.0,2.3,1.8,0.2,0.5,1.6,1.7,1.1,0.1,1.2,2.1,1.5,0.3,0.9,1.4,0.7,1.2,1.3,2.3,0.4,0.8,1.8,1.9,0.6)
+  !amp_list = amp_list*2.0
   do k = 1, n
     do j = 1, n
       do i = 1, n
-        ! 1st B perturn
-        !by(i,j,k) = by(i,j,k) + 0.5*sin(2.0*x(i))
-        !by(i,j,k) = by(i,j,k) + 0.5*sin(4.0*x(i)+1.6)
-        
-        ! 2nd B perturb
-        ! by(i,j,k) = by(i,j,k) + 2.5*sin(2.0*x(i))
-        ! by(i,j,k) = by(i,j,k) + 1.5*sin(4.0*x(i)+1.6)
-        ! bx(i,j,k) = bx(i,j,k) + 5*cos(2.0*y(j))
-        ! bx(i,j,k) = bx(i,j,k) + 3*cos(4.0*y(j)+1.6)
 
-        ! 3rd B perturb
-        ! by(i,j,k) = by(i,j,k) + 3.5*sin(2.0*x(i))
-        ! by(i,j,k) = by(i,j,k) + 2.5*sin(4.0*x(i)+1.6)
-        ! bx(i,j,k) = bx(i,j,k) + 7*cos(2.0*y(j))
-        ! bx(i,j,k) = bx(i,j,k) + 4.5*cos(4.0*y(j)+1.6)
-        ! bz(i,j,k) = bz(i,j,k) + 6*cos(2.5*x(i))
-        ! bz(i,j,k) = bz(i,j,k) + 5.5*sin(1.8*x(i))
+        by(i,j,k) = by(i,j,k) + amp_list(1)*sin(3.0*x(i) - 8.0*z(k))
+        by(i,j,k) = by(i,j,k) + amp_list(2)8*sin(8.0*x(i)+1.6)
+        by(i,j,k) = by(i,j,k) + amp_list(3)*sin(7.0*x(i) - 7.0*z(k))
+        by(i,j,k) = by(i,j,k) + amp_list(4)*sin(4.0*x(i)+1.6)
+        by(i,j,k) = by(i,j,k) + amp_list(5)*sin(2.0*x(i) - 4.0*z(k))
+        by(i,j,k) = by(i,j,k) + amp_list(6)*sin(1.0*x(i)+1.6)
+        by(i,j,k) = by(i,j,k) + amp_list(7)*sin(2.0*x(i) - 3.0*z(k))
+        by(i,j,k) = by(i,j,k) + amp_list(8)*sin(3.0*x(i)+1.6)
 
-        ! 4th B perturb
-        by(i,j,k) = by(i,j,k) + 4*sin(2.0*x(i) - 1.3*z(k))
-        by(i,j,k) = by(i,j,k) + 8*sin(4.0*x(i)+1.6)
-        bx(i,j,k) = bx(i,j,k) + 7.5*cos(2.0*y(j) + 6*z(k))
-        bx(i,j,k) = bx(i,j,k) + 10*cos(4.0*y(j)+ 1.6 + 4*z(i))
-        bz(i,j,k) = bz(i,j,k) + 8*cos(2.5*x(i) + 3*y(j))
-        bz(i,j,k) = bz(i,j,k) + 9*sin(1.8*x(i)- 12*y(j))
+        bx(i,j,k) = bx(i,j,k) + amp_list(9)*cos(6.0*y(j) + 6.0*z(k))
+        bx(i,j,k) = bx(i,j,k) + amp_list(10)*cos(7.0*y(j)+ 1.6 + 5.0*z(i))
+        bx(i,j,k) = bx(i,j,k) + amp_list(11)*cos(3.0*y(j) + 6*z(k))
+        bx(i,j,k) = bx(i,j,k) + amp_list(12)*cos(4.0*y(j)+ 1.6 + 3.0*z(i))
+        bx(i,j,k) = bx(i,j,k) + amp_list(13)*cos(5.0*y(j) + 2.0*z(k))
+        bx(i,j,k) = bx(i,j,k) + amp_list(14)*cos(2.0*y(j) + 4.0*z(i))
+        bx(i,j,k) = bx(i,j,k) + amp_list(15)*cos(9.0*y(j) + 2.0*z(k))
+        bx(i,j,k) = bx(i,j,k) + amp_list(16)*cos(y(j)+ 1.6 + 1.0*z(i))
+   
+        bz(i,j,k) = bz(i,j,k) + amp_list(17)*cos(3.0*x(i) + 3.0*y(j))
+        bz(i,j,k) = bz(i,j,k) + amp_list(18)*sin(2.0*x(i)- *y(j))
+        bz(i,j,k) = bz(i,j,k) + amp_list(19)*cos(3.0*x(i) + 3.0*y(j))
+        bz(i,j,k) = bz(i,j,k) + amp_list(20)*sin(2.0*x(i)- *y(j))
+        bz(i,j,k) = bz(i,j,k) + amp_list(21)*cos(3.0*x(i) + 3.0*y(j))
+        bz(i,j,k) = bz(i,j,k) + amp_list(22)*sin(2.0*x(i)- *y(j))
+        bz(i,j,k) = bz(i,j,k) + amp_list(23)*cos(3.0*x(i) + 3.0*y(j))
+        bz(i,j,k) = bz(i,j,k) + amp_list(24)*sin(2.0*x(i)- *y(j))
 
-        ! ! 3rd B perturb
-        ! by(i,j,k) = by(i,j,k) + 3.5*sin(2.0*x(i))
-        ! by(i,j,k) = by(i,j,k) + 2.5*sin(4.0*x(i)+1.6)
-        ! bx(i,j,k) = bx(i,j,k) + 7*cos(2.0*y(j))
-        ! bx(i,j,k) = bx(i,j,k) + 4.5*cos(4.0*y(j)+1.6)
-        ! bz(i,j,k) = bz(i,j,k) + 6*cos(2.5*x(i))
-        ! bz(i,j,k) = bz(i,j,k) + 5.5*sin(1.8*x(i))
       enddo
     enddo
   enddo
