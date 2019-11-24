@@ -4,6 +4,10 @@ Code files for Summer Research Student Project (2019) at DESY Zeuthen Campus. //
 Working in the Astroparticle Physics Group led by Prof. Huirong Yan. //
 Supervisor: Dr. Kirit Makwana //
 
+Project: Creating synthetic MHD turbulence data in astrophysical plasmas
+
+Motivation: Standard numerical simulations that solve the incompressible MHD equations directly take ~1 million CPU hours for a sizeable resolution - this project was to investigate if turbulence data could be created much more cheaply - turbulence data like this used for cosmic ray diffusion studies
+
 Credit: Michael Vorster for developing the FORTRAN code for the 2d squares & displacment method as well as the initial structure function python code. 
 
 My work was to get these running myself, testing them, extending 2d displacement to 3d, and running various tests to analyse problems and validate the synthetic data with python: structure function, contour plots, power spectra etc
