@@ -69,7 +69,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/512_4th_B/'
+  data_dir = './Runs/512_B_amp1/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
