@@ -173,6 +173,10 @@ program main
     enddo
   enddo
 
+  print*, bx(1:2,1:3,1:2)
+  print*, by(1:2,1:3,1:2)
+  print*, bz(1:2,1:3,1:2)
+
   lun = 701
   file_out = trim(data_dir) // '/' // 'BX.BIN'
   ! bx(:,:,:)?
