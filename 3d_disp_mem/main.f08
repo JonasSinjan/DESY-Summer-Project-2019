@@ -16,8 +16,8 @@ program main
   ! ------------------------------------------------------------------------
   include 'fftw3.f03'
 
-  integer :: start_time, stop_time !timing fortran program
-  integer :: count_rate, count_max
+  !integer :: start_time, stop_time !timing fortran program
+  !integer :: count_rate, count_max
 
   ! ------------------------------------------------------------------------
   ! define fixed parameters
@@ -33,9 +33,9 @@ program main
   real(dp), parameter :: pi = acos(-1.d0)
   real(dp), parameter :: twopi = 2.d0*pi
   real(dp), allocatable :: wtime, tot_time
-  real(dp), allocatable :: time_init, time_final, elapsed_time
-  integer, allocatable :: threadno
-  integer :: thread_id
+  !real(dp), allocatable :: time_init, time_final!, elapsed_time
+  !integer, allocatable :: threadno
+  !integer :: thread_id
   ! ------------------------------------------------------------------------
   ! define types
   ! ------------------------------------------------------------------------
@@ -54,25 +54,25 @@ program main
   real(sp) :: bx0 = 1.
   real(sp) :: by0 = 0.
   real(sp) :: bz0 = 0. !3d
-  real(sp) :: anis = 1.
-  real(sp) :: lx = twopi ! this the box space in fourier space?
-  real(sp) :: ly = twopi
-  real(sp) :: lz = twopi
+  !real(sp) :: anis = 1.
+  !real(sp) :: lx = twopi ! this the box space in fourier space?
+  !real(sp) :: ly = twopi
+  !real(sp) :: lz = twopi
 
   ! ------------------------------------------------------------------------
   ! define variables
   ! ------------------------------------------------------------------------
   integer :: n, num_seed
-  integer, dimension(1) :: rand_seed
+  !integer, dimension(1) :: rand_seed
   integer, allocatable :: seed(:)
-  real(sp) :: num
+  !real(sp) :: num
   real(sp) :: h
-  real(sp) :: amp
-  real(sp) :: kx, ky, kz
+  !real(sp) :: amp
+  !real(sp) :: kx, ky, kz
   real(sp), dimension(:,:,:), allocatable :: bx, by, bz !3d
   real(sp), dimension(:,:,:), allocatable :: rx0, ry0, rz0 !3d
   real(sp), dimension(:,:,:), allocatable :: drx, dry, drz !3d
-  real(sp), dimension(:,:,:), allocatable :: x_arr, y_arr, z_arr, input_1
+  !real(sp), dimension(:,:,:), allocatable :: x_arr, y_arr, z_arr!, input_1
   type(sgrid), dimension(:), allocatable :: mgrid
 
   ! real(sp), dimension(:), allocatable :: x, y, z
@@ -83,20 +83,20 @@ program main
   complex(sp), dimension(:,:,:), allocatable :: phi0k,fk
 
   integer :: nk, nkb, nkt
-  real(dp), dimension(:), allocatable :: ps_k !not sure which one this is used for
-  real(dp), dimension(:), allocatable :: ps_kb !parallel, only 1D along x
-  real(dp), dimension(:,:), allocatable :: ps_kt !perpendicular
-  real(dp), dimension(:,:,:), allocatable :: ps_kk !all components
-  real(dp), dimension(:,:,:), allocatable :: tmp3d
+  !real(dp), dimension(:), allocatable :: ps_k !not sure which one this is used for
+  !real(dp), dimension(:), allocatable :: ps_kb !parallel, only 1D along x
+  !real(dp), dimension(:,:), allocatable :: ps_kt !perpendicular
+  !real(dp), dimension(:,:,:), allocatable :: ps_kk !all components
+  !real(dp), dimension(:,:,:), allocatable :: tmp3d
 
-  logical :: lsum_power
+  !logical :: lsum_power
 
   ! ------------------------------------------------------------------------
   ! define auxiliary variables
   ! ------------------------------------------------------------------------
-  type(C_PTR) :: plan_phi0
+  !type(C_PTR) :: plan_phi0
   type(C_PTR) :: plan1, plan2
-  type(C_PTR) :: plan
+  !type(C_PTR) :: plan
   integer*8 :: dftplan
   real(sp), dimension(:,:,:), allocatable :: f
   complex(sp), dimension(:,:,:), allocatable :: bxk, byk, bzk !3d
@@ -104,11 +104,11 @@ program main
   complex(sp), dimension(:,:,:), allocatable :: etzk_x, etzk_y, etzk_z
   
   real(sp) :: b(3), b2 !3d
-  real(sp) :: b1(3), ph1, ph2, ph3, aux1, aux2, aux3 !3d
+  real(sp) :: b1(3)!, ph1, ph2, ph3, !aux1, aux2, aux3 !3d
   real(sp) :: rxp, ryp, drxp, dryp, rzp, drzp !3d
   real(sp) :: wx0, wx1, wy0, wy1, wz0, wz1
   real(sp) :: kmax, kmod, mag
-  real(sp) :: test_var
+  !real(sp) :: test_var
   real(sp) :: k_para, k_perp, E_coeff, ph
 
 
@@ -122,7 +122,7 @@ program main
   integer :: iip1, jjp1, kkp1
   integer :: ki, kj, kk !3d
   integer :: lun
-  real(sp) :: tmp, tmp2
+  !real(sp) :: tmp, tmp2
   real(sp) :: c_00,c_01,c_10,c_11,c_0,c_1,c !for the trilinear interpolations
 
   character(len=400) :: data_dir, data_B
