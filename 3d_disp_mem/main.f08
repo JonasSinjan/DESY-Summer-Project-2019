@@ -245,14 +245,14 @@ program main
   lun = 701
   file_in = trim(data_B) // '/' // 'BX.BIN'
   ! bx(:,:,:)?
-  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='direct')
+  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='stream')
     read(lun) bx(:,:,:)
   close(lun)
 
   lun = 701
   file_in = trim(data_B) // '/' // 'BY.BIN'
   ! by(:,:,:)?
-  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='direct')
+  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='stream')
     read(lun) by(:,:,:)
   close(lun)
 
@@ -260,7 +260,7 @@ program main
   lun = 701
   file_in = trim(data_B) // '/' // 'BZ.BIN'
   ! bz(:,:,:)?
-  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='direct')
+  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='stream')
     read(lun) bz(:,:,:)
   close(lun)
   !testing read in
