@@ -159,88 +159,16 @@ program main
   enddo
 
   call random_seed(put=seed)
-  ! ------------------------------------------------------------------------
-  ! allocate arrays
-  ! ------------------------------------------------------------------------
-
-  ! allocate(x(n))
-  ! allocate(y(n))
-  ! allocate(z(n))!3d
-
-  ! ------------------------------------------------------------------------
-  ! set space grid and time of output files
-  ! ------------------------------------------------------------------------
-  ! dx = lx/real(n)
-  ! dy = ly/real(n)
-  ! dz = lz/real(n) !3d
-
-  ! do i = 1, n
-  !   x(i) = (real(i) - 0.5)*dx
-  ! enddo
-
-  ! do j = 1, n
-  !   y(j) = (real(j) - 0.5)*dy
-  ! enddo
-
-  ! do k = 1, n !3d n instead of 1,1
-  !   z(k) = (real(k) - 0.5)*dz
-  ! enddo
 
   time = 0.
 
   tot_time = omp_get_wtime()
   ! ------------------------------------------------------------------------
-  ! build bx, by and bz and write to file
+  ! read bx, by and bz from files
   ! ------------------------------------------------------------------------
   allocate (bx(n,n,n)) !n,n,n for all?
   allocate (by(n,n,n))
   allocate (bz(n,n,n)) !3d
-
-  !-------------------------------------------------------------------
-  !3 arrays allocated
-  !-------------------------------------------------------------------
-
-  ! bx(:,:,:) = bx0 ! :,:,:? for 3d
-  ! by(:,:,:) = by0
-  ! bz(:,:,:) = bz0 !3d
-
-  ! !do I need to vary in 3rd direction now too? k?
-  ! do k = 1, n
-  !   do j = 1, n
-  !     do i = 1, n
-  !       by(i,j,k) = by(i,j,k) + 0.5*sin(2.0*x(i))
-  !       by(i,j,k) = by(i,j,k) + 0.5*sin(4.0*x(i)+1.6)
-        
-  !       ! 2nd B perturb
-  !       ! by(i,j,k) = by(i,j,k) + 2.5*sin(2.0*x(i))
-  !       ! by(i,j,k) = by(i,j,k) + 1.5*sin(4.0*x(i)+1.6)
-  !       ! bx(i,j,k) = bx(i,j,k) + 5*cos(2.0*y(j))
-  !       ! bx(i,j,k) = bx(i,j,k) + 3*cos(4.0*y(j)+1.6)
-  !     enddo
-  !   enddo
-  ! enddo
-
-  ! lun = 701
-  ! file_out = trim(data_dir) // '/' // 'BX.BIN'
-  ! ! bx(:,:,:)?
-  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-  !   write(lun) bx(:,:,:)
-  ! close(lun)
-
-  ! lun = 701
-  ! file_out = trim(data_dir) // '/' // 'BY.BIN'
-  ! ! by(:,:,:)?
-  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-  !   write(lun) by(:,:,:)
-  ! close(lun)
-
-  ! !3d
-  ! lun = 701
-  ! file_out = trim(data_dir) // '/' // 'BZ.BIN'
-  ! ! bz(:,:,:)?
-  ! open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-  !   write(lun) bz(:,:,:)
-  ! close(lun)
 
   lun = 701
   file_in = trim(data_B) // '/' // 'BX.BIN'
