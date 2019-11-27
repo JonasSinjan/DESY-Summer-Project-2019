@@ -133,7 +133,7 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/512_B_read_test/'
+  data_dir = './Runs/512_fix_r/'
   data_B = '../localB/Runs/512_B_amp05/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
@@ -192,14 +192,15 @@ program main
     read(lun) bz(:,:,:)
   close(lun)
   !testing read in
-  print*, bx(1:2,1:3,1:2)
-  print*, by(1:2,1:3,1:2)
-  print*, bz(1:2,1:3,1:2)
+  ! print*, bx(1:2,1:3,1:2)
+  ! print*, by(1:2,1:3,1:2)
+  ! print*, bz(1:2,1:3,1:2)
   ! ------------------------------------------------------------------------
   ! generate grids hierarchy and allocate memory for each grid level
   ! ------------------------------------------------------------------------
   allocate (mgrid(ngrids))
 
+  !must have bx,by,bz for all grid levels
   do l = 1, ngrids
     allocate (mgrid(l)%bx(n,n,n)) ! n,n,n ?
     allocate (mgrid(l)%by(n,n,n))
@@ -209,9 +210,10 @@ program main
   !------------------------------------------------------------------
   !3 + ngrids*3 = 30 arrays - assuming 512 cube
   !------------------------------------------------------------------
-
+  
+  !loop through the grid levels
   do l = 1, ngrids
-
+    !only create dr when needed
     allocate (mgrid(l)%drx(n,n,n))
     allocate (mgrid(l)%dry(n,n,n))
     allocate (mgrid(l)%drz(n,n,n)) !3d
@@ -228,8 +230,7 @@ program main
       mgrid(1)%by(:,:,:) = by(:,:,:)
       mgrid(1)%bz(:,:,:) = bz(:,:,:) !3d
 
-
-      !allocating second set
+      !allocating second set of arrays for intermediate steps
       allocate (mgrid(1)%dbx(n,n,n))
       allocate (mgrid(1)%dby(n,n,n))
       allocate (mgrid(1)%dbz(n,n,n)) !3d
@@ -245,7 +246,7 @@ program main
 
 
     ! ------------------------------------------------------------------------
-    ! build bx and by in each grid level, using spectral filtering
+    ! build bx and by in for all grid levels, using spectral filtering
     ! ------------------------------------------------------------------------
     if (l==1) then
 
@@ -443,7 +444,10 @@ program main
 
     endif
 
-  
+    ! now all B field dists created at beginning
+
+    !now loop through each mgrid in each calculate dB, then etz, then dr
+
     ! ------------------------------------------------------------------------
     ! calculate vector field db in each grid level
     ! ------------------------------------------------------------------------
@@ -1101,13 +1105,13 @@ program main
     do j = 1, n
       do i = 1, n
 
-        rxp = real(i - 1)*h
-        ryp = real(j - 1)*h
-        rzp = real(k - 1)*h
+        ! rxp = real(i - 1)*h
+        ! ryp = real(j - 1)*h
+        ! rzp = real(k - 1)*h
   
-        rx0(i,j,k) = rxp
-        ry0(i,j,k) = ryp
-        rz0(i,j,k) = rzp
+        rxp = rx0(i,j,k) 
+        ryp = ry0(i,j,k)
+        rzp = rz0(i,j,k)
 
         ! gives account of the periodicity
         rxp = mod(rxp, twopi)
