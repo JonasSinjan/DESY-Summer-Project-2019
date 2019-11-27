@@ -1,14 +1,4 @@
 """
-TODO:
-    check alternative method for 2D
-    check that data from displacement + squares method generates correct spectrum, try 2D, 128 and 256 only
-    create different dir for 128 and 256
-FIXME:
-    maybe set up json to use for setup instead of ugly setup at beginning
-    setup correct data input and output paths
-    not sure if second argument passed through correctly to the struc function
-"""
-"""
 Code File that interprets synthetic data by generating the structure function
 Structure Function is analagous to Energy spectrum, but in real space, not in fourier space
 """
