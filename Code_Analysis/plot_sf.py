@@ -288,7 +288,7 @@ dir_sf = working_dir_path + '3d_disp_mem/Runs/256_test_10-2/sf_par_perp_v_phi0_w
 lpar28, lperp28 = read_sf(dir_sf, 256.0)
 """
 #phi0 wrt global 512 test -2
-dir_sf = '/home/jonas/Documents/VSCode/DESY/phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
+dir_sf = working_dir_path + 'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
 lpar29, lperp29 = read_sf(dir_sf, 512.0)
 
 #phi0 wrt global 512 test no kpara
@@ -796,7 +796,7 @@ ax1.set_yscale('log')
 #ax1.set_ylim(0.0005, 0.1)
 ax1.set_xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
 ax1.set_ylabel(r'$l_{\parallel}/L $ parallel',fontsize=9)
-ax1.set_title('Structure Function 3D Disp. PHI0 wrt global')
+ax1.set_title('Structure Function 3D Disp. PHI0 wrt local + ref')
 ax1.legend(loc='best',ncol=1,fontsize=6)
 
 plt.show()
