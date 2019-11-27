@@ -165,7 +165,7 @@ def linfit(perp_arr, para_arr, start, end):
 # reading final data
 #-------------------------------------------------------------------------------------------------------------
 
-working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'#'/home/jonas/Documents/VSCode/DESY/'#'/lustre/fs23/group/that/jonas/Github_repo/DESY/'#
+working_dir_path = '/home/jonas/Documents/VSCode/DESY/'#'/lustre/fs23/group/that/jonas/Github_repo/DESY/'
 
 # 2d
 
@@ -312,24 +312,30 @@ lpar35, lperp35 = read_sf(dir_sf, 512.0)
 #lpar31, lperp31 = read_sf(dir_sf, 512.0)
 
 #phi0 wrt global 512 test -2
-dir_sf = working_dir_path + 'phi0init/Runs/1024_test/sf_par_perp_v_phi0_wrt_global_2exp.txt'
-lpar32, lperp32 = read_sf(dir_sf, 1024.0)
+# dir_sf = working_dir_path + 'phi0init/Runs/1024_test/sf_par_perp_v_phi0_wrt_global_2exp.txt'
+# lpar32, lperp32 = read_sf(dir_sf, 1024.0)
 
-#phi0 wrt local 1st B MA = 0.4999
-dir_sf = working_dir_path + 'localB/Runs/512_1st_B/sf_par_perp_v_phi0_wrt_local_1st_BF.txt'
-lpar36, lperp36 = read_sf(dir_sf, 512.0)
+# #phi0 wrt local 1st B MA = 0.4999
+# dir_sf = working_dir_path + 'localB/Runs/512_1st_B/sf_par_perp_v_phi0_wrt_local_1st_BF.txt'
+# lpar36, lperp36 = read_sf(dir_sf, 512.0)
 
-#phi0 wrt local 2nd B MA = 4.60977
-dir_sf = working_dir_path + 'localB/Runs/512_2nd_B/sf_par_perp_v_phi0_wrt_local_2nd_BF.txt'
-lpar37, lperp37 = read_sf(dir_sf, 512.0)
+# #phi0 wrt local 2nd B MA = 4.60977
+# dir_sf = working_dir_path + 'localB/Runs/512_2nd_B/sf_par_perp_v_phi0_wrt_local_2nd_BF.txt'
+# lpar37, lperp37 = read_sf(dir_sf, 512.0)
 
-#phi0 wrt local 3rd B MA = 8.31688
-dir_sf = working_dir_path + 'localB/Runs/512_3rd_B/sf_par_perp_v_phi0_wrt_local_3rd_BF.txt'
-lpar38, lperp38 = read_sf(dir_sf, 512.0)
+# #phi0 wrt local 3rd B MA = 8.31688
+# dir_sf = working_dir_path + 'localB/Runs/512_3rd_B/sf_par_perp_v_phi0_wrt_local_3rd_BF.txt'
+# lpar38, lperp38 = read_sf(dir_sf, 512.0)
 
-#phi0 wrt local 4th B MA = 13.8067
-dir_sf = working_dir_path + 'localB/Runs/512_4th_B/sf_par_perp_v_phi0_wrt_local_4th_BF.txt'
-lpar39, lperp39 = read_sf(dir_sf, 512.0)
+# #phi0 wrt local 4th B MA = 13.8067
+# dir_sf = working_dir_path + 'localB/Runs/512_4th_B/sf_par_perp_v_phi0_wrt_local_4th_BF.txt'
+# lpar39, lperp39 = read_sf(dir_sf, 512.0)
+
+dir_sf = working_dir_path + 'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp05F.txt'
+lpar40, lperp40 = read_sf(dir_sf, 512.0)
+
+dir_sf = working_dir_path + 'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp1F.txt'
+lpar41, lperp41 = read_sf(dir_sf, 512.0)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # Finding index at which sf becomes 0
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -456,15 +462,18 @@ count_256_2 = find_indeix(lperp28)
 count_512_10_2 = find_indeix(lperp29)
 #count_512_10_3_2 = find_indeix(lperp30)
 #count_512_10_5_3 = find_indeix(lperp31)
-count_1024_10_2 = find_indeix(lperp32)
+#count_1024_10_2 = find_indeix(lperp32)
 count_512_nokpar = find_indeix(lperp33)
 count_512_15kpar = find_indeix(lperp34)
 count_512_20kpar = find_indeix(lperp35)
 
-count_512_1st_B = find_indeix(lperp36)
-count_512_2nd_B = find_indeix(lperp37)
-count_512_3rd_B = find_indeix(lperp38)
-count_512_4th_B = find_indeix(lperp39)
+#count_512_1st_B = find_indeix(lperp36)
+#count_512_2nd_B = find_indeix(lperp37)
+#count_512_3rd_B = find_indeix(lperp38)
+#count_512_4th_B = find_indeix(lperp39)
+
+count_512_amp05 = find_indeix(lperp40)
+count_512_amp1 = find_indeix(lperp41)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # ALL linefitting
@@ -522,7 +531,7 @@ count_512_4th_B = find_indeix(lperp39)
 
 # ref_slope_3d_128_f = lpar15[6]*(np.power(lperp15[:count_128_3d_f],(2.0/3.0))/np.power(lperp15[6],(2.0/3.0)))
 # ref_slope_3d_256_f = lpar14[6]*(np.power(lperp14[:count_256_3d_f],(2.0/3.0))/np.power(lperp14[6],(2.0/3.0)))
-ref_slope_3d_1024_f = lpar32[0]*(np.power(lperp32[:count_1024_10_2],(2.0/3.0)))/(np.power(lperp32[0],(2.0/3.0)))
+#ref_slope_3d_1024_f = lpar32[0]*(np.power(lperp32[:count_1024_10_2],(2.0/3.0)))/(np.power(lperp32[0],(2.0/3.0)))
 
 ref_slope_3d_512_f = lpar29[0]*(np.power(lperp29[:count_512_10_2],(2.0/3.0)))/(np.power(lperp29[0],(2.0/3.0)))
 
@@ -592,9 +601,9 @@ start_10 = 10
 #slope_512_phi0init_10_3_2, rval_512_phi0init_10_3_2, err_512_phi0init_10_3_2 = linfit(lperp30,lpar30, 0, count_512_10_3_2)
 
 #slope_512_phi0init_10_5_3, rval_512_phi0init_10_5_3, err_512_phi0init_10_5_3 = linfit(lperp31,lpar31, 0, count_512_10_5_3)
-slope_1024_phi0init_10_2_lin, rval_1024_phi0init_10_2_lin, err_1024_phi0init_10_2_lin = linfit(lperp32,lpar32, start, count_1024_10_2)
+#slope_1024_phi0init_10_2_lin, rval_1024_phi0init_10_2_lin, err_1024_phi0init_10_2_lin = linfit(lperp32,lpar32, start, count_1024_10_2)
 
-slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2 = linfit(lperp32,lpar32, 0, count_1024_10_2)
+#slope_1024_phi0init_10_2, rval_1024_phi0init_10_2, err_1024_phi0init_10_2 = linfit(lperp32,lpar32, 0, count_1024_10_2)
 
 slope_512_nokpar, rval_512_nokpar, err_512_nokpar = linfit(lperp33, lpar33, 0, count_512_nokpar)
 
@@ -608,10 +617,13 @@ slope_512_20kpar, rval_512_20kpar, err_512_20kpar = linfit(lperp35, lpar35, 0, c
 start = 3
 slope_512_20_lin, rval_512_20_lin, err_512_20_lin = linfit(lperp35,lpar35, start, count_512_20kpar)
 
-slope_512_1st_B, rval_512_1st_B, err_512_1st_B = linfit(lperp36, lpar36, 0, count_512_1st_B)
-slope_512_2nd_B, rval_512_2nd_B, err_512_2nd_B = linfit(lperp37, lpar37, 0, count_512_2nd_B)
-slope_512_3rd_B, rval_512_3rd_B, err_512_3rd_B = linfit(lperp38, lpar38, 0, count_512_3rd_B)
-slope_512_4th_B, rval_512_4th_B, err_512_4th_B = linfit(lperp39, lpar39, 0, count_512_4th_B)
+# slope_512_1st_B, rval_512_1st_B, err_512_1st_B = linfit(lperp36, lpar36, 0, count_512_1st_B)
+# slope_512_2nd_B, rval_512_2nd_B, err_512_2nd_B = linfit(lperp37, lpar37, 0, count_512_2nd_B)
+# slope_512_3rd_B, rval_512_3rd_B, err_512_3rd_B = linfit(lperp38, lpar38, 0, count_512_3rd_B)
+# slope_512_4th_B, rval_512_4th_B, err_512_4th_B = linfit(lperp39, lpar39, 0, count_512_4th_B)
+
+slope_512_amp05, rval_512_amp05, err_512_amp05 = linfit(lperp40, lpar40, 0, count_512_amp05)
+slope_512_amp1, rval_512_amp1, err_512_amp1 = linfit(lperp41, lpar41, 0, count_512_amp1)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # 2d squares vs displacement phi PLOT
@@ -740,15 +752,17 @@ start = 4
 
 ax1.plot(lperp29[0:count_512_10_2], lpar29[0:count_512_10_2], lw = 1, label="Total 512 grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2, rval_512_phi0init_10_2, err_512_phi0init_10_2))
 
-ax1.plot(lperp36[0:count_512_1st_B], lpar36[0:count_512_1st_B], lw = 1, label="1st B grad: %s R^2: %s  Err: %s" % (slope_512_1st_B, rval_512_1st_B, err_512_1st_B))
+#ax1.plot(lperp36[0:count_512_1st_B], lpar36[0:count_512_1st_B], lw = 1, label="1st B grad: %s R^2: %s  Err: %s" % (slope_512_1st_B, rval_512_1st_B, err_512_1st_B))
 
-ax1.plot(lperp37[0:count_512_2nd_B], lpar37[0:count_512_2nd_B], lw = 1, label="2nd B grad: %s R^2: %s  Err: %s" % (slope_512_2nd_B, rval_512_2nd_B, err_512_2nd_B))
+#ax1.plot(lperp37[0:count_512_2nd_B], lpar37[0:count_512_2nd_B], lw = 1, label="2nd B grad: %s R^2: %s  Err: %s" % (slope_512_2nd_B, rval_512_2nd_B, err_512_2nd_B))
 
-ax1.plot(lperp38[0:count_512_3rd_B], lpar38[0:count_512_3rd_B], lw = 1, label="3rd B grad: %s R^2: %s  Err: %s" % (slope_512_3rd_B, rval_512_3rd_B, err_512_3rd_B))
+#ax1.plot(lperp38[0:count_512_3rd_B], lpar38[0:count_512_3rd_B], lw = 1, label="3rd B grad: %s R^2: %s  Err: %s" % (slope_512_3rd_B, rval_512_3rd_B, err_512_3rd_B))
 
-ax1.plot(lperp39[0:count_512_4th_B], lpar39[0:count_512_4th_B], lw = 1, label="4th B grad: %s R^2: %s  Err: %s" % (slope_512_4th_B, rval_512_4th_B, err_512_4th_B))
+#ax1.plot(lperp39[0:count_512_4th_B], lpar39[0:count_512_4th_B], lw = 1, label="4th B grad: %s R^2: %s  Err: %s" % (slope_512_4th_B, rval_512_4th_B, err_512_4th_B))
 
+ax1.plot(lperp40[0:count_512_amp05], lpar40[0:count_512_amp05], lw = 1, label="B M_A = 2.46 grad: %s R^2: %s  Err: %s" % (slope_512_amp05, rval_512_amp05, err_512_amp05))
 
+ax1.plot(lperp41[0:count_512_amp1], lpar41[0:count_512_amp1], lw = 1, label="B M_A = 4.93 grad: %s R^2: %s  Err: %s" % (slope_512_amp1, rval_512_amp1, err_512_amp1))
 
 #ax1.plot(lperp29[start:count_512_10_2], lpar29[start:count_512_10_2], lw=2, ls = "-", color = 'orange', label="512 phi0init 10*k_para^-2 lin grad: %s R^2: %s  Err: %s" % (slope_512_phi0init_10_2_lin, rval_512_phi0init_10_2_lin, err_512_phi0init_10_2_lin))
 
