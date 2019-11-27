@@ -477,7 +477,7 @@ if __name__ == '__main__':
         sf_perp_2 = sf_perp_2 / npts_2
 
         # writing the spectra to a file - must change name of output file depending on phi0 or phi & if wrt global or local frame
-        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_local_4th_B' + mode + '.txt', 'w')
+        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_local_amp1' + mode + '.txt', 'w')
         for i in range(0, int(lent / 2)):
             value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
             f.write(value + "\n")
