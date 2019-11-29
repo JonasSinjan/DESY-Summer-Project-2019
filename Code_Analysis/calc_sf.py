@@ -152,7 +152,7 @@ def read_files3D_phi0(dir_phi0, dir_B, local = False):
     print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
     return phi0, bx, by, bz, mach_alfven
 
-def read_files3D_phi(dir_data):
+def read_files3D_phi(dir_data, dir_B):
     filename = dir_data + 'PHI' + '.BIN'
     fd = open(filename, 'rb')
 
@@ -161,7 +161,7 @@ def read_files3D_phi(dir_data):
     temp = np.reshape(abx, (nx, ny, nz))
     phi = temp.transpose()
 
-    filename = dir_data + 'BX' + '.BIN'  
+    filename = dir_B + 'BX' + '.BIN'  
     fd = open(filename, 'rb')
 
     abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -173,7 +173,7 @@ def read_files3D_phi(dir_data):
     
     #bx.fill(1)
 
-    filename = dir_data + 'BY' + '.BIN'
+    filename = dir_B + 'BY' + '.BIN'
     fd = open(filename, 'rb')
 
     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -185,7 +185,7 @@ def read_files3D_phi(dir_data):
     
     #by.fill(0)
 
-    filename = dir_data + 'BZ' + '.BIN'
+    filename = dir_B + 'BZ' + '.BIN'
     fd = open(filename, 'rb')
 
     aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
@@ -203,7 +203,7 @@ def read_files3D_phi(dir_data):
 
     print(bx[:, :, 1])
     print(np.mean(bx), np.mean(by), np.mean(by), np.mean(bz+by))
-    return phi, bx, by, bz #, mach_alfven
+    return phi, bx, by, bz, mach_alfven
 
 def struc_funk3D(ff, phi, bx, by, bz):
     ll = ff * 1.0
@@ -364,9 +364,9 @@ if __name__ == '__main__':
     # dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_15_kpara/'  # data files
     # dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_15_kpara/'  # data files
 
-    dir_phi0 = '/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_test/'
-    dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp1/'  # data files
-    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp1/'  # data files
+    dir_phi0 = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_fix_r/'
+    dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp05/'  # data files
+    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp05/'  # data files
     
     #windows laptop
     # dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
@@ -415,7 +415,7 @@ if __name__ == '__main__':
         npts = np.zeros(int(lent / 2))
 
         #2D PHI0
-        #phi0, bx, by = read_files_phi0(dir_data)
+        phi0, bx, by = read_files_phi0(dir_data)
 
         sf_snapshot = []
         sff = np.zeros((3, int(lent / 4)))
@@ -448,7 +448,7 @@ if __name__ == '__main__':
 
         #3D PHI0
         localbool = True
-        phi0,bx,by,bz,mach_alfven= read_files3D_phi0(dir_phi0, dir_B, localbool)
+        phi0,bx,by,bz,mach_alfven= read_files3D_phi(dir_phi0, dir_B)
         print('Mach Alfven = ', mach_alfven)
         #time.sleep(30)
 	sf_snapshot = []
@@ -467,7 +467,7 @@ if __name__ == '__main__':
         sf_perp_2 = sf_perp_2 / npts_2
 
         # writing the spectra to a file - must change name of output file depending on phi0 or phi & if wrt global or local frame
-        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_local_amp1' + mode + '.txt', 'w')
+        f = open(dir_output + 'sf_par_perp_v_phi_wrt_local_fix' + mode + '.txt', 'w')
         for i in range(0, int(lent / 2)):
             value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
             f.write(value + "\n")
