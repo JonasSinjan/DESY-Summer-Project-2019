@@ -72,14 +72,14 @@ def read_phi_3d(dir_data, n):
 # n=257
 # phi_2d,phi0_2d = read_phi_2d(dir_data,n)
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_fix_r"
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_fix_r/"
 #dir_phi0 = "/home/jonas/Documents/VSCode/DESY/3d_displacement/Runs/128_FFT_mem_test_compar/"
 n=513 #(n+1)_
 phi_3d,phi0_3d = read_phi_3d(dir_data,n)
 
-dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64_FFT_testdot/"
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_fix_r/"
 #dir_data = "/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_mem_method_test_FFT/"
-n=129#(n+1)_
+n=513#(n+1)_
 phi_mem3d,phi0_mem3d = read_phi_3d(dir_data,n)
 
 
