@@ -57,30 +57,30 @@ def read_phi_3d(dir_data, n):
         temp2 = np.reshape(abx,(nx,ny,nz))
         #temp2 = temp2.transpose()
 
-        filename=dir_data+'BY'+'.BIN'
-        print(filename)
-        fd = open(filename, 'rb')
+        # filename=dir_data+'BY'+'.BIN'
+        # print(filename)
+        # fd = open(filename, 'rb')
 
-        abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny*nz)
+        # abx = np.fromfile(file=fd,dtype=np.float64,count=nx*ny*nz)
 
-        temp3 = np.reshape(abx,(nx,ny,nz))
+        # temp3 = np.reshape(abx,(nx,ny,nz))
 
-        return temp1, temp2, temp3
+        return temp1, temp2#, temp3
 
 # # #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/"
 # dir_data = "/home/jonas/Documents/VSCode/DESY/final_data/2d/256run2D_disp_FFT/"
 # n=257
 # phi_2d,phi0_2d = read_phi_2d(dir_data,n)
 
-#dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64_FFT_testdot/"
-dir_data = "/home/jonas/Documents/VSCode/DESY/3d_displacement/Runs/128_FFT_mem_test_compar/"
-n=129 #(n+1)_
-phi_3d,phi0_3d, by = read_phi_3d(dir_data,n)
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_fix_r"
+#dir_phi0 = "/home/jonas/Documents/VSCode/DESY/3d_displacement/Runs/128_FFT_mem_test_compar/"
+n=513 #(n+1)_
+phi_3d,phi0_3d = read_phi_3d(dir_data,n)
 
-#dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64_FFT_testdot/"
-dir_data = "/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_mem_method_test_FFT/"
-n=129 #(n+1)_
-phi_mem3d,phi0_mem3d, by = read_phi_3d(dir_data,n)
+dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_displacement/64_FFT_testdot/"
+#dir_data = "/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/128_mem_method_test_FFT/"
+n=129#(n+1)_
+phi_mem3d,phi0_mem3d = read_phi_3d(dir_data,n)
 
 
 slice_index = 23
