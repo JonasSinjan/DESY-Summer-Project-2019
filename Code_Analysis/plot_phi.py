@@ -160,7 +160,7 @@ plt.colorbar()
 
 ax1 = fig.add_subplot(gs0[1])
 
-img = z[
+img = z[3]
 
 plt.imshow(img, cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax1.set_xlabel('x', fontsize=12)
