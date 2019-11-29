@@ -94,12 +94,13 @@ gs1 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=gs0[0])
 
 #z=[phi0_2d, phi_2d, phi0_3d[:,:,slice_index], phi_3d[:,:,slice_index]]#one slice
 #title=['2D Phi0', '2D Phi', '3D Phi0', '3D Phi']
-title=['3D MEM Phi0', '3D MEM Phi', '3D Phi0', '3D Phi']
+#title=['3D MEM Phi0', '3D MEM Phi', '3D Phi0', '3D Phi']
+title = ['3D Phi0', '3D PHI', 'PHI-PHI0', ' 3D PHI']
 z=[phi0_mem3d[:,:,slice_index], phi_mem3d[:,:,slice_index], phi0_3d[:,:,slice_index], phi_3d[:,:,slice_index]]#one slice
 
 ax0 = fig.add_subplot(gs1[0])
 
-plt.imshow(z[0], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[2], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax0.set_xlabel('x', fontsize=12)
 ax0.set_ylabel('y', fontsize=12)
 ax0.set_title(title[0], fontsize=14)
@@ -109,7 +110,7 @@ plt.colorbar()
 
 ax1 = fig.add_subplot(gs1[1])
 
-plt.imshow(z[1], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[3], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax1.set_xlabel('x', fontsize=12)
 ax1.set_ylabel('y', fontsize=12)
 ax1.set_title(title[1], fontsize=14)
@@ -121,7 +122,7 @@ gs2 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=gs0[1])
 
 ax2 = fig.add_subplot(gs2[0])
 
-plt.imshow(z[2], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
+plt.imshow(z[3]-z[2], cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax2.set_xlabel('x', fontsize=12)
 ax2.set_ylabel('y', fontsize=12)
 ax2.set_title(title[2], fontsize=14)
@@ -147,7 +148,7 @@ gs0 = gridspec.GridSpec(2,1,hspace=0.2, wspace=0.2)
 
 ax0 = fig.add_subplot(gs0[0])
 
-img = z[2]-z[0]
+img = z[2]
 
 plt.imshow(img, cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax0.set_xlabel('x', fontsize=12)
@@ -159,7 +160,7 @@ plt.colorbar()
 
 ax1 = fig.add_subplot(gs0[1])
 
-img = z[3]-z[1]
+img = z[
 
 plt.imshow(img, cmap='seismic', extent=[0, 1, 0, 1], interpolation='nearest', origin='lower')
 ax1.set_xlabel('x', fontsize=12)
