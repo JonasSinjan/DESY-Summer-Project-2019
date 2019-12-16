@@ -27,3 +27,5 @@ final_data/3d/256run3D_FFT/PHI.BIN
 final_data/3d/256run3D_FFT/PHI0.BIN
 phi0init/Runs/512_test/512_test/PHI0.BIN
 3d_disp_mem/Runs/512_fix_r/PHI.BIN
+3d_disp_mem/Runs/512_amp1/PHI.BIN
+3d_disp_mem/Runs/512_amp05/PHI.BIN

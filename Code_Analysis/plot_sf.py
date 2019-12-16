@@ -102,6 +102,9 @@ phi0_wrt_local_amp1 = process(dir_sf, 512.0, 0)
 dir_sf = working_dir_path + r'localB/Runs/512_B_amp05/sf_par_perp_v_phi_wrt_local_fixF.txt'
 phi_wrt_local_amp05 = process(dir_sf, 512.0, 0)
 
+dir_sf = working_dir_path + r'localB/Runs/512_B_amp1/sf_par_perp_v_phi_wrt_localF.txt'
+phi_wrt_local_amp1 = process(dir_sf, 512.0, 0)
+
 
 #reference straight line for GS95
 lpar_temp = phi0_wrt_global_10kpara2[0]
