@@ -87,7 +87,7 @@ def plot(process_return, name):
   rval = process_return[4]
   plt.plot(lperp[0:count], lpar[0:count], label = "%s grad: %s R^2: %s  Err: %s" % (name, slope, rval, err))
 
-
+#reading in and processing the structure function files
 working_dir_path = r'/home/jonas/Documents/VSCode/DESY/' #'/lustre/fs23/group/that/jonas/Github_repo/DESY/'
 
 tmp = working_dir_path + r'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
@@ -103,12 +103,13 @@ dir_sf = working_dir_path + r'localB/Runs/512_B_amp05/sf_par_perp_v_phi_wrt_loca
 phi_wrt_local_amp05 = process(dir_sf, 512.0, 0)
 
 
+#reference straight line for GS95
 lpar_temp = phi0_wrt_global_10kpara2[0]
 lperp_temp = phi0_wrt_global_10kpara2[1]
 count_temp = phi0_wrt_global_10kpara2[-1]
 ref_slope_3d_512_f = lpar_temp[0]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/(np.power(lperp_temp[0],(2.0/3.0)))
 
-
+#plotting the structure functions
 plt.figure(figsize=(7.0, 3.0), dpi=200)
 
 plot(phi0_wrt_global_10kpara2, '512 Phi0 wrt global 10kpara^-2')
