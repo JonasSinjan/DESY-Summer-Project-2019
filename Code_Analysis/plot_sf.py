@@ -75,7 +75,7 @@ def linfit(perp_arr, para_arr, start, end):
 def process(dir_sf, resolution, start):
   lpar_tmp, lperp_tmp = read_sf(dir_sf, resolution)
   count_tmp = find_indeix(lperp_tmp)
-  slope_tmp, rval_tmp, err_tmp = linfit(lpar_tmp, lperp_tmp, start, count_tmp)
+  slope_tmp, rval_tmp, err_tmp = linfit(lperp_tmp, lpar_tmp, start, count_tmp)
   return [lpar_tmp, lperp_tmp, slope_tmp, err_tmp, rval_tmp, count_tmp]
 
 def plot(process_return, name):
@@ -91,7 +91,7 @@ def plot(process_return, name):
 working_dir_path = r'/home/jonas/Documents/VSCode/DESY/' #'/lustre/fs23/group/that/jonas/Github_repo/DESY/'
 
 tmp = working_dir_path + r'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
-phi0_wrt_global_10kpara2 = process(tmp, 512.0, 0)
+phi0_wrt_global_10kpara2 = process(tmp, 512.0, 4)
 
 tmp = working_dir_path + "localB/Runs/sf_par_perp_v_phi0_wrt_local_amp05F.txt"
 phi0_wrt_local_amp05 = process(tmp, 512.0, 0)
