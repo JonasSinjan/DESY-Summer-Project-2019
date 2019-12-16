@@ -133,8 +133,8 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/512_fix_r/'
-  data_B = '../localB/Runs/512_B_amp05/'
+  data_dir = './Runs/512_amp1/'
+  data_B = '../localB/Runs/512_B_amp1/'
   data_phi0 = '../phi0init/Runs/512_test/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
