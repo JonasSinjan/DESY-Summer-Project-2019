@@ -117,11 +117,13 @@ plt.figure(figsize=(7.0, 3.0), dpi=200)
 
 plot(phi0_wrt_global_10kpara2, '512 Phi0 wrt global 10kpara^-2')
 
-plot(phi0_wrt_local_amp05, 'B M_A = 2.46')
+#plot(phi0_wrt_local_amp05, 'B M_A = 2.46')
 
-#plot(phi0_wrt_local_amp1, 'B M_A = 4.93')
+plot(phi0_wrt_local_amp1, 'B M_A = 4.93')
 
-plot(phi_wrt_local_amp05, 'PHI M_A = 2.46')
+#plot(phi_wrt_local_amp05, 'PHI M_A = 2.46')
+
+plot(phi_wrt_local_amp1, 'PHI M_A = 4.93')
 
 plt.plot(lperp_temp[:count_temp], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
 
