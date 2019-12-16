@@ -57,7 +57,7 @@ def read_sf(dir_data, n):
 
   return lpar, lperp
 
-def find_indeix(arr): #normally pass through the perp array: lperp
+def find_index(arr): #normally pass through the perp array: lperp
   for count, i in enumerate(arr):
     if  i <= 0.0001:
       return count #returns the index where 0 starts
@@ -74,7 +74,7 @@ def linfit(perp_arr, para_arr, start, end):
 
 def process(dir_sf, resolution, start):
   lpar_tmp, lperp_tmp = read_sf(dir_sf, resolution)
-  count_tmp = find_indeix(lperp_tmp)
+  count_tmp = find_index(lperp_tmp)
   slope_tmp, rval_tmp, err_tmp = linfit(lperp_tmp, lpar_tmp, start, count_tmp)
   return [lpar_tmp, lperp_tmp, slope_tmp, err_tmp, rval_tmp, count_tmp]
 
