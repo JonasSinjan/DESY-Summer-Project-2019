@@ -133,8 +133,9 @@ program main
   ! ------------------------------------------------------------------------
   ! specify folder for output data
   ! ------------------------------------------------------------------------
-  data_dir = './Runs/512_fix_r/'
-  data_B = '../localB/Runs/512_B_amp05/'
+  data_dir = './Runs/512_amp1/'
+  data_B = '../localB/Runs/512_B_amp1/'
+  data_phi0 = '../phi0init/Runs/512_test/'
 
   cmd = 'mkdir -p ' // trim(data_dir)
   call system(cmd)
@@ -925,161 +926,21 @@ program main
   ! ------------------------------------------------------------------------
   ! build scalar field phi0 and write to file
   ! ------------------------------------------------------------------------
-  m = n - 1
+  !m = n - 1
 
+   !------------------------------------------------------------------
+  !max -> 6 + 1 = 7 arrays
+  !------------------------------------------------------------------
   allocate (phi0(n,n,n)) 
-  !aux arrays
-  allocate (phi0k((m/2 + 1), m, m))
-  allocate (fk((m/2 + 1), m, m))
-  allocate (f(m, m, m))
 
-  !------------------------------------------------------------------
-  !max -> 6 + 4 = 10 arrays
-  !------------------------------------------------------------------
-  
-
-  phi0(:,:,:) = 0 ! initialise all entries to zero
-  
-  print*, omp_get_max_threads(), "calculating phi0k"
-  wtime = omp_get_wtime()
-
-  call dfftw_plan_dft_c2r_3d(dftplan, m,m,m, fk, f, FFTW_ESTIMATE)
-
-  phi0k(:,:,:) = 0
-
-  kmax = real(m)/2 !? was /2 for 2D - at high wavenumber not adding turbulent modes
-
-  ! SKIP NYQUIST FREQUENCY
-  do kk = min((-m/2 + 1), 0), m/2-1
-    ! do kj = 0, 0
-    if (kk >= 0) then
-      k = kk + 1
-    else
-      k = m + kk + 1
-    endif  
-    
-    !print*, kk
-
-    ! SKIP NYQUIST FREQUENCY
-    do kj = min((-m/2 + 1), 0), m/2-1
-      ! do kj = 0, 0
-      if (kj >= 0) then
-        j = kj + 1
-      else
-        j = m + kj + 1
-      endif
-
-      ! SKIP NYQUIST FREQUENCY
-      do ki = 0, m/2-1
-        i = ki + 1
-        
-        if ((ki == 0) .and. (kj == 0) .and. (kk == 0)) cycle
-
-        kmod = sqrt(real(ki)**2 + real(kj)**2 + real(kk)**2)
-
-        k_para = abs(ki)
-        k_perp = sqrt(max((kmod**2 - k_para**2), 0.))
-
-        ! GS95
-        if (k_perp > 0.) then
-          E_coeff = k_perp**(-10./3.)*exp(-k_para/k_perp**(2./3.))  ! 3D
-        else
-          E_coeff = 10*k_para**(-2.) !different amplitude?
-          !E_coeff = 
-        endif
-
-        !sort random phase
-        call random_number(ph)
-        ph = ph*twopi
-        ! if (kmod > kmax) then !from michael's method
-        !   phi0k(i,j,k) = (0.d0, 0.d0)
-        ! else
-        !   phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-        ! endif
-        
-        ! reality condition of FFT - conjugate
-        ! sort random phase
-        call random_number(ph)
-        ph = ph*twopi
-        if (ki == 0) then
-          if (kj > 0) then
-            phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-            if (k/=1) then
-              phi0k(i,m-j+2,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
-            else 
-              phi0k(i,m-j+2,k) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
-            endif
-          else if (kj < 0) then
-            cycle
-          else
-            if (kk > 0) then
-              phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-              phi0k(i,j,m-k+2) = sqrt(E_coeff)*(cos(ph) - (0., 1.)*sin(ph))
-            else
-              cycle
-            endif
-          endif  
-        else
-          phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))
-        endif
-      enddo ! ki
-    enddo ! kj
-  enddo !kk
-  
-  ! execute inverse DFT
-  ! attention with the normalization of the DFT
-  fk(:,:,:) = phi0k(:,:,:)
-
-  call dfftw_execute_dft_c2r(dftplan, fk, f)
-
-  phi0(1:m,1:m,1:m) = f(:,:,:) !inner cube
-
-  phi0(m+1,1:m,1:m) = f(1,:,:) !outer faces
-  phi0(1:m,m+1,1:m) = f(:,1,:)
-  phi0(1:m,1:m,m+1) = f(:,:,1)
-
-  phi0(1:m,m+1,m+1) = f(:,1,1) !outer edges
-  phi0(m+1,m+1,1:m) = f(1,1,:)
-  phi0(m+1,1:m,m+1) = f(1,:,1)
-
-  phi0(m+1,m+1,m+1) = f(1,1,1) !last point
-
-  call dfftw_destroy_plan(dftplan)
-
-  deallocate (phi0k)
-  deallocate (fk)
-  deallocate (f)
-
-  !------------------------------------------------------------------
-  !max -> 10 - 3 = 7 arrays
-  !------------------------------------------------------------------
-  
-
-  print*, 'The loop has successfully completed'
-
-  wtime = omp_get_wtime() - wtime
-
-  print *, wtime, "Loop Time Phi0 init" 
-
-  print*, '* Writing file: phi_0'
-
-  ! file_out = trim(data_dir) // 'PHI0.DAT'
-  ! open(unit=400, file=trim(file_out), form='formatted', status='replace', action='write')
-  ! do i = 1, n
-  !   do j = 1, n
-  !     write(400,'(3(es24.16, 1x))') real(i - 1)*h, real(j - 1)*h, phi0(i,j)
-  !   enddo
-  !   write(400,*)
-  ! enddo
-  ! close(400)
-
-  file_out = 'PHI0.BIN'
   lun = 701
-  file_out = trim(data_dir) // '/' // file_out
-  open(unit=lun, file=trim(file_out), form='unformatted', status='replace', action='write', access='stream')
-    write(lun) phi0(:,:,:)
+  file_in = trim(data_phi0) // '/' // 'PHI0.BIN'
+  ! bz(:,:,:)?
+  open(unit=lun, file=trim(file_in), form='unformatted', action='read', access='stream')
+    read(lun) phi0(:,:,:)
   close(lun)
 
+  !print*, phi0(1,1,1:5)
 
   !----------------------------------------------------------------
   ! calculate power spectrum of phi0 and write to file
