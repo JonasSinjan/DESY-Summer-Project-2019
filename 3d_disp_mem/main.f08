@@ -125,7 +125,7 @@ program main
   !real(sp) :: tmp, tmp2
   real(sp) :: c_00,c_01,c_10,c_11,c_0,c_1,c !for the trilinear interpolations
 
-  character(len=400) :: data_dir, data_B
+  character(len=400) :: data_dir, data_B, data_phi0
   character(len=1024) :: file_out, file_in
   character(len=400) :: cmd
 
