@@ -93,13 +93,13 @@ working_dir_path = r'/home/jonas/Documents/VSCode/DESY/' #'/lustre/fs23/group/th
 tmp = working_dir_path + r'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
 phi0_wrt_global_10kpara2 = process(tmp, 512.0, 4)
 
-tmp = working_dir_path + "localB/Runs/sf_par_perp_v_phi0_wrt_local_amp05F.txt"
+tmp = working_dir_path + r"localB/Runs/sf_par_perp_v_phi0_wrt_local_amp05F.txt"
 phi0_wrt_local_amp05 = process(tmp, 512.0, 0)
 
-dir_sf = working_dir_path + 'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp1F.txt'
+dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp1F.txt'
 phi0_wrt_local_amp1 = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + 'localB/Runs/512_B_amp05/sf_par_perp_v_phi_wrt_local_fixF.txt'
+dir_sf = working_dir_path + r'localB/Runs/512_B_amp05/sf_par_perp_v_phi_wrt_local_fixF.txt'
 phi_wrt_local_amp05 = process(dir_sf, 512.0, 0)
 
 
