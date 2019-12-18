@@ -90,20 +90,41 @@ def plot(process_return, name):
 #reading in and processing the structure function files
 working_dir_path = r'/home/jonas/Documents/VSCode/DESY/' #'/lustre/fs23/group/that/jonas/Github_repo/DESY/'
 
+#phi0 wrt global
 tmp = working_dir_path + r'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
 phi0_wrt_global_10kpara2 = process(tmp, 512.0, 4)
-
+#phi0 wrt local amp05
 tmp = working_dir_path + r"localB/Runs/sf_par_perp_v_phi0_wrt_local_amp05F.txt"
 phi0_wrt_local_amp05 = process(tmp, 512.0, 0)
-
+#phi0 wrt local amp1
 dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp1F.txt'
 phi0_wrt_local_amp1 = process(dir_sf, 512.0, 0)
-
+#phi wrt local amp05
 dir_sf = working_dir_path + r'localB/Runs/512_B_amp05/sf_par_perp_v_phi_wrt_local_fixF.txt'
 phi_wrt_local_amp05 = process(dir_sf, 512.0, 0)
-
+#phi wrt local amp1
 dir_sf = working_dir_path + r'localB/Runs/512_B_amp1/sf_par_perp_v_phi_wrt_localF.txt'
 phi_wrt_local_amp1 = process(dir_sf, 512.0, 0)
+
+#phi wrt local sf amp02,3,4
+dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi_wrt_local_amp02F.txt'
+phi_wrt_local_amp02 = process(dir_sf, 512.0, 0)
+
+dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi_wrt_local_amp03F.txt'
+phi_wrt_local_amp03 = process(dir_sf, 512.0, 0)
+
+dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi_wrt_local_amp04F.txt'
+phi_wrt_local_amp04 = process(dir_sf, 512.0, 0)
+
+#phi0 wrt local sf amp02,3,4
+dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp02F.txt'
+phi0_wrt_local_amp02 = process(dir_sf, 512.0, 0)
+
+dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp03F.txt'
+phi0_wrt_local_amp03 = process(dir_sf, 512.0, 0)
+
+dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp04F.txt'
+phi0_wrt_local_amp04 = process(dir_sf, 512.0, 0)
 
 
 #reference straight line for GS95
@@ -119,11 +140,19 @@ plot(phi0_wrt_global_10kpara2, '512 Phi0 wrt global 10kpara^-2')
 
 #plot(phi0_wrt_local_amp05, 'B M_A = 2.46')
 
-plot(phi0_wrt_local_amp1, 'B M_A = 4.93')
+#plot(phi0_wrt_local_amp1, 'B M_A = 4.93')
 
 #plot(phi_wrt_local_amp05, 'PHI M_A = 2.46')
 
-plot(phi_wrt_local_amp1, 'PHI M_A = 4.93')
+#plot(phi_wrt_local_amp1, 'PHI M_A = 4.93')
+
+#plot(phi0_wrt_local_amp02, 'PHI0 B M_A = 0.985')
+#plot(phi0_wrt_local_amp03, 'PHI0 B M_A = 1.477')
+plot(phi0_wrt_local_amp04, 'PHI0 B M_A = 1.970')
+
+#plot(phi_wrt_local_amp02, 'PHI M_A = 0.985')
+#plot(phi_wrt_local_amp03, 'PHI M_A = 1.477')
+plot(phi_wrt_local_amp04, 'PHI M_A = 1.970')
 
 plt.plot(lperp_temp[:count_temp], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
 
@@ -131,7 +160,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
 plt.ylabel(r'$l_{\parallel}/L $ parallel',fontsize=9)
-plt.title('Structure Function 3D Disp. PHI0 wrt local + ref')
+plt.title('Structure Function 3D Disp. PHI0 & PHI wrt local + ref')
 plt.legend(loc='best',ncol=1,fontsize=6)
 
 plt.show()
