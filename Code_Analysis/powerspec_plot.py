@@ -180,14 +180,14 @@ def plot_power2d(dir1, dir2, n):
     # plt.legend()
     # #plt.show()
 
-def plot_power3d(dir1, n):
+def plot_power3d(dirphi0, dir1, n):
     # 3D
     nx = n + 1 #displacement only
     ny = n + 1
     nz = n + 1
 
     # Reading in PHI0 binary file
-    filename = dir1 + 'PHI0' + '.BIN'  # PHI for displacement, RHO for squares
+    filename = dirphi0 + 'PHI0' + '.BIN'  # PHI for displacement, RHO for squares
     # print(filename)
     fd = open(filename, 'rb')
 
@@ -307,16 +307,17 @@ if __name__ == "__main__":
     #plot_power2d(dir_data3, dir_data4, n)
 
     n = 512
-    #dir_sf = "/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/"
+    dir_sf = "/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/"
     # dir_data2 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/power_spectra/"
-    dir_sf = '/home/jonas/Documents/VSCode/DESY/final_data/2d/512run2D_disp_real/'
+    #dir_sf = '/home/jonas/Documents/VSCode/DESY/final_data/2d/512run2D_disp_real/'
     dir_data2 = 2
     plot_power2d(dir_sf, dir_data2, n)
 
     n = 512
-    #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/512_mem_FFT/"
-    dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/512_mem_FFT/'
-    plot_power3d(dir_data,n)
+    dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_amp02"
+    dir_phi0 =  "/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_test/"
+    #dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/512_mem_FFT/'
+    plot_power3d(dir_phi0, dir_data,n)
 
 # #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/power_spectra/"
 # dir__data = "c:/Users/jonas/DESY/2d_displacement/Runs/128run2D_73_test/power_spectra/"

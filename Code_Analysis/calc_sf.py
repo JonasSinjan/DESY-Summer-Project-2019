@@ -43,9 +43,16 @@ def read_files(dir_data):
     temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
 
+    dbx = bx - 1
+    dby = by
+
+    tmp = dbx**2 + dby**2  #calculating the mach alfven number
+    tmp = np.mean(tmp)
+    mach_alfven = np.sqrt(tmp)
+
     print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
-    return phi, bx, by
+    return phi, bx, by, mach_alfven
 
 def read_files_phi0(dir_data):
     filename = dir_data + 'PHI0' + '.BIN'
@@ -417,8 +424,8 @@ if __name__ == '__main__':
         npts = np.zeros(int(lent / 2))
 
         #2D PHI0
-        phi, bx, by = read_files(dir_data)
-
+        phi, bx, by, mach_alfven = read_files(dir_data)
+        print('M_A = ', mach_alfven)
         #sf_snapshot = []
         sff = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
