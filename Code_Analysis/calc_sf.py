@@ -64,7 +64,7 @@ def read_files_phi0(dir_data):
     temp = np.reshape(abx, (nx, ny))
     bx = temp.transpose()
 
-    bx.fill(1)
+    #bx.fill(1)
 
     filename = dir_data + 'BY' + '.BIN'
     fd = open(filename, 'rb')
@@ -74,7 +74,7 @@ def read_files_phi0(dir_data):
     temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
 
-    by.fill(0)
+    #by.fill(0)
 
     print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
@@ -367,7 +367,12 @@ if __name__ == '__main__':
     dir_phi = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_amp04/'
     dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp04/'  # data files
     dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/'  # data files
+    #dir_phi = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_amp02/'
+    #dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp02/'  # data files
+    #dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/'  # data files
     
+    dir_data = '/home/jonas/Documents/VSCode/DESY/final_data/2d/512run2D_disp_FFT/'
+
     #windows laptop
     # dir_data = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
     # dir_output = "c:/Users/jonas/DESY/2d_displacement/256run2D_73_frac/"  # data files
@@ -383,7 +388,7 @@ if __name__ == '__main__':
     lent = size
 
     # dimensions
-    twoD_bool = False # if set to true, will assume data in 2D, otherwise when false defaults to 3D
+    twoD_bool = True # if set to true, will assume data in 2D, otherwise when false defaults to 3D
 
     #set to true if decoding data files from squares method - if false defaults to displacment method results
     sq_bool = False
@@ -415,12 +420,12 @@ if __name__ == '__main__':
         npts = np.zeros(int(lent / 2))
 
         #2D PHI0
-        phi0, bx, by = read_files_phi0(dir_data)
+        phi, bx, by = read_files(dir_data)
 
         #sf_snapshot = []
         sff = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
-            numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi0, bx, by)
+            numpt_tmp, par_tmp, perp_tmp = struc_funk2D(i, phi, bx, by)
             sff[0, i] = numpt_tmp
             sff[1, i] = par_tmp
             sff[2, i] = perp_tmp
@@ -433,7 +438,7 @@ if __name__ == '__main__':
         sf_perp = sf_perp / npts
 
         # writing the spectra to a file
-        f = open(dir_output + 'sf_par_perp_v_phi0_wrt_global' + mode + '.txt', 'w')
+        f = open(dir_data + 'sf_par_perp_v_phi_wrt_local' + mode + '.txt', 'w')
         for i in range(0, int(lent / 2)):
             value = str(i * 1.0) + " " + str(sf_par[i]) + " " + str(sf_perp[i])
             f.write(value + "\n")
