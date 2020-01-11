@@ -56,12 +56,12 @@ def plot_power2d(dir1, dir2, n):
     phik = fft.fftshift(phik_noshift)
 
     # plotting phik at particular k_perp to see exponential drop off at centre
-    var = abs(phi0k) ** 2
-    plt.figure()
-    plt.plot(np.log(var[:, 2]), label='2')
-    plt.plot(np.log(var[:, 80]), label='80')
-    plt.legend()
-    plt.title('Phi0k at particular k_perp to see exp. drop from centre')
+    # var = abs(phi0k) ** 2
+    # plt.figure()
+    # plt.plot(np.log(var[:, 2]), label='2')
+    # plt.plot(np.log(var[:, 80]), label='80')
+    # plt.legend()
+    # plt.title('Phi0k at particular k_perp to see exp. drop from centre')
     #plt.show()
 
     # test array for index
@@ -71,32 +71,32 @@ def plot_power2d(dir1, dir2, n):
 
     # print(tmp_arr)
 
-    fig = plt.figure()
-    fig = plt.figure(figsize=(5.0, 5.0))
-    gs = gridspec.GridSpec(2, 1, hspace=0.5, wspace=0.2)
+    # fig = plt.figure()
+    # fig = plt.figure(figsize=(5.0, 5.0))
+    # gs = gridspec.GridSpec(2, 1, hspace=0.5, wspace=0.2)
 
-    ax0 = plt.subplot(gs[0], aspect='equal')
+    # ax0 = plt.subplot(gs[0], aspect='equal')
 
-    plt.imshow(np.log(abs(phi0k) ** 2), cmap='seismic',
-               interpolation='nearest', origin='lower')
-    # plt.imshow(tmp_arr)
-    fig = plt.gcf()  # get the current figure
-    plt.clim()  # clamp the color limits
-    plt.colorbar()
-    plt.ylabel('K_parallel')
-    plt.xlabel('K_perp')
-    plt.title('FFT of Phi0 2D')
+    # plt.imshow(np.log(abs(phi0k) ** 2), cmap='seismic',
+    #            interpolation='nearest', origin='lower')
+    # # plt.imshow(tmp_arr)
+    # fig = plt.gcf()  # get the current figure
+    # plt.clim()  # clamp the color limits
+    # plt.colorbar()
+    # plt.ylabel('K_parallel')
+    # plt.xlabel('K_perp')
+    # plt.title('FFT of Phi0 2D')
 
-    ax1 = plt.subplot(gs[1], aspect='equal')
+    # ax1 = plt.subplot(gs[1], aspect='equal')
 
-    plt.imshow(np.log(abs(phik) ** 2), cmap='seismic',
-               interpolation='nearest', origin='lower')
-    fig = plt.gcf()  # get current figure
-    plt.clim()  # clamp the color limits
-    plt.colorbar()
-    plt.ylabel('K_parallel')
-    plt.xlabel('K_perp')
-    plt.title('FFT of Phi 2D')
+    # plt.imshow(np.log(abs(phik) ** 2), cmap='seismic',
+    #            interpolation='nearest', origin='lower')
+    # fig = plt.gcf()  # get current figure
+    # plt.clim()  # clamp the color limits
+    # plt.colorbar()
+    # plt.ylabel('K_parallel')
+    # plt.xlabel('K_perp')
+    # plt.title('FFT of Phi 2D')
     #plt.show()
 
     perp_spectrum = np.zeros(nx)
@@ -180,14 +180,14 @@ def plot_power2d(dir1, dir2, n):
     # plt.legend()
     # #plt.show()
 
-def plot_power3d(dir1, n):
+def plot_power3d(dirphi0, dir1, n):
     # 3D
     nx = n + 1 #displacement only
     ny = n + 1
     nz = n + 1
 
     # Reading in PHI0 binary file
-    filename = dir1 + 'PHI0' + '.BIN'  # PHI for displacement, RHO for squares
+    filename = dirphi0 + 'PHI0' + '.BIN'  # PHI for displacement, RHO for squares
     # print(filename)
     fd = open(filename, 'rb')
 
@@ -217,41 +217,41 @@ def plot_power3d(dir1, n):
     phik = fft.fftshift(phik_noshift)
 
     # plotting phik at particular k_perp to see exponential drop off at centre
-    var = abs(phi0k) ** 2
-    plt.figure()
-    plt.plot(np.log(var[:, 2, 2]), label=':2,2')
-    plt.plot(np.log(var[:, 40, 40]), label=':40,40')
-    plt.legend()
-    plt.title('Phi0k at one k_perp to see exp. drop from centre')
+    # var = abs(phi0k) ** 2
+    # plt.figure()
+    # plt.plot(np.log(var[:, 2, 2]), label=':2,2')
+    # plt.plot(np.log(var[:, 40, 40]), label=':40,40')
+    # plt.legend()
+    # plt.title('Phi0k at one k_perp to see exp. drop from centre')
     #plt.show()
 
-    fig = plt.figure()
-    fig = plt.figure(figsize=(5.0, 5.0))
-    gs = gridspec.GridSpec(2, 1, hspace=0.5, wspace=0.2)
+    # fig = plt.figure()
+    # fig = plt.figure(figsize=(5.0, 5.0))
+    # gs = gridspec.GridSpec(2, 1, hspace=0.5, wspace=0.2)
 
-    ax0 = plt.subplot(gs[0], aspect='equal')
+    # ax0 = plt.subplot(gs[0], aspect='equal')
 
-    plt.imshow(np.log(abs(phi0k) ** 2)[:,2,:], cmap='seismic',
-               interpolation='nearest', origin='lower')
+    # plt.imshow(np.log(abs(phi0k) ** 2)[:,2,:], cmap='seismic',
+    #            interpolation='nearest', origin='lower')
 
-    fig = plt.gcf()  # get the current figure
-    plt.clim()  # clamp the color limits
-    plt.colorbar()
-    plt.ylabel('K_y')
-    plt.xlabel('K_x')
-    plt.title('FFT of Phi0 3D')
+    # fig = plt.gcf()  # get the current figure
+    # plt.clim()  # clamp the color limits
+    # plt.colorbar()
+    # plt.ylabel('K_y')
+    # plt.xlabel('K_x')
+    # plt.title('FFT of Phi0 3D')
 
-    ax1 = plt.subplot(gs[1], aspect='equal')
+    # ax1 = plt.subplot(gs[1], aspect='equal')
 
-    plt.imshow(np.log(abs(phik) ** 2)[:,2,:], cmap='seismic',
-               interpolation='nearest', origin='lower')
+    # plt.imshow(np.log(abs(phik) ** 2)[:,2,:], cmap='seismic',
+    #            interpolation='nearest', origin='lower')
 
-    fig = plt.gcf()  # get current figure
-    plt.clim()  # clamp the color limits
-    plt.colorbar()
-    plt.ylabel('K_z')
-    plt.xlabel('K_x')
-    plt.title('FFT of Phi 3D')
+    # fig = plt.gcf()  # get current figure
+    # plt.clim()  # clamp the color limits
+    # plt.colorbar()
+    # plt.ylabel('K_z')
+    # plt.xlabel('K_x')
+    # plt.title('FFT of Phi 3D')
     #plt.show()
 
     para_spectrum = np.zeros(nx)
@@ -268,7 +268,7 @@ def plot_power3d(dir1, n):
     para_total = (para_second + para_flipped) / 2.0
    
     start = 10
-    end = 50
+    end = 40
 
     logk = np.log(range(int((n - 1) / 2)))
 
@@ -291,7 +291,7 @@ def plot_power3d(dir1, n):
     plt.legend(loc='lower left',fontsize=14)
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
-    plt.title('Phi Power Spectrum 3D %s' % n)
+    plt.title('Phi Power Spectrum 3D B M_A = 1.97 %s' % n)
     plt.show()
 
 
@@ -306,17 +306,18 @@ if __name__ == "__main__":
     #dir_data4 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73_frac/power_spectra/"
     #plot_power2d(dir_data3, dir_data4, n)
 
-    n = 512
+    #n = 512
     #dir_sf = "/lustre/fs23/group/that/jonas/Github_repo/DESY/final_data/2d/512run2D_disp_real/"
     # dir_data2 = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_vs_3d_data/256run2D_FFT/power_spectra/"
-    dir_sf = '/home/jonas/Documents/VSCode/DESY/final_data/2d/512run2D_disp_real/'
-    dir_data2 = 2
-    plot_power2d(dir_sf, dir_data2, n)
+    #dir_sf = '/home/jonas/Documents/VSCode/DESY/final_data/2d/512run2D_disp_real/'
+    #dir_data2 = 2
+    #plot_power2d(dir_sf, dir_data2, n)
 
     n = 512
-    #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/512_mem_FFT/"
-    dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/512_mem_FFT/'
-    plot_power3d(dir_data,n)
+    #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_amp02"
+    dir_phi0 =  "/home/jonas/Documents/VSCode/DESY/phi0init/Runs/512_test/"
+    dir_data = '/home/jonas/Documents/VSCode/DESY/3d_disp_mem/Runs/512_amp04/'
+    plot_power3d(dir_phi0, dir_data, n)
 
 # #dir_data = "/lustre/fs23/group/that/jonas/Github_repo/DESY/2d_displacement/Runs/128run2D_73/power_spectra/"
 # dir__data = "c:/Users/jonas/DESY/2d_displacement/Runs/128run2D_73_test/power_spectra/"

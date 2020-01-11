@@ -11,7 +11,7 @@ from numpy.random import rand
 
 
 
-def read_b_files3D(dir_data):
+def read_files3D(dir_data, global_var):
 
   filename = dir_data + 'PHI0' + '.BIN'
   fd = open(filename, 'rb')
@@ -21,39 +21,46 @@ def read_b_files3D(dir_data):
   temp = np.reshape(abx, (nx, ny, nz))
   phi0 = temp.transpose()
 
-  filename = dir_data + 'PHI' + '.BIN'
-  fd = open(filename, 'rb')
+  if global_var == False:
+    """
+    filename = dir_data + 'PHI' + '.BIN'
+    fd = open(filename, 'rb')
 
-  abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
 
-  temp = np.reshape(abx, (nx, ny, nz))
-  phi = temp.transpose()
+    temp = np.reshape(abx, (nx, ny, nz))
+    phi = temp.transpose()
+    """
+    filename = dir_data + 'BX' + '.BIN' 
+    fd = open(filename, 'rb')
 
-  filename = dir_data + 'BX' + '.BIN' 
-  fd = open(filename, 'rb')
+    abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
 
-  abx = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    temp = np.reshape(abx, (nx, ny, nz))
+    bx = temp.transpose()
 
-  temp = np.reshape(abx, (nx, ny, nz))
-  bx = temp.transpose()
+    filename = dir_data + 'BY' + '.BIN'
+    fd = open(filename, 'rb')
 
-  filename = dir_data + 'BY' + '.BIN'
-  fd = open(filename, 'rb')
+    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
 
-  aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    temp = np.reshape(aby, (nx, ny, nz))
+    by = temp.transpose()
 
-  temp = np.reshape(aby, (nx, ny, nz))
-  by = temp.transpose()
+    filename = dir_data + 'BZ' + '.BIN'
+    fd = open(filename, 'rb')
 
-  filename = dir_data + 'BZ' + '.BIN'
-  fd = open(filename, 'rb')
+    aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
 
-  aby = np.fromfile(file=fd, dtype=np.float64, count=nx * ny * nz)
+    temp = np.reshape(aby, (nx, ny, nz))
+    bz = temp.transpose()
+  
+  elif global_var:
+    bx = np.ones((nx, ny, nz))
+    by = np.zeros((nx, ny, nz))
+    bz = np.zeros((nx, ny, nz))
 
-  temp = np.reshape(aby, (nx, ny, nz))
-  bz = temp.transpose()
-
-  return phi0, phi, bx, by, bz
+  return phi0, bx, by, bz
 
 def struct2D_funk(ipar, phi, bx, by, bz):
 
@@ -139,7 +146,7 @@ def struct2D_funk(ipar, phi, bx, by, bz):
 
 if __name__ == '__main__': 
 
-  lent=256
+  lent=512
   nx=lent
   ny=lent
   nz=lent
@@ -149,7 +156,7 @@ if __name__ == '__main__':
 
   seed(1)
   n_avg_bfield_pts = 5
-  nrandpts = 2000
+  nrandpts = 1000
 
   mode = 'F'
 
@@ -159,13 +166,13 @@ if __name__ == '__main__':
   working_dir_path = '/home/jonas/Documents/VSCode/DESY/'
   #working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'
   
-  dir_data = working_dir_path + 'final_data/3d/256run3D_FFT/'#'3d_disp_mem/Runs/256_2nd_B/'
-  dir_output = working_dir_path + 'final_data/3d/256run3D_FFT/'#'3d_disp_mem/Runs/256_2nd_B/'
+  dir_data = working_dir_path + 'phi0init/Runs/512_test/'#final_data/3d/256run3D_FFT/'#'3d_disp_mem/Runs/256_2nd_B/'
+  dir_output = working_dir_path + 'phi0init/Runs/512_test/'#'final_data/3d/256run3D_FFT/'#'3d_disp_mem/Runs/256_2nd_B/'
 
   sf2D_list=[0]*int(lent / 4)
-  phi0, phi, bx,by,bz = read_b_files3D(dir_data) 
+  phi0,bx,by,bz = read_files3D(dir_data, True) 
 
-  input_var = phi
+  input_var = phi0
   for i in range(int(lent / 4)): #varying lpar
     sf2D_list[i] = struct2D_funk(i, input_var, bx, by, bz) #output sf_lperp
   
@@ -179,7 +186,7 @@ ntstp = ntstp + 1
 
 #sf2D_array = sf2D_array/ntstp
 
-np.save(dir_output+'sf2D_' + 'phi_' + str(nrandpts) + '.npy',sf2D_array)
+np.save(dir_output+'sf2D_' + 'phi0_test_' + str(nrandpts) + '.npy',sf2D_array)
 
 """
 sf_par = sf_par/npts

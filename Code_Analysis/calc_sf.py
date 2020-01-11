@@ -43,9 +43,16 @@ def read_files(dir_data):
     temp = np.reshape(aby, (nx, ny))
     by = temp.transpose()
 
+    dbx = bx - 1
+    dby = by
+
+    tmp = dbx**2 + dby**2  #calculating the mach alfven number
+    tmp = np.mean(tmp)
+    mach_alfven = np.sqrt(tmp)
+
     print(bx[:, 1])
     print(np.mean(bx), np.mean(by))
-    return phi, bx, by
+    return phi, bx, by, mach_alfven
 
 def read_files_phi0(dir_data):
     filename = dir_data + 'PHI0' + '.BIN'
@@ -364,6 +371,9 @@ if __name__ == '__main__':
     # dir_data = '/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_15_kpara/'  # data files
     # dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/phi0init/Runs/512_15_kpara/'  # data files
 
+    dir_phi = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_amp04/'
+    dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp04/'  # data files
+    dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/'  # data files
     #dir_phi = '/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_amp02/'
     #dir_B = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp02/'  # data files
     #dir_output = '/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/'  # data files
@@ -417,8 +427,8 @@ if __name__ == '__main__':
         npts = np.zeros(int(lent / 2))
 
         #2D PHI0
-        phi, bx, by = read_files(dir_data)
-
+        phi, bx, by, mach_alfven = read_files(dir_data)
+        print('M_A = ', mach_alfven)
         #sf_snapshot = []
         sff = np.zeros((3, int(lent / 4)))
         for i in range(int(lent / 4)):
@@ -469,7 +479,7 @@ if __name__ == '__main__':
         sf_perp_2 = sf_perp_2 / npts_2
 
         # writing the spectra to a file - must change name of output file depending on phi0 or phi & if wrt global or local frame
-        f = open(dir_output + 'sf_par_perp_v_phi_wrt_local_amp02' + mode + '.txt', 'w')
+        f = open(dir_output + 'sf_par_perp_v_phi_wrt_local_amp04' + mode + '.txt', 'w')
         for i in range(0, int(lent / 2)):
             value = str(i * 1.0) + " " + str(sf_par_2[i]) + " " + str(sf_perp_2[i]) #+ " " + str(mach_2)
             f.write(value + "\n")

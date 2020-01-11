@@ -29,3 +29,9 @@ phi0init/Runs/512_test/512_test/PHI0.BIN
 3d_disp_mem/Runs/512_fix_r/PHI.BIN
 3d_disp_mem/Runs/512_amp1/PHI.BIN
 3d_disp_mem/Runs/512_amp05/PHI.BIN
+phi0init/Runs/512_test/PHI0.BIN
+3d_disp_mem/Runs/512_amp04/PHI.BIN
+3d_disp_mem/Runs/512_amp02/PHI.BIN
+3d_disp_mem/Runs/512_amp03/PHI.BIN
+3d_disp_mem/Runs/512_amp04/F_kperp_spec.txt
+

@@ -154,27 +154,27 @@ lperp_temp = phi0_wrt_global_10kpara2[1]
 count_temp = phi0_wrt_global_10kpara2[-1]
 ref_slope_3d_512_f = lpar_temp[0]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/(np.power(lperp_temp[0],(2.0/3.0)))
 
-lpar_temp = phi0_wrt_globalalt[0]
-lperp_temp = phi0_wrt_globalalt[1]
-count_temp = phi0_wrt_globalalt[-1]
-ref_slope_2d = lpar_temp[0]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/(np.power(lperp_temp[0],(2.0/3.0)))
+lpar_temp = phi0_wrt_global2D[0]
+lperp_temp = phi0_wrt_global2D[1]
+count_temp = phi0_wrt_global2D[-1]
+ref_slope_2d = lpar_temp[5]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/(np.power(lperp_temp[6],(2.0/3.0)))
 
 #plotting the structure functions
 plt.figure(figsize=(7.0, 3.0), dpi=200)
 
 #plot(phi0_wrt_global_10kpara2, '512 Phi0 wrt global 10kpara^-2')
 
-#plot(phi0_wrt_global2D, 'PHI0 WRT GLOBAL')
+plot(phi0_wrt_global2D, 'PHI0 WRT GLOBAL FFT')
 
-#plot(phi0_wrt_local2D, 'PHI0 WRT LOCAL')
+plot(phi0_wrt_local2D, 'PHI0 WRT LOCAL FFT')
 
-#plot(phi_wrt_local2D, 'PHI WRT LOCAL')
+plot(phi_wrt_local2D, 'PHI WRT LOCAL FFT')
 
-plot(phi_wrt_localalt, 'PHI WRT LOCAL REAL')
+#plot(phi_wrt_localalt, 'PHI WRT LOCAL REAL')
 
-plot(phi0_wrt_localalt, 'PHI0 WRT LOCAL REAL')
+#plot(phi0_wrt_localalt, 'PHI0 WRT LOCAL REAL')
 
-plot(phi0_wrt_globalalt, 'PHI0 WRT GLOBAL REAL')
+#plot(phi0_wrt_globalalt, 'PHI0 WRT GLOBAL REAL')
 
 
 #plot(phi0_wrt_local_amp05, 'B M_A = 2.46')
