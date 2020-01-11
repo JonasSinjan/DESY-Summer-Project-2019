@@ -92,7 +92,7 @@ working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'#'/home/jona
 # lperp8 = 1.0*np.arange(lent/4)/lent
 # sf2D8 = smoothing(sf2D_array)
 
-sf2D_array = np.load(working_dir_path + 'phi0init/Runs/512_test/sf2D_phi0_1000.npy')
+sf2D_array = np.load(working_dir_path + 'phi0init/Runs/512_test/sf2D_phi0_test_1000.npy')
 #sf2D_array = np.load(working_dir_path + '3d_disp_mem/Runs/256_2nd_B/sf2D_phi0_2000.npy')
 lent=512
 lpar1 = 1.0*np.arange(lent/4)/lent
@@ -100,16 +100,16 @@ lperp1 = 1.0*np.arange(lent/4)/lent
 sf2D1 = smoothing(sf2D_array)
 
 #fig=plt.figure()
-fig = plt.figure(figsize=(20.0, 15.0))
+fig = plt.figure(figsize=(10.0, 7.0))
 # gs = gridspec.GridSpec(2, 4, hspace=0.0, wspace=0.1)
 gs = gridspec.GridSpec(1, 1, hspace=0.4, wspace=0.0)
 
 fig.suptitle('PHI0 3D 512', size = 20)
 
 ax0 = plt.subplot(gs[0],aspect='equal')
-ax0.set_xlim(xmax=0.2)
+ax0.set_xlim(xmax=0.05)
 #ax0.set_ylim(ymin=10.0)
-ax0.set_ylim(ymax=0.2)
+ax0.set_ylim(ymax=0.05)
 sff2d = sf2D1
 lpar=lpar1
 lperp=lperp1
@@ -118,7 +118,7 @@ lperp=lperp1
 cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,1], sff2d[5,2],sff2d[5,4], sff2d[5,7],sff2d[5,10],sff2d[5,12], sff2d[5,15], sff2d[5,20], sff2d[5,25],sff2d[5,30], sff2d[5,35], sff2d[5,40]],linewidths=2)
 plt.clabel(cs,inline=1,fontsize=10)
 #ax0.axes.xaxis.set_ticklabels([])
-ax0.set_title('256 Phi0 2000',fontsize=18)
+ax0.set_title('512 Phi0',fontsize=18)
 ax0.set_ylabel(r'$l_{\perp}/L$',fontsize=18)
 ax0.set_xlabel('$l_{\parallel}$',fontsize=16)
 #ax0.legend(loc='lower left')
