@@ -81,7 +81,11 @@ phi0_512 = np.reshape(abx,(nx,ny,nz))
 
 
 #for 512 amp 05 phi.bin file
+<<<<<<< HEAD
+dir_data = r"/lustre/fs23/group/that/jonas/Github_repo/DESY/3d_disp_mem/Runs/512_fix_r/"
+=======
 dir_data = working_dir + r"3d_disp_mem/Runs/512_amp05/"
+>>>>>>> 575ba075eb0f8c3083c8297109c5d1a13c449f47
 #dir_phi0 = "/home/jonas/Documents/VSCode/DESY/3d_displacement/Runs/128_FFT_mem_test_compar/"
 n=513 #(n+1)_
 phi_amp05 = read_phi_3d(dir_data,n)

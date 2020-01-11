@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-dir_data = r"lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp05/"
+dir_data = r"/lustre/fs23/group/that/jonas/Github_repo/DESY/localB/Runs/512_B_amp05/"
 
 n = 513
 nx, ny, nz = n, n, n
@@ -33,5 +33,8 @@ bz = np.reshape(abx,(nx,ny,nz))
 b = bx + by + bz
 
 plt.figure()
-plt.imshow(b[:,:,23])
+plt.imshow(b[:,:,23], interpolation='nearest')
+fig=plt.gcf()
+plt.clim()
+plt.colorbar()
 plt.show()
