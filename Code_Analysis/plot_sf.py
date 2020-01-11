@@ -154,21 +154,21 @@ lperp_temp = phi0_wrt_global_10kpara2[1]
 count_temp = phi0_wrt_global_10kpara2[-1]
 ref_slope_3d_512_f = lpar_temp[0]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/(np.power(lperp_temp[0],(2.0/3.0)))
 
-lpar_temp = phi0_wrt_global2D[0]
-lperp_temp = phi0_wrt_global2D[1]
-count_temp = phi0_wrt_global2D[-1]
-ref_slope_2d = lpar_temp[5]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/(np.power(lperp_temp[6],(2.0/3.0)))
+# lpar_temp = phi0_wrt_global2D[0]
+# lperp_temp = phi0_wrt_global2D[1]
+# count_temp = phi0_wrt_global2D[-1]
+# ref_slope_2d = lpar_temp[5]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/(np.power(lperp_temp[6],(2.0/3.0)))
 
 #plotting the structure functions
-plt.figure(figsize=(7.0, 3.0), dpi=200)
+plt.figure(figsize=(7.0, 4.0), dpi=200)
 
-#plot(phi0_wrt_global_10kpara2, '512 Phi0 wrt global 10kpara^-2')
+plot(phi0_wrt_global_10kpara2, '512 Phi0 wrt global 10kpara^-2')
 
-plot(phi0_wrt_global2D, 'PHI0 WRT GLOBAL FFT')
+#plot(phi0_wrt_global2D, 'PHI0 WRT GLOBAL FFT')
 
-plot(phi0_wrt_local2D, 'PHI0 WRT LOCAL FFT')
+#plot(phi0_wrt_local2D, 'PHI0 WRT LOCAL FFT')
 
-plot(phi_wrt_local2D, 'PHI WRT LOCAL FFT')
+#plot(phi_wrt_local2D, 'PHI WRT LOCAL FFT')
 
 #plot(phi_wrt_localalt, 'PHI WRT LOCAL REAL')
 
@@ -177,11 +177,11 @@ plot(phi_wrt_local2D, 'PHI WRT LOCAL FFT')
 #plot(phi0_wrt_globalalt, 'PHI0 WRT GLOBAL REAL')
 
 
-#plot(phi0_wrt_local_amp05, 'B M_A = 2.46')
+plot(phi0_wrt_local_amp05, 'B M_A = 2.46')
 
 #plot(phi0_wrt_local_amp1, 'B M_A = 4.93')
 
-#plot(phi_wrt_local_amp05, 'PHI M_A = 2.46')
+plot(phi_wrt_local_amp05, 'PHI M_A = 2.46')
 
 #plot(phi_wrt_local_amp1, 'PHI M_A = 4.93')
 
@@ -193,8 +193,8 @@ plot(phi_wrt_local2D, 'PHI WRT LOCAL FFT')
 #plot(phi_wrt_local_amp03, 'PHI M_A = 1.477')
 #plot(phi_wrt_local_amp04, 'PHI M_A = 1.970')
 
-#plt.plot(lperp_temp[:count_temp], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
-plt.plot(lperp_temp[:count_temp], 1.5*ref_slope_2d, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
+plt.plot(lperp_temp[:count_temp], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
+#plt.plot(lperp_temp[:count_temp], 1.5*ref_slope_2d, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
 plt.xscale('log')
 plt.yscale('log')
 plt.xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
