@@ -118,7 +118,7 @@ lperp=lperp1
 cs=ax0.contour(lpar,lperp,np.transpose(sff2d),levels=[sff2d[3,1], sff2d[5,2],sff2d[5,4], sff2d[5,7],sff2d[5,10],sff2d[5,12], sff2d[5,15], sff2d[5,20], sff2d[5,25],sff2d[5,30], sff2d[5,35], sff2d[5,40]],linewidths=2)
 plt.clabel(cs,inline=1,fontsize=10)
 #ax0.axes.xaxis.set_ticklabels([])
-ax0.set_title('512 Phi0',fontsize=18)
+#ax0.set_title('512 Phi0',fontsize=18)
 ax0.set_ylabel(r'$l_{\perp}/L$',fontsize=18)
 ax0.set_xlabel('$l_{\parallel}$',fontsize=16)
 #ax0.legend(loc='lower left')

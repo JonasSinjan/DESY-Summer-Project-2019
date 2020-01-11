@@ -283,12 +283,12 @@ def plot_power3d(dirphi0, dir1, n):
     lin_par = [slope_par * i + intercept_par for i in logk[start:end]]
     #for i in np.log(range(1, int(n / 2)))]
 
-    plt.figure(figsize=(6.5,6.0), dpi=200)
+    plt.figure(figsize=(7.5,6.0), dpi=200)
     plt.scatter(logk[start:end], 1.4 * np.log(perp_total[start:end]), label='$log(E(K_{\perp}))$')
     plt.scatter(logk[start:end], np.log(para_total[start:end]), label='$log(E(K_{\parallel}))$')
     plt.plot(logk[start:end], 1.4*np.array(lin_perb), label='Slope $K_{\perp}$: %s +/- %s' % (round(slope, 3), round(err,3)))
     plt.plot(logk[start:end], lin_par, label='Slope $K_{\parallel}$: %s +/- %s' % (round(slope_par, 3), round(err_para,3)))
-    plt.legend(loc='lower left',fontsize=8)
+    plt.legend(loc='lower left',fontsize=10)
     plt.xlabel('Log K')
     plt.ylabel('Log E(k)')
     plt.title('Phi0 Power Spectrum 3D %s' % n)
