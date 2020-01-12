@@ -148,6 +148,19 @@ phi0_wrt_local2D = process(dir_sf, 512.0, 0)
 dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi_wrt_localF.txt' #same as old sf file
 phi_wrt_local2D = process(dir_sf, 512.0, 0)
 
+#PHI0 IMPROVEMENT
+dir_sf = working_dir_path + r'phi0init/Runs/512_no_kpara/sf_par_perp_v_phi0_wrt_global.txt'
+phi0_nokpara = process(dir_sf, 512.0)
+
+dir_sf = working_dir_path + r'phi0init/Runs/512_3_2/sf_par_perp_v_phi0_wrt_global.txt'
+phi0_3_2 = process(dir_sf, 512.0)
+
+dir_sf = working_dir_path + r'phi0init/Runs/512_5_3/sf_par_perp_v_phi0_wrt_global.txt'
+phi0_5_3 = process(dir_sf, 512.0)
+
+dir_sf = working_dir_path + r'phi0init/Runs/1024_test/sf_par_perp_v_phi0_wrt_global.txt'
+phi0_1024 = process(dir_sf, 512.0)
+
 #reference straight line for GS95
 lpar_temp = phi0_wrt_global_10kpara2[0]
 lperp_temp = phi0_wrt_global_10kpara2[1]
@@ -162,7 +175,15 @@ ref_slope_3d_512_f = lpar_temp[0]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/
 #plotting the structure functions
 plt.figure(figsize=(7.0, 4.0), dpi=200)
 
-plot(phi0_wrt_global_10kpara2, '512 Phi0 wrt global 10kpara^-2')
+plot(phi0_wrt_global_10kpara2, '512 Phi0 10kpara^-2')
+
+plot(phi0_nokpara, '512 Phi0 initial')
+
+plot(phi0_3_2,' 512 Phi0 10kpara^-(3/2)')
+
+plot(phi0_5_3,' 512 Phi0 10kpara^-(5/3)')
+
+plot(phi0_1024, '1024 Phi0 10kpara^-2')
 
 #plot(phi0_wrt_global2D, 'PHI0 WRT GLOBAL FFT')
 
@@ -177,11 +198,11 @@ plot(phi0_wrt_global_10kpara2, '512 Phi0 wrt global 10kpara^-2')
 #plot(phi0_wrt_globalalt, 'PHI0 WRT GLOBAL REAL')
 
 
-plot(phi0_wrt_local_amp05, 'B M_A = 2.46')
+#plot(phi0_wrt_local_amp05, 'B M_A = 2.46')
 
 #plot(phi0_wrt_local_amp1, 'B M_A = 4.93')
 
-plot(phi_wrt_local_amp05, 'PHI M_A = 2.46')
+#plot(phi_wrt_local_amp05, 'PHI M_A = 2.46')
 
 #plot(phi_wrt_local_amp1, 'PHI M_A = 4.93')
 
@@ -199,7 +220,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
 plt.ylabel(r'$l_{\parallel}/L $ parallel',fontsize=9)
-#plt.title('Structure Function 3D Disp. PHI0 & PHI wrt local + ref')
+plt.title('SF 3D PHI0 wrt global Improvements')
 plt.legend(loc='best',ncol=1,fontsize=6)
 
 plt.show()
