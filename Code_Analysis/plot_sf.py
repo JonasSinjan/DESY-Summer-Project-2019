@@ -149,22 +149,22 @@ phi0_wrt_global_10kpara2 = process(tmp, 512.0, 4)
 # phi_wrt_local2D = process(dir_sf, 512.0, 0)
 
 #PHI0 IMPROVEMENT
-dir_sf = working_dir_path + r'phi0init/Runs/512_no_kpara/sf_par_perp_v_phi0_wrt_global.txt'
+dir_sf = working_dir_path + r'phi0init/Runs/512_no_kpara/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
 phi0_nokpara = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'phi0init/Runs/512_3_2/sf_par_perp_v_phi0_wrt_global.txt'
+dir_sf = working_dir_path + r'phi0init/Runs/512_3_2/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
 phi0_3_2 = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'phi0init/Runs/512_5_3/sf_par_perp_v_phi0_wrt_global.txt'
+dir_sf = working_dir_path + r'phi0init/Runs/512_5_3/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
 phi0_5_3 = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'phi0init/Runs/1024_test/sf_par_perp_v_phi0_wrt_global.txt'
+dir_sf = working_dir_path + r'phi0init/Runs/1024_test/sf_par_perp_v_phi0_wrt_global_10_kparaF.txt'
 phi0_1024 = process(dir_sf, 512.0, 0)
 
 #reference straight line for GS95
-lpar_temp = phi0_wrt_global_10kpara2[0]
-lperp_temp = phi0_wrt_global_10kpara2[1]
-count_temp = phi0_wrt_global_10kpara2[-1]
+lpar_temp =phi0_1024[0] #phi0_wrt_global_10kpara2[0]
+lperp_temp =phi0_1024[1] #phi0_wrt_global_10kpara2[1]
+count_temp =phi0_1024[-1] #phi0_wrt_global_10kpara2[-1]
 ref_slope_3d_512_f = lpar_temp[0]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/(np.power(lperp_temp[0],(2.0/3.0)))
 
 # lpar_temp = phi0_wrt_global2D[0]
@@ -173,7 +173,7 @@ ref_slope_3d_512_f = lpar_temp[0]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/
 # ref_slope_2d = lpar_temp[5]*(np.power(lperp_temp[:count_temp],(2.0/3.0)))/(np.power(lperp_temp[6],(2.0/3.0)))
 
 #plotting the structure functions
-plt.figure(figsize=(7.0, 4.0), dpi=200)
+plt.figure(figsize=(5.0, 2.0), dpi=100)
 
 plot(phi0_wrt_global_10kpara2, '512 Phi0 10kpara^-2')
 
@@ -220,7 +220,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
 plt.ylabel(r'$l_{\parallel}/L $ parallel',fontsize=9)
-plt.title('SF 3D PHI0 wrt global Improvements')
-plt.legend(loc='best',ncol=1,fontsize=6)
+plt.title('SF 3D PHI0 wrt global development')
+plt.legend(loc='best',ncol=1,fontsize=10)
 
 plt.show()
