@@ -85,7 +85,7 @@ def plot(process_return, name):
   slope = process_return[2]
   err = process_return[3]
   rval = process_return[4]
-  plt.plot(lperp[0:count], lpar[0:count], label = "%s grad: %s R^2: %s  Err: %s" % (name, slope, rval, err))
+  plt.plot(lperp[0:count], lpar[0:count], label = "%s grad: %s +/-  %s" % (name, slope, err))
 
 #reading in and processing the structure function files
 working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'#r'/home/jonas/Documents/VSCode/DESY/' #
@@ -218,9 +218,13 @@ plt.plot(lperp_temp[:count_temp], 1.5*ref_slope_3d_512_f, lw=2.5, color = "black
 #plt.plot(lperp_temp[:count_temp], 1.5*ref_slope_2d, lw=2.5, color = "black", ls = "-", label="GS95 2/3")
 plt.xscale('log')
 plt.yscale('log')
-plt.xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=9)
-plt.ylabel(r'$l_{\parallel}/L $ parallel',fontsize=9)
+plt.xlim(0.002, 0.8)
+plt.ylim(0.0015, 0.3)
+plt.xlabel(r'$l_{\perp}/ L $ perpendicular',fontsize=11)
+plt.ylabel(r'$l_{\parallel}/L $ parallel',fontsize=11)
 plt.title('SF 3D PHI0 wrt global development')
-plt.legend(loc='best',ncol=1,fontsize=10)
+plt.legend(loc='best',ncol=1,fontsize=11)
+
+#plt.tight_layout()
 
 plt.show()
