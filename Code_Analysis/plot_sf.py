@@ -88,78 +88,78 @@ def plot(process_return, name):
   plt.plot(lperp[0:count], lpar[0:count], label = "%s grad: %s R^2: %s  Err: %s" % (name, slope, rval, err))
 
 #reading in and processing the structure function files
-working_dir_path = r'/home/jonas/Documents/VSCode/DESY/' #'/lustre/fs23/group/that/jonas/Github_repo/DESY/'
+working_dir_path = '/lustre/fs23/group/that/jonas/Github_repo/DESY/'#r'/home/jonas/Documents/VSCode/DESY/' #
 
 #phi0 wrt global
 tmp = working_dir_path + r'phi0init/Runs/512_test/sf_par_perp_v_phi0_wrt_global_10_kpara_2F.txt'
 phi0_wrt_global_10kpara2 = process(tmp, 512.0, 4)
 #phi0 wrt local amp05
-tmp = working_dir_path + r"localB/Runs/sf_par_perp_v_phi0_wrt_local_amp05F.txt"
-phi0_wrt_local_amp05 = process(tmp, 512.0, 0)
-#phi0 wrt local amp1
-dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp1F.txt'
-phi0_wrt_local_amp1 = process(dir_sf, 512.0, 0)
-#phi wrt local amp05
-dir_sf = working_dir_path + r'localB/Runs/512_B_amp05/sf_par_perp_v_phi_wrt_local_fixF.txt'
-phi_wrt_local_amp05 = process(dir_sf, 512.0, 0)
-#phi wrt local amp1
-dir_sf = working_dir_path + r'localB/Runs/512_B_amp1/sf_par_perp_v_phi_wrt_localF.txt'
-phi_wrt_local_amp1 = process(dir_sf, 512.0, 0)
+# tmp = working_dir_path + r"localB/Runs/sf_par_perp_v_phi0_wrt_local_amp05F.txt"
+# phi0_wrt_local_amp05 = process(tmp, 512.0, 0)
+# #phi0 wrt local amp1
+# dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp1F.txt'
+# phi0_wrt_local_amp1 = process(dir_sf, 512.0, 0)
+# #phi wrt local amp05
+# dir_sf = working_dir_path + r'localB/Runs/512_B_amp05/sf_par_perp_v_phi_wrt_local_fixF.txt'
+# phi_wrt_local_amp05 = process(dir_sf, 512.0, 0)
+# #phi wrt local amp1
+# dir_sf = working_dir_path + r'localB/Runs/512_B_amp1/sf_par_perp_v_phi_wrt_localF.txt'
+# phi_wrt_local_amp1 = process(dir_sf, 512.0, 0)
 
-#phi wrt local sf amp02,3,4
-dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi_wrt_local_amp02F.txt'
-phi_wrt_local_amp02 = process(dir_sf, 512.0, 0)
+# #phi wrt local sf amp02,3,4
+# dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi_wrt_local_amp02F.txt'
+# phi_wrt_local_amp02 = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi_wrt_local_amp03F.txt'
-phi_wrt_local_amp03 = process(dir_sf, 512.0, 0)
+# dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi_wrt_local_amp03F.txt'
+# phi_wrt_local_amp03 = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi_wrt_local_amp04F.txt'
-phi_wrt_local_amp04 = process(dir_sf, 512.0, 0)
+# dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi_wrt_local_amp04F.txt'
+# phi_wrt_local_amp04 = process(dir_sf, 512.0, 0)
 
-#phi0 wrt local sf amp02,3,4
-dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp02F.txt'
-phi0_wrt_local_amp02 = process(dir_sf, 512.0, 0)
+# #phi0 wrt local sf amp02,3,4
+# dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp02F.txt'
+# phi0_wrt_local_amp02 = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp03F.txt'
-phi0_wrt_local_amp03 = process(dir_sf, 512.0, 0)
+# dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp03F.txt'
+# phi0_wrt_local_amp03 = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp04F.txt'
-phi0_wrt_local_amp04 = process(dir_sf, 512.0, 0)
+# dir_sf = working_dir_path + r'localB/Runs/sf_par_perp_v_phi0_wrt_local_amp04F.txt'
+# phi0_wrt_local_amp04 = process(dir_sf, 512.0, 0)
 
-#2D 512 original sf
+# #2D 512 original sf
 
-#rea;
-dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_globalF.txt' #same as old sf file
-phi0_wrt_globalalt = process(dir_sf, 512.0, 0)
+# #rea;
+# dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_globalF.txt' #same as old sf file
+# phi0_wrt_globalalt = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_localF.txt'
-phi0_wrt_localalt = process(dir_sf, 512.0, 0)
+# dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_real/sf_par_perp_v_phi0_wrt_localF.txt'
+# phi0_wrt_localalt = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_real/sf_par_perp_v_phiF.txt' #same as old sf file
-phi_wrt_localalt = process(dir_sf, 512.0, 0)
+# dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_real/sf_par_perp_v_phiF.txt' #same as old sf file
+# phi_wrt_localalt = process(dir_sf, 512.0, 0)
 
-#FFT
-dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi0_wrt_globalF.txt' #same as old sf file
-phi0_wrt_global2D = process(dir_sf, 512.0, 0)
+# #FFT
+# dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi0_wrt_globalF.txt' #same as old sf file
+# phi0_wrt_global2D = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi0_wrt_localF.txt'
-phi0_wrt_local2D = process(dir_sf, 512.0, 0)
+# dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi0_wrt_localF.txt'
+# phi0_wrt_local2D = process(dir_sf, 512.0, 0)
 
-dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi_wrt_localF.txt' #same as old sf file
-phi_wrt_local2D = process(dir_sf, 512.0, 0)
+# dir_sf = working_dir_path + r'final_data/2d/512run2D_disp_FFT/sf_par_perp_v_phi_wrt_localF.txt' #same as old sf file
+# phi_wrt_local2D = process(dir_sf, 512.0, 0)
 
 #PHI0 IMPROVEMENT
 dir_sf = working_dir_path + r'phi0init/Runs/512_no_kpara/sf_par_perp_v_phi0_wrt_global.txt'
-phi0_nokpara = process(dir_sf, 512.0)
+phi0_nokpara = process(dir_sf, 512.0, 0)
 
 dir_sf = working_dir_path + r'phi0init/Runs/512_3_2/sf_par_perp_v_phi0_wrt_global.txt'
-phi0_3_2 = process(dir_sf, 512.0)
+phi0_3_2 = process(dir_sf, 512.0, 0)
 
 dir_sf = working_dir_path + r'phi0init/Runs/512_5_3/sf_par_perp_v_phi0_wrt_global.txt'
-phi0_5_3 = process(dir_sf, 512.0)
+phi0_5_3 = process(dir_sf, 512.0, 0)
 
 dir_sf = working_dir_path + r'phi0init/Runs/1024_test/sf_par_perp_v_phi0_wrt_global.txt'
-phi0_1024 = process(dir_sf, 512.0)
+phi0_1024 = process(dir_sf, 512.0, 0)
 
 #reference straight line for GS95
 lpar_temp = phi0_wrt_global_10kpara2[0]
