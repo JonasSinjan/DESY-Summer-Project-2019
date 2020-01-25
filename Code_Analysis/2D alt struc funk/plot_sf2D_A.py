@@ -107,9 +107,9 @@ gs = gridspec.GridSpec(1, 1, hspace=0.4, wspace=0.0)
 fig.suptitle('PHI0 3D 512', size = 20)
 
 ax0 = plt.subplot(gs[0],aspect='equal')
-ax0.set_xlim(xmax=0.05)
+ax0.set_xlim(xmax=0.25)
 #ax0.set_ylim(ymin=10.0)
-ax0.set_ylim(ymax=0.05)
+ax0.set_ylim(ymax=0.25)
 sff2d = sf2D1
 lpar=lpar1
 lperp=lperp1
