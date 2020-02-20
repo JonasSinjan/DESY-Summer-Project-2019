@@ -1,6 +1,6 @@
 # DESY
 
-Code files for Summer Research Student Project (2019) at DESY Zeuthen Campus. //
+Codebase for Summer Research Student Project (2019) at DESY Zeuthen Campus. //
 Working in the Astroparticle Physics Group led by Prof. Huirong Yan. //
 Supervisor: Dr. Kirit Makwana //
 
