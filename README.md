@@ -15,6 +15,8 @@ My work was to get these running myself, testing them, extending 2d displacement
 Created two FORTRAN codes to aid development: `phi0init` - used for testing the scalar field initialisation in fourier space
                                   , `localB` - to create local B fields with perturbations by adding waves, while ensuring div.B = 0
 
+final_data - directory containing the final datasets used to produce the final report required at the end of the 8 week summer program.  These are not the most recent datasets created. 
+
 Runtimes:
 
 -Currently the 3d displacement 128 with Phi0 real initialisation requires 43 hours on a single thread.
