@@ -25,6 +25,8 @@ Runtimes:
 
 -3d 512 requries approx 100GB RAM at least, needs to be made more memory efficient - hence 3d_disp_mem method - only 60GB for 512
 
+-3d 512 takes ~30 minutes if PHI0 and B field created externally
+
 To Run:
 
 1. Change the Makefile directory path for the fftw library that you must install locally, not present in all fortran compilers.
