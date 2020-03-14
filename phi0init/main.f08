@@ -184,7 +184,7 @@ program main
         !sort random phase
         call random_number(ph)
         ph = ph*twopi
-        ! if (kmod > kmax) then !from michael's method
+        ! if (kmod > kmax) then from michaels method
         !   phi0k(i,j,k) = (0.d0, 0.d0)
         ! else
         !   phi0k(i,j,k) = sqrt(E_coeff)*(cos(ph) + (0., 1.)*sin(ph))

@@ -1,6 +1,6 @@
 # DESY
 
-Code files for Summer Research Student Project (2019) at DESY Zeuthen Campus. //
+Codebase for Summer Research Student Project (2019) at DESY Zeuthen Campus. //
 Working in the Astroparticle Physics Group led by Prof. Huirong Yan. //
 Supervisor: Dr. Kirit Makwana //
 
@@ -12,8 +12,10 @@ Credit: Michael Vorster for developing the FORTRAN code for the 2d squares & dis
 
 My work was to get these running myself, testing them, extending 2d displacement to 3d, and running various tests to analyse problems and validate the synthetic data with python: structure function, contour plots, power spectra etc
 
-Created two more FORTRAN methods: phi0init - used for testing the scalar field initialisation in fourier space
-                                  , localB - to create local B fields with perturbations by adding waves, while ensuring div.B = 0
+Created two FORTRAN codes to aid development: `phi0init` - used for testing the scalar field initialisation in fourier space
+                                  , `localB` - to create local B fields with perturbations by adding waves, while ensuring div.B = 0
+
+final_data - directory containing the final datasets used to produce the final report required at the end of the 8 week summer program.  These are not the most recent datasets created. 
 
 Runtimes:
 
@@ -23,7 +25,9 @@ Runtimes:
 
 -3d displacement now setup in a configuration which initialises Phi0 in fourier space: 128 takes 4 minutes.
 
--3d 512 requries approx 100GB RAM at least, needs to be made more memory efficient - hence 3d_disp_mem method - only 60GB for 512
+-3d 512 requries approx 100GB RAM at least, needs to be made more memory efficient - hence `3d_disp_mem method` - only 60GB for 512
+
+-3d 512 takes ~30 minutes if PHI0 and B field created externally
 
 To Run:
 
